@@ -46,9 +46,9 @@ namespace TGC.Group.Model
         ///     Borrar el codigo ejemplo no utilizado.
         /// </summary>
         /// 
-        //----------------------------------------------
+        //------------------------------------------------------
         private TgcFpsCamera camaraInterna;
-
+        private TgcPlane piso, agua;
 
 
         public override void Init()
@@ -95,7 +95,16 @@ namespace TGC.Group.Model
             camaraInterna = new TgcFpsCamera(new TGCVector3(5, 60, 0), 80f, 50f, Input);
             Camara = camaraInterna;
             //-------
+            //-------------------------------pisos------------
 
+            var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\agua20.jpg");
+            agua = new TgcPlane(new TGCVector3(-5000, 0, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, aguaTextura);
+
+
+
+            var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\pasto.jpg");
+            piso = new TgcPlane(new TGCVector3(-5000, -300, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, pisoTextura);
+            //------------------
 
 
 
@@ -109,13 +118,13 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
-            /*
+            
             //Capturar Input teclado
             if (Input.keyPressed(Key.F))
             {
                 BoundingBox = !BoundingBox;
             }
-
+            /*
             //Capturar Input Mouse
             if (Input.buttonUp(TgcD3dInput.MouseButtons.BUTTON_LEFT))
             {
@@ -168,6 +177,12 @@ namespace TGC.Group.Model
                 Mesh.BoundingBox.Render();
             }
 
+            //------------------------------------
+            agua.Render();
+            piso.Render();
+
+
+
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
         }
@@ -183,6 +198,11 @@ namespace TGC.Group.Model
             Box.Dispose();
             //Dispose del mesh.
             Mesh.Dispose();
+
+            //------------------------
+            agua.Dispose();
+            piso.Dispose();
+
         }
     }
 }
