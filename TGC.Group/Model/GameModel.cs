@@ -7,7 +7,7 @@ using TGC.Core.Input;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
-
+using TGC.Group.Model.Camara;
 namespace TGC.Group.Model
 {
     /// <summary>
@@ -45,6 +45,12 @@ namespace TGC.Group.Model
         ///     procesamiento que podemos pre calcular para nuestro juego.
         ///     Borrar el codigo ejemplo no utilizado.
         /// </summary>
+        /// 
+        //----------------------------------------------
+        private TgcFpsCamera camaraInterna;
+
+
+
         public override void Init()
         {
             //Device de DirectX para crear primitivas.
@@ -75,13 +81,24 @@ namespace TGC.Group.Model
             //Lo que en realidad necesitamos gráficamente es una matriz de View.
             //El framework maneja una cámara estática, pero debe ser inicializada.
             //Posición de la camara.
-            var cameraPosition = new TGCVector3(0, 0, 125);
+            //var cameraPosition = new TGCVector3(0, 0, 125);
             //Quiero que la camara mire hacia el origen (0,0,0).
-            var lookAt = TGCVector3.Empty;
+            //var lookAt = TGCVector3.Empty;
             //Configuro donde esta la posicion de la camara y hacia donde mira.
-            Camara.SetCamera(cameraPosition, lookAt);
+            //Camara.SetCamera(cameraPosition, lookAt);
             //Internamente el framework construye la matriz de view con estos dos vectores.
             //Luego en nuestro juego tendremos que crear una cámara que cambie la matriz de view con variables como movimientos o animaciones de escenas.
+
+            //-----------------------camara---------------------------------------------------
+
+
+            camaraInterna = new TgcFpsCamera(new TGCVector3(5, 60, 0), 80f, 50f, Input);
+            Camara = camaraInterna;
+            //-------
+
+
+
+
         }
 
         /// <summary>
@@ -92,7 +109,7 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
-
+            /*
             //Capturar Input teclado
             if (Input.keyPressed(Key.F))
             {
@@ -113,7 +130,7 @@ namespace TGC.Group.Model
                     Camara.SetCamera(new TGCVector3(Camara.Position.X, 0f, Camara.Position.Z), Camara.LookAt);
                 }
             }
-
+            */
             PostUpdate();
         }
 
