@@ -8,6 +8,7 @@ using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
 using TGC.Group.Model.Camara;
+using TGC.Core.Terrain;
 namespace TGC.Group.Model
 {
     /// <summary>
@@ -51,6 +52,7 @@ namespace TGC.Group.Model
         private TgcPlane piso, agua;
         private TgcMesh coralBrain, coral, shark;
         private TgcScene barco;
+        private TgcSkyBox skybox;
 
         public override void Init()
         {
@@ -106,6 +108,26 @@ namespace TGC.Group.Model
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\pasto.jpg");
             piso = new TgcPlane(new TGCVector3(-5000, -300, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, pisoTextura);
             //------------------
+
+            //-------Skybox
+            skybox = new TgcSkyBox();
+            skybox.Center = TGCVector3.Empty;
+            skybox.Size = new TGCVector3(10000, 10000, 10000);
+
+            var texturesPath = MediaDir + "Texturas\\SkyBox\\";
+
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Up, texturesPath + "lostatseaday_up.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Down, texturesPath + "lostatseaday_dn.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Left, texturesPath + "lostatseaday_lf.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Right, texturesPath + "lostatseaday_rt.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Back, texturesPath + "lostatseaday_ft.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Front, texturesPath + "lostatseaday_bk.jpg");
+            skybox.SkyEpsilon = 25f;
+            skybox.Init();
+
+            //----------------
+
+
             //--------------objetos---------
             coral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
             coral.Position = new TGCVector3(10, -300, 0);
@@ -152,6 +174,13 @@ namespace TGC.Group.Model
                 }
             }
             */
+
+
+            //-----Skybox
+            skybox.Center = Camara.Position;
+            //----------
+
+
             PostUpdate();
         }
 
@@ -189,6 +218,12 @@ namespace TGC.Group.Model
                // Mesh.BoundingBox.Render();
             }
 
+
+            //--------skybox---------
+            skybox.Render();
+            //---------------
+
+
             //------------------------------------
             agua.Render();
             piso.Render();
@@ -215,6 +250,7 @@ namespace TGC.Group.Model
             //Mesh.Dispose();
 
             //------------------------
+            skybox.Dispose();
             agua.Dispose();
             piso.Dispose();
             coral.Dispose();
