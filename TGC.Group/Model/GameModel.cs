@@ -34,7 +34,7 @@ namespace TGC.Group.Model
         private TGCBox Box { get; set; }
 
         //Mesh de TgcLogo.
-        private TgcMesh Mesh { get; set; }
+       // private TgcMesh Mesh { get; set; }
 
         //Boleano para ver si dibujamos el boundingbox
         private bool BoundingBox { get; set; }
@@ -49,7 +49,8 @@ namespace TGC.Group.Model
         //------------------------------------------------------
         private TgcFpsCamera camaraInterna;
         private TgcPlane piso, agua;
-
+        private TgcMesh coralBrain, coral, shark;
+        private TgcScene barco;
 
         public override void Init()
         {
@@ -73,9 +74,9 @@ namespace TGC.Group.Model
             Box.Position = new TGCVector3(-25, 0, 0);
 
             //Cargo el unico mesh que tiene la escena.
-            Mesh = new TgcSceneLoader().loadSceneFromFile(MediaDir + "LogoTGC-TgcScene.xml").Meshes[0];
+           // Mesh = new TgcSceneLoader().loadSceneFromFile(MediaDir + "LogoTGC-TgcScene.xml").Meshes[0];
             //Defino una escala en el modelo logico del mesh que es muy grande.
-            Mesh.Scale = new TGCVector3(0.5f, 0.5f, 0.5f);
+           // Mesh.Scale = new TGCVector3(0.5f, 0.5f, 0.5f);
 
             //Suelen utilizarse objetos que manejan el comportamiento de la camara.
             //Lo que en realidad necesitamos gráficamente es una matriz de View.
@@ -105,9 +106,20 @@ namespace TGC.Group.Model
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\pasto.jpg");
             piso = new TgcPlane(new TGCVector3(-5000, -300, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, pisoTextura);
             //------------------
+            //--------------objetos---------
+            coral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
+            coral.Position = new TGCVector3(10, -300, 0);
+            coral.Transform = TGCMatrix.Translation(coral.Position);
 
+            shark = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\shark-TgcScene.xml").Meshes[0];
+            shark.Position = new TGCVector3(30, -100, 30);
+            shark.Transform = TGCMatrix.Translation(shark.Position);
 
+            coralBrain = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\brain_coral-TgcScene.xml").Meshes[0];
+            coralBrain.Position = new TGCVector3(-200, -300, 340);
+            coralBrain.Transform = TGCMatrix.Translation(coralBrain.Position);
 
+            barco = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\ship-TgcScene.xml");
         }
 
         /// <summary>
@@ -166,21 +178,24 @@ namespace TGC.Group.Model
 
             //Cuando tenemos modelos mesh podemos utilizar un método que hace la matriz de transformación estándar.
             //Es útil cuando tenemos transformaciones simples, pero OJO cuando tenemos transformaciones jerárquicas o complicadas.
-            Mesh.UpdateMeshTransform();
+           // Mesh.UpdateMeshTransform();
             //Render del mesh
-            Mesh.Render();
+           // Mesh.Render();
 
             //Render de BoundingBox, muy útil para debug de colisiones.
             if (BoundingBox)
             {
                 Box.BoundingBox.Render();
-                Mesh.BoundingBox.Render();
+               // Mesh.BoundingBox.Render();
             }
 
             //------------------------------------
             agua.Render();
             piso.Render();
-
+            coral.Render();
+            shark.Render();
+            coralBrain.Render();
+            barco.RenderAll();
 
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
@@ -197,11 +212,15 @@ namespace TGC.Group.Model
             //Dispose de la caja.
             Box.Dispose();
             //Dispose del mesh.
-            Mesh.Dispose();
+            //Mesh.Dispose();
 
             //------------------------
             agua.Dispose();
             piso.Dispose();
+            coral.Dispose();
+            shark.Dispose();
+            coralBrain.Dispose();
+            barco.DisposeAll();
 
         }
     }
