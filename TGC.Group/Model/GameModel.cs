@@ -54,6 +54,10 @@ namespace TGC.Group.Model
         private TgcScene barco;
         private TgcSkyBox skybox;
 
+        private TgcSimpleTerrain terreno;
+        private float currentScaleXZ;
+        private float currentScaleY;
+
         public override void Init()
         {
             //Device de DirectX para crear primitivas.
@@ -127,6 +131,17 @@ namespace TGC.Group.Model
 
             //----------------
 
+            //--------- una carga basica de heighmap
+            terreno = new TgcSimpleTerrain();
+            var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
+            var textu = MediaDir + "Texturas\\Grass.jpg";
+            currentScaleXZ = 20f;
+            currentScaleY = 1.3f;
+            terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -255, 0));
+            terreno.loadTexture(textu);
+            terreno.AlphaBlendEnable = true;
+
+            //---------------
 
             //--------------objetos---------
             coral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
@@ -222,7 +237,8 @@ namespace TGC.Group.Model
             //--------skybox---------
             skybox.Render();
             //---------------
-
+            //----heighmap
+            terreno.Render();
 
             //------------------------------------
             agua.Render();
@@ -231,7 +247,7 @@ namespace TGC.Group.Model
             shark.Render();
             coralBrain.Render();
             barco.RenderAll();
-
+           
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
@@ -251,6 +267,7 @@ namespace TGC.Group.Model
 
             //------------------------
             skybox.Dispose();
+            terreno.Dispose();
             agua.Dispose();
             piso.Dispose();
             coral.Dispose();
