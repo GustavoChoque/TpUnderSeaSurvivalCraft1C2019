@@ -9,6 +9,7 @@ using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
 using TGC.Group.Model.Camara;
 using TGC.Core.Terrain;
+using TGC.Core.Sound;
 namespace TGC.Group.Model
 {
     /// <summary>
@@ -57,6 +58,8 @@ namespace TGC.Group.Model
         private TgcSimpleTerrain terreno;
         private float currentScaleXZ;
         private float currentScaleY;
+
+        private TgcMp3Player musica;
 
         public override void Init()
         {
@@ -142,6 +145,14 @@ namespace TGC.Group.Model
             terreno.AlphaBlendEnable = true;
 
             //---------------
+
+            //---------musica-----------
+            musica = new TgcMp3Player();
+            musica.FileName = MediaDir + "\\Music\\AbandonShip.mp3";
+            musica.play(true);
+            //----------
+
+
 
             //--------------objetos---------
             coral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
