@@ -65,6 +65,16 @@ namespace TGC.Group.Model
 
         private List<TgcMesh> objetosEstaticos;
 
+        //Constantes para velocidades de movimiento
+        private const float ROTATION_SPEED = 50f;
+
+        private const float MOVEMENT_SPEED = 50f;
+
+        //Variable direccion de movimiento
+        private float currentMoveDir = -1f;
+
+        public TGCVector3 posInicialShark;
+
         public override void Init()
         {
             //Device de DirectX para crear primitivas.
@@ -164,7 +174,7 @@ namespace TGC.Group.Model
             coral.Transform = TGCMatrix.Translation(coral.Position);
 
             shark = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\shark-TgcScene.xml").Meshes[0];
-            shark.Position = new TGCVector3(30, -100, 30);
+            shark.Position = new TGCVector3(-650, -100, 1000);
             shark.Transform = TGCMatrix.Translation(shark.Position);
 
             coralBrain = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\brain_coral-TgcScene.xml").Meshes[0];
@@ -232,7 +242,22 @@ namespace TGC.Group.Model
             }
             */
 
+            //-----------movimientos-------------
 
+            shark.Position += new TGCVector3(MOVEMENT_SPEED * ElapsedTime * currentMoveDir, 0, 0);
+
+            if (!((posInicialShark.X + 500 > shark.Position.X) && (posInicialShark.X - 500 < shark.Position.X)))
+            {
+                currentMoveDir *= -1;
+                shark.Rotation += new TGCVector3(0, FastMath.PI, 0);
+            }
+
+            shark.Transform = TGCMatrix.RotationYawPitchRoll(shark.Rotation.X, shark.Rotation.Y, shark.Rotation.Z) * TGCMatrix.Translation(shark.Position);
+            //-----------
+
+            //---------------
+
+                       
             //-----Skybox
             skybox.Center = Camara.Position;
             //----------
