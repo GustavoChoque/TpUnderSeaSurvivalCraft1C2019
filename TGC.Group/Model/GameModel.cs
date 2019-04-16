@@ -10,6 +10,8 @@ using TGC.Core.Textures;
 using TGC.Group.Model.Camara;
 using TGC.Core.Terrain;
 using TGC.Core.Sound;
+using System.Collections.Generic;
+
 namespace TGC.Group.Model
 {
     /// <summary>
@@ -51,7 +53,7 @@ namespace TGC.Group.Model
         //------------------------------------------------------
         private TgcFpsCamera camaraInterna;
         private TgcPlane piso, agua;
-        private TgcMesh coralBrain, coral, shark;
+        private TgcMesh coralBrain, coral, shark, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
         private TgcScene barco;
         private TgcSkyBox skybox;
 
@@ -60,6 +62,8 @@ namespace TGC.Group.Model
         private float currentScaleY;
 
         private TgcMp3Player musica;
+
+        private List<TgcMesh> objetosEstaticos;
 
         public override void Init()
         {
@@ -168,6 +172,33 @@ namespace TGC.Group.Model
             coralBrain.Transform = TGCMatrix.Translation(coralBrain.Position);
 
             barco = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\ship-TgcScene.xml");
+
+            fish = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\fish-TgcScene.xml").Meshes[0];
+            fish.Position = new TGCVector3(0, -200, 0);
+            fish.Transform = TGCMatrix.Translation(fish.Position);
+
+            pillarCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\pillar_coral-TgcScene.xml").Meshes[0];
+            pillarCoral.Position = new TGCVector3(0, -200, 40);
+            pillarCoral.Transform = TGCMatrix.Translation(pillarCoral.Position);
+
+            seaShell = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\sea_shell-TgcScene.xml").Meshes[0];
+            seaShell.Position = new TGCVector3(500, -200, 40);
+            seaShell.Transform = TGCMatrix.Translation(seaShell.Position);
+
+            spiralWireCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\spiral_wire_coral-TgcScene.xml").Meshes[0];
+            spiralWireCoral.Position = new TGCVector3(-50, -300, 40);
+            spiralWireCoral.Transform = TGCMatrix.Translation(spiralWireCoral.Position);
+
+            treeCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\tree_coral-TgcScene.xml").Meshes[0];
+            treeCoral.Position = new TGCVector3(-70, -300, 200);
+            treeCoral.Scale = new TGCVector3(10f, 10f, 10f);
+            treeCoral.Transform = TGCMatrix.Scaling(treeCoral.Scale) * TGCMatrix.Translation(treeCoral.Position);
+
+            yellowFish = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\yellow_fish-TgcScene.xml").Meshes[0];
+            yellowFish.Position = new TGCVector3(50, -200, -20);
+            yellowFish.Transform = TGCMatrix.Translation(yellowFish.Position);
+
+
         }
 
         /// <summary>
@@ -258,7 +289,12 @@ namespace TGC.Group.Model
             shark.Render();
             coralBrain.Render();
             barco.RenderAll();
-           
+            fish.Render();
+            pillarCoral.Render();
+            seaShell.Render();
+            spiralWireCoral.Render();
+            treeCoral.Render();
+            yellowFish.Render();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
@@ -285,6 +321,12 @@ namespace TGC.Group.Model
             shark.Dispose();
             coralBrain.Dispose();
             barco.DisposeAll();
+            fish.Dispose();
+            pillarCoral.Dispose();
+            seaShell.Render();
+            spiralWireCoral.Render();
+            treeCoral.Render();
+            yellowFish.Render();
 
         }
     }
