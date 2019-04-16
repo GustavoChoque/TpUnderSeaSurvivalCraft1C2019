@@ -11,6 +11,7 @@ using TGC.Group.Model.Camara;
 using TGC.Core.Terrain;
 using TGC.Core.Sound;
 using System.Collections.Generic;
+using System;
 
 namespace TGC.Group.Model
 {
@@ -208,7 +209,73 @@ namespace TGC.Group.Model
             yellowFish.Position = new TGCVector3(50, -200, -20);
             yellowFish.Transform = TGCMatrix.Translation(yellowFish.Position);
 
+            //------------instancia objetos multiples
+            objetosEstaticos = new List<TgcMesh>();
+            var rows = 5;
+            var cols = 5;
+            Random rnd = new Random(1);
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = coralBrain.createMeshInstance(coralBrain.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(i * 250 + rnd.Next(0, 500), -300, j * 250 + rnd.Next(0, 500));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
 
+            }
+            //----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = coral.createMeshInstance(coral.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(-i * 250 - rnd.Next(0, 500), -300, j * 250 + rnd.Next(0, 500));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = pillarCoral.createMeshInstance(pillarCoral.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(-i * 250 - rnd.Next(0, 500), -300, -j * 250 - rnd.Next(0, 500));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = seaShell.createMeshInstance(seaShell.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(-i * 250 - rnd.Next(0, 500), -300, -j * 250 - rnd.Next(0, 500));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = treeCoral.createMeshInstance(treeCoral.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(-i * 250 - rnd.Next(0, 500), -300, j * 250 + rnd.Next(0, 500));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+
+            //-----------------------
         }
 
         /// <summary>
@@ -321,6 +388,11 @@ namespace TGC.Group.Model
             treeCoral.Render();
             yellowFish.Render();
 
+            foreach (var objeto in objetosEstaticos)
+            {
+                objeto.Render();
+            }
+
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
         }
@@ -352,6 +424,11 @@ namespace TGC.Group.Model
             spiralWireCoral.Render();
             treeCoral.Render();
             yellowFish.Render();
+
+            foreach (var objeto in objetosEstaticos)
+            {
+                objeto.Dispose();
+            }
 
         }
     }
