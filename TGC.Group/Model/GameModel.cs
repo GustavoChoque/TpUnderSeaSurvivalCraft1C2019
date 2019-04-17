@@ -69,7 +69,9 @@ namespace TGC.Group.Model
         private float currentMoveDir = -1f;
 
         public TGCVector3 posInicialShark;
-       // public TGCVector3 posicionShark;
+        // public TGCVector3 posicionShark;
+
+        Random rnd = new Random();
 
         public override void Init()
         {
@@ -115,9 +117,9 @@ namespace TGC.Group.Model
             terreno = new TgcSimpleTerrain();
             var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
             var textu = MediaDir + "Texturas\\Grass.jpg";
-            currentScaleXZ = 20f;
-            currentScaleY = 1.3f;
-            terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -255, 0));
+            currentScaleXZ = 150f;
+            currentScaleY = 3f;
+            terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
             terreno.loadTexture(textu);
             terreno.AlphaBlendEnable = true;
 
@@ -187,13 +189,12 @@ namespace TGC.Group.Model
             objetosEstaticos = new List<TgcMesh>();
             var rows = 5;
             var cols = 5;
-            Random rnd = new Random(1);
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = coralBrain.createMeshInstance(coralBrain.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(i * 250 + rnd.Next(0, 500), -300, j * 250 + rnd.Next(0, 500));
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticos.Add(instance);
                 }
@@ -205,7 +206,7 @@ namespace TGC.Group.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = coral.createMeshInstance(coral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(-i * 250 - rnd.Next(0, 500), -300, j * 250 + rnd.Next(0, 500));
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticos.Add(instance);
                 }
@@ -217,7 +218,7 @@ namespace TGC.Group.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = pillarCoral.createMeshInstance(pillarCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(-i * 250 - rnd.Next(0, 500), -300, -j * 250 - rnd.Next(0, 500));
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticos.Add(instance);
                 }
@@ -230,7 +231,7 @@ namespace TGC.Group.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = seaShell.createMeshInstance(seaShell.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(-i * 250 - rnd.Next(0, 500), -300, -j * 250 - rnd.Next(0, 500));
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticos.Add(instance);
                 }
@@ -242,7 +243,7 @@ namespace TGC.Group.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = treeCoral.createMeshInstance(treeCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(-i * 250 - rnd.Next(0, 500), -300, j * 250 + rnd.Next(0, 500));
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticos.Add(instance);
                 }
