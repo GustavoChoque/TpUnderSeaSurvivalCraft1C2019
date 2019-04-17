@@ -59,6 +59,8 @@ namespace TGC.Group.Model
         private TgcMp3Player musica;
 
         private List<TgcMesh> objetosEstaticos;
+        private List<TgcMesh> pecesAmarillos;
+        private List<TgcMesh> pecesAzules;
 
         //Constantes para velocidades de movimiento
         private const float ROTATION_SPEED = 50f;
@@ -67,6 +69,9 @@ namespace TGC.Group.Model
 
         //Variable direccion de movimiento
         private float currentMoveDir = -1f;
+
+        //Variable direccion de movimiento
+        private float currentMoveDirPeces = -1f;
 
         public TGCVector3 posInicialShark;
         // public TGCVector3 posicionShark;
@@ -187,6 +192,8 @@ namespace TGC.Group.Model
 
             //------------instancia objetos multiples
             objetosEstaticos = new List<TgcMesh>();
+            pecesAmarillos = new List<TgcMesh>();
+            pecesAzules = new List<TgcMesh>();
             var rows = 5;
             var cols = 5;
             //----------------
@@ -202,25 +209,27 @@ namespace TGC.Group.Model
 
             }
             //----------------
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < 7; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 0; j < 7; j++)
                 {
                     var instance = yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), rnd.Next(-300, 0), rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-300, 0), rnd.Next(-3000, 3000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    //objetosEstaticos.Add(instance);
+                    pecesAmarillos.Add(instance);
                 }
 
             }//----------------
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < 7; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 0; j < 7; j++)
                 {
                     var instance = fish.createMeshInstance(fish.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), rnd.Next(-300, 0), rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    //objetosEstaticos.Add(instance);
+                    pecesAzules.Add(instance);
                 }
 
             }//----------------
@@ -317,13 +326,48 @@ namespace TGC.Group.Model
             }
 
             shark.Transform = TGCMatrix.RotationYawPitchRoll(shark.Rotation.X, shark.Rotation.Y, shark.Rotation.Z) * TGCMatrix.Translation(shark.Position);
-            
+
 
             //-----------
-            //Muevo los peces
+            //Muevo los peces amarillos //hacer que se muevan por separado y no todos juntos
 
+            pecesAmarillos.ForEach(pez =>
+                {
+                    pez.Position += new TGCVector3(2 * MOVEMENT_SPEED * ElapsedTime * currentMoveDirPeces, 0, 0);
 
+                    if (pez.Position.X >= 5000
+                            || pez.Position.Z >= 5000
+                                || pez.Position.X <= -5000
+                                    || pez.Position.Z <= -5000) //si toco los bordes
+                    {
+                        currentMoveDirPeces *= -1;
+                        pez.Rotation += new TGCVector3(0, FastMath.PI, 0);
+                    }
 
+                    pez.Transform = TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
+                }               
+            );
+
+            //-----------
+            //Muevo los peces azules //hacer que se muevan por separado y no todos juntos
+
+            pecesAzules.ForEach(pez =>
+            {
+                pez.Position += new TGCVector3(0.5f * MOVEMENT_SPEED * ElapsedTime * currentMoveDirPeces, 0, 0);
+
+                if (rnd.Next(0,10000)>rnd.Next(9998,9999) //muy cada tanto
+                    || pez.Position.X >= 5000
+                        || pez.Position.Z >= 5000
+                            || pez.Position.X <= -5000
+                                || pez.Position.Z <= -5000) //si toco los bordes
+                {
+                    currentMoveDirPeces *= -1;
+                    pez.Rotation += new TGCVector3(0, FastMath.PI, 0);
+                }
+
+                pez.Transform = TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
+            }
+            );
 
             //---------------
 
@@ -386,12 +430,13 @@ namespace TGC.Group.Model
             spiralWireCoral.Render();
             treeCoral.Render();
             yellowFish.Render();
-            
 
-            foreach (var objeto in objetosEstaticos)
-            {
-                objeto.Render();
-            }
+
+            objetosEstaticos.ForEach(obj => obj.Render());
+
+            pecesAmarillos.ForEach(obj => obj.Render());
+
+            pecesAzules.ForEach(obj => obj.Render());
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
@@ -420,10 +465,11 @@ namespace TGC.Group.Model
             treeCoral.Render();
             yellowFish.Render();
 
-            foreach (var objeto in objetosEstaticos)
-            {
-                objeto.Dispose();
-            }
+            objetosEstaticos.ForEach(obj => obj.Dispose());
+
+            pecesAmarillos.ForEach(obj => obj.Dispose());
+
+            pecesAzules.ForEach(obj => obj.Dispose());
 
         }
     }
