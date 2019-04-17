@@ -69,6 +69,7 @@ namespace TGC.Group.Model
         private float currentMoveDir = -1f;
 
         public TGCVector3 posInicialShark;
+       // public TGCVector3 posicionShark;
 
         public override void Init()
         {
@@ -132,43 +133,55 @@ namespace TGC.Group.Model
 
             //--------------objetos---------
             coral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
-            coral.Position = new TGCVector3(10, -300, 0);
-            coral.Transform = TGCMatrix.Translation(coral.Position);
+            //coral.Position = new TGCVector3(10, -300, 0);
+            TGCVector3 posCoral= new TGCVector3(10, -300, 0);
+            coral.AutoTransform = false;
+            coral.Transform = TGCMatrix.Translation(posCoral);
 
             shark = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\shark-TgcScene.xml").Meshes[0];
+            //TGCVector3 posShark = new TGCVector3(-650, -100, 1000);
+            //shark.AutoTransform = false;
             shark.Position = new TGCVector3(-650, -100, 1000);
+            posInicialShark = shark.Position;
             shark.Transform = TGCMatrix.Translation(shark.Position);
 
             coralBrain = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\brain_coral-TgcScene.xml").Meshes[0];
-            coralBrain.Position = new TGCVector3(-200, -300, 340);
-            coralBrain.Transform = TGCMatrix.Translation(coralBrain.Position);
+            TGCVector3 posCoralBrain = new TGCVector3(-200, -300, 340);
+            coralBrain.AutoTransform = false;
+            coralBrain.Transform = TGCMatrix.Translation(posCoralBrain);
 
             barco = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\ship-TgcScene.xml");
 
             fish = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\fish-TgcScene.xml").Meshes[0];
-            fish.Position = new TGCVector3(0, -200, 0);
-            fish.Transform = TGCMatrix.Translation(fish.Position);
+            TGCVector3 posFish = new TGCVector3(0, -200, 0);
+            fish.AutoTransform = false;
+            fish.Transform = TGCMatrix.Translation(posFish);
 
             pillarCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\pillar_coral-TgcScene.xml").Meshes[0];
-            pillarCoral.Position = new TGCVector3(0, -200, 40);
-            pillarCoral.Transform = TGCMatrix.Translation(pillarCoral.Position);
+            TGCVector3 posPillarCoral = new TGCVector3(0, -200, 40);
+            pillarCoral.AutoTransform = false;
+            pillarCoral.Transform = TGCMatrix.Translation(posPillarCoral);
 
             seaShell = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\sea_shell-TgcScene.xml").Meshes[0];
-            seaShell.Position = new TGCVector3(500, -200, 40);
-            seaShell.Transform = TGCMatrix.Translation(seaShell.Position);
+            TGCVector3 posSeaShell = new TGCVector3(500, -200, 40);
+            seaShell.AutoTransform = false;
+            seaShell.Transform = TGCMatrix.Translation(posSeaShell);
 
             spiralWireCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\spiral_wire_coral-TgcScene.xml").Meshes[0];
-            spiralWireCoral.Position = new TGCVector3(-50, -300, 40);
-            spiralWireCoral.Transform = TGCMatrix.Translation(spiralWireCoral.Position);
+            TGCVector3 posSpiralWireCoral = new TGCVector3(-50, -300, 40);
+            spiralWireCoral.AutoTransform = false;
+            spiralWireCoral.Transform = TGCMatrix.Translation(posSpiralWireCoral);
 
             treeCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\tree_coral-TgcScene.xml").Meshes[0];
-            treeCoral.Position = new TGCVector3(-70, -300, 200);
-            treeCoral.Scale = new TGCVector3(10f, 10f, 10f);
-            treeCoral.Transform = TGCMatrix.Scaling(treeCoral.Scale) * TGCMatrix.Translation(treeCoral.Position);
+            TGCVector3 posTreeCoral = new TGCVector3(-70, -300, 200);
+            TGCVector3 escalaTreeCoral = new TGCVector3(10f, 10f, 10f);
+            treeCoral.AutoTransform = false;
+            treeCoral.Transform = TGCMatrix.Scaling(escalaTreeCoral) * TGCMatrix.Translation(posTreeCoral);
 
             yellowFish = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\yellow_fish-TgcScene.xml").Meshes[0];
-            yellowFish.Position = new TGCVector3(50, -200, -20);
-            yellowFish.Transform = TGCMatrix.Translation(yellowFish.Position);
+            TGCVector3 posYellowFish = new TGCVector3(50, -200, -20);
+            yellowFish.AutoTransform = false;
+            yellowFish.Transform = TGCMatrix.Translation(posYellowFish);
 
             //------------instancia objetos multiples
             objetosEstaticos = new List<TgcMesh>();
@@ -266,10 +279,12 @@ namespace TGC.Group.Model
                     musica.resume();
                 }
             }
-
+            
             //-----------movimientos-------------
+            //posicionShark=shark.Position;
+            //var rotacionShark = shark.Rotation;
 
-            shark.Position += new TGCVector3(MOVEMENT_SPEED * ElapsedTime * currentMoveDir, 0, 0);
+           shark.Position += new TGCVector3(MOVEMENT_SPEED * ElapsedTime * currentMoveDir, 0, 0);
 
             if (!((posInicialShark.X + 500 > shark.Position.X) && (posInicialShark.X - 500 < shark.Position.X)))
             {
@@ -278,11 +293,13 @@ namespace TGC.Group.Model
             }
 
             shark.Transform = TGCMatrix.RotationYawPitchRoll(shark.Rotation.X, shark.Rotation.Y, shark.Rotation.Z) * TGCMatrix.Translation(shark.Position);
+            
+
             //-----------
 
             //---------------
 
-                       
+
             //-----Skybox
             skybox.Center = Camara.Position;
             //----------
@@ -341,6 +358,7 @@ namespace TGC.Group.Model
             spiralWireCoral.Render();
             treeCoral.Render();
             yellowFish.Render();
+            
 
             foreach (var objeto in objetosEstaticos)
             {
