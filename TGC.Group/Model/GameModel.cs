@@ -189,6 +189,7 @@ namespace TGC.Group.Model
             objetosEstaticos = new List<TgcMesh>();
             var rows = 5;
             var cols = 5;
+            //----------------
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -201,6 +202,28 @@ namespace TGC.Group.Model
 
             }
             //----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), rnd.Next(-300, 0), rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }//----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = fish.createMeshInstance(fish.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), rnd.Next(-300, 0), rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }//----------------
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
@@ -297,6 +320,10 @@ namespace TGC.Group.Model
             
 
             //-----------
+            //Muevo los peces
+
+
+
 
             //---------------
 
