@@ -20,11 +20,13 @@ namespace TGC.Group.Model
     {
         private TgcMesh meshPez;
         private float currentMoveDir;
+        private float moveSpeed;
         
-        public Pez(TgcMesh meshOriginal, float currentMoveDir)
+        public Pez(TgcMesh meshOriginal, float currentMoveDir, float moveSpeed)
         {
             meshPez = meshOriginal;
             this.currentMoveDir = currentMoveDir;
+            this.moveSpeed = moveSpeed;
         }        
 
         public void Render()
@@ -38,6 +40,7 @@ namespace TGC.Group.Model
         }
 
         public float CurrentMoveDir { get => currentMoveDir; set => currentMoveDir = value; }
+        public float MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
         public TGCVector3 Position { get => meshPez.Position; set => meshPez.Position = value; }
         public TGCVector3 Rotation { get => meshPez.Rotation; set => meshPez.Rotation = value; }
         public TGCMatrix Transform { get => meshPez.Transform; set => meshPez.Transform = value; }

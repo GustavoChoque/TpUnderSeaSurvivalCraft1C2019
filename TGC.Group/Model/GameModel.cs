@@ -404,12 +404,16 @@ namespace TGC.Group.Model
             //Se mueven en X
             //Se autoescalan entre 1 y 5
             //Son 49
+            //Tienen una velocidad de entre 25 y 75
             //----------------
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    Pez pez = new Pez(yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j), rnd.Next(0, 2) * 2 - 1);  //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
+                    int currentMoveDirection = rnd.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
+                    float moveSpeed = (float) (rnd.NextDouble() * 75) + 25;
+
+                    Pez pez = new Pez(yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j), currentMoveDirection, moveSpeed);  
                     pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
 
                     int scale = rnd.Next(1, 5);
@@ -435,12 +439,16 @@ namespace TGC.Group.Model
             //Se mueven en Z
             //Se autoescalan entre 10 y 20
             //Son 49
+            //Tienen una velocidad de entre 40 y 90
             //----------------
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 7; j++)
                 {
-                    Pez pez = new Pez(fish.createMeshInstance(fish.Name + i + "_" + j), rnd.Next(0, 2) * 2 - 1); //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
+                    int currentMoveDirection = rnd.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
+                    float moveSpeed = (float)(rnd.NextDouble() * 90) + 40;
+
+                    Pez pez = new Pez(fish.createMeshInstance(fish.Name + i + "_" + j), currentMoveDirection, moveSpeed);
                     pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
 
                     int scale = rnd.Next(10, 20);
@@ -512,7 +520,7 @@ namespace TGC.Group.Model
 
             pecesAmarillos.ForEach(pez =>
                 {
-                    pez.Position += new TGCVector3(5f * MOVEMENT_SPEED * ElapsedTime * pez.CurrentMoveDir, 0, 0);
+                    pez.Position += new TGCVector3(5f * pez.MoveSpeed * ElapsedTime * pez.CurrentMoveDir, 0, 0);
                                      
                     if (pez.Position.X >= 5000
                             || pez.Position.Z >= 5000
@@ -528,11 +536,11 @@ namespace TGC.Group.Model
             );
 
             //-----------
-            //Muevo los peces azules //hacer que se muevan por separado y no todos juntos
+            //Muevo los peces azules
 
             pecesAzules.ForEach(pez =>
             {
-                pez.Position += new TGCVector3(0, 0, 2f * MOVEMENT_SPEED * ElapsedTime * pez.CurrentMoveDir);
+                pez.Position += new TGCVector3(0, 0, 2f * pez.MoveSpeed * ElapsedTime * pez.CurrentMoveDir);
 
                 if (rnd.Next(0,10000)>rnd.Next(9998,9999) //muy cada tanto
                     || pez.Position.X >= 5000
