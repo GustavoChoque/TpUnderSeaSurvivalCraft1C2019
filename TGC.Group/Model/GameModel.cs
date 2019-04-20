@@ -400,24 +400,63 @@ namespace TGC.Group.Model
 
             }
             //----------------
+            //PECES AMARILLOS
+            //Se mueven en X
+            //Se autoescalan entre 1 y 5
+            //Son 49
+            //----------------
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 7; j++)
                 {
                     Pez pez = new Pez(yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j), rnd.Next(0, 2) * 2 - 1);  //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
-                    pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-300, 0), rnd.Next(-3000, 3000));
-                    pez.Transform = TGCMatrix.Translation(pez.Position);
+                    pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
+
+                    int scale = rnd.Next(1, 5);
+                    pez.Scale = new TGCVector3(scale, scale, scale);
+
+                    //Corrigo que los peces vayan para atras
+                    if (pez.CurrentMoveDir.Equals(1))
+                    {
+                        pez.Rotation += new TGCVector3(FastMath.PI, 0, 0);
+                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
+                    }
+                    else
+                    {
+                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.Translation(pez.Position);
+                    }
+                    
                     pecesAmarillos.Add(pez);
                 }
 
-            }//----------------
+            }
+            //----------------
+            //PECES AZULES
+            //Se mueven en Z
+            //Se autoescalan entre 10 y 20
+            //Son 49
+            //----------------
             for (int i = 0; i < 7; i++)
             {
                 for (int j = 0; j < 7; j++)
                 {
                     Pez pez = new Pez(fish.createMeshInstance(fish.Name + i + "_" + j), rnd.Next(0, 2) * 2 - 1); //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
-                    pez.Position = new TGCVector3(rnd.Next(-5000, 5000), rnd.Next(-300, 0), rnd.Next(-5000, 5000));
-                    pez.Transform = TGCMatrix.Translation(pez.Position);
+                    pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
+
+                    int scale = rnd.Next(10, 20);
+                    pez.Scale = new TGCVector3(scale, scale, scale);
+
+                    //Corrijo que los peces vayan para atras
+                    if (pez.CurrentMoveDir.Equals(1))
+                    {
+                        pez.Rotation += new TGCVector3(FastMath.PI, 0, 0);
+                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
+                    }
+                    else
+                    {
+                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.Translation(pez.Position);
+                    }
+                    
                     pecesAzules.Add(pez);
                 }
 
@@ -474,27 +513,17 @@ namespace TGC.Group.Model
             pecesAmarillos.ForEach(pez =>
                 {
                     pez.Position += new TGCVector3(5f * MOVEMENT_SPEED * ElapsedTime * pez.CurrentMoveDir, 0, 0);
-                    
-                    //TGCVector3 deltaPosicion = new TGCVector3(2f * MOVEMENT_SPEED * ElapsedTime * pez.CurrentMoveDir, 0, 0);
-                    //TGCVector3 nuevaPosicion = pez.Position + deltaPosicion;
-                    //pez.Position = nuevaPosicion;
-                    
+                                     
                     if (pez.Position.X >= 5000
                             || pez.Position.Z >= 5000
                                 || pez.Position.X <= -5000
                                     || pez.Position.Z <= -5000) //si toco los bordes
                     {
                         pez.CurrentMoveDir *= -1;
-                        //pez.Rotation += new TGCVector3(0, FastMath.PI, 0);
                         pez.Rotation += new TGCVector3(FastMath.PI, 0, 0);
-
-                        //    TGCVector3 deltaRotation = new TGCVector3(0, FastMath.PI, 0);
-                        //  TGCVector3 nuevaRotation = pez.Rotation + deltaRotation;
-                        //pez.Rotation = nuevaRotation;
-
                     }
 
-                    pez.Transform = TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
+                    pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
                 }               
             );
 
@@ -503,7 +532,7 @@ namespace TGC.Group.Model
 
             pecesAzules.ForEach(pez =>
             {
-                pez.Position += new TGCVector3(2f * MOVEMENT_SPEED * ElapsedTime * pez.CurrentMoveDir, 0, 0);
+                pez.Position += new TGCVector3(0, 0, 2f * MOVEMENT_SPEED * ElapsedTime * pez.CurrentMoveDir);
 
                 if (rnd.Next(0,10000)>rnd.Next(9998,9999) //muy cada tanto
                     || pez.Position.X >= 5000
@@ -512,11 +541,10 @@ namespace TGC.Group.Model
                                 || pez.Position.Z <= -5000) //si toco los bordes
                 {
                     pez.CurrentMoveDir *= -1;
-                    //pez.Rotation += new TGCVector3(0, FastMath.PI, 0);
                     pez.Rotation += new TGCVector3(FastMath.PI, 0, 0);
                 }
 
-                pez.Transform = TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
+                pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
             }
             );
 

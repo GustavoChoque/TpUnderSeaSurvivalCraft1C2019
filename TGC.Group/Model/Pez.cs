@@ -41,5 +41,6 @@ namespace TGC.Group.Model
         public TGCVector3 Position { get => meshPez.Position; set => meshPez.Position = value; }
         public TGCVector3 Rotation { get => meshPez.Rotation; set => meshPez.Rotation = value; }
         public TGCMatrix Transform { get => meshPez.Transform; set => meshPez.Transform = value; }
+        public TGCVector3 Scale { get => meshPez.Scale; set => meshPez.Scale = value; }
     }
 }
