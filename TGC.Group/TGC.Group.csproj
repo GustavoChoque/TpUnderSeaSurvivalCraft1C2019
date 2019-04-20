@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Model\Camara\TgcFpsCamera.cs" />
     <Compile Include="Model\GameModel.cs" />
+    <Compile Include="Model\Pez.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form\GameForm.resx">
@@ -168,6 +169,7 @@
     <Content Include="Media\cajaMadera4.jpg" />
     <Content Include="Media\LogoTGC-TgcScene.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
