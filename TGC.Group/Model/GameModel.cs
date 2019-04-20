@@ -73,6 +73,11 @@ namespace TGC.Group.Model
         //Variable direccion de movimiento
         private float currentMoveDirPeces = -1f;
 
+        //constantes de la camara
+        private const float camaraMoveSpeed = 400f;
+        private const float camaraJumpSpeed = 80f;
+
+
         public TGCVector3 posInicialShark;
         // public TGCVector3 posicionShark;
 
@@ -86,7 +91,7 @@ namespace TGC.Group.Model
             //-----------------------camara---------------------------------------------------
 
 
-            camaraInterna = new TgcFpsCamera(new TGCVector3(5, 60, 0), 80f, 50f, Input);
+            camaraInterna = new TgcFpsCamera(new TGCVector3(5, 60, 0), camaraMoveSpeed, camaraJumpSpeed, Input);
             Camara = camaraInterna;
             //-------
             //-------------------------------pisos------------

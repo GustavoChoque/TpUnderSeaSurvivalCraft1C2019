@@ -164,25 +164,25 @@ namespace TGC.Group.Model.Camara
             //Forward
             if (Input.keyDown(Key.W))
             {
-                moveVector += new TGCVector3(0, 0, -5) * MovementSpeed;
+                moveVector += new TGCVector3(0, 0, -1) * MovementSpeed;
             }
 
             //Backward
             if (Input.keyDown(Key.S))
             {
-                moveVector += new TGCVector3(0, 0, 5) * MovementSpeed;
+                moveVector += new TGCVector3(0, 0, 1) * MovementSpeed;
             }
 
             //Strafe right
             if (Input.keyDown(Key.D))
             {
-                moveVector += new TGCVector3(-5, 0, 0) * MovementSpeed;
+                moveVector += new TGCVector3(-1, 0, 0) * MovementSpeed;
             }
 
             //Strafe left
             if (Input.keyDown(Key.A))
             {
-                moveVector += new TGCVector3(5, 0, 0) * MovementSpeed;
+                moveVector += new TGCVector3(1, 0, 0) * MovementSpeed;
             }
 
             //Jump
