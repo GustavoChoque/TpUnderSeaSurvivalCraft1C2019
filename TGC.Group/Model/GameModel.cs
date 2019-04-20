@@ -521,8 +521,9 @@ namespace TGC.Group.Model
             pecesAmarillos.ForEach(pez =>
                 {
                     pez.Position += new TGCVector3(5f * pez.MoveSpeed * ElapsedTime * pez.CurrentMoveDir, 0, 0);
-                                     
-                    if (pez.Position.X >= 5000
+
+                    if (rnd.Next(0, 2000) > rnd.Next(1998, 1999) //cada tanto
+                        || pez.Position.X >= 5000
                             || pez.Position.Z >= 5000
                                 || pez.Position.X <= -5000
                                     || pez.Position.Z <= -5000) //si toco los bordes
@@ -542,8 +543,8 @@ namespace TGC.Group.Model
             {
                 pez.Position += new TGCVector3(0, 0, 2f * pez.MoveSpeed * ElapsedTime * pez.CurrentMoveDir);
 
-                if (rnd.Next(0,10000)>rnd.Next(9998,9999) //muy cada tanto
-                    || pez.Position.X >= 5000
+                if (rnd.Next(0,2000)>rnd.Next(1998,1999) //cada tanto
+                    || pez.Position.X >= 5000  
                         || pez.Position.Z >= 5000
                             || pez.Position.X <= -5000
                                 || pez.Position.Z <= -5000) //si toco los bordes
@@ -664,6 +665,7 @@ namespace TGC.Group.Model
             planta2.Dispose();
             planta3.Dispose();
             roca.Dispose();
+
             objetosEstaticos.ForEach(obj => obj.Dispose());
 
             pecesAmarillos.ForEach(obj => obj.Dispose());
