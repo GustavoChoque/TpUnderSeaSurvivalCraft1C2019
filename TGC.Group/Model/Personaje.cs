@@ -70,5 +70,6 @@ namespace TGC.Group.Model
 
         public int Health { get => health; }
         public int Oxygen { get => oxygen; }
+        public Boolean Vivo { get => vivo; }
     }
 }

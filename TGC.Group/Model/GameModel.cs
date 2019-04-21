@@ -164,7 +164,7 @@ namespace TGC.Group.Model
             //--------------objetos---------
             coral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
             //coral.Position = new TGCVector3(10, -300, 0);
-            TGCVector3 posCoral= new TGCVector3(10, -300, 0);
+            TGCVector3 posCoral = new TGCVector3(10, -300, 0);
             coral.AutoTransform = false;
             coral.Transform = TGCMatrix.Translation(posCoral);
 
@@ -432,9 +432,9 @@ namespace TGC.Group.Model
                 for (int j = 0; j < 7; j++)
                 {
                     int currentMoveDirection = rnd.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
-                    float moveSpeed = (float) (rnd.NextDouble() * 75) + 25;
+                    float moveSpeed = (float)(rnd.NextDouble() * 75) + 25;
 
-                    Pez pez = new Pez(yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j), currentMoveDirection, moveSpeed);  
+                    Pez pez = new Pez(yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j), currentMoveDirection, moveSpeed);
                     pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
 
                     int scale = rnd.Next(1, 5);
@@ -450,7 +450,7 @@ namespace TGC.Group.Model
                     {
                         pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.Translation(pez.Position);
                     }
-                    
+
                     pecesAmarillos.Add(pez);
                 }
 
@@ -485,7 +485,7 @@ namespace TGC.Group.Model
                     {
                         pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.Translation(pez.Position);
                     }
-                    
+
                     pecesAzules.Add(pez);
                 }
 
@@ -495,7 +495,7 @@ namespace TGC.Group.Model
             bitmapCorazon = new CustomBitmap(MediaDir + "Bitmaps\\" + "Vida.png", D3DDevice.Instance.Device);
             spriteCorazon.Bitmap = bitmapCorazon;
             spriteCorazon.Scaling = new TGCVector2(0.15f, 0.15f);
-            spriteCorazon.Position = new TGCVector2(ScreenWidth/1.1f, ScreenHeight/1.15f);
+            spriteCorazon.Position = new TGCVector2(ScreenWidth / 1.1f, ScreenHeight / 1.15f);
             sprites.Add(spriteCorazon);
 
             bitmapBarraVida100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida1.0.png", D3DDevice.Instance.Device);
@@ -572,6 +572,13 @@ namespace TGC.Group.Model
                 {
                     musica.resume();
                 }
+            }
+
+            //Reseteo el juego si apreto R
+            if (Input.keyPressed(Key.R))
+            {
+                //this.Dispose();
+                //this.Init();
             }
 
             //-----------movimientos-------------
@@ -651,8 +658,8 @@ namespace TGC.Group.Model
             }
 
             //SI VUELVO A ENTRAR AL MAPA RECUPERO LA ENERGIA
-            if (Camara.Position.X <= 5000 || Camara.Position.X >= -5000
-                || Camara.Position.Z <= 5000 || Camara.Position.Z >= -5000)
+            if (Camara.Position.X <= 5000 && Camara.Position.X >= -5000
+                && Camara.Position.Z <= 5000 && Camara.Position.Z >= -5000)
             {
                 personaje.recuperaVida(1);
             }
@@ -662,7 +669,7 @@ namespace TGC.Group.Model
             if (Camara.Position.Y < 0)
             {
                 elapsedTimeUnderWater = elapsedTimeUnderWater + ElapsedTime;
-            }    
+            }
             if (elapsedTimeUnderWater >= 10)
             {
                 personaje.perdeOxigeno(1);
@@ -676,78 +683,81 @@ namespace TGC.Group.Model
             }
 
             //ACTUALIZO LOS SPRITES DE ENERGIA Y OXIGENO
-            switch (personaje.Health)
+            if (personaje.Vivo)
             {
-                case int n when (n < 1):
-                    spriteBarraVida.Bitmap = bitmapBarra00;
-                    break;
-                case int n when (n >= 1 && n <= 10):
-                    spriteBarraVida.Bitmap = bitmapBarraVida10;
-                    break;
-                case int n when (n >= 11 && n <= 20):
-                    spriteBarraVida.Bitmap = bitmapBarraVida20;
-                    break;
-                case int n when (n >= 21 && n <= 30):
-                    spriteBarraVida.Bitmap = bitmapBarraVida30;
-                    break;
-                case int n when (n >= 31 && n <= 40):
-                    spriteBarraVida.Bitmap = bitmapBarraVida40;
-                    break;
-                case int n when (n >= 41 && n <= 50):
-                    spriteBarraVida.Bitmap = bitmapBarraVida50;
-                    break;
-                case int n when (n >= 51 && n <= 60):
-                    spriteBarraVida.Bitmap = bitmapBarraVida60;
-                    break;
-                case int n when (n >= 61 && n <= 70):
-                    spriteBarraVida.Bitmap = bitmapBarraVida70;
-                    break;
-                case int n when (n >= 71 && n <= 80):
-                    spriteBarraVida.Bitmap = bitmapBarraVida80;
-                    break;
-                case int n when (n >= 81 && n <= 90):
-                    spriteBarraVida.Bitmap = bitmapBarraVida90;
-                    break;
-                case int n when (n >= 91 && n <= 100):
-                    spriteBarraVida.Bitmap = bitmapBarraVida100;
-                    break;
-            }
+                switch (personaje.Health)
+                {
+                    case int n when (n < 1):
+                        spriteBarraVida.Bitmap = bitmapBarra00;
+                        break;
+                    case int n when (n >= 1 && n <= 10):
+                        spriteBarraVida.Bitmap = bitmapBarraVida10;
+                        break;
+                    case int n when (n >= 11 && n <= 20):
+                        spriteBarraVida.Bitmap = bitmapBarraVida20;
+                        break;
+                    case int n when (n >= 21 && n <= 30):
+                        spriteBarraVida.Bitmap = bitmapBarraVida30;
+                        break;
+                    case int n when (n >= 31 && n <= 40):
+                        spriteBarraVida.Bitmap = bitmapBarraVida40;
+                        break;
+                    case int n when (n >= 41 && n <= 50):
+                        spriteBarraVida.Bitmap = bitmapBarraVida50;
+                        break;
+                    case int n when (n >= 51 && n <= 60):
+                        spriteBarraVida.Bitmap = bitmapBarraVida60;
+                        break;
+                    case int n when (n >= 61 && n <= 70):
+                        spriteBarraVida.Bitmap = bitmapBarraVida70;
+                        break;
+                    case int n when (n >= 71 && n <= 80):
+                        spriteBarraVida.Bitmap = bitmapBarraVida80;
+                        break;
+                    case int n when (n >= 81 && n <= 90):
+                        spriteBarraVida.Bitmap = bitmapBarraVida90;
+                        break;
+                    case int n when (n >= 91 && n <= 100):
+                        spriteBarraVida.Bitmap = bitmapBarraVida100;
+                        break;
+                }
 
-            switch (personaje.Oxygen)
-            {
-                case int n when (n < 1):
-                    spriteBarraOxigeno.Bitmap = bitmapBarra00;
-                    break;
-                case int n when (n >= 1 && n <= 10):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno10;
-                    break;
-                case int n when (n >= 11 && n <= 20):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno20;
-                    break;
-                case int n when (n >= 21 && n <= 30):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno30;
-                    break;
-                case int n when (n >= 31 && n <= 40):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno40;
-                    break;
-                case int n when (n >= 41 && n <= 50):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno50;
-                    break;
-                case int n when (n >= 51 && n <= 60):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno60;
-                    break;
-                case int n when (n >= 61 && n <= 70):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno70;
-                    break;
-                case int n when (n >= 71 && n <= 80):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno80;
-                    break;
-                case int n when (n >= 81 && n <= 90):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno90;
-                    break;
-                case int n when (n >= 91 && n <= 100):
-                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
-                    break;
+                switch (personaje.Oxygen)
+                {
+                    case int n when (n < 1):
+                        spriteBarraOxigeno.Bitmap = bitmapBarra00;
+                        break;
+                    case int n when (n >= 1 && n <= 10):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno10;
+                        break;
+                    case int n when (n >= 11 && n <= 20):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno20;
+                        break;
+                    case int n when (n >= 21 && n <= 30):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno30;
+                        break;
+                    case int n when (n >= 31 && n <= 40):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno40;
+                        break;
+                    case int n when (n >= 41 && n <= 50):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno50;
+                        break;
+                    case int n when (n >= 51 && n <= 60):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno60;
+                        break;
+                    case int n when (n >= 61 && n <= 70):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno70;
+                        break;
+                    case int n when (n >= 71 && n <= 80):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno80;
+                        break;
+                    case int n when (n >= 81 && n <= 90):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno90;
+                        break;
+                    case int n when (n >= 91 && n <= 100):
+                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
+                        break;
+                }
             }
 
             PostUpdate();
@@ -768,6 +778,32 @@ namespace TGC.Group.Model
             DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
             DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(Camara.Position), 0, 40, Color.OrangeRed);
 
+            //OXIGENO Y ENERGIA
+            float tiempoRestante = (10 - elapsedTimeUnderWater);
+
+            if (personaje.Vivo)
+            {
+                //OXIGENO RESTANTE
+                if (elapsedTimeUnderWater > 0 && tiempoRestante >= 0)
+                {
+                    DrawText.drawText("Te quedan " + (10 - elapsedTimeUnderWater).ToString() + "segundos de oxigeno", 0, 50, Color.Blue);
+                }
+                else if (tiempoRestante <= 0)
+                {
+                    DrawText.drawText("Sufriendo daño por falta de oxigeno", 0, 50, Color.Red);
+                }
+
+                // VIDA RESTANTE
+                if ((this.fueraDelMapa(camaraInterna)))
+                {
+                    DrawText.drawText("Sufriendo daño por estar fuera del mapa", 0, 60, Color.Red);
+                }
+            }
+            else
+            {
+                DrawText.drawText("Te moriste", ScreenWidth / 2, ScreenHeight / 2, Color.Red);
+            }
+
             //Render de BoundingBox, muy útil para debug de colisiones.
             if (BoundingBox)
             {
@@ -782,7 +818,6 @@ namespace TGC.Group.Model
                 treeCoral.BoundingBox.Render();
                 yellowFish.BoundingBox.Render();
             }
-
 
             //--------skybox---------
             skybox.Render();
@@ -862,6 +897,11 @@ namespace TGC.Group.Model
 
             pecesAzules.ForEach(obj => obj.Dispose());
 
+        }
+
+        public Boolean fueraDelMapa(TgcFpsCamera camara)
+        {
+            return camara.Position.X > 5000 || camara.Position.X < -5000 || camara.Position.Z > 5000 || camara.Position.Z < -5000;
         }
     }
 }
