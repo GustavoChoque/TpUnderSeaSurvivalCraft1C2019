@@ -77,24 +77,22 @@ namespace TGC.Group.Model
         private const float camaraMoveSpeed = 400f;
         private const float camaraJumpSpeed = 80f;
 
-        public TGCVector3 posInicialShark;
+        private TGCVector3 posInicialShark;
 
-        Random rnd = new Random();
+        private Random rnd = new Random();
 
-        CustomBitmap bitmapVida;
-        CustomBitmap bitmapBarra;
-        CustomBitmap bitmapOxygen;
-        Drawer2D spriteDrawer = new Drawer2D();
+        private CustomBitmap bitmapCorazon, bitmapBarraVida100, bitmapTanqueOxigeno, bitmapBarraOxigeno100;
+        private Drawer2D spriteDrawer = new Drawer2D();
 
-        List<CustomSprite> sprites = new List<CustomSprite>();
+        private List<CustomSprite> sprites = new List<CustomSprite>();
 
-        CustomSprite spriteVida = new CustomSprite();
-        CustomSprite spriteBarraVida = new CustomSprite();
-        CustomSprite spriteBarraOxygen = new CustomSprite();
-        CustomSprite spriteOxygen = new CustomSprite();
+        private CustomSprite spriteCorazon = new CustomSprite();
+        private CustomSprite spriteBarraVida = new CustomSprite();
+        private CustomSprite spriteBarraOxigeno = new CustomSprite();
+        private CustomSprite spriteTanqueOxigeno = new CustomSprite();
 
-        int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
-        int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
+        private int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
+        private int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
         public override void Init()
         {
@@ -487,28 +485,29 @@ namespace TGC.Group.Model
             }
             //-----------------------
             //HUD
-            bitmapVida = new CustomBitmap(MediaDir + "Bitmaps\\" + "Vida.png", D3DDevice.Instance.Device);
-            spriteVida.Bitmap = bitmapVida;
-            spriteVida.Scaling = new TGCVector2(0.15f, 0.15f);
-            spriteVida.Position = new TGCVector2(ScreenWidth/1.1f, ScreenHeight/1.15f);
-            sprites.Add(spriteVida);
+            bitmapCorazon = new CustomBitmap(MediaDir + "Bitmaps\\" + "Vida.png", D3DDevice.Instance.Device);
+            spriteCorazon.Bitmap = bitmapCorazon;
+            spriteCorazon.Scaling = new TGCVector2(0.15f, 0.15f);
+            spriteCorazon.Position = new TGCVector2(ScreenWidth/1.1f, ScreenHeight/1.15f);
+            sprites.Add(spriteCorazon);
 
-            bitmapBarra = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida.png", D3DDevice.Instance.Device);
-            spriteBarraVida.Bitmap = bitmapBarra;
+            bitmapBarraVida100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida1.0.png", D3DDevice.Instance.Device);
+            spriteBarraVida.Bitmap = bitmapBarraVida100;
             spriteBarraVida.Scaling = new TGCVector2(.75f, 1f);
             spriteBarraVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
             sprites.Add(spriteBarraVida);
 
-            bitmapOxygen = new CustomBitmap(MediaDir + "Bitmaps\\" + "Oxygen.png", D3DDevice.Instance.Device);
-            spriteOxygen.Bitmap = bitmapOxygen;
-            spriteOxygen.Scaling = new TGCVector2(0.25f, 0.2f);
-            spriteOxygen.Position = new TGCVector2(ScreenWidth / 1.125f, ScreenHeight / 1.4f);
-            sprites.Add(spriteOxygen);
+            bitmapTanqueOxigeno = new CustomBitmap(MediaDir + "Bitmaps\\" + "Oxygen.png", D3DDevice.Instance.Device);
+            spriteTanqueOxigeno.Bitmap = bitmapTanqueOxigeno;
+            spriteTanqueOxigeno.Scaling = new TGCVector2(0.25f, 0.2f);
+            spriteTanqueOxigeno.Position = new TGCVector2(ScreenWidth / 1.125f, ScreenHeight / 1.4f);
+            sprites.Add(spriteTanqueOxigeno);
 
-            spriteBarraOxygen.Bitmap = bitmapBarra;
-            spriteBarraOxygen.Scaling = new TGCVector2(.75f, 1f);
-            spriteBarraOxygen.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.325f);
-            sprites.Add(spriteBarraOxygen);
+            bitmapBarraOxigeno100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device);
+            spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
+            spriteBarraOxigeno.Scaling = new TGCVector2(.75f, 1f);
+            spriteBarraOxigeno.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.325f);
+            sprites.Add(spriteBarraOxigeno);
 
             //-----------------------
             //-----------------------
