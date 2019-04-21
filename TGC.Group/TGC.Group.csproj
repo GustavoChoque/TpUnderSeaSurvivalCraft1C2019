@@ -96,6 +96,9 @@
     <Compile Include="Model\Camara\TgcFpsCamera.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\Pez.cs" />
+    <Compile Include="Model\Sprites\CustomBitmap.cs" />
+    <Compile Include="Model\Sprites\CustomSprite.cs" />
+    <Compile Include="Model\Sprites\Drawer2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form\GameForm.resx">

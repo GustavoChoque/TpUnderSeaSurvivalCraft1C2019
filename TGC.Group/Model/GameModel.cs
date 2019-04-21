@@ -12,6 +12,7 @@ using TGC.Core.Terrain;
 using TGC.Core.Sound;
 using System.Collections.Generic;
 using System;
+using TGC.Group.Model.Sprites;
 
 namespace TGC.Group.Model
 {
@@ -52,7 +53,7 @@ namespace TGC.Group.Model
         private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
         private TgcScene barco;
         private TgcSkyBox skybox;
-        private Pez pezAmarillo, pezAzul;
+        //private Pez pezAmarillo, pezAzul;
 
         private TgcSimpleTerrain terreno;
         private float currentScaleXZ;
@@ -79,6 +80,14 @@ namespace TGC.Group.Model
         public TGCVector3 posInicialShark;
 
         Random rnd = new Random();
+
+        CustomBitmap bitmapVida;
+        CustomBitmap bitmapBarraVida;
+        Drawer2D spriteDrawer = new Drawer2D();
+        CustomSprite spriteVida = new CustomSprite();
+        CustomSprite spriteBarraVida = new CustomSprite();
+        int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
+        int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
         public override void Init()
         {
@@ -419,7 +428,7 @@ namespace TGC.Group.Model
                     int scale = rnd.Next(1, 5);
                     pez.Scale = new TGCVector3(scale, scale, scale);
 
-                    //Corrigo que los peces vayan para atras
+                    //Corrijo que los peces vayan para atras
                     if (pez.CurrentMoveDir.Equals(1))
                     {
                         pez.Rotation += new TGCVector3(FastMath.PI, 0, 0);
@@ -469,6 +478,20 @@ namespace TGC.Group.Model
                 }
 
             }
+            //-----------------------
+            //HUD
+            bitmapVida = new CustomBitmap(MediaDir + "Bitmaps\\" + "Vida.png", D3DDevice.Instance.Device);
+            spriteVida.Bitmap = bitmapVida;
+            spriteVida.Scaling = new TGCVector2(0.15f, 0.15f);
+            spriteVida.Position = new TGCVector2(ScreenWidth/1.1f, ScreenHeight/1.15f);
+
+            bitmapBarraVida = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida.png", D3DDevice.Instance.Device);
+            spriteBarraVida.Bitmap = bitmapBarraVida;
+            spriteBarraVida.Scaling = new TGCVector2(.75f, 1f);
+            spriteBarraVida.Position = new TGCVector2(ScreenWidth / 1.6f, ScreenHeight / 1.13f);
+
+            //-----------------------
+            //-----------------------
             //-----------------------
         }
 
@@ -564,6 +587,9 @@ namespace TGC.Group.Model
             skybox.Center = Camara.Position;
             //----------
 
+            ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
+            ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
+
 
             PostUpdate();
         }
@@ -631,6 +657,12 @@ namespace TGC.Group.Model
             pecesAmarillos.ForEach(obj => obj.Render());
 
             pecesAzules.ForEach(obj => obj.Render());
+
+            //SPRITES
+            spriteDrawer.BeginDrawSprite();
+            spriteDrawer.DrawSprite(spriteVida);
+            spriteDrawer.DrawSprite(spriteBarraVida);
+            spriteDrawer.EndDrawSprite();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
