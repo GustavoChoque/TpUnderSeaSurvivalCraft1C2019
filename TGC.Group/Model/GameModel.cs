@@ -553,7 +553,7 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
-            
+
             //Capturar Input teclado
             if (Input.keyPressed(Key.F))
             {
@@ -572,12 +572,12 @@ namespace TGC.Group.Model
                     musica.resume();
                 }
             }
-            
+
             //-----------movimientos-------------
             //posicionShark=shark.Position;
             //var rotacionShark = shark.Rotation;
 
-           shark.Position += new TGCVector3(MOVEMENT_SPEED * ElapsedTime * currentMoveDir, 0, 0);
+            shark.Position += new TGCVector3(MOVEMENT_SPEED * ElapsedTime * currentMoveDir, 0, 0);
 
             if (!((posInicialShark.X + 500 > shark.Position.X) && (posInicialShark.X - 500 < shark.Position.X)))
             {
@@ -606,7 +606,7 @@ namespace TGC.Group.Model
                     }
 
                     pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
-                }               
+                }
             );
 
             //-----------
@@ -616,8 +616,8 @@ namespace TGC.Group.Model
             {
                 pez.Position += new TGCVector3(0, 0, 2f * pez.MoveSpeed * ElapsedTime * pez.CurrentMoveDir);
 
-                if (rnd.Next(0,2000)>rnd.Next(1998,1999) //cada tanto
-                    || pez.Position.X >= 5000  
+                if (rnd.Next(0, 2000) > rnd.Next(1998, 1999) //cada tanto
+                    || pez.Position.X >= 5000
                         || pez.Position.Z >= 5000
                             || pez.Position.X <= -5000
                                 || pez.Position.Z <= -5000) //si toco los bordes
@@ -640,6 +640,24 @@ namespace TGC.Group.Model
             //REFRESCO EL TAMAÑO DE LA PANTALLA
             ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
             ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
+
+            //ACTUALIZO LOS VALORES DE SALUD Y OXIGENO
+            //SI ME SALGO DEL MAPA, RESTO 10 DE SALUD
+            if (Camara.Position.X > 5000 || Camara.Position.X < -5000
+                || Camara.Position.Z > 5000 || Camara.Position.Z < -5000)
+            {
+                personaje.sufriDanio(1);
+            }
+
+            //SI ESTOY MAS DE DIEZ SEGUNDOS BAJO DEL AGUA
+            //PIERDO 10 DE OXIGENO
+            /*
+             * if ((Camara.Position.Y < 0) &&
+                ElapsedTime > 10)
+            {
+                personaje.perdeOxigeno(10);
+            }
+            */
 
             //ACTUALIZO LOS SPRITES DE ENERGIA Y OXIGENO
             switch (personaje.Health)
@@ -715,7 +733,6 @@ namespace TGC.Group.Model
                     spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
                     break;
             }
-
 
             PostUpdate();
         }
