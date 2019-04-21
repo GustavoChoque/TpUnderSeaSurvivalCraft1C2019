@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Model\Camara\TgcFpsCamera.cs" />
     <Compile Include="Model\GameModel.cs" />
+    <Compile Include="Model\Personaje.cs" />
     <Compile Include="Model\Pez.cs" />
     <Compile Include="Model\Sprites\CustomBitmap.cs" />
     <Compile Include="Model\Sprites\CustomSprite.cs" />

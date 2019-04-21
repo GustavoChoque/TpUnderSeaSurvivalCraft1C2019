@@ -81,7 +81,11 @@ namespace TGC.Group.Model
 
         private Random rnd = new Random();
 
-        private CustomBitmap bitmapCorazon, bitmapBarraVida100, bitmapTanqueOxigeno, bitmapBarraOxigeno100;
+        private CustomBitmap bitmapCorazon, , bitmapTanqueOxigeno;
+        private CustomBitmap bitmapBarraVida10, bitmapBarraVida20, bitmapBarraVida30, bitmapBarraVida40, bitmapBarraVida50,
+                bitmapBarraVida60, bitmapBarraVida70, bitmapBarraVida80, bitmapBarraVida90, bitmapBarraVida100;
+        private CustomBitmap bitmapBarraOxigeno10, bitmapBarraOxigeno20, bitmapBarraOxigeno30, bitmapBarraOxigeno40, bitmapBarraOxigeno50,
+                bitmapBarraOxigeno60, bitmapBarraOxigeno70, bitmapBarraOxigeno80, bitmapBarraOxigeno90, bitmapBarraOxigeno100;
         private Drawer2D spriteDrawer = new Drawer2D();
 
         private List<CustomSprite> sprites = new List<CustomSprite>();
@@ -93,6 +97,8 @@ namespace TGC.Group.Model
 
         private int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
         private int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
+
+        private Personaje personaje = new Personaje(100, 100);
 
         public override void Init()
         {
