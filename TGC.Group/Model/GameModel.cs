@@ -99,6 +99,7 @@ namespace TGC.Group.Model
         private int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
         private Personaje personaje = new Personaje(100, 100);
+        private float elapsedTimeUnderWater = 0;
 
         public override void Init()
         {
@@ -642,22 +643,37 @@ namespace TGC.Group.Model
             ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
             //ACTUALIZO LOS VALORES DE SALUD Y OXIGENO
-            //SI ME SALGO DEL MAPA, RESTO 10 DE SALUD
+            //SI ME SALGO DEL MAPA, RESTO 1 DE SALUD
             if (Camara.Position.X > 5000 || Camara.Position.X < -5000
                 || Camara.Position.Z > 5000 || Camara.Position.Z < -5000)
             {
                 personaje.sufriDanio(1);
             }
 
-            //SI ESTOY MAS DE DIEZ SEGUNDOS BAJO DEL AGUA
-            //PIERDO 10 DE OXIGENO
-            /*
-             * if ((Camara.Position.Y < 0) &&
-                ElapsedTime > 10)
+            //SI VUELVO A ENTRAR AL MAPA RECUPERO LA ENERGIA
+            if (Camara.Position.X <= 5000 || Camara.Position.X >= -5000
+                || Camara.Position.Z <= 5000 || Camara.Position.Z >= -5000)
             {
-                personaje.perdeOxigeno(10);
+                personaje.recuperaVida(1);
             }
-            */
+
+            //SI ESTOY MAS DE DIEZ SEGUNDOS BAJO DEL AGUA
+            //PIERDO 1 DE OXIGENO
+            if (Camara.Position.Y < 0)
+            {
+                elapsedTimeUnderWater = elapsedTimeUnderWater + ElapsedTime;
+            }    
+            if (elapsedTimeUnderWater >= 10)
+            {
+                personaje.perdeOxigeno(1);
+            }
+
+            //SI SALGO A LA SUPERFICIE RECUPERO VIDA
+            if (Camara.Position.Y >= 0)
+            {
+                elapsedTimeUnderWater = 0;
+                personaje.recuperaOxigeno(1);
+            }
 
             //ACTUALIZO LOS SPRITES DE ENERGIA Y OXIGENO
             switch (personaje.Health)
