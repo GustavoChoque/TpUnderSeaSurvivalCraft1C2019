@@ -68,7 +68,7 @@ namespace TGC.Group.Model
             }
         }
 
-        public float Health { get => health; }
-        public float Oxygen { get => oxygen; }
+        public int Health { get => health; }
+        public int Oxygen { get => oxygen; }
     }
 }

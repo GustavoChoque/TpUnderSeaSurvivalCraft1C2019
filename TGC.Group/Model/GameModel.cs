@@ -81,7 +81,7 @@ namespace TGC.Group.Model
 
         private Random rnd = new Random();
 
-        private CustomBitmap bitmapCorazon, , bitmapTanqueOxigeno;
+        private CustomBitmap bitmapCorazon, bitmapTanqueOxigeno, bitmapBarra00;
         private CustomBitmap bitmapBarraVida10, bitmapBarraVida20, bitmapBarraVida30, bitmapBarraVida40, bitmapBarraVida50,
                 bitmapBarraVida60, bitmapBarraVida70, bitmapBarraVida80, bitmapBarraVida90, bitmapBarraVida100;
         private CustomBitmap bitmapBarraOxigeno10, bitmapBarraOxigeno20, bitmapBarraOxigeno30, bitmapBarraOxigeno40, bitmapBarraOxigeno50,
@@ -91,7 +91,7 @@ namespace TGC.Group.Model
         private List<CustomSprite> sprites = new List<CustomSprite>();
 
         private CustomSprite spriteCorazon = new CustomSprite();
-        private CustomSprite spriteBarraVida = new CustomSprite();
+        CustomSprite spriteBarraVida = new CustomSprite();
         private CustomSprite spriteBarraOxigeno = new CustomSprite();
         private CustomSprite spriteTanqueOxigeno = new CustomSprite();
 
@@ -516,6 +516,31 @@ namespace TGC.Group.Model
             sprites.Add(spriteBarraOxigeno);
 
             //-----------------------
+            //ANIMACION DE LAS BARRAS DE ENERGIA Y OXIGENO
+            bitmapBarra00 = new CustomBitmap(MediaDir + "Bitmaps\\" + "Barra0.0.png", D3DDevice.Instance.Device);
+
+            bitmapBarraVida10 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.1.png", D3DDevice.Instance.Device);
+            bitmapBarraVida20 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.2.png", D3DDevice.Instance.Device);
+            bitmapBarraVida30 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.3.png", D3DDevice.Instance.Device);
+            bitmapBarraVida40 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.4.png", D3DDevice.Instance.Device);
+            bitmapBarraVida50 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.5.png", D3DDevice.Instance.Device);
+            bitmapBarraVida60 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.6.png", D3DDevice.Instance.Device);
+            bitmapBarraVida70 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.7.png", D3DDevice.Instance.Device);
+            bitmapBarraVida80 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.8.png", D3DDevice.Instance.Device);
+            bitmapBarraVida90 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.9.png", D3DDevice.Instance.Device);
+            bitmapBarraVida100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida1.0.png", D3DDevice.Instance.Device);
+
+            bitmapBarraOxigeno10 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.1.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno20 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.2.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno30 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.3.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno40 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.4.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno50 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.5.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno60 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.6.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno70 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.7.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno80 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.8.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno90 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.9.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device);
+
             //-----------------------
             //-----------------------
         }
@@ -615,6 +640,81 @@ namespace TGC.Group.Model
             //REFRESCO EL TAMAÑO DE LA PANTALLA
             ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
             ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
+
+            //ACTUALIZO LOS SPRITES DE ENERGIA Y OXIGENO
+            switch (personaje.Health)
+            {
+                case int n when (n < 1):
+                    spriteBarraVida.Bitmap = bitmapBarra00;
+                    break;
+                case int n when (n >= 1 && n <= 10):
+                    spriteBarraVida.Bitmap = bitmapBarraVida10;
+                    break;
+                case int n when (n >= 11 && n <= 20):
+                    spriteBarraVida.Bitmap = bitmapBarraVida20;
+                    break;
+                case int n when (n >= 21 && n <= 30):
+                    spriteBarraVida.Bitmap = bitmapBarraVida30;
+                    break;
+                case int n when (n >= 31 && n <= 40):
+                    spriteBarraVida.Bitmap = bitmapBarraVida40;
+                    break;
+                case int n when (n >= 41 && n <= 50):
+                    spriteBarraVida.Bitmap = bitmapBarraVida50;
+                    break;
+                case int n when (n >= 51 && n <= 60):
+                    spriteBarraVida.Bitmap = bitmapBarraVida60;
+                    break;
+                case int n when (n >= 61 && n <= 70):
+                    spriteBarraVida.Bitmap = bitmapBarraVida70;
+                    break;
+                case int n when (n >= 71 && n <= 80):
+                    spriteBarraVida.Bitmap = bitmapBarraVida80;
+                    break;
+                case int n when (n >= 81 && n <= 90):
+                    spriteBarraVida.Bitmap = bitmapBarraVida90;
+                    break;
+                case int n when (n >= 91 && n <= 100):
+                    spriteBarraVida.Bitmap = bitmapBarraVida100;
+                    break;
+            }
+
+            switch (personaje.Oxygen)
+            {
+                case int n when (n < 1):
+                    spriteBarraOxigeno.Bitmap = bitmapBarra00;
+                    break;
+                case int n when (n >= 1 && n <= 10):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno10;
+                    break;
+                case int n when (n >= 11 && n <= 20):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno20;
+                    break;
+                case int n when (n >= 21 && n <= 30):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno30;
+                    break;
+                case int n when (n >= 31 && n <= 40):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno40;
+                    break;
+                case int n when (n >= 41 && n <= 50):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno50;
+                    break;
+                case int n when (n >= 51 && n <= 60):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno60;
+                    break;
+                case int n when (n >= 61 && n <= 70):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno70;
+                    break;
+                case int n when (n >= 71 && n <= 80):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno80;
+                    break;
+                case int n when (n >= 81 && n <= 90):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno90;
+                    break;
+                case int n when (n >= 91 && n <= 100):
+                    spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
+                    break;
+            }
 
 
             PostUpdate();
