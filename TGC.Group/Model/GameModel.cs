@@ -82,10 +82,17 @@ namespace TGC.Group.Model
         Random rnd = new Random();
 
         CustomBitmap bitmapVida;
-        CustomBitmap bitmapBarraVida;
+        CustomBitmap bitmapBarra;
+        CustomBitmap bitmapOxygen;
         Drawer2D spriteDrawer = new Drawer2D();
+
+        List<CustomSprite> sprites = new List<CustomSprite>();
+
         CustomSprite spriteVida = new CustomSprite();
         CustomSprite spriteBarraVida = new CustomSprite();
+        CustomSprite spriteBarraOxygen = new CustomSprite();
+        CustomSprite spriteOxygen = new CustomSprite();
+
         int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
         int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
@@ -484,11 +491,24 @@ namespace TGC.Group.Model
             spriteVida.Bitmap = bitmapVida;
             spriteVida.Scaling = new TGCVector2(0.15f, 0.15f);
             spriteVida.Position = new TGCVector2(ScreenWidth/1.1f, ScreenHeight/1.15f);
+            sprites.Add(spriteVida);
 
-            bitmapBarraVida = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida.png", D3DDevice.Instance.Device);
-            spriteBarraVida.Bitmap = bitmapBarraVida;
+            bitmapBarra = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida.png", D3DDevice.Instance.Device);
+            spriteBarraVida.Bitmap = bitmapBarra;
             spriteBarraVida.Scaling = new TGCVector2(.75f, 1f);
-            spriteBarraVida.Position = new TGCVector2(ScreenWidth / 1.6f, ScreenHeight / 1.13f);
+            spriteBarraVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
+            sprites.Add(spriteBarraVida);
+
+            bitmapOxygen = new CustomBitmap(MediaDir + "Bitmaps\\" + "Oxygen.png", D3DDevice.Instance.Device);
+            spriteOxygen.Bitmap = bitmapOxygen;
+            spriteOxygen.Scaling = new TGCVector2(0.25f, 0.2f);
+            spriteOxygen.Position = new TGCVector2(ScreenWidth / 1.125f, ScreenHeight / 1.4f);
+            sprites.Add(spriteOxygen);
+
+            spriteBarraOxygen.Bitmap = bitmapBarra;
+            spriteBarraOxygen.Scaling = new TGCVector2(.75f, 1f);
+            spriteBarraOxygen.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.325f);
+            sprites.Add(spriteBarraOxygen);
 
             //-----------------------
             //-----------------------
@@ -587,6 +607,7 @@ namespace TGC.Group.Model
             skybox.Center = Camara.Position;
             //----------
 
+            //REFRESCO EL TAMAÑO DE LA PANTALLA
             ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
             ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
@@ -660,8 +681,7 @@ namespace TGC.Group.Model
 
             //SPRITES
             spriteDrawer.BeginDrawSprite();
-            spriteDrawer.DrawSprite(spriteVida);
-            spriteDrawer.DrawSprite(spriteBarraVida);
+            sprites.ForEach(sprite => spriteDrawer.DrawSprite(sprite));
             spriteDrawer.EndDrawSprite();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
