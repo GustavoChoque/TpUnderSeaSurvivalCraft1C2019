@@ -37,16 +37,9 @@ namespace TGC.Group.Model
         }
 
         //Boleano para ver si dibujamos el boundingbox
-        private bool BoundingBox { get; set; }
+        //private bool BoundingBox { get; set; }
 
-        /// <summary>
-        ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
-        ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
-        ///     procesamiento que podemos pre calcular para nuestro juego.
-        ///     Borrar el codigo ejemplo no utilizado.
-        /// </summary>
-        /// 
-        //------------------------------------------------------
+        //DECLARO VARIABLES 'GLOBALES'
         private TgcFpsCamera camaraInterna;
         private TgcPlane piso, agua;
         private TgcMesh coralBrain, coral, shark, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
@@ -90,7 +83,7 @@ namespace TGC.Group.Model
         private List<CustomSprite> sprites = new List<CustomSprite>();
 
         private CustomSprite spriteCorazon = new CustomSprite();
-        CustomSprite spriteBarraVida = new CustomSprite();
+        private CustomSprite spriteBarraVida = new CustomSprite();
         private CustomSprite spriteBarraOxigeno = new CustomSprite();
         private CustomSprite spriteTanqueOxigeno = new CustomSprite();
 
@@ -100,323 +93,32 @@ namespace TGC.Group.Model
         private Personaje personaje = new Personaje(100, 100);
         private float elapsedTimeUnderWater = 0;
 
+        /// <summary>
+        ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
+        ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
+        ///     procesamiento que podemos pre calcular para nuestro juego.
+        ///     Borrar el codigo ejemplo no utilizado.
+        /// </summary>
+        /// 
+        //------------------------------------------------------
         public override void Init()
         {
             //Device de DirectX para crear primitivas.
             var d3dDevice = D3DDevice.Instance.Device;
 
-            //-----------------------camara---------------------------------------------------
+            this.configuroCamara();
 
+            this.cargoPisos();
+            
+            this.cargoSkybox();
 
-            camaraInterna = new TgcFpsCamera(new TGCVector3(5, 60, 0), camaraMoveSpeed, camaraJumpSpeed, Input);
-            Camara = camaraInterna;
-            //-------
-            //-------------------------------pisos------------
+            this.cargoHeightmap();
 
-            var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\agua20.jpg");
-            agua = new TgcPlane(new TGCVector3(-5000, 0, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, aguaTextura);
+            this.cargoMusica();
 
+            this.cargoMeshes();
 
-
-            var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\pasto.jpg");
-            piso = new TgcPlane(new TGCVector3(-5000, -300, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, pisoTextura);
-            //------------------
-
-            //-------Skybox
-            skybox = new TgcSkyBox();
-            skybox.Center = TGCVector3.Empty;
-            skybox.Size = new TGCVector3(10000, 10000, 10000);
-
-            var texturesPath = MediaDir + "Texturas\\SkyBox\\";
-
-            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Up, texturesPath + "lostatseaday_up.jpg");
-            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Down, texturesPath + "lostatseaday_dn.jpg");
-            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Left, texturesPath + "lostatseaday_lf.jpg");
-            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Right, texturesPath + "lostatseaday_rt.jpg");
-            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Back, texturesPath + "lostatseaday_ft.jpg");
-            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Front, texturesPath + "lostatseaday_bk.jpg");
-            skybox.SkyEpsilon = 25f;
-            skybox.Init();
-
-            //----------------
-
-            //--------- una carga basica de heighmap
-            terreno = new TgcSimpleTerrain();
-            var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
-            var textu = MediaDir + "Texturas\\Grass.jpg";
-            currentScaleXZ = 150f;
-            currentScaleY = 3f;
-            terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
-            terreno.loadTexture(textu);
-            terreno.AlphaBlendEnable = true;
-
-            //---------------
-
-            //---------musica-----------
-            musica = new TgcMp3Player();
-            musica.FileName = MediaDir + "\\Music\\AbandonShip.mp3";
-            musica.play(true);
-            //----------
-
-
-
-            //--------------objetos---------
-            coral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
-            //coral.Position = new TGCVector3(10, -300, 0);
-            TGCVector3 posCoral = new TGCVector3(10, -300, 0);
-            coral.AutoTransform = false;
-            coral.Transform = TGCMatrix.Translation(posCoral);
-
-            shark = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\shark-TgcScene.xml").Meshes[0];
-            //TGCVector3 posShark = new TGCVector3(-650, -100, 1000);
-            //shark.AutoTransform = false;
-            shark.Position = new TGCVector3(-650, -100, 1000);
-            posInicialShark = shark.Position;
-            shark.Transform = TGCMatrix.Translation(shark.Position);
-
-            coralBrain = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\brain_coral-TgcScene.xml").Meshes[0];
-            TGCVector3 posCoralBrain = new TGCVector3(-200, -300, 340);
-            coralBrain.AutoTransform = false;
-            coralBrain.Transform = TGCMatrix.Translation(posCoralBrain);
-
-            barco = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\ship-TgcScene.xml");
-
-            fish = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\fish-TgcScene.xml").Meshes[0];
-            TGCVector3 posFish = new TGCVector3(0, -200, 0);
-            fish.AutoTransform = false;
-            fish.Transform = TGCMatrix.Translation(posFish);
-
-            pillarCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\pillar_coral-TgcScene.xml").Meshes[0];
-            TGCVector3 posPillarCoral = new TGCVector3(0, -200, 40);
-            pillarCoral.AutoTransform = false;
-            pillarCoral.Transform = TGCMatrix.Translation(posPillarCoral);
-
-            seaShell = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\sea_shell-TgcScene.xml").Meshes[0];
-            TGCVector3 posSeaShell = new TGCVector3(500, -200, 40);
-            seaShell.AutoTransform = false;
-            seaShell.Transform = TGCMatrix.Translation(posSeaShell);
-
-            spiralWireCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\spiral_wire_coral-TgcScene.xml").Meshes[0];
-            TGCVector3 posSpiralWireCoral = new TGCVector3(-50, -300, 40);
-            spiralWireCoral.AutoTransform = false;
-            spiralWireCoral.Transform = TGCMatrix.Translation(posSpiralWireCoral);
-
-            treeCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\tree_coral-TgcScene.xml").Meshes[0];
-            TGCVector3 posTreeCoral = new TGCVector3(-70, -300, 200);
-            TGCVector3 escalaTreeCoral = new TGCVector3(10f, 10f, 10f);
-            treeCoral.AutoTransform = false;
-            treeCoral.Transform = TGCMatrix.Scaling(escalaTreeCoral) * TGCMatrix.Translation(posTreeCoral);
-
-            yellowFish = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\yellow_fish-TgcScene.xml").Meshes[0];
-            TGCVector3 posYellowFish = new TGCVector3(50, -200, -20);
-            yellowFish.AutoTransform = false;
-            yellowFish.Transform = TGCMatrix.Translation(posYellowFish);
-
-            arbusto = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Arbusto\\Arbusto-TgcScene.xml").Meshes[0];
-            arbusto.Position = new TGCVector3(70, -300, -30);
-            arbusto.AutoTransform = false;
-            arbusto.AlphaBlendEnable = true;
-            arbusto.Transform = TGCMatrix.Translation(arbusto.Position);
-
-            arbusto2 = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Arbusto2\\Arbusto2-TgcScene.xml").Meshes[0];
-            arbusto2.Position = new TGCVector3(60, -300, -20);
-            arbusto2.AutoTransform = false;
-            //arbusto2.AlphaBlendEnable = true;
-            arbusto2.Transform = TGCMatrix.Translation(arbusto2.Position);
-
-            pasto = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Pasto\\Pasto-TgcScene.xml").Meshes[0];
-            pasto.Position = new TGCVector3(50, -300, -20);
-            pasto.AutoTransform = false;
-            pasto.Transform = TGCMatrix.Translation(pasto.Position);
-
-            planta = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta\\Planta-TgcScene.xml").Meshes[0];
-            planta.Position = new TGCVector3(40, -300, -20);
-            planta.AutoTransform = false;
-            planta.Transform = TGCMatrix.Translation(planta.Position);
-
-            planta2 = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta2\\Planta2-TgcScene.xml").Meshes[0];
-            planta2.Position = new TGCVector3(30, -300, -20);
-            planta2.AutoTransform = false;
-            planta2.Transform = TGCMatrix.Translation(planta2.Position);
-
-            planta3 = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta3\\Planta3-TgcScene.xml").Meshes[0];
-            planta3.Position = new TGCVector3(20, -300, -20);
-            planta3.AutoTransform = false;
-            planta3.Transform = TGCMatrix.Translation(planta3.Position);
-
-            roca = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Roca\\Roca-TgcScene.xml").Meshes[0];
-            roca.Position = new TGCVector3(10, -300, -20);
-            roca.AutoTransform = false;
-            roca.Transform = TGCMatrix.Translation(roca.Position);
-
-            //------------instancia objetos multiples
-            objetosEstaticos = new List<TgcMesh>();
-
-            var rows = 5;
-            var cols = 5;
-            //----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = coralBrain.createMeshInstance(coralBrain.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = coral.createMeshInstance(coral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    //escalado random
-                    var escalaObjeto = rnd.Next(1, 3);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = pillarCoral.createMeshInstance(pillarCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = seaShell.createMeshInstance(seaShell.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = treeCoral.createMeshInstance(treeCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = spiralWireCoral.createMeshInstance(spiralWireCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = arbusto.createMeshInstance(arbusto.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.AlphaBlendEnable = true;
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = arbusto2.createMeshInstance(arbusto2.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.AlphaBlendEnable = true;
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = pasto.createMeshInstance(pasto.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.AlphaBlendEnable = true;
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = planta.createMeshInstance(planta.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = planta2.createMeshInstance(planta2.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = planta3.createMeshInstance(planta3.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = roca.createMeshInstance(roca.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
-                }
-
-            }
+            this.generoObjetosEstaticos();
 
             this.generoPecesAmarillos();
 
@@ -435,10 +137,10 @@ namespace TGC.Group.Model
             PreUpdate();
 
             //Capturar Input teclado
-            if (Input.keyPressed(Key.F))
-            {
-                BoundingBox = !BoundingBox;
-            }
+            //if (Input.keyPressed(Key.F))
+            //{
+            //    BoundingBox = !BoundingBox;
+            //}
 
             //Capturar Input teclado
             if (Input.keyPressed(Key.P))
@@ -454,11 +156,11 @@ namespace TGC.Group.Model
             }
 
             //Reseteo el juego si apreto R
-            if (Input.keyPressed(Key.R))
-            {
+            //if (Input.keyPressed(Key.R))
+            //{
                 //this.Dispose();
                 //this.Init();
-            }
+            //}
 
             //-----------movimientos-------------
             //posicionShark=shark.Position;
@@ -544,7 +246,7 @@ namespace TGC.Group.Model
             PreRender();
 
             //Dibuja un texto por pantalla
-            DrawText.drawText("Con la tecla F se dibuja el bounding box.", 0, 20, Color.OrangeRed);
+            //DrawText.drawText("Con la tecla F se dibuja el bounding box.", 0, 20, Color.OrangeRed);
             DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
             DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(Camara.Position), 0, 40, Color.OrangeRed);
 
@@ -575,6 +277,7 @@ namespace TGC.Group.Model
             }
 
             //Render de BoundingBox, muy útil para debug de colisiones.
+            /*
             if (BoundingBox)
             {
                 barco.BoundingBox.Render();
@@ -588,6 +291,7 @@ namespace TGC.Group.Model
                 treeCoral.BoundingBox.Render();
                 yellowFish.BoundingBox.Render();
             }
+            */
 
             //--------skybox---------
             skybox.Render();
@@ -917,6 +621,319 @@ namespace TGC.Group.Model
             bitmapBarraOxigeno80 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.8.png", D3DDevice.Instance.Device);
             bitmapBarraOxigeno90 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.9.png", D3DDevice.Instance.Device);
             bitmapBarraOxigeno100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device);
+        }
+
+        private void cargoMeshes()
+        {
+            coral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
+
+            shark = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\shark-TgcScene.xml").Meshes[0];
+
+            coralBrain = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\brain_coral-TgcScene.xml").Meshes[0];
+
+            barco = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\ship-TgcScene.xml");
+
+            fish = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\fish-TgcScene.xml").Meshes[0];
+
+            pillarCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\pillar_coral-TgcScene.xml").Meshes[0];
+
+            seaShell = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\sea_shell-TgcScene.xml").Meshes[0];
+
+            spiralWireCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\spiral_wire_coral-TgcScene.xml").Meshes[0];
+
+            treeCoral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\tree_coral-TgcScene.xml").Meshes[0];
+
+            yellowFish = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\yellow_fish-TgcScene.xml").Meshes[0];
+
+            arbusto = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Arbusto\\Arbusto-TgcScene.xml").Meshes[0];
+
+            arbusto2 = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Arbusto2\\Arbusto2-TgcScene.xml").Meshes[0];
+
+            pasto = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Pasto\\Pasto-TgcScene.xml").Meshes[0];
+
+            planta = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta\\Planta-TgcScene.xml").Meshes[0];
+
+            planta2 = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta2\\Planta2-TgcScene.xml").Meshes[0];
+
+            planta3 = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta3\\Planta3-TgcScene.xml").Meshes[0];
+
+            roca = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Roca\\Roca-TgcScene.xml").Meshes[0];
+        }
+
+        private void generoObjetosEstaticos()
+        {
+            //--------------objetos---------            
+            TGCVector3 posCoral = new TGCVector3(10, -300, 0);
+            coral.Transform = TGCMatrix.Translation(posCoral);
+                        
+            shark.Position = new TGCVector3(-650, -100, 1000);
+            posInicialShark = shark.Position;
+            shark.Transform = TGCMatrix.Translation(shark.Position);
+            
+            TGCVector3 posCoralBrain = new TGCVector3(-200, -300, 340);
+            coralBrain.Transform = TGCMatrix.Translation(posCoralBrain);            
+
+            TGCVector3 posFish = new TGCVector3(0, -200, 0);
+            fish.Transform = TGCMatrix.Translation(posFish);
+            
+            TGCVector3 posPillarCoral = new TGCVector3(0, -200, 40);
+            pillarCoral.Transform = TGCMatrix.Translation(posPillarCoral);
+            
+            TGCVector3 posSeaShell = new TGCVector3(500, -200, 40);
+            seaShell.Transform = TGCMatrix.Translation(posSeaShell);
+            
+            TGCVector3 posSpiralWireCoral = new TGCVector3(-50, -300, 40);
+            spiralWireCoral.Transform = TGCMatrix.Translation(posSpiralWireCoral);
+            
+            TGCVector3 posTreeCoral = new TGCVector3(-70, -300, 200);
+            TGCVector3 escalaTreeCoral = new TGCVector3(10f, 10f, 10f);
+            treeCoral.Transform = TGCMatrix.Scaling(escalaTreeCoral) * TGCMatrix.Translation(posTreeCoral);
+            
+            TGCVector3 posYellowFish = new TGCVector3(50, -200, -20);
+            yellowFish.Transform = TGCMatrix.Translation(posYellowFish);
+            
+            arbusto.Position = new TGCVector3(70, -300, -30);
+            arbusto.AlphaBlendEnable = true;
+            arbusto.Transform = TGCMatrix.Translation(arbusto.Position);
+            
+            arbusto2.Position = new TGCVector3(60, -300, -20);
+            arbusto2.Transform = TGCMatrix.Translation(arbusto2.Position);
+            
+            pasto.Position = new TGCVector3(50, -300, -20);
+            pasto.Transform = TGCMatrix.Translation(pasto.Position);
+            
+            planta.Position = new TGCVector3(40, -300, -20);
+            planta.Transform = TGCMatrix.Translation(planta.Position);
+            
+            planta2.Position = new TGCVector3(30, -300, -20);
+            planta2.Transform = TGCMatrix.Translation(planta2.Position);
+            
+            planta3.Position = new TGCVector3(20, -300, -20);
+            planta3.Transform = TGCMatrix.Translation(planta3.Position);
+            
+            roca.Position = new TGCVector3(10, -300, -20);
+            roca.Transform = TGCMatrix.Translation(roca.Position);
+
+            //------------instancia objetos multiples
+            objetosEstaticos = new List<TgcMesh>();
+
+            var rows = 5;
+            var cols = 5;
+            //----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = coralBrain.createMeshInstance(coralBrain.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = coral.createMeshInstance(coral.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    //escalado random
+                    var escalaObjeto = rnd.Next(1, 3);
+                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
+                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = pillarCoral.createMeshInstance(pillarCoral.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = seaShell.createMeshInstance(seaShell.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = treeCoral.createMeshInstance(treeCoral.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = spiralWireCoral.createMeshInstance(spiralWireCoral.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = arbusto.createMeshInstance(arbusto.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.AlphaBlendEnable = true;
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = arbusto2.createMeshInstance(arbusto2.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.AlphaBlendEnable = true;
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = pasto.createMeshInstance(pasto.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.AlphaBlendEnable = true;
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = planta.createMeshInstance(planta.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = planta2.createMeshInstance(planta2.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = planta3.createMeshInstance(planta3.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    var instance = roca.createMeshInstance(roca.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    objetosEstaticos.Add(instance);
+                }
+
+            }
+        }
+
+        private void cargoSkybox()
+        {
+            skybox = new TgcSkyBox();
+            skybox.Center = TGCVector3.Empty;
+            skybox.Size = new TGCVector3(10000, 10000, 10000);
+
+            var texturesPath = MediaDir + "Texturas\\SkyBox\\";
+
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Up, texturesPath + "lostatseaday_up.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Down, texturesPath + "lostatseaday_dn.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Left, texturesPath + "lostatseaday_lf.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Right, texturesPath + "lostatseaday_rt.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Back, texturesPath + "lostatseaday_ft.jpg");
+            skybox.setFaceTexture(TgcSkyBox.SkyFaces.Front, texturesPath + "lostatseaday_bk.jpg");
+            skybox.SkyEpsilon = 25f;
+            skybox.Init();
+        }
+
+        private void cargoHeightmap()
+        {
+            terreno = new TgcSimpleTerrain();
+            var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
+            var textu = MediaDir + "Texturas\\Grass.jpg";
+            currentScaleXZ = 150f;
+            currentScaleY = 3f;
+            terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
+            terreno.loadTexture(textu);
+            terreno.AlphaBlendEnable = true;
+        }
+
+        private void configuroCamara()
+        {
+            camaraInterna = new TgcFpsCamera(new TGCVector3(5, 60, 0), camaraMoveSpeed, camaraJumpSpeed, Input);
+            Camara = camaraInterna;
+        }
+
+        private void cargoPisos()
+        {
+            var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\agua20.jpg");
+            agua = new TgcPlane(new TGCVector3(-5000, 0, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, aguaTextura);
+
+            var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\pasto.jpg");
+            piso = new TgcPlane(new TGCVector3(-5000, -300, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, pisoTextura);
+        }
+
+        private void cargoMusica()
+        {
+            musica = new TgcMp3Player();
+            musica.FileName = MediaDir + "\\Music\\AbandonShip.mp3";
+            musica.play(true);
         }
     }
 }
