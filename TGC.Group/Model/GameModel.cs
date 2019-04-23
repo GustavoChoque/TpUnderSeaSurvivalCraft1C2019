@@ -120,7 +120,9 @@ namespace TGC.Group.Model
 
             this.cargoMeshes();
 
-            this.generoObjetosEstaticos();
+            this.generoObjetosEstaticosSueltos();
+
+            this.generoObjetosEstaticosEnArray();
 
             this.generoPecesAmarillos();
 
@@ -686,60 +688,63 @@ namespace TGC.Group.Model
             roca = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Roca\\Roca-TgcScene.xml").Meshes[0];
         }
 
-        private void generoObjetosEstaticos()
+        private void generoObjetosEstaticosSueltos()
         {
             //--------------objetos---------            
             TGCVector3 posCoral = new TGCVector3(10, -300, 0);
             coral.Transform = TGCMatrix.Translation(posCoral);
-                        
+
             shark.Position = new TGCVector3(-650, -100, 1000);
             posInicialShark = shark.Position;
             shark.Transform = TGCMatrix.Translation(shark.Position);
-            
+
             TGCVector3 posCoralBrain = new TGCVector3(-200, -300, 340);
-            coralBrain.Transform = TGCMatrix.Translation(posCoralBrain);            
+            coralBrain.Transform = TGCMatrix.Translation(posCoralBrain);
 
             TGCVector3 posFish = new TGCVector3(0, -200, 0);
             fish.Transform = TGCMatrix.Translation(posFish);
-            
+
             TGCVector3 posPillarCoral = new TGCVector3(0, -200, 40);
             pillarCoral.Transform = TGCMatrix.Translation(posPillarCoral);
-            
+
             TGCVector3 posSeaShell = new TGCVector3(500, -200, 40);
             seaShell.Transform = TGCMatrix.Translation(posSeaShell);
-            
+
             TGCVector3 posSpiralWireCoral = new TGCVector3(-50, -300, 40);
             spiralWireCoral.Transform = TGCMatrix.Translation(posSpiralWireCoral);
-            
+
             TGCVector3 posTreeCoral = new TGCVector3(-70, -300, 200);
             TGCVector3 escalaTreeCoral = new TGCVector3(10f, 10f, 10f);
             treeCoral.Transform = TGCMatrix.Scaling(escalaTreeCoral) * TGCMatrix.Translation(posTreeCoral);
-            
+
             TGCVector3 posYellowFish = new TGCVector3(50, -200, -20);
             yellowFish.Transform = TGCMatrix.Translation(posYellowFish);
-            
+
             arbusto.Position = new TGCVector3(70, -300, -30);
             arbusto.AlphaBlendEnable = true;
             arbusto.Transform = TGCMatrix.Translation(arbusto.Position);
-            
+
             arbusto2.Position = new TGCVector3(60, -300, -20);
             arbusto2.Transform = TGCMatrix.Translation(arbusto2.Position);
-            
+
             pasto.Position = new TGCVector3(50, -300, -20);
             pasto.Transform = TGCMatrix.Translation(pasto.Position);
-            
+
             planta.Position = new TGCVector3(40, -300, -20);
             planta.Transform = TGCMatrix.Translation(planta.Position);
-            
+
             planta2.Position = new TGCVector3(30, -300, -20);
             planta2.Transform = TGCMatrix.Translation(planta2.Position);
-            
+
             planta3.Position = new TGCVector3(20, -300, -20);
             planta3.Transform = TGCMatrix.Translation(planta3.Position);
-            
+
             roca.Position = new TGCVector3(10, -300, -20);
             roca.Transform = TGCMatrix.Translation(roca.Position);
+        }
 
+        private void generoObjetosEstaticosEnArray()
+        {
             //------------instancia objetos multiples
             objetosEstaticos = new List<TgcMesh>();
 
