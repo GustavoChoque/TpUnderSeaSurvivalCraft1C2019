@@ -7,8 +7,8 @@
     <ProjectGuid>{6CB42457-A2B1-4472-846E-1AB760B3226B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TGC.Group</RootNamespace>
-    <AssemblyName>TGC.Group</AssemblyName>
+    <RootNamespace>LosTiburones</RootNamespace>
+    <AssemblyName>Los_Tiburones</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

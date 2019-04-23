@@ -13,6 +13,7 @@ using TGC.Core.Sound;
 using System.Collections.Generic;
 using System;
 using TGC.Group.Model.Sprites;
+using LosTiburones;
 
 namespace TGC.Group.Model
 {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TGC.Group {
+namespace LosTiburones {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
