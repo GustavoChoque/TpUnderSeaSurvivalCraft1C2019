@@ -432,7 +432,7 @@ namespace TGC.Group.Model
             {
                 switch (personaje.Health)
                 {
-                    case float n when (n < 1):
+                    case float n when (n <= 0):
                         spriteBarraVida.Bitmap = bitmapBarra00;
                         break;
                     case float n when (n >= 1 && n <= 10):
@@ -469,7 +469,7 @@ namespace TGC.Group.Model
 
                 switch (personaje.Oxygen)
                 {
-                    case float n when (n < 1):
+                    case float n when (n <= 0):
                         spriteBarraOxigeno.Bitmap = bitmapBarra00;
                         break;
                     case float n when (n >= 1 && n <= 10):
@@ -502,6 +502,18 @@ namespace TGC.Group.Model
                     case float n when (n >= 91 && n <= 100):
                         spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
                         break;
+                }
+            }
+            else
+            {
+                if (personaje.Health < 0)
+                {
+                    spriteBarraVida.Bitmap = bitmapBarra00;
+                }
+
+                if (personaje.Oxygen < 0)
+                {
+                    spriteBarraOxigeno.Bitmap = bitmapBarra00;
                 }
             }
         }
