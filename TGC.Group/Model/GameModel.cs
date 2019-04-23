@@ -53,7 +53,7 @@ namespace TGC.Group.Model
 
         private TgcMp3Player musica;
 
-        private List<TgcMesh> objetosEstaticos;
+        private List<TgcMesh> objetosEstaticosEnArray;
         private List<Pez> pecesAmarillos = new List<Pez>();
         private List<Pez> pecesAzules = new List<Pez>();
 
@@ -318,7 +318,7 @@ namespace TGC.Group.Model
             planta3.Render();
             roca.Render();
 
-            objetosEstaticos.ForEach(obj => obj.Render());
+            objetosEstaticosEnArray.ForEach(obj => obj.Render());
 
             pecesAmarillos.ForEach(obj => obj.Render());
 
@@ -363,7 +363,7 @@ namespace TGC.Group.Model
             planta3.Dispose();
             roca.Dispose();
 
-            objetosEstaticos.ForEach(obj => obj.Dispose());
+            objetosEstaticosEnArray.ForEach(obj => obj.Dispose());
 
             pecesAmarillos.ForEach(obj => obj.Dispose());
 
@@ -690,35 +690,35 @@ namespace TGC.Group.Model
 
         private void generoObjetosEstaticosSueltos()
         {
-            //--------------objetos---------            
-            TGCVector3 posCoral = new TGCVector3(10, -300, 0);
-            coral.Transform = TGCMatrix.Translation(posCoral);
+            //--------------objetos---------
+            coral.Position = new TGCVector3(10, -300, 0);
+            coral.Transform = TGCMatrix.Translation(coral.Position);
 
             shark.Position = new TGCVector3(-650, -100, 1000);
             posInicialShark = shark.Position;
             shark.Transform = TGCMatrix.Translation(shark.Position);
 
-            TGCVector3 posCoralBrain = new TGCVector3(-200, -300, 340);
-            coralBrain.Transform = TGCMatrix.Translation(posCoralBrain);
+            coralBrain.Position = new TGCVector3(-200, -300, 340);
+            coralBrain.Transform = TGCMatrix.Translation(coralBrain.Position);
 
-            TGCVector3 posFish = new TGCVector3(0, -200, 0);
-            fish.Transform = TGCMatrix.Translation(posFish);
+            fish.Position = new TGCVector3(0, -200, 0);
+            fish.Transform = TGCMatrix.Translation(fish.Position);
 
-            TGCVector3 posPillarCoral = new TGCVector3(0, -200, 40);
-            pillarCoral.Transform = TGCMatrix.Translation(posPillarCoral);
+            pillarCoral.Position = new TGCVector3(0, -200, 40);
+            pillarCoral.Transform = TGCMatrix.Translation(pillarCoral.Position);
 
-            TGCVector3 posSeaShell = new TGCVector3(500, -200, 40);
-            seaShell.Transform = TGCMatrix.Translation(posSeaShell);
+            seaShell.Position = new TGCVector3(500, -200, 40);
+            seaShell.Transform = TGCMatrix.Translation(seaShell.Position);
 
-            TGCVector3 posSpiralWireCoral = new TGCVector3(-50, -300, 40);
-            spiralWireCoral.Transform = TGCMatrix.Translation(posSpiralWireCoral);
+            spiralWireCoral.Position = new TGCVector3(-50, -300, 40);
+            spiralWireCoral.Transform = TGCMatrix.Translation(spiralWireCoral.Position);
 
-            TGCVector3 posTreeCoral = new TGCVector3(-70, -300, 200);
             TGCVector3 escalaTreeCoral = new TGCVector3(10f, 10f, 10f);
-            treeCoral.Transform = TGCMatrix.Scaling(escalaTreeCoral) * TGCMatrix.Translation(posTreeCoral);
+            treeCoral.Position = new TGCVector3(-70, -300, 200);
+            treeCoral.Transform = TGCMatrix.Scaling(escalaTreeCoral) * TGCMatrix.Translation(treeCoral.Position);
 
-            TGCVector3 posYellowFish = new TGCVector3(50, -200, -20);
-            yellowFish.Transform = TGCMatrix.Translation(posYellowFish);
+            yellowFish.Position = new TGCVector3(50, -200, -20);
+            yellowFish.Transform = TGCMatrix.Translation(yellowFish.Position);
 
             arbusto.Position = new TGCVector3(70, -300, -30);
             arbusto.AlphaBlendEnable = true;
@@ -746,7 +746,7 @@ namespace TGC.Group.Model
         private void generoObjetosEstaticosEnArray()
         {
             //------------instancia objetos multiples
-            objetosEstaticos = new List<TgcMesh>();
+            objetosEstaticosEnArray = new List<TgcMesh>();
 
             var rows = 5;
             var cols = 5;
@@ -758,7 +758,7 @@ namespace TGC.Group.Model
                     var instance = coralBrain.createMeshInstance(coralBrain.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -773,7 +773,7 @@ namespace TGC.Group.Model
                     var escalaObjeto = rnd.Next(1, 3);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
                     instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -785,7 +785,7 @@ namespace TGC.Group.Model
                     var instance = pillarCoral.createMeshInstance(pillarCoral.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -798,7 +798,7 @@ namespace TGC.Group.Model
                     var instance = seaShell.createMeshInstance(seaShell.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -810,7 +810,7 @@ namespace TGC.Group.Model
                     var instance = treeCoral.createMeshInstance(treeCoral.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -822,7 +822,7 @@ namespace TGC.Group.Model
                     var instance = spiralWireCoral.createMeshInstance(spiralWireCoral.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -835,7 +835,7 @@ namespace TGC.Group.Model
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.AlphaBlendEnable = true;
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -848,7 +848,7 @@ namespace TGC.Group.Model
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.AlphaBlendEnable = true;
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -861,7 +861,7 @@ namespace TGC.Group.Model
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.AlphaBlendEnable = true;
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -873,7 +873,7 @@ namespace TGC.Group.Model
                     var instance = planta.createMeshInstance(planta.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -885,7 +885,7 @@ namespace TGC.Group.Model
                     var instance = planta2.createMeshInstance(planta2.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -897,7 +897,7 @@ namespace TGC.Group.Model
                     var instance = planta3.createMeshInstance(planta3.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
@@ -909,7 +909,7 @@ namespace TGC.Group.Model
                     var instance = roca.createMeshInstance(roca.Name + i + "_" + j);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticos.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);
                 }
 
             }
