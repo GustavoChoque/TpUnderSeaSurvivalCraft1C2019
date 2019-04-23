@@ -61,8 +61,8 @@ namespace TGC.Group.Model
         private TgcMp3Player musica;
 
         private List<TgcMesh> objetosEstaticos;
-        private List<Pez> pecesAmarillos;
-        private List<Pez> pecesAzules;
+        private List<Pez> pecesAmarillos = new List<Pez>();
+        private List<Pez> pecesAzules = new List<Pez>();
 
         //Constantes para velocidades de movimiento
         private const float ROTATION_SPEED = 50f;
@@ -251,8 +251,6 @@ namespace TGC.Group.Model
 
             //------------instancia objetos multiples
             objetosEstaticos = new List<TgcMesh>();
-            pecesAmarillos = new List<Pez>();
-            pecesAzules = new List<Pez>();
 
             var rows = 5;
             var cols = 5;
@@ -419,130 +417,12 @@ namespace TGC.Group.Model
                 }
 
             }
-            //----------------
-            //PECES AMARILLOS
-            //Se mueven en X
-            //Se autoescalan entre 1 y 5
-            //Son 49
-            //Tienen una velocidad de entre 25 y 75
-            //----------------
-            for (int i = 0; i < 7; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-                    int currentMoveDirection = rnd.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
-                    float moveSpeed = (float)(rnd.NextDouble() * 75) + 25;
 
-                    Pez pez = new Pez(yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j), currentMoveDirection, moveSpeed);
-                    pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
+            this.generoPecesAmarillos();
 
-                    int scale = rnd.Next(1, 5);
-                    pez.Scale = new TGCVector3(scale, scale, scale);
+            this.generoPecesAzules();
 
-                    //Corrijo que los peces vayan para atras
-                    if (pez.CurrentMoveDir.Equals(1))
-                    {
-                        pez.Rotation += new TGCVector3(FastMath.PI, 0, 0);
-                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
-                    }
-                    else
-                    {
-                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.Translation(pez.Position);
-                    }
-
-                    pecesAmarillos.Add(pez);
-                }
-
-            }
-            //----------------
-            //PECES AZULES
-            //Se mueven en Z
-            //Se autoescalan entre 10 y 20
-            //Son 49
-            //Tienen una velocidad de entre 40 y 90
-            //----------------
-            for (int i = 0; i < 7; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-                    int currentMoveDirection = rnd.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
-                    float moveSpeed = (float)(rnd.NextDouble() * 90) + 40;
-
-                    Pez pez = new Pez(fish.createMeshInstance(fish.Name + i + "_" + j), currentMoveDirection, moveSpeed);
-                    pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
-
-                    int scale = rnd.Next(10, 20);
-                    pez.Scale = new TGCVector3(scale, scale, scale);
-
-                    //Corrijo que los peces vayan para atras
-                    if (pez.CurrentMoveDir.Equals(1))
-                    {
-                        pez.Rotation += new TGCVector3(FastMath.PI, 0, 0);
-                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
-                    }
-                    else
-                    {
-                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.Translation(pez.Position);
-                    }
-
-                    pecesAzules.Add(pez);
-                }
-
-            }
-            //-----------------------
-            //HUD
-            bitmapCorazon = new CustomBitmap(MediaDir + "Bitmaps\\" + "Vida.png", D3DDevice.Instance.Device);
-            spriteCorazon.Bitmap = bitmapCorazon;
-            spriteCorazon.Scaling = new TGCVector2(0.15f, 0.15f);
-            spriteCorazon.Position = new TGCVector2(ScreenWidth / 1.1f, ScreenHeight / 1.15f);
-            sprites.Add(spriteCorazon);
-
-            bitmapBarraVida100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida1.0.png", D3DDevice.Instance.Device);
-            spriteBarraVida.Bitmap = bitmapBarraVida100;
-            spriteBarraVida.Scaling = new TGCVector2(.75f, 1f);
-            spriteBarraVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
-            sprites.Add(spriteBarraVida);
-
-            bitmapTanqueOxigeno = new CustomBitmap(MediaDir + "Bitmaps\\" + "Oxygen.png", D3DDevice.Instance.Device);
-            spriteTanqueOxigeno.Bitmap = bitmapTanqueOxigeno;
-            spriteTanqueOxigeno.Scaling = new TGCVector2(0.25f, 0.2f);
-            spriteTanqueOxigeno.Position = new TGCVector2(ScreenWidth / 1.125f, ScreenHeight / 1.4f);
-            sprites.Add(spriteTanqueOxigeno);
-
-            bitmapBarraOxigeno100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device);
-            spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
-            spriteBarraOxigeno.Scaling = new TGCVector2(.75f, 1f);
-            spriteBarraOxigeno.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.325f);
-            sprites.Add(spriteBarraOxigeno);
-
-            //-----------------------
-            //ANIMACION DE LAS BARRAS DE ENERGIA Y OXIGENO
-            bitmapBarra00 = new CustomBitmap(MediaDir + "Bitmaps\\" + "Barra0.0.png", D3DDevice.Instance.Device);
-
-            bitmapBarraVida10 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.1.png", D3DDevice.Instance.Device);
-            bitmapBarraVida20 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.2.png", D3DDevice.Instance.Device);
-            bitmapBarraVida30 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.3.png", D3DDevice.Instance.Device);
-            bitmapBarraVida40 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.4.png", D3DDevice.Instance.Device);
-            bitmapBarraVida50 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.5.png", D3DDevice.Instance.Device);
-            bitmapBarraVida60 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.6.png", D3DDevice.Instance.Device);
-            bitmapBarraVida70 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.7.png", D3DDevice.Instance.Device);
-            bitmapBarraVida80 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.8.png", D3DDevice.Instance.Device);
-            bitmapBarraVida90 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.9.png", D3DDevice.Instance.Device);
-            bitmapBarraVida100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida1.0.png", D3DDevice.Instance.Device);
-
-            bitmapBarraOxigeno10 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.1.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno20 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.2.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno30 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.3.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno40 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.4.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno50 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.5.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno60 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.6.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno70 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.7.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno80 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.8.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno90 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.9.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device);
-
-            //-----------------------
-            //-----------------------
+            this.generoHUD();
         }
 
         /// <summary>
@@ -648,7 +528,7 @@ namespace TGC.Group.Model
             ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
             ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
-            this.actualizarValoresOxigenoSalud(personaje);
+            this.actualizoValoresSaludOxigeno(personaje);
 
             PostUpdate();
         }
@@ -794,7 +674,7 @@ namespace TGC.Group.Model
             return camara.Position.X > 5000 || camara.Position.X < -5000 || camara.Position.Z > 5000 || camara.Position.Z < -5000;
         }
 
-        private void actualizarValoresOxigenoSalud(Personaje personaje)
+        private void actualizoValoresSaludOxigeno(Personaje personaje)
         {
             //ACTUALIZO LOS VALORES DE SALUD Y OXIGENO
             //SI ME SALGO DEL MAPA, RESTO 1 DE SALUD
@@ -906,6 +786,137 @@ namespace TGC.Group.Model
                         break;
                 }
             }
+        }
+
+        private void generoPecesAmarillos()
+        {
+            //----------------
+            //PECES AMARILLOS
+            //Se mueven en X
+            //Se autoescalan entre 1 y 5
+            //Son 49
+            //Tienen una velocidad de entre 25 y 75
+            //----------------
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    int currentMoveDirection = rnd.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
+                    float moveSpeed = (float)(rnd.NextDouble() * 75) + 25;
+
+                    Pez pez = new Pez(yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j), currentMoveDirection, moveSpeed);
+                    pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
+
+                    int scale = rnd.Next(1, 5);
+                    pez.Scale = new TGCVector3(scale, scale, scale);
+
+                    //Corrijo que los peces vayan para atras
+                    if (pez.CurrentMoveDir.Equals(1))
+                    {
+                        pez.Rotation += new TGCVector3(FastMath.PI, 0, 0);
+                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
+                    }
+                    else
+                    {
+                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.Translation(pez.Position);
+                    }
+
+                    pecesAmarillos.Add(pez);
+                }
+
+            }
+        }
+
+        private void generoPecesAzules()
+        {
+            //----------------
+            //PECES AZULES
+            //Se mueven en Z
+            //Se autoescalan entre 10 y 20
+            //Son 49
+            //Tienen una velocidad de entre 40 y 90
+            //----------------
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < 7; j++)
+                {
+                    int currentMoveDirection = rnd.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
+                    float moveSpeed = (float)(rnd.NextDouble() * 90) + 40;
+
+                    Pez pez = new Pez(fish.createMeshInstance(fish.Name + i + "_" + j), currentMoveDirection, moveSpeed);
+                    pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
+
+                    int scale = rnd.Next(10, 20);
+                    pez.Scale = new TGCVector3(scale, scale, scale);
+
+                    //Corrijo que los peces vayan para atras
+                    if (pez.CurrentMoveDir.Equals(1))
+                    {
+                        pez.Rotation += new TGCVector3(FastMath.PI, 0, 0);
+                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.RotationYawPitchRoll(pez.Rotation.X, pez.Rotation.Y, pez.Rotation.Z) * TGCMatrix.Translation(pez.Position);
+                    }
+                    else
+                    {
+                        pez.Transform = TGCMatrix.Scaling(pez.Scale) * TGCMatrix.Translation(pez.Position);
+                    }
+
+                    pecesAzules.Add(pez);
+                }
+
+            }
+        }
+
+        private void generoHUD()
+        {
+            //HUD
+            bitmapCorazon = new CustomBitmap(MediaDir + "Bitmaps\\" + "Vida.png", D3DDevice.Instance.Device);
+            spriteCorazon.Bitmap = bitmapCorazon;
+            spriteCorazon.Scaling = new TGCVector2(0.15f, 0.15f);
+            spriteCorazon.Position = new TGCVector2(ScreenWidth / 1.1f, ScreenHeight / 1.15f);
+            sprites.Add(spriteCorazon);
+
+            bitmapBarraVida100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida1.0.png", D3DDevice.Instance.Device);
+            spriteBarraVida.Bitmap = bitmapBarraVida100;
+            spriteBarraVida.Scaling = new TGCVector2(.75f, 1f);
+            spriteBarraVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
+            sprites.Add(spriteBarraVida);
+
+            bitmapTanqueOxigeno = new CustomBitmap(MediaDir + "Bitmaps\\" + "Oxygen.png", D3DDevice.Instance.Device);
+            spriteTanqueOxigeno.Bitmap = bitmapTanqueOxigeno;
+            spriteTanqueOxigeno.Scaling = new TGCVector2(0.25f, 0.2f);
+            spriteTanqueOxigeno.Position = new TGCVector2(ScreenWidth / 1.125f, ScreenHeight / 1.4f);
+            sprites.Add(spriteTanqueOxigeno);
+
+            bitmapBarraOxigeno100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device);
+            spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
+            spriteBarraOxigeno.Scaling = new TGCVector2(.75f, 1f);
+            spriteBarraOxigeno.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.325f);
+            sprites.Add(spriteBarraOxigeno);
+
+            //ANIMACION DE LAS BARRAS DE ENERGIA Y OXIGENO
+            bitmapBarra00 = new CustomBitmap(MediaDir + "Bitmaps\\" + "Barra0.0.png", D3DDevice.Instance.Device);
+
+            bitmapBarraVida10 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.1.png", D3DDevice.Instance.Device);
+            bitmapBarraVida20 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.2.png", D3DDevice.Instance.Device);
+            bitmapBarraVida30 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.3.png", D3DDevice.Instance.Device);
+            bitmapBarraVida40 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.4.png", D3DDevice.Instance.Device);
+            bitmapBarraVida50 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.5.png", D3DDevice.Instance.Device);
+            bitmapBarraVida60 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.6.png", D3DDevice.Instance.Device);
+            bitmapBarraVida70 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.7.png", D3DDevice.Instance.Device);
+            bitmapBarraVida80 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.8.png", D3DDevice.Instance.Device);
+            bitmapBarraVida90 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida0.9.png", D3DDevice.Instance.Device);
+            bitmapBarraVida100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraVida1.0.png", D3DDevice.Instance.Device);
+
+            bitmapBarraOxigeno10 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.1.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno20 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.2.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno30 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.3.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno40 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.4.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno50 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.5.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno60 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.6.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno70 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.7.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno80 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.8.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno90 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno0.9.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno100 = new CustomBitmap(MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device);
         }
     }
 }
