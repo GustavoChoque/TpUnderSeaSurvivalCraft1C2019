@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System;
 using TGC.Group.Model.Sprites;
 using LosTiburones;
+using System.Linq;
 
 namespace TGC.Group.Model
 {
@@ -54,9 +55,10 @@ namespace TGC.Group.Model
 
         private TgcMp3Player musica;
 
-        private List<TgcMesh> objetosEstaticosEnArray;
+        private List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
         private List<Pez> pecesAmarillos = new List<Pez>();
         private List<Pez> pecesAzules = new List<Pez>();
+        private List<TGCBox> metales = new List<TGCBox>(); //hacer clase metales?
 
         //Constantes para velocidades de movimiento
         private const float ROTATION_SPEED = 50f;
@@ -129,9 +131,10 @@ namespace TGC.Group.Model
 
             this.generoPecesAzules();
 
+            this.generoMetales();
+
             this.generoHUD();
         }
-
         /// <summary>
         ///     Se llama en cada frame.
         ///     Se debe escribir toda la lógica de computo del modelo, así como también verificar entradas del usuario y reacciones
@@ -233,6 +236,8 @@ namespace TGC.Group.Model
 
             this.actualizoValoresSaludOxigeno(personaje);
 
+            this.rotoMetales();
+
             PostUpdate();
         }
 
@@ -325,6 +330,8 @@ namespace TGC.Group.Model
 
             pecesAzules.ForEach(obj => obj.Render());
 
+            metales.ForEach(obj => obj.Render());
+
             //SPRITES
             spriteDrawer.BeginDrawSprite();
             sprites.ForEach(sprite => spriteDrawer.DrawSprite(sprite));
@@ -369,6 +376,8 @@ namespace TGC.Group.Model
             pecesAmarillos.ForEach(obj => obj.Dispose());
 
             pecesAzules.ForEach(obj => obj.Dispose());
+
+            metales.ForEach(obj => obj.Dispose());
 
         }
 
@@ -746,9 +755,6 @@ namespace TGC.Group.Model
 
         private void generoObjetosEstaticosEnArray()
         {
-            //------------instancia objetos multiples
-            objetosEstaticosEnArray = new List<TgcMesh>();
-
             var rows = 5;
             var cols = 5;
             //----------------
@@ -967,5 +973,46 @@ namespace TGC.Group.Model
             musica.FileName = MediaDir + "\\Music\\AbandonShip.mp3";
             musica.play(true);
         }
+
+
+
+        private void generoMetales()
+        {
+            var texturaOro = TgcTexture.createTexture(MediaDir + "\\Texturas\\oro.jpg");
+            var texturaRubi = TgcTexture.createTexture(MediaDir + "\\Texturas\\ruby.jpg");
+            var texturaPlatino = TgcTexture.createTexture(MediaDir + "\\Texturas\\platinum.jpg");
+
+            var instance = TGCBox.fromSize(new TGCVector3(5f, 5f, 5f), texturaOro);
+            instance.Position = new TGCVector3(0f, 50f, 0f);
+            instance.Transform = TGCMatrix.Translation(instance.Position);
+            metales.Add(instance);
+
+            var instance2 = TGCBox.fromSize(new TGCVector3(5f, 5f, 5f), texturaOro);
+            instance2.Position = new TGCVector3(0f, 50f, 0f);
+            instance2.Transform = TGCMatrix.RotationYawPitchRoll((float)Math.PI/4, (float)Math.PI/4, (float)Math.PI/4) * TGCMatrix.Translation(instance.Position);
+            metales.Add(instance2);
+
+            /*for (int j = 0; j < 5; j++)
+            {
+                var instance = TGCBox.fromSize(new TGCVector3(10f,10f,10f), texturaOro);
+                instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                instance.Transform = TGCMatrix.Translation(instance.Position);
+                metales.Add(instance);
+            }
+            */
+        }
+
+        private void rotoMetales()
+        {
+            TGCBox unMetal = metales.First();
+            TGCBox otroMetal = metales.Last();
+
+            unMetal.Rotation += new TGCVector3((float)Math.PI / 128, (float)Math.PI / 128, (float)Math.PI / 128);
+            unMetal.Transform = TGCMatrix.RotationYawPitchRoll(unMetal.Rotation.X, unMetal.Rotation.Y, unMetal.Rotation.Z) * TGCMatrix.Translation(unMetal.Position);
+
+            otroMetal.Rotation += new TGCVector3(-(float)Math.PI / 128, -(float)Math.PI / 128, -(float)Math.PI / 128);
+            otroMetal.Transform = TGCMatrix.RotationYawPitchRoll(otroMetal.Rotation.X, otroMetal.Rotation.Y, otroMetal.Rotation.Z) * TGCMatrix.Translation(otroMetal.Position);
+        }
+
     }
 }
