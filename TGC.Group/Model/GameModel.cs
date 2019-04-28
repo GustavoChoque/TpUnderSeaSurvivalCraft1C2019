@@ -15,6 +15,7 @@ using System;
 using TGC.Group.Model.Sprites;
 using LosTiburones;
 using System.Linq;
+using LosTiburones.Model;
 
 namespace TGC.Group.Model
 {
@@ -59,6 +60,7 @@ namespace TGC.Group.Model
         private List<Pez> pecesAmarillos = new List<Pez>();
         private List<Pez> pecesAzules = new List<Pez>();
         private List<TGCBox> metales = new List<TGCBox>(); //hacer clase metales?
+        private Pez pezCircular;
 
         //Constantes para velocidades de movimiento
         private const float ROTATION_SPEED = 50f;
@@ -134,6 +136,7 @@ namespace TGC.Group.Model
             this.generoMetales();
 
             this.generoHUD();
+
         }
         /// <summary>
         ///     Se llama en cada frame.
@@ -166,14 +169,13 @@ namespace TGC.Group.Model
             //Reseteo el juego si apreto R
             //if (Input.keyPressed(Key.R))
             //{
-                //this.Dispose();
-                //this.Init();
+            //this.Dispose();
+            //this.Init();
             //}
 
             //-----------movimientos-------------
             //posicionShark=shark.Position;
             //var rotacionShark = shark.Rotation;
-
             shark.Position += new TGCVector3(MOVEMENT_SPEED * ElapsedTime * currentMoveDir, 0, 0);
 
             if (!((posInicialShark.X + 500 > shark.Position.X) && (posInicialShark.X - 500 < shark.Position.X)))
@@ -187,6 +189,8 @@ namespace TGC.Group.Model
 
             //-----------
             //Muevo los peces amarillos
+
+            pezCircular.Update(ElapsedTime);
 
             pecesAmarillos.ForEach(pez =>
                 {
@@ -325,9 +329,9 @@ namespace TGC.Group.Model
             roca.Render();
 
             objetosEstaticosEnArray.ForEach(obj => obj.Render());
-
+            
             pecesAmarillos.ForEach(obj => obj.Render());
-
+            pezCircular.Render();
             pecesAzules.ForEach(obj => obj.Render());
 
             metales.ForEach(obj => obj.Render());
@@ -374,6 +378,7 @@ namespace TGC.Group.Model
             objetosEstaticosEnArray.ForEach(obj => obj.Dispose());
 
             pecesAmarillos.ForEach(obj => obj.Dispose());
+            pezCircular.Dispose();
 
             pecesAzules.ForEach(obj => obj.Dispose());
 
@@ -532,6 +537,7 @@ namespace TGC.Group.Model
 
         private void generoPecesAmarillos()
         {
+            pezCircular = new Pez(yellowFish.createMeshInstance("pezPrueba"), new TGCVector3(0, -100, 0), new TGCVector3(0, 1.57f, 0), new MovimientoCircular(new TGCVector3(0, -100, 0), 150, 0.25f));
             //----------------
             //PECES AMARILLOS
             //Se mueven en X
