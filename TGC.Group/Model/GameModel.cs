@@ -309,7 +309,7 @@ namespace TGC.Group.Model
 
             //------------------------------------
             agua.Render();
-            piso.Render();
+            //piso.Render();
             coral.Render();
             shark.Render();
             coralBrain.Render();
@@ -356,7 +356,7 @@ namespace TGC.Group.Model
             skybox.Dispose();
             terreno.Dispose();
             agua.Dispose();
-            piso.Dispose();
+            //piso.Dispose();
             coral.Dispose();
             shark.Dispose();
             coralBrain.Dispose();
@@ -949,11 +949,14 @@ namespace TGC.Group.Model
         private void cargoHeightmap()
         {
             terreno = new TgcSimpleTerrain();
-            var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
-            var textu = MediaDir + "Texturas\\Grass.jpg";
-            currentScaleXZ = 150f;
-            currentScaleY = 3f;
-            terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
+            //var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
+            var path = MediaDir + "Texturas\\Heighmaps\\heighmap1.jpg";
+            //var textu = MediaDir + "Texturas\\Grass.jpg";
+            var textu = MediaDir + "Texturas\\pasto.jpg";
+            currentScaleXZ = 100f;
+            currentScaleY = 50f;
+            //terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
+            terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -195, 0));
             terreno.loadTexture(textu);
             terreno.AlphaBlendEnable = true;
         }
@@ -967,7 +970,7 @@ namespace TGC.Group.Model
         private void cargoPisos()
         {
             var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\agua20.jpg");
-            agua = new TgcPlane(new TGCVector3(-5000, 0, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, aguaTextura);
+            agua = new TgcPlane(new TGCVector3(-20000, 0, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, aguaTextura);
 
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, MediaDir + "Texturas\\pasto.jpg");
             piso = new TgcPlane(new TGCVector3(-5000, -300, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, pisoTextura);
