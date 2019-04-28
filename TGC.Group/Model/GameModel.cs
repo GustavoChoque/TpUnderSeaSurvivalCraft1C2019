@@ -236,7 +236,7 @@ namespace TGC.Group.Model
 
             this.actualizoValoresSaludOxigeno(personaje);
 
-            this.rotoMetales();
+            //this.rotoMetales();
 
             PostUpdate();
         }
@@ -982,7 +982,7 @@ namespace TGC.Group.Model
             var texturaRubi = TgcTexture.createTexture(MediaDir + "\\Texturas\\ruby.jpg");
             var texturaPlatino = TgcTexture.createTexture(MediaDir + "\\Texturas\\platinum.jpg");
 
-            var instance = TGCBox.fromSize(new TGCVector3(5f, 5f, 5f), texturaOro);
+            /*var instance = TGCBox.fromSize(new TGCVector3(5f, 5f, 5f), texturaOro);
             instance.Position = new TGCVector3(0f, 50f, 0f);
             instance.Transform = TGCMatrix.Translation(instance.Position);
             metales.Add(instance);
@@ -991,17 +991,49 @@ namespace TGC.Group.Model
             instance2.Position = new TGCVector3(0f, 50f, 0f);
             instance2.Transform = TGCMatrix.RotationYawPitchRoll((float)Math.PI/4, (float)Math.PI/4, (float)Math.PI/4) * TGCMatrix.Translation(instance.Position);
             metales.Add(instance2);
-
-            /*for (int j = 0; j < 5; j++)
-            {
-                var instance = TGCBox.fromSize(new TGCVector3(10f,10f,10f), texturaOro);
-                instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
-                instance.Transform = TGCMatrix.Translation(instance.Position);
-                metales.Add(instance);
-            }
             */
+
+            for (int i = 0; i < 20; i++)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    var side = rnd.Next(0, 20);
+                    var instance = TGCBox.fromSize(new TGCVector3(side, side/4, side/2), texturaOro);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 8, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    metales.Add(instance);
+                }
+
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    var side = rnd.Next(0, 20);
+                    var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaRubi);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    metales.Add(instance);
+                }
+
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    var side = rnd.Next(0, 20);
+                    var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaPlatino);
+                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    metales.Add(instance);
+                }
+            }
+
         }
 
+        /*
         private void rotoMetales()
         {
             TGCBox unMetal = metales.First();
@@ -1013,6 +1045,7 @@ namespace TGC.Group.Model
             otroMetal.Rotation += new TGCVector3(-(float)Math.PI / 128, -(float)Math.PI / 128, -(float)Math.PI / 128);
             otroMetal.Transform = TGCMatrix.RotationYawPitchRoll(otroMetal.Rotation.X, otroMetal.Rotation.Y, otroMetal.Rotation.Z) * TGCMatrix.Translation(otroMetal.Position);
         }
+        */
 
     }
 }
