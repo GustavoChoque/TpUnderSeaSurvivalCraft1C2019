@@ -16,6 +16,7 @@ using TGC.Group.Model.Sprites;
 using LosTiburones;
 using System.Linq;
 using LosTiburones.Model;
+using Microsoft.DirectX.Direct3D;
 
 namespace TGC.Group.Model
 {
@@ -78,6 +79,7 @@ namespace TGC.Group.Model
 
         private Random rnd = new Random();
 
+        private CustomBitmap bitmapCursor;
         private CustomBitmap bitmapCorazon, bitmapTanqueOxigeno, bitmapBarra00;
         private CustomBitmap bitmapBarraVida10, bitmapBarraVida20, bitmapBarraVida30, bitmapBarraVida40, bitmapBarraVida50,
                 bitmapBarraVida60, bitmapBarraVida70, bitmapBarraVida80, bitmapBarraVida90, bitmapBarraVida100;
@@ -87,6 +89,7 @@ namespace TGC.Group.Model
 
         private List<CustomSprite> sprites = new List<CustomSprite>();
 
+        private CustomSprite spriteCursor = new CustomSprite();
         private CustomSprite spriteCorazon = new CustomSprite();
         private CustomSprite spriteBarraVida = new CustomSprite();
         private CustomSprite spriteBarraOxigeno = new CustomSprite();
@@ -121,7 +124,7 @@ namespace TGC.Group.Model
 
             this.cargoHeightmap();
 
-            this.cargoMusica();
+            //this.cargoMusica();
 
             this.cargoMeshes();
 
@@ -616,6 +619,13 @@ namespace TGC.Group.Model
 
         private void generoHUD()
         {
+            //Cargo cursor
+            Microsoft.DirectX.Direct3D.Device d3dDevice = D3DDevice.Instance.Device;
+            bitmapCursor = new CustomBitmap(MediaDir + "Bitmaps\\" + "cursor_default.png", d3dDevice);
+            spriteCursor.Bitmap = bitmapCursor;
+            spriteCursor.Scaling = new TGCVector2(1f, 1f);
+            spriteCursor.Position = new TGCVector2(ScreenWidth / 2.09f, ScreenHeight / 2.15f);
+            sprites.Add(spriteCursor);
             //HUD
             bitmapCorazon = new CustomBitmap(MediaDir + "Bitmaps\\" + "Vida.png", D3DDevice.Instance.Device);
             spriteCorazon.Bitmap = bitmapCorazon;
@@ -960,7 +970,7 @@ namespace TGC.Group.Model
 
         private void configuroCamara()
         {
-            camaraInterna = new TgcFpsCamera(new TGCVector3(5, 60, 0), camaraMoveSpeed, camaraJumpSpeed, Input);
+            camaraInterna = new TgcFpsCamera(new TGCVector3(0, 60, 0), camaraMoveSpeed, camaraJumpSpeed, Input);
             Camara = camaraInterna;
         }
 
