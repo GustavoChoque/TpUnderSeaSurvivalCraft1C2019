@@ -102,7 +102,9 @@
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
     <Compile Include="Model\Camara\TgcFpsCamera.cs" />
+    <Compile Include="Model\Escenario.cs" />
     <Compile Include="Model\GameModel.cs" />
+    <Compile Include="Model\Inventario.cs" />
     <Compile Include="Model\MovimientoCircular.cs" />
     <Compile Include="Model\MovimientoPez.cs" />
     <Compile Include="Model\Personaje.cs" />

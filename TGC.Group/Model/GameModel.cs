@@ -100,6 +100,8 @@ namespace TGC.Group.Model
         float tiempoQueAguantaBajoElAgua = 10;
         float tiempoRestanteBajoElAgua;
 
+        public Inventario inventario=new Inventario();
+
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
         ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
@@ -136,6 +138,8 @@ namespace TGC.Group.Model
             this.generoMetales();
 
             this.generoHUD();
+
+            inventario.Init(this);
 
         }
         /// <summary>
@@ -242,6 +246,9 @@ namespace TGC.Group.Model
 
             //this.rotoMetales();
 
+
+            inventario.Update();
+
             PostUpdate();
         }
 
@@ -341,6 +348,10 @@ namespace TGC.Group.Model
             sprites.ForEach(sprite => spriteDrawer.DrawSprite(sprite));
             spriteDrawer.EndDrawSprite();
 
+
+            inventario.Render();
+
+
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
         }
@@ -383,6 +394,8 @@ namespace TGC.Group.Model
             pecesAzules.ForEach(obj => obj.Dispose());
 
             metales.ForEach(obj => obj.Dispose());
+
+            inventario.Dispose();
 
         }
 
@@ -781,6 +794,7 @@ namespace TGC.Group.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = coral.createMeshInstance(coral.Name + i + "_" + j);
+                   
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
                     //escalado random
                     var escalaObjeto = rnd.Next(1, 3);
@@ -1055,6 +1069,9 @@ namespace TGC.Group.Model
             otroMetal.Transform = TGCMatrix.RotationYawPitchRoll(otroMetal.Rotation.X, otroMetal.Rotation.Y, otroMetal.Rotation.Z) * TGCMatrix.Translation(otroMetal.Position);
         }
         */
+
+
+        
 
     }
 }
