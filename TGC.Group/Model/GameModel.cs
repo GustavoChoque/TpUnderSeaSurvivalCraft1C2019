@@ -56,7 +56,7 @@ namespace TGC.Group.Model
 
         private TgcMp3Player musica;
 
-        private List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
+        public List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
         private List<Pez> pecesAmarillos = new List<Pez>();
         private List<Pez> pecesAzules = new List<Pez>();
         private List<TGCBox> metales = new List<TGCBox>(); //hacer clase metales?
@@ -138,8 +138,8 @@ namespace TGC.Group.Model
             this.generoMetales();
 
             this.generoHUD();
-
-            inventario.Init(this);
+            personaje.Init(this);
+            inventario.Init(this, personaje);
 
         }
         /// <summary>
@@ -248,6 +248,7 @@ namespace TGC.Group.Model
 
 
             inventario.Update();
+            personaje.Update();
 
             PostUpdate();
         }
@@ -351,6 +352,7 @@ namespace TGC.Group.Model
 
             inventario.Render();
 
+            personaje.Render();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
