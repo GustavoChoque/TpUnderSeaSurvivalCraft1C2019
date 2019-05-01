@@ -101,15 +101,21 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
+    <Compile Include="Model\BrainCoral.cs" />
     <Compile Include="Model\Camara\TgcFpsCamera.cs" />
+    <Compile Include="Model\Escenario.cs" />
     <Compile Include="Model\GameModel.cs" />
+    <Compile Include="Model\Inventario.cs" />
     <Compile Include="Model\MovimientoCircular.cs" />
     <Compile Include="Model\MovimientoPez.cs" />
+    <Compile Include="Model\ObjetoDeInventario.cs" />
     <Compile Include="Model\Personaje.cs" />
     <Compile Include="Model\Pez.cs" />
+    <Compile Include="Model\SeaShell.cs" />
     <Compile Include="Model\Sprites\CustomBitmap.cs" />
     <Compile Include="Model\Sprites\CustomSprite.cs" />
     <Compile Include="Model\Sprites\Drawer2D.cs" />
+    <Compile Include="Model\Tiburon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form\GameForm.resx">

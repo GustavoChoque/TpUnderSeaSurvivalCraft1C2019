@@ -3,15 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TGC.Core.Mathematica;
+using Microsoft.DirectX.DirectInput;
+using TGC.Core.SceneLoader;
+using LosTiburones.Model;
+using TGC.Core.Geometry;
 
 namespace TGC.Group.Model
 {
     //JUGADOR COMIENZA VIVO, CON ENERGIA Y OXIGENO AL 100
     //MUERE CUANDO VIDA U OXIGENO SON MENORES A 1
     //PUEDE MORIR O REVIVIR, SUFRIR DANIO, PERDER OXIGENO, ASI COMO RECUPERAR ENERGIA Y OXIGENO
-    class Personaje
+    public class Personaje
     {
-        //private List<Items> inventario;
+        GameModel GModel;
+        //TgcMesh mesh;
+        TGCVector3 posicion;
+        public List<ObjetoDeInventario> inventario;
+
+       
         private float health;
         private float oxygen;
         private Boolean vivo = true;
@@ -21,6 +31,102 @@ namespace TGC.Group.Model
             this.health = health;
             this.oxygen = oxygen;
         }
+
+        public void Init(GameModel gmodel)
+        {
+            this.GModel = gmodel;
+            this.posicion = this.GModel.Camara.Position;
+            this.inventario = new List<ObjetoDeInventario>();
+            var brainCoral = new BrainCoral();
+            inventario.Add(brainCoral);
+            var seaShell = new SeaShell();
+            inventario.Add(seaShell);
+            
+        }
+
+        public void Update()
+        {
+            posicion = GModel.Camara.Position;
+            
+
+            var Input = this.GModel.Input;
+            this.GModel.escenario.objetosEstaticosEnArray.ForEach(objetoRecolectable =>
+            {
+                if (objetoCerca(objetoRecolectable))
+                {
+                    if (objetoRecolectable.Name.StartsWith("brain") && Input.keyPressed(Key.E))
+                    {
+                        objetoRecolectable.Enabled = false;
+                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
+                        //despues sino buscar talvez que, que me lo encuentre por el nombre o dejarlo asi por index 
+                        inventario[0].cantidad++;
+                    }
+                    if (objetoRecolectable.Name.StartsWith("sea") && Input.keyPressed(Key.E))
+                    {
+                        objetoRecolectable.Enabled = false;
+                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
+                        inventario[1].cantidad++;
+
+                    }
+
+
+                    //este no lo agarra
+                    if (objetoRecolectable.Name.StartsWith("tree") && Input.keyPressed(Key.E))
+                    {
+                        objetoRecolectable.Enabled = false;
+                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
+                    }
+
+                    //este no lo agarra
+                    if (objetoRecolectable.Name.StartsWith("pillar") && Input.keyPressed(Key.E))
+                    {
+                        objetoRecolectable.Enabled = false;
+                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
+                    }
+                    //este no lo agarra
+                    if (objetoRecolectable.Name.StartsWith("coral") && Input.keyPressed(Key.E))
+                    {
+                        objetoRecolectable.Enabled = false;
+                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
+                    }
+                    if (objetoRecolectable.Name.StartsWith("spiral") && Input.keyPressed(Key.E))
+                    {
+                        objetoRecolectable.Enabled = false;
+                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
+                    }
+                }
+            });
+
+            this.GModel.escenario.Metales.ForEach(metal =>
+            {
+                if (objetoCerca(metal))
+                {
+                    if (Input.keyPressed(Key.E))
+                    {
+                        metal.Enabled = false;
+                    }
+                }
+            });
+
+            }
+        public void Render()
+        {
+
+           
+        }
+
+        public bool objetoCerca(TgcMesh objeto)
+        {
+            var distanciaRecoleccion = 1000 * 8;//fui probando distintos numeros
+            return TGCVector3.LengthSq(objeto.Position - this.posicion) < distanciaRecoleccion;
+        }
+
+        public bool objetoCerca(TGCBox objeto)
+        {
+            var distanciaRecoleccion = 1000 * 8;//fui probando distintos numeros
+            return TGCVector3.LengthSq(objeto.Position - this.posicion) < distanciaRecoleccion;
+        }
+
 
         public void sufriDanio(float danio)
         {
