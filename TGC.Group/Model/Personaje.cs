@@ -50,7 +50,7 @@ namespace TGC.Group.Model
             
 
             var Input = this.GModel.Input;
-            this.GModel.objetosEstaticosEnArray.ForEach(objetoRecolectable =>
+            this.GModel.escenario.objetosEstaticosEnArray.ForEach(objetoRecolectable =>
             {
                 if (objetoCerca(objetoRecolectable))
                 {
@@ -97,7 +97,7 @@ namespace TGC.Group.Model
                 }
             });
 
-            this.GModel.Metales.ForEach(metal =>
+            this.GModel.escenario.Metales.ForEach(metal =>
             {
                 if (objetoCerca(metal))
                 {

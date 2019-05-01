@@ -46,7 +46,7 @@ namespace LosTiburones.Model
             texto.Text = this.personaje.inventario[0].nombre + "-----" + this.personaje.inventario[0].cantidad;
             texto.Align = TgcText2D.TextAlign.RIGHT;
             //ver luego como hacer que el sprite no tape el texto
-            texto.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 50);
+            texto.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 150);
             texto.Size = new Size(300, 100);
             texto.Color = Color.Gold;
 
@@ -54,7 +54,7 @@ namespace LosTiburones.Model
             texto2.Text = this.personaje.inventario[1].nombre + "-----" + this.personaje.inventario[0].cantidad;
             texto2.Align = TgcText2D.TextAlign.RIGHT;
             //ver luego como hacer que el sprite no tape el texto
-            texto2.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 60);
+            texto2.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 160);
             texto2.Size = new Size(300, 100);
             texto2.Color = Color.Gold;
 
@@ -77,17 +77,18 @@ namespace LosTiburones.Model
 
         public void Render()
         {
-            drawer2D.BeginDrawSprite();
+            
 
             if (activo)
             {
+                drawer2D.BeginDrawSprite();
                 drawer2D.DrawSprite(sprite);
+                drawer2D.DrawLine(new TGCVector2(1, 1), new TGCVector2(1, 200), Color.Red, 5, true);
+                drawer2D.EndDrawSprite();
                 texto.render();
                 texto2.render();
-                drawer2D.DrawLine(new TGCVector2(1, 1), new TGCVector2(1, 200), Color.Red, 5, true);
-
             }
-            drawer2D.EndDrawSprite();
+           
 
         }
         public void Dispose()

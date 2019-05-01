@@ -11,6 +11,7 @@ namespace LosTiburones.Model
 {
     class Tiburon
     {
+        GameModel GModel;
         private TGCVector3 posInicial;
         private TgcMesh mesh;
         private float anguloRebote;
@@ -23,20 +24,24 @@ namespace LosTiburones.Model
             this.mesh.Position = posInicial;
         }
 
+        public void Init(GameModel gmodel) {
+            this.GModel = gmodel;
+        }
+
         public Boolean tocoBorde() {
             return Position.X >= 5000 || Position.X <= -5000 || Position.Z >= 5000 || Position.Z <= -5000;
      
         }
 
-        public void reboto(GameModel model)
+        public void reboto(Escenario model)
         {
             //Se mueve en diagonal
-            float x = model.MovementSpeed * model.ElapsedTime * 0.707f;
+            float x = model.MovementSpeed * GModel.ElapsedTime * 0.707f;
             float y = 0;
-            float z = model.MovementSpeed * model.ElapsedTime * -0.707f;
+            float z = model.MovementSpeed * GModel.ElapsedTime * -0.707f;
         }
 
-        private int sentidoRandom(GameModel model)
+        private int sentidoRandom(Escenario model)
         {
             if (model.GetRandom.NextDouble() < 0.5)
             {
@@ -45,10 +50,10 @@ namespace LosTiburones.Model
             else return -1;
         }
 
-        public void moverse(GameModel model)
+        public void moverse(Escenario model)
         {
             //Cada X segundos cambio el sentido de movimiento
-            if ((model.ElapsedTime * 1000) % 10 < 0.2)
+            if ((GModel.ElapsedTime * 1000) % 10 < 0.2)
             {
                 //Encuentro el vector rotacion
                 float x = 0; // model.MovementSpeed * model.ElapsedTime * FastMath.Cos(anguloGiro);
