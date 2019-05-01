@@ -1037,6 +1037,7 @@ namespace TGC.Group.Model
         }
 
         public float MovementSpeed { get => MOVEMENT_SPEED; }
+        public Random GetRandom { get => rnd; }
 
     }
 

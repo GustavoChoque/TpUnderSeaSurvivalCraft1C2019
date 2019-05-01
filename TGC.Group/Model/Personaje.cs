@@ -17,7 +17,7 @@ namespace TGC.Group.Model
     public class Personaje
     {
         GameModel GModel;
-        TgcMesh mesh;
+        //TgcMesh mesh;
         TGCVector3 posicion;
         public List<ObjetoDeInventario> inventario;
 
