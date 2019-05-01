@@ -7,6 +7,7 @@ using TGC.Core.Mathematica;
 using Microsoft.DirectX.DirectInput;
 using TGC.Core.SceneLoader;
 using LosTiburones.Model;
+using TGC.Core.Geometry;
 
 namespace TGC.Group.Model
 {
@@ -56,14 +57,12 @@ namespace TGC.Group.Model
                     if (objetoRecolectable.Name.StartsWith("brain") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                         //despues sino buscar talvez que, que me lo encuentre por el nombre o dejarlo asi por index 
                         inventario[0].cantidad++;
                     }
                     if (objetoRecolectable.Name.StartsWith("sea") && Input.keyPressed(Key.E))
                     {
-                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                         inventario[1].cantidad++;
@@ -75,7 +74,6 @@ namespace TGC.Group.Model
                     if (objetoRecolectable.Name.StartsWith("tree") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                     }
 
@@ -83,30 +81,55 @@ namespace TGC.Group.Model
                     if (objetoRecolectable.Name.StartsWith("pillar") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                     }
                     //este no lo agarra
                     if (objetoRecolectable.Name.StartsWith("coral") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                     }
                     if (objetoRecolectable.Name.StartsWith("spiral") && Input.keyPressed(Key.E))
                     {
-                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                     }
                 }
             });
 
+            this.GModel.Metales.ForEach(metal =>
+            {
+                if (objetoCerca(metal))
+                {
+                    if (Input.keyPressed(Key.E))
+                    {
+                        metal.Enabled = false;
+                        //metal.Position = new TGCVector3(metal.Position.X, 1000, metal.Position.Z);
+                        //despues sino buscar talvez que, que me lo encuentre por el nombre o dejarlo asi por index 
+                        //inventario[2].cantidad++;
+                    }
+                }
 
 
 
 
-        }
+            });
+                
+            /*
+                if (objetoCerca(metal))
+            {
+                if (metal.Name.StartsWith("brain") && Input.keyPressed(Key.E))
+                {
+                    objetoRecolectable.Enabled = false;
+                    objetoRecolectable.Enabled = false;
+                    objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
+                    //despues sino buscar talvez que, que me lo encuentre por el nombre o dejarlo asi por index 
+                    inventario[0].cantidad++;
+                }
+
+    */
+
+            }
         public void Render()
         {
 
@@ -116,6 +139,12 @@ namespace TGC.Group.Model
 
 
         public bool objetoCerca(TgcMesh objeto)
+        {
+            var distanciaRecoleccion = 1000 * 8;//fui probando distintos numeros
+            return TGCVector3.LengthSq(objeto.Position - this.posicion) < distanciaRecoleccion;
+        }
+
+        public bool objetoCerca(TGCBox objeto)
         {
             var distanciaRecoleccion = 1000 * 8;//fui probando distintos numeros
             return TGCVector3.LengthSq(objeto.Position - this.posicion) < distanciaRecoleccion;

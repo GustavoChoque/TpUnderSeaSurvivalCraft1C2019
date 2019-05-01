@@ -102,6 +102,8 @@ namespace TGC.Group.Model
 
         public Inventario inventario=new Inventario();
 
+        public List<TGCBox> Metales { get => metales; }
+
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
         ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
@@ -342,7 +344,7 @@ namespace TGC.Group.Model
             pezCircular.Render();
             pecesAzules.ForEach(obj => obj.Render());
 
-            metales.ForEach(obj => obj.Render());
+            Metales.ForEach(obj => obj.Render());
 
             //SPRITES
             spriteDrawer.BeginDrawSprite();
@@ -395,7 +397,7 @@ namespace TGC.Group.Model
 
             pecesAzules.ForEach(obj => obj.Dispose());
 
-            metales.ForEach(obj => obj.Dispose());
+            Metales.ForEach(obj => obj.Dispose());
 
             inventario.Dispose();
 
@@ -1026,7 +1028,7 @@ namespace TGC.Group.Model
                     var instance = TGCBox.fromSize(new TGCVector3(side, side/4, side/2), texturaOro);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 8, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    metales.Add(instance);
+                    Metales.Add(instance);
                 }
 
             }
@@ -1039,7 +1041,7 @@ namespace TGC.Group.Model
                     var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaRubi);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    metales.Add(instance);
+                    Metales.Add(instance);
                 }
 
             }
@@ -1052,7 +1054,7 @@ namespace TGC.Group.Model
                     var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaPlatino);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    metales.Add(instance);
+                    Metales.Add(instance);
                 }
             }
 
