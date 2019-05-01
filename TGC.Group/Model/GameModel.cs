@@ -45,7 +45,7 @@ namespace TGC.Group.Model
         //DECLARO VARIABLES 'GLOBALES'
         private TgcFpsCamera camaraInterna;
         private TgcPlane piso, agua;
-        private TgcMesh coralBrain, coral, shark, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
+        private TgcMesh coralBrain, coral, meshTiburon, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
         private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
         private TgcScene barco;
         private TgcSkyBox skybox;
@@ -62,19 +62,21 @@ namespace TGC.Group.Model
         private List<TGCBox> metales = new List<TGCBox>(); //hacer clase metales?
         private Pez pezCircular;
 
+        private Tiburon tiburon;
+
         //Constantes para velocidades de movimiento
         private const float ROTATION_SPEED = 50f;
 
         private const float MOVEMENT_SPEED = 50f;
 
         //Variable direccion de movimiento
-        private float currentMoveDir = -1f;
+        //private float currentMoveDir = -1f;
 
         //constantes de la camara
         private const float camaraMoveSpeed = 400f;
         private const float camaraJumpSpeed = 80f;
 
-        private TGCVector3 posInicialShark;
+        //private TGCVector3 posInicialShark;
 
         private Random rnd = new Random();
 
@@ -103,7 +105,7 @@ namespace TGC.Group.Model
         public Inventario inventario=new Inventario();
 
         public List<TGCBox> Metales { get => metales; }
-
+        
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
         ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
@@ -182,16 +184,10 @@ namespace TGC.Group.Model
             //-----------movimientos-------------
             //posicionShark=shark.Position;
             //var rotacionShark = shark.Rotation;
-            shark.Position += new TGCVector3(MOVEMENT_SPEED * ElapsedTime * currentMoveDir, 0, 0);
+            
 
-            if (!((posInicialShark.X + 500 > shark.Position.X) && (posInicialShark.X - 500 < shark.Position.X)))
-            {
-                currentMoveDir *= -1;
-                shark.Rotation += new TGCVector3(0, FastMath.PI, 0);
-            }
-
-            shark.Transform = TGCMatrix.RotationYawPitchRoll(shark.Rotation.X, shark.Rotation.Y, shark.Rotation.Z) * TGCMatrix.Translation(shark.Position);
-
+            //tiburon.moverse();
+            
 
             //-----------
             //Muevo los peces amarillos
@@ -321,7 +317,8 @@ namespace TGC.Group.Model
             agua.Render();
             //piso.Render();
             coral.Render();
-            shark.Render();
+            //meshTiburon.Render();
+            tiburon.Render();
             coralBrain.Render();
             barco.RenderAll();
             fish.Render();
@@ -373,7 +370,8 @@ namespace TGC.Group.Model
             agua.Dispose();
             //piso.Dispose();
             coral.Dispose();
-            shark.Dispose();
+            //meshTiburon.Dispose();
+            tiburon.Dispose();
             coralBrain.Dispose();
             barco.DisposeAll();
             fish.Dispose();
@@ -688,7 +686,7 @@ namespace TGC.Group.Model
         {
             coral = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
 
-            shark = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\shark-TgcScene.xml").Meshes[0];
+            meshTiburon = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\shark-TgcScene.xml").Meshes[0];
 
             coralBrain = new TgcSceneLoader().loadSceneFromFile(MediaDir + "\\Aquatic\\Meshes\\brain_coral-TgcScene.xml").Meshes[0];
 
@@ -727,9 +725,14 @@ namespace TGC.Group.Model
             coral.Position = new TGCVector3(10, -300, 0);
             coral.Transform = TGCMatrix.Translation(coral.Position);
 
-            shark.Position = new TGCVector3(-650, -100, 1000);
+            tiburon = new Tiburon(new TGCVector3(-650, -100, 1000), meshTiburon, this);
+            tiburon.Transform = TGCMatrix.Translation(tiburon.Position);
+
+            /*
+            shark.Position = n;
             posInicialShark = shark.Position;
             shark.Transform = TGCMatrix.Translation(shark.Position);
+            */
 
             coralBrain.Position = new TGCVector3(-200, -300, 340);
             coralBrain.Transform = TGCMatrix.Translation(coralBrain.Position);
@@ -1047,7 +1050,11 @@ namespace TGC.Group.Model
                 }
             }
 
-        }        
+        }
+
+        public float MovementSpeed { get => MOVEMENT_SPEED; }
 
     }
+
+    
 }

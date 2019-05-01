@@ -115,6 +115,7 @@
     <Compile Include="Model\Sprites\CustomBitmap.cs" />
     <Compile Include="Model\Sprites\CustomSprite.cs" />
     <Compile Include="Model\Sprites\Drawer2D.cs" />
+    <Compile Include="Model\Tiburon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form\GameForm.resx">
