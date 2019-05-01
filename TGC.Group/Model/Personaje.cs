@@ -56,7 +56,7 @@ namespace TGC.Group.Model
                     if (objetoRecolectable.Name.StartsWith("brain") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Dispose();
+                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                         //despues sino buscar talvez que, que me lo encuentre por el nombre o dejarlo asi por index 
                         inventario[0].cantidad++;
@@ -64,7 +64,7 @@ namespace TGC.Group.Model
                     if (objetoRecolectable.Name.StartsWith("sea") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Dispose();
+                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                         inventario[1].cantidad++;
 
@@ -75,7 +75,7 @@ namespace TGC.Group.Model
                     if (objetoRecolectable.Name.StartsWith("tree") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Dispose();
+                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                     }
 
@@ -83,20 +83,20 @@ namespace TGC.Group.Model
                     if (objetoRecolectable.Name.StartsWith("pillar") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Dispose();
+                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                     }
                     //este no lo agarra
                     if (objetoRecolectable.Name.StartsWith("coral") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Dispose();
+                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                     }
                     if (objetoRecolectable.Name.StartsWith("spiral") && Input.keyPressed(Key.E))
                     {
                         objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Dispose();
+                        objetoRecolectable.Enabled = false;
                         objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
                     }
                 }
