@@ -17,6 +17,8 @@ using LosTiburones;
 using System.Linq;
 using LosTiburones.Model;
 using Microsoft.DirectX.Direct3D;
+using TGC.Core.BoundingVolumes;
+using System.Windows.Forms;
 
 namespace TGC.Group.Model
 {
@@ -45,6 +47,9 @@ namespace TGC.Group.Model
 
         //DECLARO VARIABLES 'GLOBALES'
         private TgcFpsCamera camaraInterna;
+        private TgcBoundingCylinder cilindroColision;
+        private float leftrightRot;
+        private float updownRot;
         private TgcPlane piso, agua;
         private TgcMesh coralBrain, coral, shark, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
         private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
@@ -124,7 +129,7 @@ namespace TGC.Group.Model
 
             this.cargoHeightmap();
 
-            //this.cargoMusica();
+            this.cargoMusica();
 
             this.cargoMeshes();
 
@@ -139,6 +144,15 @@ namespace TGC.Group.Model
             this.generoMetales();
 
             this.generoHUD();
+
+            cilindroColision = new TgcBoundingCylinder(camaraInterna.Position, 0.08f, 4);
+            leftrightRot = 0;
+            updownRot = Geometry.DegreeToRadian(90f) + (FastMath.PI / 10.0f);
+            cilindroColision.rotateZ(updownRot);
+            cilindroColision.rotateY(leftrightRot);
+            cilindroColision.setRenderColor(Color.LimeGreen);
+            cilindroColision.updateValues();
+
 
         }
         /// <summary>
@@ -243,6 +257,16 @@ namespace TGC.Group.Model
 
             this.actualizoValoresSaludOxigeno(personaje);
 
+            cilindroColision.Center = camaraInterna.Position;
+            if (camaraInterna.LockCam || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
+            {
+                leftrightRot -= -Input.XposRelative * camaraInterna.RotationSpeed;
+                updownRot -= -Input.YposRelative * camaraInterna.RotationSpeed;
+                cilindroColision.Rotation = new TGCVector3(0, leftrightRot, updownRot);
+            }
+
+            cilindroColision.updateValues();
+
             //this.rotoMetales();
 
             PostUpdate();
@@ -311,6 +335,8 @@ namespace TGC.Group.Model
             terreno.Render();
 
             //------------------------------------
+            cilindroColision.Render();
+
             agua.Render();
             piso.Render();
             coral.Render();
@@ -356,6 +382,8 @@ namespace TGC.Group.Model
         public override void Dispose()
         {
             //------------------------
+            cilindroColision.Dispose();
+
             skybox.Dispose();
             terreno.Dispose();
             agua.Dispose();
@@ -624,7 +652,7 @@ namespace TGC.Group.Model
             bitmapCursor = new CustomBitmap(MediaDir + "Bitmaps\\" + "cursor_default.png", d3dDevice);
             spriteCursor.Bitmap = bitmapCursor;
             spriteCursor.Scaling = new TGCVector2(1f, 1f);
-            spriteCursor.Position = new TGCVector2(ScreenWidth / 2.09f, ScreenHeight / 2.15f);
+            spriteCursor.Position = new TGCVector2(ScreenWidth / 2.093f, ScreenHeight / 2.17f);
             sprites.Add(spriteCursor);
             //HUD
             bitmapCorazon = new CustomBitmap(MediaDir + "Bitmaps\\" + "Vida.png", D3DDevice.Instance.Device);
