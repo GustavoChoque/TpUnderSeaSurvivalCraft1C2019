@@ -344,7 +344,7 @@ namespace TGC.Group.Model
             pezCircular.Render();
             pecesAzules.ForEach(obj => obj.Render());
 
-            Metales.ForEach(obj => obj.Render());
+            metales.ForEach(obj => obj.Render());
 
             //SPRITES
             spriteDrawer.BeginDrawSprite();
@@ -397,7 +397,7 @@ namespace TGC.Group.Model
 
             pecesAzules.ForEach(obj => obj.Dispose());
 
-            Metales.ForEach(obj => obj.Dispose());
+            metales.ForEach(obj => obj.Dispose());
 
             inventario.Dispose();
 
@@ -1008,18 +1008,7 @@ namespace TGC.Group.Model
             var texturaOro = TgcTexture.createTexture(MediaDir + "\\Texturas\\oro.jpg");
             var texturaRubi = TgcTexture.createTexture(MediaDir + "\\Texturas\\ruby.jpg");
             var texturaPlatino = TgcTexture.createTexture(MediaDir + "\\Texturas\\platinum.jpg");
-
-            /*var instance = TGCBox.fromSize(new TGCVector3(5f, 5f, 5f), texturaOro);
-            instance.Position = new TGCVector3(0f, 50f, 0f);
-            instance.Transform = TGCMatrix.Translation(instance.Position);
-            metales.Add(instance);
-
-            var instance2 = TGCBox.fromSize(new TGCVector3(5f, 5f, 5f), texturaOro);
-            instance2.Position = new TGCVector3(0f, 50f, 0f);
-            instance2.Transform = TGCMatrix.RotationYawPitchRoll((float)Math.PI/4, (float)Math.PI/4, (float)Math.PI/4) * TGCMatrix.Translation(instance.Position);
-            metales.Add(instance2);
-            */
-
+            
             for (int i = 0; i < 20; i++)
             {
                 for (int j = 0; j < 20; j++)
@@ -1028,7 +1017,7 @@ namespace TGC.Group.Model
                     var instance = TGCBox.fromSize(new TGCVector3(side, side/4, side/2), texturaOro);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 8, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    Metales.Add(instance);
+                    metales.Add(instance);
                 }
 
             }
@@ -1041,7 +1030,7 @@ namespace TGC.Group.Model
                     var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaRubi);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    Metales.Add(instance);
+                    metales.Add(instance);
                 }
 
             }
@@ -1054,28 +1043,11 @@ namespace TGC.Group.Model
                     var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaPlatino);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    Metales.Add(instance);
+                    metales.Add(instance);
                 }
             }
 
-        }
-
-        /*
-        private void rotoMetales()
-        {
-            TGCBox unMetal = metales.First();
-            TGCBox otroMetal = metales.Last();
-
-            unMetal.Rotation += new TGCVector3((float)Math.PI / 128, (float)Math.PI / 128, (float)Math.PI / 128);
-            unMetal.Transform = TGCMatrix.RotationYawPitchRoll(unMetal.Rotation.X, unMetal.Rotation.Y, unMetal.Rotation.Z) * TGCMatrix.Translation(unMetal.Position);
-
-            otroMetal.Rotation += new TGCVector3(-(float)Math.PI / 128, -(float)Math.PI / 128, -(float)Math.PI / 128);
-            otroMetal.Transform = TGCMatrix.RotationYawPitchRoll(otroMetal.Rotation.X, otroMetal.Rotation.Y, otroMetal.Rotation.Z) * TGCMatrix.Translation(otroMetal.Position);
-        }
-        */
-
-
-        
+        }        
 
     }
 }

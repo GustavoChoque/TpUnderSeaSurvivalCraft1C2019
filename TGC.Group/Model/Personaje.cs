@@ -104,30 +104,9 @@ namespace TGC.Group.Model
                     if (Input.keyPressed(Key.E))
                     {
                         metal.Enabled = false;
-                        //metal.Position = new TGCVector3(metal.Position.X, 1000, metal.Position.Z);
-                        //despues sino buscar talvez que, que me lo encuentre por el nombre o dejarlo asi por index 
-                        //inventario[2].cantidad++;
                     }
                 }
-
-
-
-
             });
-                
-            /*
-                if (objetoCerca(metal))
-            {
-                if (metal.Name.StartsWith("brain") && Input.keyPressed(Key.E))
-                {
-                    objetoRecolectable.Enabled = false;
-                    objetoRecolectable.Enabled = false;
-                    objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
-                    //despues sino buscar talvez que, que me lo encuentre por el nombre o dejarlo asi por index 
-                    inventario[0].cantidad++;
-                }
-
-    */
 
             }
         public void Render()
@@ -135,8 +114,6 @@ namespace TGC.Group.Model
 
            
         }
-
-
 
         public bool objetoCerca(TgcMesh objeto)
         {
