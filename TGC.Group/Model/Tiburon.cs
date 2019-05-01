@@ -13,18 +13,16 @@ namespace LosTiburones.Model
     {
         private TGCVector3 posInicial;
         private TgcMesh mesh;
-        private GameModel model;
         private float currentMoveDir = -1f;
 
-        public Tiburon(TGCVector3 posInicial, TgcMesh mesh, GameModel model)
+        public Tiburon(TGCVector3 posInicial, TgcMesh mesh)
         {
             this.posInicial = posInicial;
             this.mesh = mesh;
-			this.model = model;
             this.mesh.Position = posInicial;
         }
 
-        public void moverse()
+        public void moverse(GameModel model)
         {
             Position += new TGCVector3(model.MovementSpeed * model.ElapsedTime * currentMoveDir, 0, 0);
 

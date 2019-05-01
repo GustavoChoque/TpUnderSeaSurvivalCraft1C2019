@@ -66,17 +66,11 @@ namespace TGC.Group.Model
 
         //Constantes para velocidades de movimiento
         private const float ROTATION_SPEED = 50f;
-
         private const float MOVEMENT_SPEED = 50f;
-
-        //Variable direccion de movimiento
-        //private float currentMoveDir = -1f;
 
         //constantes de la camara
         private const float camaraMoveSpeed = 400f;
         private const float camaraJumpSpeed = 80f;
-
-        //private TGCVector3 posInicialShark;
 
         private Random rnd = new Random();
 
@@ -182,11 +176,7 @@ namespace TGC.Group.Model
             //}
 
             //-----------movimientos-------------
-            //posicionShark=shark.Position;
-            //var rotacionShark = shark.Rotation;
-            
-
-            //tiburon.moverse();
+            tiburon.moverse(this);
             
 
             //-----------
@@ -725,14 +715,8 @@ namespace TGC.Group.Model
             coral.Position = new TGCVector3(10, -300, 0);
             coral.Transform = TGCMatrix.Translation(coral.Position);
 
-            tiburon = new Tiburon(new TGCVector3(-650, -100, 1000), meshTiburon, this);
+            tiburon = new Tiburon(new TGCVector3(-650, -100, 1000), meshTiburon);
             tiburon.Transform = TGCMatrix.Translation(tiburon.Position);
-
-            /*
-            shark.Position = n;
-            posInicialShark = shark.Position;
-            shark.Transform = TGCMatrix.Translation(shark.Position);
-            */
 
             coralBrain.Position = new TGCVector3(-200, -300, 340);
             coralBrain.Transform = TGCMatrix.Translation(coralBrain.Position);
