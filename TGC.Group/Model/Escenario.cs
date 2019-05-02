@@ -939,7 +939,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < 20; j++)
                 {
-                    var side = rnd.Next(0, 20);
+                    var side = rnd.Next(20, 50);
                     var instance = TGCBox.fromSize(new TGCVector3(side, side / 4, side / 2), texturaOro);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 8, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
@@ -952,7 +952,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    var side = rnd.Next(0, 20);
+                    var side = rnd.Next(20, 50);
                     var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaRubi);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
@@ -965,7 +965,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    var side = rnd.Next(0, 20);
+                    var side = rnd.Next(20, 50);
                     var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaPlatino);
                     instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
