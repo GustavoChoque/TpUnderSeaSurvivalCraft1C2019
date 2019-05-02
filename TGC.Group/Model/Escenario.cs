@@ -68,9 +68,6 @@ namespace LosTiburones.Model
         private int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
         private Personaje personaje = new Personaje(100, 100);
-        private float tiempoBajoElAgua = 0;
-        float tiempoQueAguantaBajoElAgua = 10;
-        float tiempoRestanteBajoElAgua;
 
         public List<TGCBox> Metales { get => metales; }
 
@@ -186,9 +183,6 @@ namespace LosTiburones.Model
             ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
             ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
-            //CALCULO TIEMPO RESTANTE DE OXIGENO Y VIDA
-            tiempoRestanteBajoElAgua = (tiempoQueAguantaBajoElAgua - tiempoBajoElAgua);
-
             this.actualizoValoresSaludOxigeno(personaje);
 
             //this.rotoMetales();
@@ -202,14 +196,28 @@ namespace LosTiburones.Model
             GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
             GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
 
-            //DIBUJO MENSAJES DE VIDA Y OXIGENO
             if (personaje.Vivo)
             {
-                //OXIGENO RESTANTE
-                if (tiempoBajoElAgua > 0 && tiempoRestanteBajoElAgua >= 0)
+                if (bajoElAgua(GModel.camaraInterna))
                 {
-                    GModel.DrawText.drawText("Te quedan " + tiempoRestanteBajoElAgua.ToString() + "segundos de oxigeno", 0, 50, Color.Blue);
+                    GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", 0, 50, Color.Red);
                 }
+
+                if ((this.fueraDelMapa(GModel.camaraInterna)))
+                {
+                    GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", 0, 60, Color.Red);
+                }
+            }
+            else
+            {
+                GModel.DrawText.drawText("Te moriste", ScreenWidth / 2, ScreenHeight / 2, Color.Red);
+            }
+
+            /*
+            //DIBUJO MENSAJES DE VIDA Y OXIGENO
+            if (personaje.Vivo){
+
+                //OXIGENO RESTANTE
                 else if (tiempoRestanteBajoElAgua <= 0)
                 {
                     GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", 0, 50, Color.Red);
@@ -225,6 +233,7 @@ namespace LosTiburones.Model
             {
                 GModel.DrawText.drawText("Te moriste", ScreenWidth / 2, ScreenHeight / 2, Color.Red);
             }
+            */
 
             //Render de BoundingBox, muy útil para debug de colisiones.
             /*
@@ -368,17 +377,12 @@ namespace LosTiburones.Model
             //PIERDO 1 DE OXIGENO
             if (this.bajoElAgua(GModel.camaraInterna))
             {
-                tiempoBajoElAgua = tiempoBajoElAgua + GModel.ElapsedTime;
-            }
-            if (tiempoBajoElAgua >= 10)
-            {
                 personaje.perdeOxigeno(.1f);
             }
 
             //SI SALGO A LA SUPERFICIE RECUPERO VIDA
             if (this.sobreElAgua(GModel.camaraInterna))
             {
-                tiempoBajoElAgua = 0;
                 personaje.recuperaOxigeno(.2f);
             }
 
