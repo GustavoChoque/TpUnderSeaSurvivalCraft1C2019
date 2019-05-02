@@ -364,26 +364,26 @@ namespace LosTiburones.Model
             //SI ME SALGO DEL MAPA, RESTO 1 DE SALUD
             if (this.fueraDelMapa(GModel.camaraInterna))
             {
-                personaje.sufriDanio(.1f);
+                personaje.sufriDanio(7.5f * GModel.ElapsedTime) ;
             }
 
             //SI VUELVO A ENTRAR AL MAPA RECUPERO LA ENERGIA
             if (this.dentroDelMapa(GModel.camaraInterna))
             {
-                personaje.recuperaVida(.2f);
+                personaje.recuperaVida(3f * GModel.ElapsedTime);
             }
 
             //SI ESTOY MAS DE DIEZ SEGUNDOS BAJO DEL AGUA
             //PIERDO 1 DE OXIGENO
             if (this.bajoElAgua(GModel.camaraInterna))
             {
-                personaje.perdeOxigeno(.1f);
+                personaje.perdeOxigeno(7.5f * GModel.ElapsedTime);
             }
 
             //SI SALGO A LA SUPERFICIE RECUPERO VIDA
             if (this.sobreElAgua(GModel.camaraInterna))
             {
-                personaje.recuperaOxigeno(.2f);
+                personaje.recuperaOxigeno(3f * GModel.ElapsedTime);
             }
 
             //ACTUALIZO LOS SPRITES DE ENERGIA Y OXIGENO
