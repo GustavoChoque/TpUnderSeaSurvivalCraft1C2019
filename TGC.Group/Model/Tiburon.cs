@@ -25,7 +25,7 @@ namespace LosTiburones.Model
         }
 
         public Boolean tocoBorde() {
-            return Position.X >= 5000 || Position.X <= -5000 || Position.Z >= 5000 || Position.Z <= -5000;
+            return Position.X >= 20000 || Position.X <= -20000 || Position.Z >= 20000 || Position.Z <= -20000;
         }
 
         private Boolean esPrimerTramo()
