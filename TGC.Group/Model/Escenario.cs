@@ -876,7 +876,7 @@ namespace LosTiburones.Model
             //var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
             var path = GModel.MediaDir + "Texturas\\Heighmaps\\heighmap1.jpg";
             //var textu = MediaDir + "Texturas\\Grass.jpg";
-            var textu = GModel.MediaDir + "Texturas\\pasto.jpg";
+            var textu = GModel.MediaDir + "Texturas\\mountain.jpg";
             currentScaleXZ = 100f;
             currentScaleY = 150f;
             //terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
