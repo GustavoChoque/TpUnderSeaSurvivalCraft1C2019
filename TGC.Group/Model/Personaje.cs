@@ -16,12 +16,9 @@ namespace TGC.Group.Model
     //PUEDE MORIR O REVIVIR, SUFRIR DANIO, PERDER OXIGENO, ASI COMO RECUPERAR ENERGIA Y OXIGENO
     public class Personaje
     {
-        GameModel GModel;
+        GameModel gmodel;
         //TgcMesh mesh;
-        TGCVector3 posicion;
-        public List<ObjetoDeInventario> inventario;
-
-       
+        public List<ObjetoDeInventario> inventario;       
         private float health;
         private float oxygen;
         private Boolean vivo = true;
@@ -34,8 +31,7 @@ namespace TGC.Group.Model
 
         public void Init(GameModel gmodel)
         {
-            this.GModel = gmodel;
-            this.posicion = this.GModel.Camara.Position;
+            this.gmodel = gmodel;
             this.inventario = new List<ObjetoDeInventario>();
             var brainCoral = new BrainCoral();
             inventario.Add(brainCoral);
@@ -46,11 +42,8 @@ namespace TGC.Group.Model
 
         public void Update()
         {
-            posicion = GModel.Camara.Position;
-            
-
-            var Input = this.GModel.Input;
-            this.GModel.escenario.objetosEstaticosEnArray.ForEach(objetoRecolectable =>
+            var Input = this.gmodel.Input;
+            this.gmodel.escenario.objetosEstaticosEnArray.ForEach(objetoRecolectable =>
             {
                 if (objetoCerca(objetoRecolectable))
                 {
@@ -97,7 +90,7 @@ namespace TGC.Group.Model
                 }
             });
 
-            this.GModel.escenario.Metales.ForEach(metal =>
+            this.gmodel.escenario.Metales.ForEach(metal =>
             {
                 if (objetoCerca(metal))
                 {
@@ -118,13 +111,13 @@ namespace TGC.Group.Model
         public bool objetoCerca(TgcMesh objeto)
         {
             var distanciaRecoleccion = 1000 * 8;//fui probando distintos numeros
-            return TGCVector3.LengthSq(objeto.Position - this.posicion) < distanciaRecoleccion;
+            return TGCVector3.LengthSq(objeto.Position - Position) < distanciaRecoleccion;
         }
 
         public bool objetoCerca(TGCBox objeto)
         {
             var distanciaRecoleccion = 1000 * 8;//fui probando distintos numeros
-            return TGCVector3.LengthSq(objeto.Position - this.posicion) < distanciaRecoleccion;
+            return TGCVector3.LengthSq(objeto.Position - Position) < distanciaRecoleccion;
         }
 
 
@@ -177,5 +170,7 @@ namespace TGC.Group.Model
         public float Health { get => health; }
         public float Oxygen { get => oxygen; }
         public Boolean Vivo { get => vivo; }
+        public TGCVector3 Position { get => gmodel.Camara.Position; }
+
     }
 }

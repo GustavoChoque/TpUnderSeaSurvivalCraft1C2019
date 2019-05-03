@@ -73,9 +73,9 @@ namespace TGC.Group.Model
         public override void Init()
         {
             this.configuroCamara();
-
-            escenario.Init(this);
             personaje.Init(this);
+            escenario.Init(this);
+            
             inventario.Init(this, personaje);
 
             cilindroColision = new TgcBoundingCylinder(camaraInterna.Position, 0.08f, 4);
@@ -153,6 +153,8 @@ namespace TGC.Group.Model
         }
 
         public Random GetRandom { get => rnd; }
+
+        public Personaje GetPersonaje { get => personaje; }
 
     }
 

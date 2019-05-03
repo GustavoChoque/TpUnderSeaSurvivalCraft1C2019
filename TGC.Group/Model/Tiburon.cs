@@ -13,9 +13,10 @@ namespace LosTiburones.Model
     {
         private GameModel gmodel;
         private TgcMesh mesh;
-        private float velocidad = 7.5f;
+        private float velocidad = 1f;
         private int tramo = 0;
         private float anguloRebote = FastMath.PI / 4;
+        private float radioDeteccion = 50;
 
         public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
@@ -47,41 +48,56 @@ namespace LosTiburones.Model
             return tramo.Equals(3);
         }
 
-        public void moverse()
+        public Boolean estoyCercaDelPersonaje(Personaje personaje)
         {
-            if (esPrimerTramo())
-            {
-                //var dir = new TGCVector3(1 * FastMath.Cos(anguloRebote), 0, 1 * FastMath.Cos(anguloRebote));
-                var dir = new TGCVector3(1, 0, 1);
-                dir.Multiply(velocidad);
-                mesh.Move(dir);
-            } else if (esSegundoTramo())
-            {
-                //var dir = new TGCVector3(1 * FastMath.Cos(anguloRebote), 0, -1 * FastMath.Cos(anguloRebote));
-                var dir = new TGCVector3(1, 0, -1);
-                dir.Multiply(velocidad);
-                mesh.Move(dir);
-            } else if (esTercerTramo())
-            {
-                //var dir = new TGCVector3(-1 * FastMath.Cos(anguloRebote), 0, -1 * FastMath.Cos(anguloRebote));
-                var dir = new TGCVector3(-1, 0, -1);
-                dir.Multiply(velocidad);
-                mesh.Move(dir);
-            } else if (esCuartoTramo())
-            {
-                //var dir = new TGCVector3(-1 * FastMath.Cos(anguloRebote), 0, 1 * FastMath.Cos(anguloRebote));
-                var dir = new TGCVector3(-1, 0, 1);
-                dir.Multiply(velocidad);
-                mesh.Move(dir);
-            }
+            return FastMath.Sqrt(FastMath.Pow2(personaje.Position.X - this.Position.X) + FastMath.Pow2(personaje.Position.Z - this.Position.Z)) < radioDeteccion;
+        }
 
-            if (tocoBorde())
+        public void moverse(Escenario escenario)
+        {
+            if (!estoyCercaDelPersonaje(gmodel.GetPersonaje))
             {
-                //anguloRebote = (float) gmodel.GetRandom.NextDouble() * (FastMath.PI / 2);
-                //RotateY(anguloRebote + (FastMath.PI / 2));
-                RotateY(FastMath.PI / 2);
-                tramo = (tramo + 1) % 4;
+                if (esPrimerTramo())
+                {
+                    //var dir = new TGCVector3(1 * FastMath.Cos(anguloRebote), 0, 1 * FastMath.Cos(anguloRebote));
+                    var dir = new TGCVector3(1, 0, 1);
+                    dir.Multiply(velocidad);
+                    mesh.Move(dir);
+                }
+                else if (esSegundoTramo())
+                {
+                    //var dir = new TGCVector3(1 * FastMath.Cos(anguloRebote), 0, -1 * FastMath.Cos(anguloRebote));
+                    var dir = new TGCVector3(1, 0, -1);
+                    dir.Multiply(velocidad);
+                    mesh.Move(dir);
+                }
+                else if (esTercerTramo())
+                {
+                    //var dir = new TGCVector3(-1 * FastMath.Cos(anguloRebote), 0, -1 * FastMath.Cos(anguloRebote));
+                    var dir = new TGCVector3(-1, 0, -1);
+                    dir.Multiply(velocidad);
+                    mesh.Move(dir);
+                }
+                else if (esCuartoTramo())
+                {
+                    //var dir = new TGCVector3(-1 * FastMath.Cos(anguloRebote), 0, 1 * FastMath.Cos(anguloRebote));
+                    var dir = new TGCVector3(-1, 0, 1);
+                    dir.Multiply(velocidad);
+                    mesh.Move(dir);
+                }
+
+                if (tocoBorde())
+                {
+                    //anguloRebote = (float) gmodel.GetRandom.NextDouble() * (FastMath.PI / 2);
+                    //RotateY(anguloRebote + (FastMath.PI / 2));
+                    RotateY(FastMath.PI / 2);
+                    tramo = (tramo + 1) % 4;
+                }
             }
+            else //LO PERSIGO
+            {
+                //
+            }            
         }
 
         public void Render()

@@ -65,7 +65,7 @@ namespace LosTiburones.Model
         private int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
         private int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
-        private Personaje personaje = new Personaje(100, 100);
+        //private Personaje personaje = new Personaje(100, 100);
 
         public List<TGCBox> Metales { get => metales; }
 
@@ -131,7 +131,7 @@ namespace LosTiburones.Model
             //}
 
             //-----------movimientos-------------
-            tiburon.moverse();
+            tiburon.moverse(this);
 
             //-----------
             //Muevo los peces amarillos
@@ -181,7 +181,7 @@ namespace LosTiburones.Model
             ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
             ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
-            this.actualizoValoresSaludOxigeno(personaje);
+            this.actualizoValoresSaludOxigeno(GModel.GetPersonaje);
 
         }
 
@@ -192,16 +192,21 @@ namespace LosTiburones.Model
             GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
             GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
 
-            if (personaje.Vivo)
+            if (GModel.GetPersonaje.Vivo)
             {
-                if (bajoElAgua(GModel.camaraInterna))
+                if (bajoElAgua(GModel.GetPersonaje))
                 {
                     GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", 0, 50, Color.Red);
                 }
 
-                if ((this.fueraDelMapa(GModel.camaraInterna)))
+                if ((this.fueraDelMapa(GModel.GetPersonaje)))
                 {
                     GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", 0, 60, Color.Red);
+                }
+
+                if ((tiburon.estoyCercaDelPersonaje(GModel.GetPersonaje)))
+                {
+                    GModel.DrawText.drawText("Estás cerca del tiburón", 0, 70, Color.Red);
                 }
             }
             else
@@ -307,9 +312,9 @@ namespace LosTiburones.Model
         }
 
 
-        private Boolean fueraDelMapa(TgcFpsCamera camara)
+        private Boolean fueraDelMapa(Personaje personaje)
         {
-            return camara.Position.X > 5000 || camara.Position.X < -5000 || camara.Position.Z > 5000 || camara.Position.Z < -5000;
+            return personaje.Position.X > 5000 || personaje.Position.X < -5000 || personaje.Position.Z > 5000 || personaje.Position.Z < -5000;
         }
 
         private Boolean fueraDelMapa(Pez pez)
@@ -317,40 +322,40 @@ namespace LosTiburones.Model
             return pez.Position.X > 5000 || pez.Position.X < -5000 || pez.Position.Z > 5000 || pez.Position.Z < -5000;
         }
 
-        private Boolean dentroDelMapa(TgcFpsCamera camara)
+        private Boolean dentroDelMapa(Personaje personaje)
         {
-            return camara.Position.X <= 5000 && GModel.Camara.Position.X >= -5000 && GModel.Camara.Position.Z <= 5000 && GModel.Camara.Position.Z >= -5000;
+            return personaje.Position.X <= 5000 && personaje.Position.X >= -5000 && personaje.Position.Z <= 5000 && personaje.Position.Z >= -5000;
         }
 
-        private Boolean bajoElAgua(TgcFpsCamera camara)
+        private Boolean bajoElAgua(Personaje personaje)
         {
-            return camara.Position.Y < 0;
+            return personaje.Position.Y < 0;
         }
 
-        private Boolean sobreElAgua(TgcFpsCamera camara)
+        private Boolean sobreElAgua(Personaje personaje)
         {
-            return camara.Position.Y >= 0;
+            return personaje.Position.Y >= 0;
         }
 
         private void actualizoValoresSaludOxigeno(Personaje personaje)
         {
             //ACTUALIZO LOS VALORES DE SALUD Y OXIGENO
-            if (this.fueraDelMapa(GModel.camaraInterna))
+            if (this.fueraDelMapa(personaje))
             {
                 personaje.sufriDanio(7.5f * GModel.ElapsedTime) ;
             }
 
-            if (this.dentroDelMapa(GModel.camaraInterna))
+            if (this.dentroDelMapa(personaje))
             {
                 personaje.recuperaVida(3f * GModel.ElapsedTime);
             }
 
-            if (this.bajoElAgua(GModel.camaraInterna))
+            if (this.bajoElAgua(personaje))
             {
                 personaje.perdeOxigeno(7.5f * GModel.ElapsedTime);
             }
 
-            if (this.sobreElAgua(GModel.camaraInterna))
+            if (this.sobreElAgua(personaje))
             {
                 personaje.recuperaOxigeno(3f * GModel.ElapsedTime);
             }
@@ -948,8 +953,6 @@ namespace LosTiburones.Model
         }
 
         public float MovementSpeed { get => MOVEMENT_SPEED; }
-        
-
 
 
     }
