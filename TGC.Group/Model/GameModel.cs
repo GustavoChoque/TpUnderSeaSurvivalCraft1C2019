@@ -59,7 +59,9 @@ namespace TGC.Group.Model
 
         public Inventario inventario=new Inventario();
         public Escenario escenario = new Escenario();
-        
+
+        private Random rnd = new Random();
+
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
         ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
@@ -149,6 +151,8 @@ namespace TGC.Group.Model
             camaraInterna = new TgcFpsCamera(new TGCVector3(0, 60, 0), camaraMoveSpeed, camaraJumpSpeed, Input);
             Camara = camaraInterna;
         }
+
+        public Random GetRandom { get => rnd; }
 
     }
 

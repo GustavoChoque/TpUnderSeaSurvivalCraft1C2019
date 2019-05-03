@@ -11,83 +11,77 @@ namespace LosTiburones.Model
 {
     class Tiburon
     {
-        GameModel GModel;
-        private TGCVector3 posInicial;
+        private GameModel gmodel;
         private TgcMesh mesh;
-        private float anguloRebote;
-        private float anguloGiro;
+        private float velocidad = 7.5f;
+        private int tramo = 0;
+        private float anguloRebote = FastMath.PI / 4;
 
-        public Tiburon(TGCVector3 posInicial, TgcMesh mesh)
+        public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
-            this.posInicial = posInicial;
             this.mesh = mesh;
-            this.mesh.Position = posInicial;
-        }
-
-        public void Init(GameModel gmodel) {
-            this.GModel = gmodel;
+            this.gmodel = gmodel;
         }
 
         public Boolean tocoBorde() {
             return Position.X >= 5000 || Position.X <= -5000 || Position.Z >= 5000 || Position.Z <= -5000;
-     
         }
 
-        public void reboto(Escenario model)
+        private Boolean esPrimerTramo()
         {
-            //Se mueve en diagonal
-            float x = model.MovementSpeed * GModel.ElapsedTime * 0.707f;
-            float y = 0;
-            float z = model.MovementSpeed * GModel.ElapsedTime * -0.707f;
+            return tramo.Equals(0);
         }
 
-        private int sentidoRandom(Escenario model)
+        private Boolean esSegundoTramo()
         {
-            if (model.GetRandom.NextDouble() < 0.5)
-            {
-                return 1;
-            }
-            else return -1;
+            return tramo.Equals(1);
         }
 
-        public void moverse(Escenario model)
+        private Boolean esTercerTramo()
         {
-            //Cada X segundos cambio el sentido de movimiento
-            if ((GModel.ElapsedTime * 1000) % 10 < 0.2)
+            return tramo.Equals(2);
+        }
+
+        private Boolean esCuartoTramo()
+        {
+            return tramo.Equals(3);
+        }
+
+        public void moverse()
+        {
+            if (esPrimerTramo())
             {
-                //Encuentro el vector rotacion
-                float x = 0; // model.MovementSpeed * model.ElapsedTime * FastMath.Cos(anguloGiro);
-                float y = (float) model.GetRandom.NextDouble() * (FastMath.PI / 2) * sentidoRandom(model);
-                float z = 0; // model.MovementSpeed * model.ElapsedTime * FastMath.Sin(anguloGiro);
-
-                Rotation += new TGCVector3(x, y, z);
-
-                Transform = TGCMatrix.RotationYawPitchRoll(Rotation.X, Rotation.Y, Rotation.Z);
-            }
-            
-            //Reboto en un angulo que varia entre 0 y pi/2
-            //anguloRebote = (float) model.GetRandom.NextDouble() * (FastMath.PI / 2);
-            
-
-            
-            /*
-            TGCVector3 deltaPosition = new TGCVector3(x, y, z);
-            Position += deltaPosition;
-
-            if (this.tocoBorde()){
-                this.reboto(model);
-            }
-            */
-            /*
-
-            if (!((posInicial.X + 500 > Position.X) && (posInicial.X - 500 < Position.X)))
+                //var dir = new TGCVector3(1 * FastMath.Cos(anguloRebote), 0, 1 * FastMath.Cos(anguloRebote));
+                var dir = new TGCVector3(1, 0, 1);
+                dir.Multiply(velocidad);
+                mesh.Move(dir);
+            } else if (esSegundoTramo())
             {
-                currentMoveDir *= -1;
-                Rotation += new TGCVector3(0, FastMath.PI, 0);
+                //var dir = new TGCVector3(1 * FastMath.Cos(anguloRebote), 0, -1 * FastMath.Cos(anguloRebote));
+                var dir = new TGCVector3(1, 0, -1);
+                dir.Multiply(velocidad);
+                mesh.Move(dir);
+            } else if (esTercerTramo())
+            {
+                //var dir = new TGCVector3(-1 * FastMath.Cos(anguloRebote), 0, -1 * FastMath.Cos(anguloRebote));
+                var dir = new TGCVector3(-1, 0, -1);
+                dir.Multiply(velocidad);
+                mesh.Move(dir);
+            } else if (esCuartoTramo())
+            {
+                //var dir = new TGCVector3(-1 * FastMath.Cos(anguloRebote), 0, 1 * FastMath.Cos(anguloRebote));
+                var dir = new TGCVector3(-1, 0, 1);
+                dir.Multiply(velocidad);
+                mesh.Move(dir);
             }
-            */
 
-            //Transform = TGCMatrix.RotationYawPitchRoll(Rotation.X, Rotation.Y, Rotation.Z) * TGCMatrix.Translation(Position);
+            if (tocoBorde())
+            {
+                //anguloRebote = (float) gmodel.GetRandom.NextDouble() * (FastMath.PI / 2);
+                //RotateY(anguloRebote + (FastMath.PI / 2));
+                RotateY(FastMath.PI / 2);
+                tramo = (tramo + 1) % 4;
+            }
         }
 
         public void Render()
@@ -100,9 +94,28 @@ namespace LosTiburones.Model
             this.mesh.Dispose();
         }
 
-		public TGCVector3 Rotation { get => mesh.Rotation; set => mesh.Rotation = value; }
+        //public TGCVector3 Rotation { get => mesh.Rotation; set => mesh.Rotation = value; }
         public TGCMatrix Transform { get => mesh.Transform; set => mesh.Transform = value; }
         public TGCVector3 Position { get => mesh.Position; set => mesh.Position = value; }
-        //public float CurrentMoveDir { get => currentMoveDir; set => currentMoveDir = value; }
+        public float Velocidad { get => velocidad; set => velocidad = value; }
+        public void RotateX(float angle)
+        {
+            mesh.RotateX(angle);
+        }
+
+        public void RotateY(float angle)
+        {
+            mesh.RotateY(angle);
+        }
+
+        public void RotateZ(float angle)
+        {
+            mesh.RotateZ(angle);
+        }
+
+        public void Move(TGCVector3 vector)
+        {
+            mesh.Move(vector);
+        }
     }
 }
