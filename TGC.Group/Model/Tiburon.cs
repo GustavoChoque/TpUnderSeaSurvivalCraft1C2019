@@ -16,7 +16,7 @@ namespace LosTiburones.Model
         private float velocidad = 1f;
         private int tramo = 0;
         private float anguloRebote = FastMath.PI / 4;
-        private float radioDeteccion = 50;
+        private float radioDeteccion = 500;
 
         public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
@@ -59,28 +59,24 @@ namespace LosTiburones.Model
             {
                 if (esPrimerTramo())
                 {
-                    //var dir = new TGCVector3(1 * FastMath.Cos(anguloRebote), 0, 1 * FastMath.Cos(anguloRebote));
                     var dir = new TGCVector3(1, 0, 1);
                     dir.Multiply(velocidad);
                     mesh.Move(dir);
                 }
                 else if (esSegundoTramo())
                 {
-                    //var dir = new TGCVector3(1 * FastMath.Cos(anguloRebote), 0, -1 * FastMath.Cos(anguloRebote));
                     var dir = new TGCVector3(1, 0, -1);
                     dir.Multiply(velocidad);
                     mesh.Move(dir);
                 }
                 else if (esTercerTramo())
                 {
-                    //var dir = new TGCVector3(-1 * FastMath.Cos(anguloRebote), 0, -1 * FastMath.Cos(anguloRebote));
                     var dir = new TGCVector3(-1, 0, -1);
                     dir.Multiply(velocidad);
                     mesh.Move(dir);
                 }
                 else if (esCuartoTramo())
                 {
-                    //var dir = new TGCVector3(-1 * FastMath.Cos(anguloRebote), 0, 1 * FastMath.Cos(anguloRebote));
                     var dir = new TGCVector3(-1, 0, 1);
                     dir.Multiply(velocidad);
                     mesh.Move(dir);
@@ -88,8 +84,6 @@ namespace LosTiburones.Model
 
                 if (tocoBorde())
                 {
-                    //anguloRebote = (float) gmodel.GetRandom.NextDouble() * (FastMath.PI / 2);
-                    //RotateY(anguloRebote + (FastMath.PI / 2));
                     RotateY(FastMath.PI / 2);
                     tramo = (tramo + 1) % 4;
                 }
@@ -110,7 +104,6 @@ namespace LosTiburones.Model
             this.mesh.Dispose();
         }
 
-        //public TGCVector3 Rotation { get => mesh.Rotation; set => mesh.Rotation = value; }
         public TGCMatrix Transform { get => mesh.Transform; set => mesh.Transform = value; }
         public TGCVector3 Position { get => mesh.Position; set => mesh.Position = value; }
         public float Velocidad { get => velocidad; set => velocidad = value; }

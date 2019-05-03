@@ -174,7 +174,7 @@ namespace LosTiburones.Model
             );
 
             //-----Skybox
-            skybox.Center = GModel.Camara.Position;
+            skybox.Center = GModel.GetPersonaje.Position; //GModel.Camara.Position;
             //----------
 
             //REFRESCO EL TAMAÑO DE LA PANTALLA
@@ -239,9 +239,8 @@ namespace LosTiburones.Model
 
             //------------------------------------
             agua.Render();
-            //piso.Render();
+            piso.Render();
             coral.Render();
-            //meshTiburon.Render();
             tiburon.Render();
             coralBrain.Render();
             barco.RenderAll();
@@ -280,9 +279,8 @@ namespace LosTiburones.Model
             skybox.Dispose();
             terreno.Dispose();
             agua.Dispose();
-            //piso.Dispose();
+            piso.Dispose();
             coral.Dispose();
-            //meshTiburon.Dispose();
             tiburon.Dispose();
             coralBrain.Dispose();
             barco.DisposeAll();
@@ -880,7 +878,7 @@ namespace LosTiburones.Model
             //var textu = MediaDir + "Texturas\\Grass.jpg";
             var textu = GModel.MediaDir + "Texturas\\pasto.jpg";
             currentScaleXZ = 100f;
-            currentScaleY = 50f;
+            currentScaleY = 150f;
             //terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
             terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -195, 0));
             terreno.loadTexture(textu);
@@ -893,15 +891,14 @@ namespace LosTiburones.Model
             var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\agua20.jpg");
             agua = new TgcPlane(new TGCVector3(-20000, 0, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, aguaTextura);
 
-            var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\pasto.jpg");
-            piso = new TgcPlane(new TGCVector3(-5000, -300, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, pisoTextura);
+            var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed2.jpg");
+            piso = new TgcPlane(new TGCVector3(-20000, -1000, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, pisoTextura);
         }
 
         private void cargoMusica()
         {
             musica = new TgcMp3Player();
             musica.FileName = GModel.MediaDir + "\\Music\\AbandonShip.mp3";
-            //musica.play(true);
         }
 
 
