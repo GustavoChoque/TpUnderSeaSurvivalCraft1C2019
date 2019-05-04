@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TGC.Core.BoundingVolumes;
+using TGC.Core.Collision;
 using TGC.Core.Direct3D;
 using TGC.Core.Geometry;
 using TGC.Core.Mathematica;
@@ -27,6 +29,8 @@ namespace LosTiburones.Model
         private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
         private TgcScene barco;
         private TgcSkyBox skybox;
+        private Oro oro;
+        private Oro objetoAMostrar;
 
         private TgcSimpleTerrain terreno;
         private float currentScaleXZ;
@@ -86,7 +90,7 @@ namespace LosTiburones.Model
 
             this.cargoHeightmap();
 
-            this.cargoMusica();
+            //this.cargoMusica();
 
             this.cargoMeshes();
 
@@ -226,6 +230,11 @@ namespace LosTiburones.Model
                 GModel.DrawText.drawText("Te moriste", ScreenWidth / 2, ScreenHeight / 2, Color.Red);
             }
 
+            if(objetoAMostrar != null)
+            {
+                GModel.DrawText.drawText("Recolectar: " + oro.Nombre, Convert.ToInt32(Math.Round((double)ScreenWidth / 2.2)), Convert.ToInt32(Math.Round((double)ScreenHeight / 2.2)), Color.Red);
+            }
+
             //Render de BoundingBox, muy útil para debug de colisiones.
             /*
             if (BoundingBox)
@@ -278,6 +287,7 @@ namespace LosTiburones.Model
             pecesAzules.ForEach(obj => obj.Render());
 
             metales.ForEach(obj => obj.Render());
+            oro.Render();
 
             //SPRITES
             spriteDrawer.BeginDrawSprite();
@@ -320,7 +330,7 @@ namespace LosTiburones.Model
             pecesAzules.ForEach(obj => obj.Dispose());
 
             metales.ForEach(obj => obj.Dispose());
-
+            oro.Dispose();
         }
 
 
@@ -931,6 +941,8 @@ namespace LosTiburones.Model
             var texturaRubi = TgcTexture.createTexture(GModel.MediaDir + "\\Texturas\\ruby.jpg");
             var texturaPlatino = TgcTexture.createTexture(GModel.MediaDir + "\\Texturas\\platinum.jpg");
 
+            oro = new Oro(texturaOro, new TGCVector3(10, 10/4, 10/2), new TGCVector3(0, 100, 0), "Oro");
+
             for (int i = 0; i < 20; i++)
             {
                 for (int j = 0; j < 20; j++)
@@ -969,6 +981,33 @@ namespace LosTiburones.Model
                 }
             }
 
+        }
+
+        public void detectarColision(TgcBoundingCylinder cilindro)
+        {
+            if(!(oro.EsferaColision == null))
+            {
+                if (TgcCollisionUtils.testSphereCylinder(oro.EsferaColision, cilindro))
+                {
+                    cilindro.setRenderColor(Color.Red);
+                    objetoAMostrar = oro;
+                    if (GModel.Input.keyPressed(Key.E))
+                    {
+                        GModel.Personaje.inventario.Add(oro);
+                        oro.stopRending();
+                    }
+                }
+                else
+                {
+                    cilindro.setRenderColor(Color.LimeGreen);
+                    objetoAMostrar = null;
+                }
+            }
+            else
+            {
+                cilindro.setRenderColor(Color.LimeGreen);
+                objetoAMostrar = null;
+            }
         }
 
         public float MovementSpeed { get => MOVEMENT_SPEED; }

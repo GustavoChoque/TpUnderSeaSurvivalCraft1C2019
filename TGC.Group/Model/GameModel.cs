@@ -149,7 +149,7 @@ namespace TGC.Group.Model
             personaje.Init(this);
             inventario.Init(this, personaje);
 
-            cilindroColision = new TgcBoundingCylinder(camaraInterna.Position, 0.08f, 4);
+            cilindroColision = new TgcBoundingCylinder(camaraInterna.Position, 0.08f, 10);
             leftrightRot = 0;
             updownRot = Geometry.DegreeToRadian(90f) + (FastMath.PI / 10.0f);
             cilindroColision.rotateZ(updownRot);
@@ -252,10 +252,6 @@ namespace TGC.Group.Model
             //this.actualizoValoresSaludOxigeno(personaje);
 
             ////this.rotoMetales();
-            escenario.Update();
-            personaje.Update();
-            inventario.Update();
-
             cilindroColision.Center = camaraInterna.Position;
             if (camaraInterna.LockCam || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
             {
@@ -265,7 +261,13 @@ namespace TGC.Group.Model
             }
 
             cilindroColision.updateValues();
+            escenario.detectarColision(cilindroColision);
 
+            escenario.Update();
+            personaje.Update();
+            inventario.Update();
+
+            
             PostUpdate();
         }
 
@@ -1029,7 +1031,7 @@ namespace TGC.Group.Model
         //    var texturaOro = TgcTexture.createTexture(MediaDir + "\\Texturas\\oro.jpg");
         //    var texturaRubi = TgcTexture.createTexture(MediaDir + "\\Texturas\\ruby.jpg");
         //    var texturaPlatino = TgcTexture.createTexture(MediaDir + "\\Texturas\\platinum.jpg");
-            
+
         //    for (int i = 0; i < 20; i++)
         //    {
         //        for (int j = 0; j < 20; j++)
@@ -1073,7 +1075,7 @@ namespace TGC.Group.Model
         //public float MovementSpeed { get => MOVEMENT_SPEED; }
         //public Random GetRandom { get => rnd; }
 
-    }
+        public Personaje Personaje { get => personaje; set => personaje = value; }
 
-    
+    }
 }
