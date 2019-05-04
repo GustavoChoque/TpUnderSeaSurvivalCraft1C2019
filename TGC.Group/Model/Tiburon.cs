@@ -25,7 +25,7 @@ namespace LosTiburones.Model
             this.mesh = mesh;
             this.gmodel = gmodel;
             movDir.Normalize();
-            dirAnterior.Normalize();
+            //dirAnterior.Normalize();
         }
 
         public Boolean tocoBorde()
