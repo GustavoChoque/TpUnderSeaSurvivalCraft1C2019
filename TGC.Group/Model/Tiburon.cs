@@ -16,7 +16,7 @@ namespace LosTiburones.Model
         private float velocidad = 100f;
         private float radioDeteccion = 500;
         private TGCVector3 movDir = new TGCVector3(1, 0, 1);
-        private TGCVector3 dirAnterior = new TGCVector3(1, 0, 1);
+        //private TGCVector3 dirAnterior = new TGCVector3(1, 0, 1);
         float tiempoCambioRumbo = 10;
         float contadorTiempo = 0;
 
@@ -62,8 +62,8 @@ namespace LosTiburones.Model
             var nuevaDir = new TGCVector3(vectorPosPers);
             nuevaDir.Normalize();
 
-            var thetaViejaDir = FastMath.Atan(movDir.Z / movDir.X);
-            var thetaNuevaDir = FastMath.Atan(nuevaDir.Z / nuevaDir.X);
+            var thetaViejaDir = FastMath.Atan2(movDir.Z , movDir.X);
+            var thetaNuevaDir = FastMath.Atan2(nuevaDir.Z , nuevaDir.X);
 
             float anguloEntreDosVectores = thetaViejaDir - thetaNuevaDir;
 
@@ -89,13 +89,6 @@ namespace LosTiburones.Model
 
             if (contadorTiempo < tiempoCambioRumbo)
             {
-                var thetaViejaDir = FastMath.Atan(movDir.Z / movDir.X);
-                var thetaNuevaDir = FastMath.Atan(dirAnterior.Z / dirAnterior.X);
-
-                float anguloEntreDosVectores = thetaViejaDir - thetaNuevaDir;
-
-                RotateY(anguloEntreDosVectores);
-
                 var dirPosta = new TGCVector3(movDir);
                 dirPosta.Multiply(gmodel.ElapsedTime);
                 dirPosta.Multiply(Velocidad);
@@ -105,15 +98,15 @@ namespace LosTiburones.Model
             {
                 contadorTiempo = 0;
 
-                float x = (float)gmodel.GetRandom.NextDouble();
+                float x = (float) gmodel.GetRandom.NextDouble() * 2 - 1;
                 float y = 0;
-                float z = (float)gmodel.GetRandom.NextDouble();
+                float z = (float) gmodel.GetRandom.NextDouble() * 2 - 1;
 
                 var nuevaDir = new TGCVector3(x, y, z);
                 nuevaDir.Normalize();
 
-                var thetaViejaDir = FastMath.Atan(movDir.Z / movDir.X);
-                var thetaNuevaDir = FastMath.Atan(nuevaDir.Z / nuevaDir.X);
+                var thetaViejaDir = FastMath.Atan2(movDir.Z, movDir.X);
+                var thetaNuevaDir = FastMath.Atan2(nuevaDir.Z, nuevaDir.X);
 
                 float anguloEntreDosVectores = thetaViejaDir - thetaNuevaDir;
                 if (anguloEntreDosVectores < 0)
@@ -130,9 +123,6 @@ namespace LosTiburones.Model
                 dirPosta.Multiply(gmodel.ElapsedTime);
                 dirPosta.Multiply(Velocidad);
                 Move(dirPosta);
-
-                dirAnterior = new TGCVector3(movDir);
-                dirAnterior.Normalize();
             }
         }
 
