@@ -901,8 +901,6 @@ namespace LosTiburones.Model
             musica.FileName = GModel.MediaDir + "\\Music\\AbandonShip.mp3";
         }
 
-
-
         private void generoMetales()
         {
             var texturaOro = TgcTexture.createTexture(GModel.MediaDir + "\\Texturas\\oro.jpg");

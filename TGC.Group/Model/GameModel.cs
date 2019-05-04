@@ -61,6 +61,7 @@ namespace TGC.Group.Model
         public Escenario escenario = new Escenario();
 
         private Random rnd = new Random();
+        private TgcMp3Player sonido = new TgcMp3Player();
 
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
@@ -156,7 +157,25 @@ namespace TGC.Group.Model
 
         public Personaje GetPersonaje { get => personaje; }
 
-    }
+        public TgcMp3Player hacerSonar(String path)
+        {
+            sonido.FileName = MediaDir + path;
 
+            if (sonido.getStatus().Equals(TgcMp3Player.States.Open))
+            {
+                sonido.play(true);
+            } 
+
+            return sonido;
+        }
+
+        public void detener(TgcMp3Player sonido)
+        {
+            if (sonido.getStatus().Equals(TgcMp3Player.States.Playing))
+            {
+                sonido.stop();
+            }
+        }
+    }
     
 }

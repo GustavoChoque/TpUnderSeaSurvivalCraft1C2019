@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TGC.Core.Mathematica;
 using TGC.Core.SceneLoader;
+using TGC.Core.Sound;
 using TGC.Group.Model;
 
 namespace LosTiburones.Model
@@ -16,8 +17,9 @@ namespace LosTiburones.Model
         private float velocidad = 100f;
         private float radioDeteccion = 1000;
         private TGCVector3 movDir = new TGCVector3(1, 0, 1);
-        float tiempoCambioRumbo = 10;
-        float contadorTiempo = 0;
+        private float tiempoCambioRumbo = 10;
+        private float contadorTiempo = 0;
+        private TgcMp3Player sonido = new TgcMp3Player();
 
         public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
@@ -42,11 +44,13 @@ namespace LosTiburones.Model
             {
                 Velocidad = 200f;
                 perseguir(gmodel.GetPersonaje);
+                sonido = gmodel.hacerSonar("Music\\SharkNear.mp3");
             }
             else
             {
                 Velocidad = 100f;
                 pasear();
+                gmodel.detener(sonido);
             }
         }
 
