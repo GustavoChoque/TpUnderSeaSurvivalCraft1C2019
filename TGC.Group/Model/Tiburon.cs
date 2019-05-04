@@ -16,7 +16,6 @@ namespace LosTiburones.Model
         private float velocidad = 100f;
         private float radioDeteccion = 500;
         private TGCVector3 movDir = new TGCVector3(1, 0, 1);
-        //private TGCVector3 dirAnterior = new TGCVector3(1, 0, 1);
         float tiempoCambioRumbo = 10;
         float contadorTiempo = 0;
 
@@ -25,7 +24,6 @@ namespace LosTiburones.Model
             this.mesh = mesh;
             this.gmodel = gmodel;
             movDir.Normalize();
-            //dirAnterior.Normalize();
         }
 
         public Boolean tocoBorde()
@@ -42,19 +40,18 @@ namespace LosTiburones.Model
         {
             if (estoyCercaDelPersonaje(gmodel.GetPersonaje))
             {
+                Velocidad = 150f;
                 perseguir(gmodel.GetPersonaje);
             }
             else
             {
+                Velocidad = 100f;
                 pasear();
             }
         }
 
         private void perseguir(Personaje personaje)
         {
-            //LO PERSIGO
-            Velocidad = 120f;
-
             var vectorPosPers = new TGCVector3(personaje.Position);
             var vectorPosTibu = new TGCVector3(Position);
             vectorPosPers.Subtract(vectorPosTibu);
@@ -67,14 +64,7 @@ namespace LosTiburones.Model
 
             float anguloEntreDosVectores = thetaViejaDir - thetaNuevaDir;
 
-            if (enPrimerCuadrante(personaje) || enSegundoCuadrante(personaje))
-            {
-                RotateY(anguloEntreDosVectores);
-            }
-            else if (enTercerCuadrante(personaje) || enCuartoCuadrante(personaje))
-            {
-                RotateY(FastMath.PI + anguloEntreDosVectores);
-            }
+            RotateY(anguloEntreDosVectores);
 
             movDir = new TGCVector3(nuevaDir);
             var dirPosta = new TGCVector3(movDir);
