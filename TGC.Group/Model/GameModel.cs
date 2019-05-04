@@ -161,7 +161,7 @@ namespace TGC.Group.Model
         {
             sonido.FileName = MediaDir + path;
 
-            if (sonido.getStatus().Equals(TgcMp3Player.States.Open))
+            if (sonido.getStatus().Equals(TgcMp3Player.States.Open) || sonido.getStatus().Equals(TgcMp3Player.States.Stopped))
             {
                 sonido.play(true);
             } 
@@ -174,6 +174,7 @@ namespace TGC.Group.Model
             if (sonido.getStatus().Equals(TgcMp3Player.States.Playing))
             {
                 sonido.stop();
+                sonido.closeFile();
             }
         }
     }
