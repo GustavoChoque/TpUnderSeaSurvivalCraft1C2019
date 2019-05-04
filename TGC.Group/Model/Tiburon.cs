@@ -13,10 +13,14 @@ namespace LosTiburones.Model
     {
         private GameModel gmodel;
         private TgcMesh mesh;
-        private float velocidad = 1f;
+        private float velocidad = 100f;
         private int tramo = 0;
         private float anguloRebote = FastMath.PI / 4;
         private float radioDeteccion = 500;
+        private Boolean primeraRotacion = true;
+        private TGCVector3 movDir = new TGCVector3(0,0,0);
+        private TGCVector3 versorDir = new TGCVector3(0, 0, 0);
+        private float anguloAnterior = 0;
 
         public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
@@ -57,29 +61,35 @@ namespace LosTiburones.Model
         {
             if (!estoyCercaDelPersonaje(gmodel.GetPersonaje))
             {
+                primeraRotacion = true;
+
                 if (esPrimerTramo())
                 {
-                    var dir = new TGCVector3(1, 0, 1);
-                    dir.Multiply(velocidad);
-                    mesh.Move(dir);
+                    movDir = new TGCVector3(1, 0, 1);
+                    versorDir = new TGCVector3(movDir);
+                    movDir.Multiply(velocidad * gmodel.ElapsedTime);
+                    mesh.Move(movDir);
                 }
                 else if (esSegundoTramo())
                 {
-                    var dir = new TGCVector3(1, 0, -1);
-                    dir.Multiply(velocidad);
-                    mesh.Move(dir);
+                    movDir = new TGCVector3(1, 0, -1);
+                    versorDir = new TGCVector3(movDir);
+                    movDir.Multiply(velocidad * gmodel.ElapsedTime);
+                    mesh.Move(movDir);
                 }
                 else if (esTercerTramo())
                 {
-                    var dir = new TGCVector3(-1, 0, -1);
-                    dir.Multiply(velocidad);
-                    mesh.Move(dir);
+                    movDir = new TGCVector3(-1, 0, -1);
+                    versorDir = new TGCVector3(movDir);
+                    movDir.Multiply(velocidad * gmodel.ElapsedTime);
+                    mesh.Move(movDir);
                 }
                 else if (esCuartoTramo())
                 {
-                    var dir = new TGCVector3(-1, 0, 1);
-                    dir.Multiply(velocidad);
-                    mesh.Move(dir);
+                    movDir = new TGCVector3(-1, 0, 1);
+                    versorDir = new TGCVector3(movDir);
+                    movDir.Multiply(velocidad * gmodel.ElapsedTime);
+                    mesh.Move(movDir);
                 }
 
                 if (tocoBorde())
@@ -90,7 +100,63 @@ namespace LosTiburones.Model
             }
             else //LO PERSIGO
             {
-                //
+                //FUNCIONA SOLO SI LO PERSIGO DESDE ATRAS A LA DERECHA... 
+                //SEPARAR CASOS SEGUN POSICION??? SON 4 CASOS, UNO POR CUADRANTE
+                if (versorDir.Equals(new TGCVector3(1, 0, 1)))
+                {
+                    //PRIMER TRAMO
+                    if (true)
+                    {
+
+                    }
+                }
+                else if (versorDir.Equals(new TGCVector3(1, 0, -1)))
+                {
+                    //SEGUNDO TRAMO
+                    if (true)
+                    {
+
+                    }
+                }
+                else if (versorDir.Equals(new TGCVector3(-1, 0, -1)))
+                {
+                    //TERCER TRAMO
+                    if (true)
+                    {
+
+                    }
+                }
+                else if (versorDir.Equals(new TGCVector3(-1, 0, 1)))
+                {
+                    //CUARTO TRAMO
+                    if (true)
+                    {
+
+                    }
+                }
+
+                //SI RECIEN LO DESCUBRO TENGO QUE GIRAR UN ANGULO ADICIONAL
+                if (primeraRotacion)
+                {
+                    var primerAngulo = FastMath.Atan(movDir.Z / movDir.X);
+                    var x = Position.X - gmodel.GetPersonaje.Position.X;
+                    var z = gmodel.GetPersonaje.Position.Z - Position.Z;                    
+                    var segundoAngulo = FastMath.Atan(z / x) + FastMath.PI;
+
+                    RotateY(primerAngulo + segundoAngulo);
+                }
+                primeraRotacion = false;
+
+                //SINO TENGO QUE ROTAR LA DIFERENCIA UNICAMENTE
+                //HACER
+
+                //FINALMENTE ME MUEVO
+                var dir = gmodel.GetPersonaje.Position;
+                dir.Normalize();
+                dir.Multiply(-1f);
+                dir.Multiply(velocidad * gmodel.ElapsedTime);
+                
+                mesh.Move(dir);
             }            
         }
 
@@ -125,6 +191,30 @@ namespace LosTiburones.Model
         public void Move(TGCVector3 vector)
         {
             mesh.Move(vector);
+        }
+
+        public Boolean estaAtrasDerecha(Personaje personaje)
+        {
+            return Position.X > personaje.Position.X
+                && Position.Z < personaje.Position.Z;
+        }
+
+        public Boolean estaAdelanteDerecha(Personaje personaje)
+        {
+            return Position.X < personaje.Position.X
+                && Position.Z < personaje.Position.Z;
+        }
+
+        public Boolean estaAtrasIzquierda(Personaje personaje)
+        {
+            return Position.X > personaje.Position.X
+                && Position.Z > personaje.Position.Z;
+        }
+
+        public Boolean estaAdelanteIzquierda(Personaje personaje)
+        {
+            return Position.X < personaje.Position.X
+                && Position.Z > personaje.Position.Z;
         }
     }
 }
