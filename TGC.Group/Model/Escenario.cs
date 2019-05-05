@@ -27,6 +27,9 @@ namespace LosTiburones.Model
         private TgcPlane piso, agua;
         private TgcMesh coralBrain, coral, meshTiburon, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
         private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
+
+        public TgcMesh workbench;
+
         private TgcScene barco;
         private TgcSkyBox skybox;
         private Metales oro;
@@ -43,6 +46,8 @@ namespace LosTiburones.Model
         public List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
         private List<Pez> pecesAmarillos = new List<Pez>();
         private List<Pez> pecesAzules = new List<Pez>();
+
+        public List<TgcMesh> objetosInteractivos;
         private List<TGCBox> metales = new List<TGCBox>(); //hacer clase metales?
         private Pez pezCircular;
 
@@ -51,8 +56,6 @@ namespace LosTiburones.Model
         //Constantes para velocidades de movimiento
         private const float ROTATION_SPEED = 50f;
         private const float MOVEMENT_SPEED = 50f;
-
-        private Random rnd = new Random();
 
         private CustomBitmap bitmapCursor;
         private CustomBitmap bitmapCorazon, bitmapTanqueOxigeno, bitmapBarra00;
@@ -73,10 +76,7 @@ namespace LosTiburones.Model
         private int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
         private int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
-        private Personaje personaje = new Personaje(100, 100);
-        private float tiempoBajoElAgua = 0;
-        float tiempoQueAguantaBajoElAgua = 10;
-        float tiempoRestanteBajoElAgua;
+        //private Personaje personaje = new Personaje(100, 100);
 
         public List<TGCBox> Metales { get => metales; }
 
@@ -108,7 +108,14 @@ namespace LosTiburones.Model
 
             this.generoHUD();
 
-            tiburon.Init(gmodel);
+            objetosInteractivos = new List<TgcMesh>();
+
+            /*Luego cambiar el mesh, talvez por una computadora*/
+            workbench = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "ModelosTgc\\Workbench\\Workbench-TgcScene.xml").Meshes[0];
+            workbench.AutoTransformEnable = false;
+            workbench.Transform = TGCMatrix.Scaling(new TGCVector3(0.1f, 0.1f, 0.1f)) * TGCMatrix.Translation(new TGCVector3(0, 20, 10));
+            objetosInteractivos.Add(workbench);
+
 
         }
         public void Update()
@@ -130,6 +137,9 @@ namespace LosTiburones.Model
                 else if (musica.getStatus().Equals(TgcMp3Player.States.Paused))
                 {
                     musica.resume();
+                } else if (musica.getStatus().Equals(TgcMp3Player.States.Open))
+                {
+                    musica.play(true);
                 }
             }
 
@@ -143,7 +153,6 @@ namespace LosTiburones.Model
             //-----------movimientos-------------
             tiburon.moverse(this);
 
-
             //-----------
             //Muevo los peces amarillos
 
@@ -153,7 +162,7 @@ namespace LosTiburones.Model
             {
                 pez.Position += new TGCVector3(5f * pez.MoveSpeed * GModel.ElapsedTime * pez.CurrentMoveDir, 0, 0);
 
-                if (rnd.Next(0, 2000) > rnd.Next(1998, 1999) //cada tanto
+                if (GModel.GetRandom.Next(0, 2000) > GModel.GetRandom.Next(1998, 1999) //cada tanto
                     || this.fueraDelMapa(pez)) //si toco los bordes
                 {
                     //reboto
@@ -172,7 +181,7 @@ namespace LosTiburones.Model
             {
                 pez.Position += new TGCVector3(0, 0, 2f * pez.MoveSpeed * GModel.ElapsedTime * pez.CurrentMoveDir);
 
-                if (rnd.Next(0, 2000) > rnd.Next(1998, 1999) //cada tanto
+                if (GModel.GetRandom.Next(0, 2000) > GModel.GetRandom.Next(1998, 1999) //cada tanto
                     || this.fueraDelMapa(pez)) //si toco los bordes
                 {
                     //reboto
@@ -185,19 +194,14 @@ namespace LosTiburones.Model
             );
 
             //-----Skybox
-            skybox.Center = GModel.Camara.Position;
+            skybox.Center = GModel.GetPersonaje.Position; //GModel.Camara.Position;
             //----------
 
             //REFRESCO EL TAMAÑO DE LA PANTALLA
             ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
             ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
-            //CALCULO TIEMPO RESTANTE DE OXIGENO Y VIDA
-            tiempoRestanteBajoElAgua = (tiempoQueAguantaBajoElAgua - tiempoBajoElAgua);
-
-            this.actualizoValoresSaludOxigeno(personaje);
-
-            //this.rotoMetales();
+            this.actualizoValoresSaludOxigeno(GModel.GetPersonaje);
 
         }
 
@@ -208,23 +212,21 @@ namespace LosTiburones.Model
             GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
             GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
 
-            //DIBUJO MENSAJES DE VIDA Y OXIGENO
-            if (personaje.Vivo)
+            if (GModel.GetPersonaje.Vivo)
             {
-                //OXIGENO RESTANTE
-                if (tiempoBajoElAgua > 0 && tiempoRestanteBajoElAgua >= 0)
-                {
-                    GModel.DrawText.drawText("Te quedan " + tiempoRestanteBajoElAgua.ToString() + "segundos de oxigeno", 0, 50, Color.Blue);
-                }
-                else if (tiempoRestanteBajoElAgua <= 0)
+                if (bajoElAgua(GModel.GetPersonaje))
                 {
                     GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", 0, 50, Color.Red);
                 }
 
-                // VIDA RESTANTE
-                if ((this.fueraDelMapa(GModel.camaraInterna)))
+                if ((this.fueraDelMapa(GModel.GetPersonaje)))
                 {
                     GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", 0, 60, Color.Red);
+                }
+
+                if ((tiburon.estoyCercaDelPersonaje(GModel.GetPersonaje)))
+                {
+                    GModel.DrawText.drawText("Estás cerca del tiburón", 0, 70, Color.Red);
                 }
             }
             else
@@ -232,27 +234,10 @@ namespace LosTiburones.Model
                 GModel.DrawText.drawText("Te moriste", ScreenWidth / 2, ScreenHeight / 2, Color.Red);
             }
 
-            if(objetoAMostrar != null)
+            if (objetoAMostrar != null)
             {
                 GModel.DrawText.drawText("Recolectar: " + objetoAMostrar.Nombre, Convert.ToInt32(Math.Round((double)ScreenWidth / 2.2)), Convert.ToInt32(Math.Round((double)ScreenHeight / 2.2)), Color.Red);
             }
-
-            //Render de BoundingBox, muy útil para debug de colisiones.
-            /*
-            if (BoundingBox)
-            {
-                barco.BoundingBox.Render();
-                coralBrain.BoundingBox.Render();
-                coral.BoundingBox.Render();
-                shark.BoundingBox.Render();
-                fish.BoundingBox.Render();
-                pillarCoral.BoundingBox.Render();
-                seaShell.BoundingBox.Render();
-                spiralWireCoral.BoundingBox.Render();
-                treeCoral.BoundingBox.Render();
-                yellowFish.BoundingBox.Render();
-            }
-            */
 
             //--------skybox---------
             skybox.Render();
@@ -262,9 +247,8 @@ namespace LosTiburones.Model
 
             //------------------------------------
             agua.Render();
-            //piso.Render();
+            piso.Render();
             coral.Render();
-            //meshTiburon.Render();
             tiburon.Render();
             coralBrain.Render();
             barco.RenderAll();
@@ -297,6 +281,9 @@ namespace LosTiburones.Model
             sprites.ForEach(sprite => spriteDrawer.DrawSprite(sprite));
             spriteDrawer.EndDrawSprite();
 
+
+            workbench.Render();
+
         }
 
         public void Dispose()
@@ -305,9 +292,8 @@ namespace LosTiburones.Model
             skybox.Dispose();
             terreno.Dispose();
             agua.Dispose();
-            //piso.Dispose();
+            piso.Dispose();
             coral.Dispose();
-            //meshTiburon.Dispose();
             tiburon.Dispose();
             coralBrain.Dispose();
             barco.DisposeAll();
@@ -333,67 +319,61 @@ namespace LosTiburones.Model
             pecesAzules.ForEach(obj => obj.Dispose());
 
             metales.ForEach(obj => obj.Dispose());
+
             oro.Dispose();
             oro2.Dispose();
+
+
+            workbench.Dispose();
         }
 
 
-        private Boolean fueraDelMapa(TgcFpsCamera camara)
+        private Boolean fueraDelMapa(Personaje personaje)
         {
-            return camara.Position.X > 5000 || camara.Position.X < -5000 || camara.Position.Z > 5000 || camara.Position.Z < -5000;
+            return personaje.Position.X > 20000 || personaje.Position.X < -20000 || personaje.Position.Z > 20000 || personaje.Position.Z < -20000;
         }
 
         private Boolean fueraDelMapa(Pez pez)
         {
-            return pez.Position.X > 5000 || pez.Position.X < -5000 || pez.Position.Z > 5000 || pez.Position.Z < -5000;
+            return pez.Position.X > 20000 || pez.Position.X < -20000 || pez.Position.Z > 20000 || pez.Position.Z < -20000;
         }
 
-        private Boolean dentroDelMapa(TgcFpsCamera camara)
+        private Boolean dentroDelMapa(Personaje personaje)
         {
-            return camara.Position.X <= 5000 && GModel.Camara.Position.X >= -5000 && GModel.Camara.Position.Z <= 5000 && GModel.Camara.Position.Z >= -5000;
+            return personaje.Position.X <= 20000 && personaje.Position.X >= -20000 && personaje.Position.Z <= 20000 && personaje.Position.Z >= -20000;
         }
 
-        private Boolean bajoElAgua(TgcFpsCamera camara)
+        private Boolean bajoElAgua(Personaje personaje)
         {
-            return camara.Position.Y < 0;
+            return personaje.Position.Y < 0;
         }
 
-        private Boolean sobreElAgua(TgcFpsCamera camara)
+        private Boolean sobreElAgua(Personaje personaje)
         {
-            return camara.Position.Y >= 0;
+            return personaje.Position.Y >= 0;
         }
 
         private void actualizoValoresSaludOxigeno(Personaje personaje)
         {
             //ACTUALIZO LOS VALORES DE SALUD Y OXIGENO
-            //SI ME SALGO DEL MAPA, RESTO 1 DE SALUD
-            if (this.fueraDelMapa(GModel.camaraInterna))
+            if (this.fueraDelMapa(personaje))
             {
-                personaje.sufriDanio(.1f);
+                personaje.sufriDanio(7.5f * GModel.ElapsedTime) ;
             }
 
-            //SI VUELVO A ENTRAR AL MAPA RECUPERO LA ENERGIA
-            if (this.dentroDelMapa(GModel.camaraInterna))
+            if (this.dentroDelMapa(personaje))
             {
-                personaje.recuperaVida(.2f);
+                personaje.recuperaVida(3f * GModel.ElapsedTime);
             }
 
-            //SI ESTOY MAS DE DIEZ SEGUNDOS BAJO DEL AGUA
-            //PIERDO 1 DE OXIGENO
-            if (this.bajoElAgua(GModel.camaraInterna))
+            if (this.bajoElAgua(personaje))
             {
-                tiempoBajoElAgua = tiempoBajoElAgua + GModel.ElapsedTime;
-            }
-            if (tiempoBajoElAgua >= 10)
-            {
-                personaje.perdeOxigeno(.1f);
+                personaje.perdeOxigeno(7.5f * GModel.ElapsedTime);
             }
 
-            //SI SALGO A LA SUPERFICIE RECUPERO VIDA
-            if (this.sobreElAgua(GModel.camaraInterna))
+            if (this.sobreElAgua(personaje))
             {
-                tiempoBajoElAgua = 0;
-                personaje.recuperaOxigeno(.2f);
+                personaje.recuperaOxigeno(3f * GModel.ElapsedTime);
             }
 
             //ACTUALIZO LOS SPRITES DE ENERGIA Y OXIGENO
@@ -494,20 +474,20 @@ namespace LosTiburones.Model
             //PECES AMARILLOS
             //Se mueven en X
             //Se autoescalan entre 1 y 5
-            //Son 49
+            //Son 64
             //Tienen una velocidad de entre 25 y 75
             //----------------
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 8; i++)
             {
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    int currentMoveDirection = rnd.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
-                    float moveSpeed = (float)(rnd.NextDouble() * 75) + 25;
+                    int currentMoveDirection = GModel.GetRandom.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
+                    float moveSpeed = (float)(GModel.GetRandom.NextDouble() * 75) + 25;
 
                     Pez pez = new Pez(yellowFish.createMeshInstance(yellowFish.Name + i + "_" + j), currentMoveDirection, moveSpeed);
-                    pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
+                    pez.Position = new TGCVector3(GModel.GetRandom.Next(-4000, 4000), GModel.GetRandom.Next(-900, -50), GModel.GetRandom.Next(-4000, 4000));
 
-                    int scale = rnd.Next(1, 5);
+                    int scale = GModel.GetRandom.Next(1, 5);
                     pez.Scale = new TGCVector3(scale, scale, scale);
 
                     //Corrijo que los peces vayan para atras
@@ -533,20 +513,20 @@ namespace LosTiburones.Model
             //PECES AZULES
             //Se mueven en Z
             //Se autoescalan entre 10 y 20
-            //Son 49
+            //Son 64
             //Tienen una velocidad de entre 40 y 90
             //----------------
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 8; i++)
             {
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    int currentMoveDirection = rnd.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
-                    float moveSpeed = (float)(rnd.NextDouble() * 90) + 40;
+                    int currentMoveDirection = GModel.GetRandom.Next(0, 2) * 2 - 1; //Devuelve aleatoriamente una direccion de movimiento inicial (-1 o 1)
+                    float moveSpeed = (float)(GModel.GetRandom.NextDouble() * 90) + 40;
 
                     Pez pez = new Pez(fish.createMeshInstance(fish.Name + i + "_" + j), currentMoveDirection, moveSpeed);
-                    pez.Position = new TGCVector3(rnd.Next(-3000, 3000), rnd.Next(-290, -50), rnd.Next(-3000, 3000));
+                    pez.Position = new TGCVector3(GModel.GetRandom.Next(-4000, 4000), GModel.GetRandom.Next(-900, -50), GModel.GetRandom.Next(-4000, 4000));
 
-                    int scale = rnd.Next(10, 20);
+                    int scale = GModel.GetRandom.Next(10, 20);
                     pez.Scale = new TGCVector3(scale, scale, scale);
 
                     //Corrijo que los peces vayan para atras
@@ -669,8 +649,11 @@ namespace LosTiburones.Model
             coral.Position = new TGCVector3(10, -300, 0);
             coral.Transform = TGCMatrix.Translation(coral.Position);
 
-            tiburon = new Tiburon(new TGCVector3(-650, -100, 1000), meshTiburon);
-            tiburon.Transform = TGCMatrix.Translation(tiburon.Position);
+            tiburon = new Tiburon(meshTiburon, GModel);
+            //tiburon.Rotation += new TGCVector3(0, FastMath.PI / 2 + FastMath.PI / 4, 0);
+            //tiburon.Transform = TGCMatrix.Translation(tiburon.Position) * TGCMatrix.RotationYawPitchRoll(tiburon.Rotation.X, tiburon.Rotation.Y, tiburon.Rotation.Z);
+            tiburon.RotateY(FastMath.PI / 2 + FastMath.PI / 4);
+            tiburon.Move(new TGCVector3(-650, -100, 1000));
 
             coralBrain.Position = new TGCVector3(-200, -300, 340);
             coralBrain.Transform = TGCMatrix.Translation(coralBrain.Position);
@@ -719,15 +702,15 @@ namespace LosTiburones.Model
 
         private void generoObjetosEstaticosEnArray()
         {
-            var rows = 5;
-            var cols = 5;
+            var rows = 6;
+            var cols = 6;
             //----------------
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = coralBrain.createMeshInstance(coralBrain.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
                 }
@@ -740,9 +723,9 @@ namespace LosTiburones.Model
                 {
                     var instance = coral.createMeshInstance(coral.Name + i + "_" + j);
 
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     //escalado random
-                    var escalaObjeto = rnd.Next(1, 3);
+                    var escalaObjeto = GModel.GetRandom.Next(1, 3);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
                     instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
@@ -755,7 +738,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = pillarCoral.createMeshInstance(pillarCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
                 }
@@ -768,7 +751,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = seaShell.createMeshInstance(seaShell.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
                 }
@@ -780,7 +763,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = treeCoral.createMeshInstance(treeCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
                 }
@@ -792,7 +775,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = spiralWireCoral.createMeshInstance(spiralWireCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
                 }
@@ -804,7 +787,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = arbusto.createMeshInstance(arbusto.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.AlphaBlendEnable = true;
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
@@ -817,7 +800,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = arbusto2.createMeshInstance(arbusto2.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.AlphaBlendEnable = true;
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
@@ -830,7 +813,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = pasto.createMeshInstance(pasto.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.AlphaBlendEnable = true;
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
@@ -843,7 +826,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = planta.createMeshInstance(planta.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
                 }
@@ -855,7 +838,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = planta2.createMeshInstance(planta2.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
                 }
@@ -867,7 +850,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = planta3.createMeshInstance(planta3.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
                 }
@@ -879,7 +862,7 @@ namespace LosTiburones.Model
                 for (int j = 0; j < cols; j++)
                 {
                     var instance = roca.createMeshInstance(roca.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
                 }
@@ -911,9 +894,9 @@ namespace LosTiburones.Model
             //var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
             var path = GModel.MediaDir + "Texturas\\Heighmaps\\heighmap1.jpg";
             //var textu = MediaDir + "Texturas\\Grass.jpg";
-            var textu = GModel.MediaDir + "Texturas\\pasto.jpg";
+            var textu = GModel.MediaDir + "Texturas\\mountain.jpg";
             currentScaleXZ = 100f;
-            currentScaleY = 50f;
+            currentScaleY = 150f;
             //terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
             terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -195, 0));
             terreno.loadTexture(textu);
@@ -926,18 +909,15 @@ namespace LosTiburones.Model
             var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\agua20.jpg");
             agua = new TgcPlane(new TGCVector3(-20000, 0, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, aguaTextura);
 
-            var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\pasto.jpg");
-            piso = new TgcPlane(new TGCVector3(-5000, -300, -5000), new TGCVector3(10000, 0, 10000), TgcPlane.Orientations.XZplane, pisoTextura);
+            var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed.jpg");
+            piso = new TgcPlane(new TGCVector3(-20000, -1000, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, pisoTextura);
         }
 
         private void cargoMusica()
         {
             musica = new TgcMp3Player();
             musica.FileName = GModel.MediaDir + "\\Music\\AbandonShip.mp3";
-            musica.play(true);
         }
-
-
 
         private void generoMetales()
         {
@@ -952,13 +932,26 @@ namespace LosTiburones.Model
             objetosRecolectables.Add(oro);
             objetosRecolectables.Add(oro2);
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 16; i++)
             {
-                for (int j = 0; j < 20; j++)
+                for (int j = 0; j < 22; j++)
                 {
-                    var side = rnd.Next(0, 20);
+                    var side = GModel.GetRandom.Next(50, 75);
                     var instance = TGCBox.fromSize(new TGCVector3(side, side / 4, side / 2), texturaOro);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 8, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 8, GModel.GetRandom.Next(-6000, 6000));
+                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    metales.Add(instance);
+                }
+
+            }
+
+            for (int i = 0; i < 12; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    var side = GModel.GetRandom.Next(50, 75);
+                    var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaRubi);
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     metales.Add(instance);
                 }
@@ -969,22 +962,9 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    var side = rnd.Next(0, 20);
-                    var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaRubi);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    metales.Add(instance);
-                }
-
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    var side = rnd.Next(0, 20);
+                    var side = GModel.GetRandom.Next(50, 75);
                     var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaPlatino);
-                    instance.Position = new TGCVector3(rnd.Next(-5000, 5000), -300 + side / 2, rnd.Next(-5000, 5000));
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
                     metales.Add(instance);
                 }
@@ -1014,9 +994,10 @@ namespace LosTiburones.Model
         }
 
         public float MovementSpeed { get => MOVEMENT_SPEED; }
-        public Random GetRandom { get => rnd; }
 
-
-
+        public TgcScene getBarco()
+        {
+            return barco;
+        }
     }
 }
