@@ -11,9 +11,9 @@ using TGC.Core.Textures;
 
 namespace LosTiburones.Model
 {
-    class Oro : ObjetoDeInventario 
+    class Metales : ObjetoDeInventario 
     {
-        public Oro(TgcTexture textura, TGCVector3 tamanio, TGCVector3 posicion, string nombre)
+        public Metales(TgcTexture textura, TGCVector3 tamanio, TGCVector3 posicion, string nombre)
         {
             Objeto = TGCBox.fromSize(tamanio, textura);
             Objeto.Position = posicion;
@@ -26,16 +26,7 @@ namespace LosTiburones.Model
         }
 
         private TGCBox objeto;
-        private TgcBoundingSphere esferaColision;
-        private bool rending;
 
-
-        public void stopRending()
-        {
-            Rending = false;
-            EsferaColision.Dispose();
-            EsferaColision = null;
-        }
         public void Render()
         {
             if (Rending)
@@ -51,9 +42,6 @@ namespace LosTiburones.Model
         }
 
         public TGCBox Objeto { get => objeto; set => objeto = value; }
-        public TgcBoundingSphere EsferaColision { get => esferaColision; set => esferaColision = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public bool Rending { get => rending; set => rending = value; }
 
     }
 }

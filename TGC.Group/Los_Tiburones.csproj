@@ -109,7 +109,7 @@
     <Compile Include="Model\MovimientoCircular.cs" />
     <Compile Include="Model\MovimientoPez.cs" />
     <Compile Include="Model\ObjetoDeInventario.cs" />
-    <Compile Include="Model\Oro.cs" />
+    <Compile Include="Model\Metales.cs" />
     <Compile Include="Model\Personaje.cs" />
     <Compile Include="Model\Pez.cs" />
     <Compile Include="Model\SeaShell.cs" />

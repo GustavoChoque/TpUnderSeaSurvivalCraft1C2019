@@ -29,8 +29,10 @@ namespace LosTiburones.Model
         private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
         private TgcScene barco;
         private TgcSkyBox skybox;
-        private Oro oro;
-        private Oro objetoAMostrar;
+        private Metales oro;
+        private Metales oro2;
+        private ObjetoDeInventario objetoAMostrar;
+        private List<ObjetoDeInventario> objetosRecolectables;
 
         private TgcSimpleTerrain terreno;
         private float currentScaleXZ;
@@ -232,7 +234,7 @@ namespace LosTiburones.Model
 
             if(objetoAMostrar != null)
             {
-                GModel.DrawText.drawText("Recolectar: " + oro.Nombre, Convert.ToInt32(Math.Round((double)ScreenWidth / 2.2)), Convert.ToInt32(Math.Round((double)ScreenHeight / 2.2)), Color.Red);
+                GModel.DrawText.drawText("Recolectar: " + objetoAMostrar.Nombre, Convert.ToInt32(Math.Round((double)ScreenWidth / 2.2)), Convert.ToInt32(Math.Round((double)ScreenHeight / 2.2)), Color.Red);
             }
 
             //Render de BoundingBox, muy útil para debug de colisiones.
@@ -288,6 +290,7 @@ namespace LosTiburones.Model
 
             metales.ForEach(obj => obj.Render());
             oro.Render();
+            oro2.Render();
 
             //SPRITES
             spriteDrawer.BeginDrawSprite();
@@ -331,6 +334,7 @@ namespace LosTiburones.Model
 
             metales.ForEach(obj => obj.Dispose());
             oro.Dispose();
+            oro2.Dispose();
         }
 
 
@@ -941,7 +945,12 @@ namespace LosTiburones.Model
             var texturaRubi = TgcTexture.createTexture(GModel.MediaDir + "\\Texturas\\ruby.jpg");
             var texturaPlatino = TgcTexture.createTexture(GModel.MediaDir + "\\Texturas\\platinum.jpg");
 
-            oro = new Oro(texturaOro, new TGCVector3(10, 10/4, 10/2), new TGCVector3(0, 100, 0), "Oro");
+            oro = new Metales(texturaOro, new TGCVector3(10, 10/4, 10/2), new TGCVector3(0, 100, 0), "Oro");
+            oro2 = new Metales(texturaOro, new TGCVector3(10, 10 / 4, 10 / 2), new TGCVector3(0, 100, 50), "Oro");
+
+            objetosRecolectables = new List<ObjetoDeInventario>();
+            objetosRecolectables.Add(oro);
+            objetosRecolectables.Add(oro2);
 
             for (int i = 0; i < 20; i++)
             {
@@ -985,22 +994,16 @@ namespace LosTiburones.Model
 
         public void detectarColision(TgcBoundingCylinder cilindro)
         {
-            if(!(oro.EsferaColision == null))
+            List<ObjetoDeInventario> objetosEnColision = objetosRecolectables.Where(objeto => objeto.colisionaCon(cilindro)).ToList();
+            if (objetosEnColision.Any())
             {
-                if (TgcCollisionUtils.testSphereCylinder(oro.EsferaColision, cilindro))
+                cilindro.setRenderColor(Color.Red);
+                objetoAMostrar = objetosEnColision.First();
+                if (GModel.Input.keyPressed(Key.E))
                 {
-                    cilindro.setRenderColor(Color.Red);
-                    objetoAMostrar = oro;
-                    if (GModel.Input.keyPressed(Key.E))
-                    {
-                        GModel.Personaje.inventario.Add(oro);
-                        oro.stopRending();
-                    }
-                }
-                else
-                {
-                    cilindro.setRenderColor(Color.LimeGreen);
-                    objetoAMostrar = null;
+                    GModel.Personaje.inventario.Add(objetoAMostrar);
+                    objetoAMostrar.stopRending();
+                    objetosRecolectables.Remove(objetoAMostrar);
                 }
             }
             else
