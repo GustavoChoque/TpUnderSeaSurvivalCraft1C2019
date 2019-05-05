@@ -22,7 +22,8 @@ namespace TGC.Group.Model
         private float health;
         private float oxygen;
         private Boolean vivo = true;
-        
+        private float radioDeteccionNave = 50f;
+
         public Personaje(float health, float oxygen)
         {
             this.health = health;
@@ -192,6 +193,11 @@ namespace TGC.Group.Model
         public float Oxygen { get => oxygen; }
         public Boolean Vivo { get => vivo; }
         public TGCVector3 Position { get => gmodel.Camara.Position; }
+
+        public Boolean cercaDeNave(TgcScene nave)
+        {
+            return FastMath.Sqrt(FastMath.Pow2(nave.Meshes[0].Position.X - this.Position.X) + FastMath.Pow2(nave.Meshes[0].Position.Z - this.Position.Z)) < radioDeteccionNave;
+        }
 
     }
 }

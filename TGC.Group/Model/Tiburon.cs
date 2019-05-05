@@ -20,6 +20,7 @@ namespace LosTiburones.Model
         private float tiempoCambioRumbo = 10;
         private float contadorTiempo = 0;
         private TgcMp3Player sonido = new TgcMp3Player();
+        private Boolean escapo = false;
 
         public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
@@ -40,18 +41,36 @@ namespace LosTiburones.Model
 
         public void moverse(Escenario escenario)
         {
-            if (estoyCercaDelPersonaje(gmodel.GetPersonaje))
+            if (!gmodel.GetPersonaje.cercaDeNave(escenario.getBarco()))
             {
-                Velocidad = 200f;
-                perseguir(gmodel.GetPersonaje);
-                sonido = gmodel.hacerSonar("Music\\SharkNear.mp3");
+                escapo = true;
+
+                if (estoyCercaDelPersonaje(gmodel.GetPersonaje))
+                {
+                    Velocidad = 200f;
+                    perseguir(gmodel.GetPersonaje);
+                    sonido = gmodel.hacerSonar("Music\\SharkNear.mp3");
+                }
+                else
+                {
+                    Velocidad = 100f;
+                    pasear();
+                    gmodel.detener(sonido);
+                }
             }
             else
             {
+                if (escapo)
+                {
+                    Position = new TGCVector3((float)gmodel.GetRandom.NextDouble() * 1000 + 1000, Position.Y, (float)gmodel.GetRandom.NextDouble() * 1000 + 1000);
+                }
+
+                escapo = false;
+
                 Velocidad = 100f;
                 pasear();
                 gmodel.detener(sonido);
-            }
+            }            
         }
 
         private void perseguir(Personaje personaje)
@@ -90,28 +109,33 @@ namespace LosTiburones.Model
             }
             else
             {
-                contadorTiempo = 0;
-
-                float x = (float) gmodel.GetRandom.NextDouble() * 2 - 1;
-                float y = 0;
-                float z = (float) gmodel.GetRandom.NextDouble() * 2 - 1;
-
-                var nuevaDir = new TGCVector3(x, y, z);
-                nuevaDir.Normalize();
-
-                var thetaViejaDir = FastMath.Atan2(movDir.Z, movDir.X);
-                var thetaNuevaDir = FastMath.Atan2(nuevaDir.Z, nuevaDir.X);
-
-                float anguloEntreDosVectores = thetaViejaDir - thetaNuevaDir;
-
-                RotateY(anguloEntreDosVectores);
-
-                movDir = new TGCVector3(nuevaDir);
-                var dirPosta = new TGCVector3(movDir);
-                dirPosta.Multiply(gmodel.ElapsedTime);
-                dirPosta.Multiply(Velocidad);
-                Move(dirPosta);
+                cambioRumbo();
             }
+        }
+
+        private void cambioRumbo()
+        {
+            contadorTiempo = 0;
+
+            float x = (float)gmodel.GetRandom.NextDouble() * 2 - 1;
+            float y = 0;
+            float z = (float)gmodel.GetRandom.NextDouble() * 2 - 1;
+
+            var nuevaDir = new TGCVector3(x, y, z);
+            nuevaDir.Normalize();
+
+            var thetaViejaDir = FastMath.Atan2(movDir.Z, movDir.X);
+            var thetaNuevaDir = FastMath.Atan2(nuevaDir.Z, nuevaDir.X);
+
+            float anguloEntreDosVectores = thetaViejaDir - thetaNuevaDir;
+
+            RotateY(anguloEntreDosVectores);
+
+            movDir = new TGCVector3(nuevaDir);
+            var dirPosta = new TGCVector3(movDir);
+            dirPosta.Multiply(gmodel.ElapsedTime);
+            dirPosta.Multiply(Velocidad);
+            Move(dirPosta);
         }
         
         public void Render()

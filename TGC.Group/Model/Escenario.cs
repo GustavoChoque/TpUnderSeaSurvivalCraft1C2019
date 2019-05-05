@@ -968,6 +968,9 @@ namespace LosTiburones.Model
 
         public float MovementSpeed { get => MOVEMENT_SPEED; }
 
-
+        public TgcScene getBarco()
+        {
+            return barco;
+        }
     }
 }
