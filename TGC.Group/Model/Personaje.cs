@@ -37,7 +37,11 @@ namespace TGC.Group.Model
             inventario.Add(brainCoral);
             var seaShell = new SeaShell();
             inventario.Add(seaShell);
-            
+            var tanqueOxigeno = new TanqueOxigeno();
+            inventario.Add(tanqueOxigeno);
+            var botiquin = new Botiquin();
+            inventario.Add(botiquin);
+
         }
 
         public void Update()
@@ -101,7 +105,24 @@ namespace TGC.Group.Model
                 }
             });
 
-            }
+
+            //-----------crafteo------------
+            this.gmodel.escenario.objetosInteractivos.ForEach(objetoInteractivo =>
+            {
+                if (objetoCerca(objetoInteractivo))
+                {
+                    if (objetoInteractivo.Name.StartsWith("Workbench") && Input.keyPressed(Key.C))
+                    {
+                        gmodel.ic.activar();
+
+                    }
+
+
+                }
+            });
+
+
+        }
         public void Render()
         {
 

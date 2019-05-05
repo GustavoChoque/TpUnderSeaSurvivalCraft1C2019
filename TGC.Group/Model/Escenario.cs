@@ -25,6 +25,9 @@ namespace LosTiburones.Model
         private TgcPlane piso, agua;
         private TgcMesh coralBrain, coral, meshTiburon, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
         private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
+
+        public TgcMesh workbench;
+
         private TgcScene barco;
         private TgcSkyBox skybox;
 
@@ -37,6 +40,8 @@ namespace LosTiburones.Model
         public List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
         private List<Pez> pecesAmarillos = new List<Pez>();
         private List<Pez> pecesAzules = new List<Pez>();
+
+        public List<TgcMesh> objetosInteractivos;
         private List<TGCBox> metales = new List<TGCBox>(); //hacer clase metales?
         private Pez pezCircular;
 
@@ -96,6 +101,15 @@ namespace LosTiburones.Model
             this.generoMetales();
 
             this.generoHUD();
+
+            objetosInteractivos = new List<TgcMesh>();
+
+            /*Luego cambiar el mesh, talvez por una computadora*/
+            workbench = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "ModelosTgc\\Workbench\\Workbench-TgcScene.xml").Meshes[0];
+            workbench.AutoTransformEnable = false;
+            workbench.Transform = TGCMatrix.Scaling(new TGCVector3(0.1f, 0.1f, 0.1f)) * TGCMatrix.Translation(new TGCVector3(0, 20, 10));
+            objetosInteractivos.Add(workbench);
+
 
         }
         public void Update()
@@ -271,6 +285,9 @@ namespace LosTiburones.Model
             sprites.ForEach(sprite => spriteDrawer.DrawSprite(sprite));
             spriteDrawer.EndDrawSprite();
 
+
+            workbench.Render();
+
         }
 
         public void Dispose()
@@ -306,6 +323,8 @@ namespace LosTiburones.Model
             pecesAzules.ForEach(obj => obj.Dispose());
 
             metales.ForEach(obj => obj.Dispose());
+
+            workbench.Dispose();
 
         }
 

@@ -55,10 +55,11 @@ namespace TGC.Group.Model
         private const float camaraMoveSpeed = 400f;
         private const float camaraJumpSpeed = 80f;
 
-        private Personaje personaje = new Personaje(100, 100);
+        public Personaje personaje = new Personaje(100, 100);
 
         public Inventario inventario=new Inventario();
         public Escenario escenario = new Escenario();
+        public InterfazDeCrafting ic = new InterfazDeCrafting();
 
         private Random rnd = new Random();
         private TgcMp3Player sonido = new TgcMp3Player();
@@ -78,6 +79,7 @@ namespace TGC.Group.Model
             escenario.Init(this);
             
             inventario.Init(this, personaje);
+            ic.Init(this, personaje);
 
             cilindroColision = new TgcBoundingCylinder(camaraInterna.Position, 0.08f, 4);
             leftrightRot = 0;
@@ -99,6 +101,8 @@ namespace TGC.Group.Model
             escenario.Update();
             personaje.Update();
             inventario.Update();
+            ic.Update();
+
 
             cilindroColision.Center = camaraInterna.Position;
             if (camaraInterna.LockCam || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
@@ -126,6 +130,7 @@ namespace TGC.Group.Model
             escenario.Render();
             personaje.Render();
             inventario.Render();
+            ic.Render();
 
             cilindroColision.Render();
 
@@ -142,6 +147,7 @@ namespace TGC.Group.Model
         {
             escenario.Dispose();
             inventario.Dispose();
+            ic.Dispose();
 
             cilindroColision.Dispose();
 
