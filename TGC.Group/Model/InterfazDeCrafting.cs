@@ -111,16 +111,10 @@ namespace LosTiburones.Model
         public void Update()
         {
 
-
-
         }
 
         public void Render()
         {
-
-
-
-
             if (activo)
             {
                 drawer2D.BeginDrawSprite();
@@ -172,26 +166,23 @@ namespace LosTiburones.Model
          * agregar el objeto removerlo de la lista de objetos del pesonaje*/
         private void craftingOxigeno()
         {
-            if (personaje.inventario.Exists(o => o.nombre.Equals("BrainCoral") && o.cantidad >= 2))
+            if (personaje.Inventario.tieneObjetoYCantidad("BrainCoral", 2))
             {
-                personaje.inventario.Find(o => o.nombre.Equals("TanqueOxigeno")).cantidad++;
-                personaje.inventario.Find(o => o.nombre.Equals("BrainCoral")).cantidad -= 2;
+                personaje.Inventario.agregaObjeto(new TanqueOxigeno());
+                personaje.Inventario.sacarObjetoYCantidad("BrainCoral", 2);
             }
-
-
         }
 
         private void craftingBotiquin()
         {
-            if (personaje.inventario.Exists(o1 => o1.nombre.Equals("BrainCoral") && o1.cantidad >= 2) &&
-                personaje.inventario.Exists(o2 => o2.nombre.Equals("SeaShell") && o2.cantidad >= 1))
+            if (personaje.Inventario.tieneObjetoYCantidad("BrainCoral", 2) &&
+                personaje.Inventario.tieneObjetoYCantidad("SeaShell", 1))
             {
-                personaje.inventario.Find(o => o.nombre.Equals("Botiquin")).cantidad++;
-                personaje.inventario.Find(o1 => o1.nombre.Equals("BrainCoral")).cantidad -= 2;
-                personaje.inventario.Find(o2 => o2.nombre.Equals("SeaShell")).cantidad--;
+                personaje.Inventario.agregaObjeto(new Botiquin());
+                personaje.Inventario.sacarObjetoYCantidad("BrainCoral", 2);
+                personaje.Inventario.sacarObjetoYCantidad("SeaShell", 1);
 
             }
-
         }
 
 

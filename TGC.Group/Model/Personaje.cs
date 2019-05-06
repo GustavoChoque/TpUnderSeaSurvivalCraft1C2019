@@ -18,7 +18,8 @@ namespace TGC.Group.Model
     {
         GameModel gmodel;
         //TgcMesh mesh;
-        public List<ObjetoDeInventario> inventario;       
+        //public List<InterfazRecolectable> inventario;   
+        private Inventario inventario;
         private float health;
         private float oxygen;
         private Boolean vivo = true;
@@ -33,80 +34,16 @@ namespace TGC.Group.Model
         public void Init(GameModel gmodel)
         {
             this.gmodel = gmodel;
-            this.inventario = new List<ObjetoDeInventario>();
-            var brainCoral = new BrainCoral();
-            inventario.Add(brainCoral);
-            var seaShell = new SeaShell();
-            inventario.Add(seaShell);
-            var tanqueOxigeno = new TanqueOxigeno();
-            inventario.Add(tanqueOxigeno);
-            var botiquin = new Botiquin();
-            inventario.Add(botiquin);
-
+            inventario = new Inventario(gmodel, this);
+            Inventario.agregaObjeto(new ObjetoInventario("BrainCoral", 4));
+            Inventario.agregaObjeto(new ObjetoInventario("SeaShell", 1));
         }
 
         public void Update()
         {
             var Input = this.gmodel.Input;
-            this.gmodel.escenario.objetosEstaticosEnArray.ForEach(objetoRecolectable =>
-            {
-                if (objetoCerca(objetoRecolectable))
-                {
-                    if (objetoRecolectable.Name.StartsWith("brain") && Input.keyPressed(Key.E))
-                    {
-                        objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
-                        //despues sino buscar talvez que, que me lo encuentre por el nombre o dejarlo asi por index 
-                        inventario[0].cantidad++;
-                    }
-                    if (objetoRecolectable.Name.StartsWith("sea") && Input.keyPressed(Key.E))
-                    {
-                        objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
-                        inventario[1].cantidad++;
-
-                    }
-
-
-                    //este no lo agarra
-                    if (objetoRecolectable.Name.StartsWith("tree") && Input.keyPressed(Key.E))
-                    {
-                        objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
-                    }
-
-                    //este no lo agarra
-                    if (objetoRecolectable.Name.StartsWith("pillar") && Input.keyPressed(Key.E))
-                    {
-                        objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
-                    }
-                    //este no lo agarra
-                    if (objetoRecolectable.Name.StartsWith("coral") && Input.keyPressed(Key.E))
-                    {
-                        objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
-                    }
-                    if (objetoRecolectable.Name.StartsWith("spiral") && Input.keyPressed(Key.E))
-                    {
-                        objetoRecolectable.Enabled = false;
-                        objetoRecolectable.Position = new TGCVector3(objetoRecolectable.Position.X, 1000, objetoRecolectable.Position.Z);
-                    }
-                }
-            });
-
-            this.gmodel.escenario.Metales.ForEach(metal =>
-            {
-                if (objetoCerca(metal))
-                {
-                    if (Input.keyPressed(Key.E))
-                    {
-                        metal.Enabled = false;
-                    }
-                }
-            });
-
-
+            
+            inventario.Update();
             //-----------crafteo------------
             this.gmodel.escenario.objetosInteractivos.ForEach(objetoInteractivo =>
             {
@@ -121,13 +58,15 @@ namespace TGC.Group.Model
 
                 }
             });
-
-
         }
         public void Render()
         {
+            inventario.Render();           
+        }
 
-           
+        public void Dispose()
+        {
+            inventario.Dispose();
         }
 
         public bool objetoCerca(TgcMesh objeto)
@@ -141,7 +80,6 @@ namespace TGC.Group.Model
             var distanciaRecoleccion = 1000 * 8;//fui probando distintos numeros
             return TGCVector3.LengthSq(objeto.Position - Position) < distanciaRecoleccion;
         }
-
 
         public void sufriDanio(float danio)
         {
@@ -193,6 +131,7 @@ namespace TGC.Group.Model
         public float Oxygen { get => oxygen; }
         public Boolean Vivo { get => vivo; }
         public TGCVector3 Position { get => gmodel.Camara.Position; }
+        public Inventario Inventario { get => inventario; }
 
         public Boolean cercaDeNave(TgcScene nave)
         {

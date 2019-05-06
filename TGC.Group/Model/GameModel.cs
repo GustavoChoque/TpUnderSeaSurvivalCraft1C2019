@@ -57,7 +57,6 @@ namespace TGC.Group.Model
 
         public Personaje personaje = new Personaje(100, 100);
 
-        public Inventario inventario = new Inventario();
         public Escenario escenario = new Escenario();
         public InterfazDeCrafting ic = new InterfazDeCrafting();
 
@@ -78,7 +77,6 @@ namespace TGC.Group.Model
             personaje.Init(this);
             escenario.Init(this);
 
-            inventario.Init(this, personaje);
             ic.Init(this, personaje);
 
             cilindroColision = new TgcBoundingCylinder(camaraInterna.Position, 0.08f, 10);
@@ -98,6 +96,10 @@ namespace TGC.Group.Model
         {
             PreUpdate();
 
+            escenario.Update();
+            personaje.Update();
+            ic.Update();
+
             cilindroColision.Center = camaraInterna.Position;
             if (camaraInterna.LockCam || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
             {
@@ -108,11 +110,6 @@ namespace TGC.Group.Model
 
             cilindroColision.updateValues();
             escenario.detectarColision(cilindroColision);
-
-            escenario.Update();
-            personaje.Update();
-            inventario.Update();
-            ic.Update();
 
             PostUpdate();
         }
@@ -129,7 +126,6 @@ namespace TGC.Group.Model
 
             escenario.Render();
             personaje.Render();
-            inventario.Render();
             ic.Render();
 
             cilindroColision.Render();
@@ -146,7 +142,7 @@ namespace TGC.Group.Model
         public override void Dispose()
         {
             escenario.Dispose();
-            inventario.Dispose();
+            personaje.Dispose();
             ic.Dispose();
 
             cilindroColision.Dispose();

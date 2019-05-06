@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace LosTiburones.Model
 {
-    class Botiquin : ObjetoDeInventario
+    class Botiquin: ObjetoInventario
     {
-        public Botiquin()
-        {
-            this.nombre = "Botiquin";
-            this.cantidad = 0;
-        }
+        public Botiquin() : base("TanqueOxigeno", 1) { }
     }
 }

@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace LosTiburones.Model
 {
-    class TanqueOxigeno:ObjetoDeInventario
+    class TanqueOxigeno: ObjetoInventario
     {
-        public TanqueOxigeno()
-        {
-
-            this.nombre = "TanqueOxigeno";
-            this.cantidad = 0;
-        }
+        public TanqueOxigeno() : base("TanqueOxigeno", 1) { }
     }
 }

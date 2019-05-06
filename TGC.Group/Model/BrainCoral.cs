@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace LosTiburones.Model
 {
-    class BrainCoral : ObjetoDeInventario
+    class BrainCoral : ObjetoInventario
     {
-        public BrainCoral()
-        {
-            this.nombre = "BrainCoral";
-            this.cantidad = 0;
-        }
+        public BrainCoral() : base("BrainCoral", 1) { }
     }
 }

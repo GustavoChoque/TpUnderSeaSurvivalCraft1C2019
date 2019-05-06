@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace LosTiburones.Model
 {
-    public class SeaShell : ObjetoDeInventario
+    public class SeaShell : ObjetoInventario
     {
-        public SeaShell()
-        {
-            this.nombre = "SeaShell";
-            this.cantidad = 0;
-        }
+        public SeaShell() : base("SeaShell", 1) { }
     }
 }

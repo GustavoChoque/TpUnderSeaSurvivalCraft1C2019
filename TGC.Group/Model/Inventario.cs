@@ -16,17 +16,18 @@ namespace LosTiburones.Model
     public class Inventario
     {
         Personaje personaje;
-
-
+        List<ObjetoInventario> objetos;
+        List<TgcText2D> textosAMostrar;
         private GameModel GModel;
         private Drawer2D drawer2D;
         private CustomSprite sprite;
-        private TgcText2D texto, texto2,texto3, texto4;
         private bool activo;
 
-        public void Init(GameModel gmodel, Personaje per)
+        public Inventario(GameModel gmodel, Personaje per)
         {
-            
+            objetos = new List<ObjetoInventario>();
+            textosAMostrar = new List<TgcText2D>();
+
             this.GModel = gmodel;
             this.personaje = per;
             drawer2D = new Drawer2D();
@@ -45,39 +46,6 @@ namespace LosTiburones.Model
 
 
             activo = false;
-            //---------texto para inventario-------
-            texto = new TgcText2D();
-            texto.Text = this.personaje.inventario[0].nombre + "-----" + this.personaje.inventario[0].cantidad;
-            texto.Align = TgcText2D.TextAlign.RIGHT;
-            //ver luego como hacer que el sprite no tape el texto
-            texto.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 150);
-            texto.Size = new Size(300, 100);
-            texto.Color = Color.Gold;
-
-            texto2 = new TgcText2D();
-            texto2.Text = this.personaje.inventario[1].nombre + "-----" + this.personaje.inventario[1].cantidad;
-            texto2.Align = TgcText2D.TextAlign.RIGHT;
-            //ver luego como hacer que el sprite no tape el texto
-            texto2.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 160);
-            texto2.Size = new Size(300, 100);
-            texto2.Color = Color.Gold;
-
-            texto3 = new TgcText2D();
-            texto3.Text = this.personaje.inventario[2].nombre + "-----" + this.personaje.inventario[2].cantidad;
-            texto3.Align = TgcText2D.TextAlign.RIGHT;
-
-            texto3.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 170);
-            texto3.Size = new Size(300, 100);
-            texto3.Color = Color.Gold;
-
-            texto4 = new TgcText2D();
-            texto4.Text = this.personaje.inventario[3].nombre + "-----" + this.personaje.inventario[3].cantidad;
-            texto4.Align = TgcText2D.TextAlign.RIGHT;
-
-            texto4.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 180);
-            texto4.Size = new Size(300, 100);
-            texto4.Color = Color.Gold;
-
         }
         public void Update()
         {
@@ -85,15 +53,12 @@ namespace LosTiburones.Model
             if (Input.keyPressed(Key.I))
             {
                 activo = !activo;
+                if (activo)
+                {
+                    limpiarListaDeTextoAMostrar();
+                    llenarListaDeTextoAMostrar();
+                }
             }
-
-            texto.Text = this.personaje.inventario[0].nombre + "-----" + this.personaje.inventario[0].cantidad;
-            texto2.Text = this.personaje.inventario[1].nombre + "-----" + this.personaje.inventario[1].cantidad;
-            texto3.Text = this.personaje.inventario[2].nombre + "-----" + this.personaje.inventario[2].cantidad;
-            texto4.Text = this.personaje.inventario[3].nombre + "-----" + this.personaje.inventario[3].cantidad;
-
-
-
         }
 
         public void Render()
@@ -106,10 +71,7 @@ namespace LosTiburones.Model
                 drawer2D.DrawSprite(sprite);
                 drawer2D.DrawLine(new TGCVector2(1, 1), new TGCVector2(1, 200), Color.Red, 5, true);
                 drawer2D.EndDrawSprite();
-                texto.render();
-                texto2.render();
-                texto3.render();
-                texto4.render();
+                textosAMostrar.ForEach(texto => texto.render());
             }
            
 
@@ -117,11 +79,63 @@ namespace LosTiburones.Model
         public void Dispose()
         {
             sprite.Dispose();
-            texto.Dispose();
-            texto2.Dispose();
-            texto3.Dispose();
-            texto4.Dispose();
+            limpiarListaDeTextoAMostrar();
 
         }
+
+        //Agrega objetos controlando la no repeticion
+        public void agregaObjeto(ObjetoInventario objetoAAgregar)
+        {
+            ObjetoInventario obj = objetos.Find(objeto => objeto.Nombre.Equals(objetoAAgregar.Nombre));
+            if (obj != null)
+            {
+                obj.Cantidad += objetoAAgregar.Cantidad;
+            }
+            else
+            {
+                objetos.Add(objetoAAgregar);
+            }
+        }
+
+        //Saca una cantidad de un objeto del inventario y si es 0 lo elimina. El metodo NO checkea que el objeto exista y que el resultado de la reduccion sea justo 0
+        public void sacarObjetoYCantidad(String nombre, int cantidad)
+        {
+            ObjetoInventario obj = objetos.Find(objeto => objeto.Nombre.Equals(nombre));
+            obj.Cantidad -= cantidad;
+            if (obj.Cantidad < 1)
+            {
+                objetos.Remove(obj);
+            }
+        }
+
+        //Busca en la lista de objetos por nombre y devuelte true si hay cantidad o mas
+        public bool tieneObjetoYCantidad(String nombre, int cantidad)
+        {
+            return objetos.Exists(objeto => objeto.Nombre.Equals(nombre) && objeto.Cantidad >= cantidad);
+        }
+
+        private void limpiarListaDeTextoAMostrar()
+        {
+            //textosAMostrar.ForEach(texto => texto.Dispose());
+            textosAMostrar.Clear();
+        }
+
+        private void llenarListaDeTextoAMostrar()
+        {
+            objetos.ForEach(objeto => textoParaMostrar(objeto));
+        }
+
+        private void textoParaMostrar(ObjetoInventario objeto)
+        {
+            var textureSize = sprite.Bitmap.Size;
+            TgcText2D texto = new TgcText2D();
+            texto.Text = objeto.Nombre + "-----" + objeto.Cantidad.ToString();
+            texto.Align = TgcText2D.TextAlign.RIGHT;
+            texto.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 150 + (10 * textosAMostrar.Count));
+            texto.Size = new Size(300, 100);
+            texto.Color = Color.Gold;
+            textosAMostrar.Add(texto);
+        }
+
     }
 }

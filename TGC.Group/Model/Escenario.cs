@@ -32,10 +32,8 @@ namespace LosTiburones.Model
 
         private TgcScene barco;
         private TgcSkyBox skybox;
-        private Metales oro;
-        private Metales oro2;
-        private ObjetoDeInventario objetoAMostrar;
-        private List<ObjetoDeInventario> objetosRecolectables;
+        private InterfazRecolectable objetoAMostrar;
+        private List<InterfazRecolectable> objetosRecolectables = new List<InterfazRecolectable>();
 
         private TgcSimpleTerrain terreno;
         private float currentScaleXZ;
@@ -48,7 +46,7 @@ namespace LosTiburones.Model
         private List<Pez> pecesAzules = new List<Pez>();
 
         public List<TgcMesh> objetosInteractivos;
-        private List<TGCBox> metales = new List<TGCBox>(); //hacer clase metales?
+        private List<Metal> metales = new List<Metal>();
         private Pez pezCircular;
 
         private Tiburon tiburon;
@@ -78,14 +76,14 @@ namespace LosTiburones.Model
 
         //private Personaje personaje = new Personaje(100, 100);
 
-        public List<TGCBox> Metales { get => metales; }
+        private List<Metal> Metales { get => metales; }
 
         public void Init(GameModel gmodel)
         {
             this.GModel = gmodel;
             //Device de DirectX para crear primitivas.
             var d3dDevice = D3DDevice.Instance.Device;
-
+            
             this.cargoPisos();
 
             this.cargoSkybox();
@@ -107,7 +105,7 @@ namespace LosTiburones.Model
             this.generoMetales();
 
             this.generoHUD();
-
+            
             objetosInteractivos = new List<TgcMesh>();
 
             /*Luego cambiar el mesh, talvez por una computadora*/
@@ -236,7 +234,7 @@ namespace LosTiburones.Model
 
             if (objetoAMostrar != null)
             {
-                GModel.DrawText.drawText("Recolectar: " + objetoAMostrar.Nombre, Convert.ToInt32(Math.Round((double)ScreenWidth / 2.2)), Convert.ToInt32(Math.Round((double)ScreenHeight / 2.2)), Color.Red);
+                GModel.DrawText.drawText("Recolectar: " + objetoAMostrar.dameNombre(), Convert.ToInt32(Math.Round((double)ScreenWidth / 2.2)), Convert.ToInt32(Math.Round((double)ScreenHeight / 2.2)), Color.Red);
             }
 
             //--------skybox---------
@@ -273,8 +271,6 @@ namespace LosTiburones.Model
             pecesAzules.ForEach(obj => obj.Render());
 
             metales.ForEach(obj => obj.Render());
-            oro.Render();
-            oro2.Render();
 
             //SPRITES
             spriteDrawer.BeginDrawSprite();
@@ -319,9 +315,6 @@ namespace LosTiburones.Model
             pecesAzules.ForEach(obj => obj.Dispose());
 
             metales.ForEach(obj => obj.Dispose());
-
-            oro.Dispose();
-            oro2.Dispose();
 
 
             workbench.Dispose();
@@ -925,22 +918,16 @@ namespace LosTiburones.Model
             var texturaRubi = TgcTexture.createTexture(GModel.MediaDir + "\\Texturas\\ruby.jpg");
             var texturaPlatino = TgcTexture.createTexture(GModel.MediaDir + "\\Texturas\\platinum.jpg");
 
-            oro = new Metales(texturaOro, new TGCVector3(10, 10/4, 10/2), new TGCVector3(0, 100, 0), "Oro");
-            oro2 = new Metales(texturaOro, new TGCVector3(10, 10 / 4, 10 / 2), new TGCVector3(0, 100, 50), "Oro");
-
-            objetosRecolectables = new List<ObjetoDeInventario>();
-            objetosRecolectables.Add(oro);
-            objetosRecolectables.Add(oro2);
-
             for (int i = 0; i < 16; i++)
             {
                 for (int j = 0; j < 22; j++)
                 {
                     var side = GModel.GetRandom.Next(50, 75);
-                    var instance = TGCBox.fromSize(new TGCVector3(side, side / 4, side / 2), texturaOro);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 8, GModel.GetRandom.Next(-6000, 6000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    var tamanio = new TGCVector3(side, side / 4, side / 2);
+                    var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 8, GModel.GetRandom.Next(-6000, 6000));
+                    var instance = new Metal(texturaOro, tamanio, posicion, "Oro");
                     metales.Add(instance);
+                    objetosRecolectables.Add(instance);
                 }
 
             }
@@ -950,10 +937,11 @@ namespace LosTiburones.Model
                 for (int j = 0; j < 9; j++)
                 {
                     var side = GModel.GetRandom.Next(50, 75);
-                    var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaRubi);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    var tamanio = new TGCVector3(side, side, side);
+                    var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
+                    var instance = new Metal(texturaRubi, tamanio, posicion, "Ruby");
                     metales.Add(instance);
+                    objetosRecolectables.Add(instance);
                 }
 
             }
@@ -963,10 +951,11 @@ namespace LosTiburones.Model
                 for (int j = 0; j < 8; j++)
                 {
                     var side = GModel.GetRandom.Next(50, 75);
-                    var instance = TGCBox.fromSize(new TGCVector3(side, side, side), texturaPlatino);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
+                    var tamanio = new TGCVector3(side, side, side);
+                    var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
+                    var instance = new Metal(texturaPlatino, tamanio, posicion, "Platino");
                     metales.Add(instance);
+                    objetosRecolectables.Add(instance);
                 }
             }
 
@@ -974,16 +963,16 @@ namespace LosTiburones.Model
 
         public void detectarColision(TgcBoundingCylinder cilindro)
         {
-            List<ObjetoDeInventario> objetosEnColision = objetosRecolectables.Where(objeto => objeto.colisionaCon(cilindro)).ToList();
+            List<InterfazRecolectable> objetosEnColision = objetosRecolectables.Where(objeto => objeto.colisionaCon(cilindro)).ToList();
             if (objetosEnColision.Any())
             {
                 cilindro.setRenderColor(Color.Red);
                 objetoAMostrar = objetosEnColision.First();
                 if (GModel.Input.keyPressed(Key.E))
                 {
-                    GModel.Personaje.inventario.Add(objetoAMostrar);
-                    objetoAMostrar.stopRending();
+                    GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventario(objetoAMostrar.dameNombre(), 1));
                     objetosRecolectables.Remove(objetoAMostrar);
+                    objetoAMostrar.recolectado();
                 }
             }
             else
