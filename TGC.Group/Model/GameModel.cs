@@ -128,7 +128,7 @@ namespace TGC.Group.Model
             personaje.Render();
             ic.Render();
 
-            cilindroColision.Render();
+            //cilindroColision.Render();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();

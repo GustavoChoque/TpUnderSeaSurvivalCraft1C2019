@@ -705,7 +705,7 @@ namespace LosTiburones.Model
                     objetosEstaticosEnArray.Add(instance);*/
 
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new ObjetoRecolectable(coralBrain, new TGCVector3(67, 0, 0), posicion, "Coral Brain");
+                    var instance = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "Coral Brain");
                     objetosRecolectables.Add(instance);
 
                 }
@@ -751,7 +751,7 @@ namespace LosTiburones.Model
                     objetosEstaticosEnArray.Add(instance);*/
 
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new ObjetoRecolectable(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
+                    var instance = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
                     objetosRecolectables.Add(instance);
                 }
 
@@ -931,7 +931,7 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side / 4, side / 2);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 8, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new ObjetoRecolectable(texturaOro, tamanio, posicion, "Oro");
+                    var instance = new RecolectableConTextura(texturaOro, tamanio, posicion, "Oro");
                     objetosRecolectables.Add(instance);
                 }
 
@@ -944,7 +944,7 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new ObjetoRecolectable(texturaRubi, tamanio, posicion, "Ruby");
+                    var instance = new RecolectableConTextura(texturaRubi, tamanio, posicion, "Ruby");
                     objetosRecolectables.Add(instance);
                 }
 
@@ -957,7 +957,7 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new ObjetoRecolectable(texturaPlatino, tamanio, posicion, "Platino");
+                    var instance = new RecolectableConTextura(texturaPlatino, tamanio, posicion, "Platino");
                     objetosRecolectables.Add(instance);
                 }
             }
