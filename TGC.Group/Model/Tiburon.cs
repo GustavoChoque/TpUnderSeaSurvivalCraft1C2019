@@ -91,6 +91,12 @@ namespace LosTiburones.Model
 
             movDir = new TGCVector3(nuevaDir);
             var dirPosta = new TGCVector3(movDir);
+
+            if (Position.Y >= 0)
+            {
+                dirPosta.Y = 0;
+            }
+
             dirPosta.Multiply(gmodel.ElapsedTime);
             dirPosta.Multiply(Velocidad);
             Move(dirPosta);
