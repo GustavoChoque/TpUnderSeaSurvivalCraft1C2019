@@ -87,7 +87,7 @@ namespace LosTiburones.Model
 
             this.cargoHeightmap();
 
-            //this.cargoMusica();
+            this.cargoMusica();
 
             this.cargoMeshes();
 
@@ -107,7 +107,6 @@ namespace LosTiburones.Model
 
             /*Luego cambiar el mesh, talvez por una computadora*/
             workbench = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "ModelosTgc\\Workbench\\Workbench-TgcScene.xml").Meshes[0];
-            workbench.AutoTransformEnable = false;
             workbench.Transform = TGCMatrix.Scaling(new TGCVector3(0.1f, 0.1f, 0.1f)) * TGCMatrix.Translation(new TGCVector3(0, 20, 10));
             objetosInteractivos.Add(workbench);
 
