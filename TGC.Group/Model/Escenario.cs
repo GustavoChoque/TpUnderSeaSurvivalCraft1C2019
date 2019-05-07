@@ -46,7 +46,6 @@ namespace LosTiburones.Model
         private List<Pez> pecesAzules = new List<Pez>();
 
         public List<TgcMesh> objetosInteractivos;
-        private List<ObjetoRecolectable> metales = new List<ObjetoRecolectable>();
         private Pez pezCircular;
 
         private Tiburon tiburon;
@@ -75,8 +74,6 @@ namespace LosTiburones.Model
         private int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
         //private Personaje personaje = new Personaje(100, 100);
-
-        private List<ObjetoRecolectable> Metales { get => metales; }
 
         public void Init(GameModel gmodel)
         {
@@ -270,7 +267,7 @@ namespace LosTiburones.Model
             pezCircular.Render();
             pecesAzules.ForEach(obj => obj.Render());
 
-            metales.ForEach(obj => obj.Render());
+            objetosRecolectables.ForEach(obj => obj.Render());
 
             //SPRITES
             spriteDrawer.BeginDrawSprite();
@@ -314,7 +311,7 @@ namespace LosTiburones.Model
 
             pecesAzules.ForEach(obj => obj.Dispose());
 
-            metales.ForEach(obj => obj.Dispose());
+            objetosRecolectables.ForEach(obj => obj.Dispose());
 
 
             workbench.Dispose();
@@ -702,10 +699,15 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = coralBrain.createMeshInstance(coralBrain.Name + i + "_" + j);
+                    /*var instance = coralBrain.createMeshInstance(coralBrain.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticosEnArray.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);*/
+
+                    var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
+                    var instance = new ObjetoRecolectable(coralBrain, new TGCVector3(67, 0, 0), posicion, coralBrain.Name);
+                    objetosRecolectables.Add(instance);
+
                 }
 
             }
@@ -743,10 +745,14 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = seaShell.createMeshInstance(seaShell.Name + i + "_" + j);
+                    /*var instance = seaShell.createMeshInstance(seaShell.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
                     instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticosEnArray.Add(instance);
+                    objetosEstaticosEnArray.Add(instance);*/
+
+                    var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
+                    var instance = new ObjetoRecolectable(seaShell, new TGCVector3(67, 0, 0), posicion, seaShell.Name);
+                    objetosRecolectables.Add(instance);
                 }
 
             }
@@ -926,7 +932,6 @@ namespace LosTiburones.Model
                     var tamanio = new TGCVector3(side, side / 4, side / 2);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 8, GModel.GetRandom.Next(-6000, 6000));
                     var instance = new ObjetoRecolectable(texturaOro, tamanio, posicion, "Oro");
-                    metales.Add(instance);
                     objetosRecolectables.Add(instance);
                 }
 
@@ -940,7 +945,6 @@ namespace LosTiburones.Model
                     var tamanio = new TGCVector3(side, side, side);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
                     var instance = new ObjetoRecolectable(texturaRubi, tamanio, posicion, "Ruby");
-                    metales.Add(instance);
                     objetosRecolectables.Add(instance);
                 }
 
@@ -954,7 +958,6 @@ namespace LosTiburones.Model
                     var tamanio = new TGCVector3(side, side, side);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
                     var instance = new ObjetoRecolectable(texturaPlatino, tamanio, posicion, "Platino");
-                    metales.Add(instance);
                     objetosRecolectables.Add(instance);
                 }
             }
@@ -973,6 +976,7 @@ namespace LosTiburones.Model
                     GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventario(objetoAMostrar.Nombre, 1));
                     objetosRecolectables.Remove(objetoAMostrar);
                     objetoAMostrar.recolectado();
+                    objetoAMostrar.Dispose();
                 }
             }
             else

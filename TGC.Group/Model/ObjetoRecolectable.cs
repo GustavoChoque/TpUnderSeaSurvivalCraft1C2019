@@ -15,23 +15,27 @@ namespace LosTiburones.Model
 {
     public class ObjetoRecolectable
     {
+        //Objetos particulares con textura        
         public ObjetoRecolectable(TgcTexture textura, TGCVector3 tamanio, TGCVector3 posicion, string nombrePar)
         {
             Objeto = TGCBox.fromSize(tamanio, textura);
             Objeto.Position = posicion;
             Objeto.Transform = TGCMatrix.Translation(Objeto.Position);
             Nombre = nombrePar;
+            Mesh = null;
             EsferaColision = new TgcBoundingSphere(posicion, tamanio.X);
             EsferaColision.setRenderColor(Color.LimeGreen);
             renderiza = true;
         }
 
+        //Corales u objetos de escenario
         public ObjetoRecolectable(TgcMesh mesh, TGCVector3 tamanio, TGCVector3 posicion, string nombrePar)
         {
             Mesh = mesh.createMeshInstance(nombrePar);
             Mesh.Position = posicion;
             Mesh.Transform = TGCMatrix.Translation(Mesh.Position);
             Nombre = nombrePar;
+            Objeto = null;
             EsferaColision = new TgcBoundingSphere(posicion, tamanio.X);
             EsferaColision.setRenderColor(Color.LimeGreen);
             renderiza = true;
@@ -56,15 +60,29 @@ namespace LosTiburones.Model
         {
             if (Renderiza)
             {
-                Objeto.Render();
                 EsferaColision.Render();
+                if (Objeto == null)
+                {
+                    Mesh.Render();
+                }
+                else
+                {
+                    Objeto.Render();
+                }
             }
         }
 
         public void Dispose()
         {
             EsferaColision.Dispose();
-            Objeto.Dispose();
+            if (Objeto == null)
+            {
+                Mesh.Dispose();
+            }
+            else
+            {
+                Objeto.Dispose();
+            }
         }
 
         private TGCBox Objeto { get => objeto; set => objeto = value; }
