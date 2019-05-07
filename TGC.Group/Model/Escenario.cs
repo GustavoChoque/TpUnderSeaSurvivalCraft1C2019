@@ -32,8 +32,8 @@ namespace LosTiburones.Model
 
         private TgcScene barco;
         private TgcSkyBox skybox;
-        private InterfazRecolectable objetoAMostrar;
-        private List<InterfazRecolectable> objetosRecolectables = new List<InterfazRecolectable>();
+        private ObjetoRecolectable objetoAMostrar;
+        private List<ObjetoRecolectable> objetosRecolectables = new List<ObjetoRecolectable>();
 
         private TgcSimpleTerrain terreno;
         private float currentScaleXZ;
@@ -46,7 +46,7 @@ namespace LosTiburones.Model
         private List<Pez> pecesAzules = new List<Pez>();
 
         public List<TgcMesh> objetosInteractivos;
-        private List<Metal> metales = new List<Metal>();
+        private List<ObjetoRecolectable> metales = new List<ObjetoRecolectable>();
         private Pez pezCircular;
 
         private Tiburon tiburon;
@@ -76,7 +76,7 @@ namespace LosTiburones.Model
 
         //private Personaje personaje = new Personaje(100, 100);
 
-        private List<Metal> Metales { get => metales; }
+        private List<ObjetoRecolectable> Metales { get => metales; }
 
         public void Init(GameModel gmodel)
         {
@@ -234,7 +234,7 @@ namespace LosTiburones.Model
 
             if (objetoAMostrar != null)
             {
-                GModel.DrawText.drawText("Recolectar: " + objetoAMostrar.dameNombre(), Convert.ToInt32(Math.Round((double)ScreenWidth / 2.2)), Convert.ToInt32(Math.Round((double)ScreenHeight / 2.2)), Color.Red);
+                GModel.DrawText.drawText("Recolectar: " + objetoAMostrar.Nombre, Convert.ToInt32(Math.Round((double)ScreenWidth / 2.2)), Convert.ToInt32(Math.Round((double)ScreenHeight / 2.2)), Color.Red);
             }
 
             //--------skybox---------
@@ -925,7 +925,7 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side / 4, side / 2);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 8, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new Metal(texturaOro, tamanio, posicion, "Oro");
+                    var instance = new ObjetoRecolectable(texturaOro, tamanio, posicion, "Oro");
                     metales.Add(instance);
                     objetosRecolectables.Add(instance);
                 }
@@ -939,7 +939,7 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new Metal(texturaRubi, tamanio, posicion, "Ruby");
+                    var instance = new ObjetoRecolectable(texturaRubi, tamanio, posicion, "Ruby");
                     metales.Add(instance);
                     objetosRecolectables.Add(instance);
                 }
@@ -953,7 +953,7 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000 + side / 2, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new Metal(texturaPlatino, tamanio, posicion, "Platino");
+                    var instance = new ObjetoRecolectable(texturaPlatino, tamanio, posicion, "Platino");
                     metales.Add(instance);
                     objetosRecolectables.Add(instance);
                 }
@@ -963,14 +963,14 @@ namespace LosTiburones.Model
 
         public void detectarColision(TgcBoundingCylinder cilindro)
         {
-            List<InterfazRecolectable> objetosEnColision = objetosRecolectables.Where(objeto => objeto.colisionaCon(cilindro)).ToList();
+            List<ObjetoRecolectable> objetosEnColision = objetosRecolectables.Where(objeto => objeto.colisionaCon(cilindro)).ToList();
             if (objetosEnColision.Any())
             {
                 cilindro.setRenderColor(Color.Red);
                 objetoAMostrar = objetosEnColision.First();
                 if (GModel.Input.keyPressed(Key.E))
                 {
-                    GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventario(objetoAMostrar.dameNombre(), 1));
+                    GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventario(objetoAMostrar.Nombre, 1));
                     objetosRecolectables.Remove(objetoAMostrar);
                     objetoAMostrar.recolectado();
                 }

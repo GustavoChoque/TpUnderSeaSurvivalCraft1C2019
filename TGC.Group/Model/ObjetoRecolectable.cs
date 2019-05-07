@@ -8,25 +8,38 @@ using TGC.Core.BoundingVolumes;
 using TGC.Core.Collision;
 using TGC.Core.Geometry;
 using TGC.Core.Mathematica;
+using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
 
 namespace LosTiburones.Model
 {
-    class Metal : InterfazRecolectable
+    public class ObjetoRecolectable
     {
-        public Metal(TgcTexture textura, TGCVector3 tamanio, TGCVector3 posicion, string nombrePar)
+        public ObjetoRecolectable(TgcTexture textura, TGCVector3 tamanio, TGCVector3 posicion, string nombrePar)
         {
             Objeto = TGCBox.fromSize(tamanio, textura);
             Objeto.Position = posicion;
             Objeto.Transform = TGCMatrix.Translation(Objeto.Position);
             Nombre = nombrePar;
-            EsferaColision = new TgcBoundingSphere(posicion, 4f);
+            EsferaColision = new TgcBoundingSphere(posicion, tamanio.X);
+            EsferaColision.setRenderColor(Color.LimeGreen);
+            renderiza = true;
+        }
+
+        public ObjetoRecolectable(TgcMesh mesh, TGCVector3 tamanio, TGCVector3 posicion, string nombrePar)
+        {
+            Mesh = mesh.createMeshInstance(nombrePar);
+            Mesh.Position = posicion;
+            Mesh.Transform = TGCMatrix.Translation(Mesh.Position);
+            Nombre = nombrePar;
+            EsferaColision = new TgcBoundingSphere(posicion, tamanio.X);
             EsferaColision.setRenderColor(Color.LimeGreen);
             renderiza = true;
         }
 
         private TGCBox objeto;
-        public String nombre;
+        private TgcMesh mesh;
+        private String nombre;
         private TgcBoundingSphere esferaColision;
         private bool renderiza;
 
@@ -34,19 +47,18 @@ namespace LosTiburones.Model
         {
             return TgcCollisionUtils.testSphereCylinder(EsferaColision, cilindro);
         }
-
-        public String dameNombre()
+        public void recolectado()
         {
-            return Nombre;
+            renderiza = false;
         }
 
         public void Render()
         {
-            if (renderiza)
+            if (Renderiza)
             {
                 Objeto.Render();
                 EsferaColision.Render();
-            }            
+            }
         }
 
         public void Dispose()
@@ -55,14 +67,11 @@ namespace LosTiburones.Model
             Objeto.Dispose();
         }
 
-        public void recolectado()
-        {
-            renderiza = false;
-        }
-
-        public TGCBox Objeto { get => objeto; set => objeto = value; }
+        private TGCBox Objeto { get => objeto; set => objeto = value; }
+        private TgcMesh Mesh { get => mesh; set => mesh = value; }
         public TgcBoundingSphere EsferaColision { get => esferaColision; set => esferaColision = value; }
         public String Nombre { get => nombre; set => nombre = value; }
         public bool Renderiza { get => renderiza; set => renderiza = value; }
+
     }
 }

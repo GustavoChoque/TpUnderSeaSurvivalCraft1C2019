@@ -110,8 +110,7 @@
     <Compile Include="Model\Inventario.cs" />
     <Compile Include="Model\MovimientoCircular.cs" />
     <Compile Include="Model\MovimientoPez.cs" />
-    <Compile Include="Model\InterfazRecolectable.cs" />
-    <Compile Include="Model\Metal.cs" />
+    <Compile Include="Model\ObjetoRecolectable.cs" />
     <Compile Include="Model\ObjetoInventario.cs" />
     <Compile Include="Model\Personaje.cs" />
     <Compile Include="Model\Pez.cs" />
