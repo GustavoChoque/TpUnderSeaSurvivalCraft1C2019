@@ -705,7 +705,7 @@ namespace LosTiburones.Model
                     objetosEstaticosEnArray.Add(instance);*/
 
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new ObjetoRecolectable(coralBrain, new TGCVector3(67, 0, 0), posicion, coralBrain.Name);
+                    var instance = new ObjetoRecolectable(coralBrain, new TGCVector3(67, 0, 0), posicion, "Coral Brain");
                     objetosRecolectables.Add(instance);
 
                 }
@@ -751,7 +751,7 @@ namespace LosTiburones.Model
                     objetosEstaticosEnArray.Add(instance);*/
 
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-6000, 6000), -1000, GModel.GetRandom.Next(-6000, 6000));
-                    var instance = new ObjetoRecolectable(seaShell, new TGCVector3(67, 0, 0), posicion, seaShell.Name);
+                    var instance = new ObjetoRecolectable(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
                     objetosRecolectables.Add(instance);
                 }
 
@@ -975,8 +975,7 @@ namespace LosTiburones.Model
                 {
                     GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventario(objetoAMostrar.Nombre, 1));
                     objetosRecolectables.Remove(objetoAMostrar);
-                    objetoAMostrar.recolectado();
-                    objetoAMostrar.Dispose();
+                    objetoAMostrar = null;
                 }
             }
             else

@@ -25,7 +25,6 @@ namespace LosTiburones.Model
             Mesh = null;
             EsferaColision = new TgcBoundingSphere(posicion, tamanio.X);
             EsferaColision.setRenderColor(Color.LimeGreen);
-            renderiza = true;
         }
 
         //Corales u objetos de escenario
@@ -38,37 +37,28 @@ namespace LosTiburones.Model
             Objeto = null;
             EsferaColision = new TgcBoundingSphere(posicion, tamanio.X);
             EsferaColision.setRenderColor(Color.LimeGreen);
-            renderiza = true;
         }
 
         private TGCBox objeto;
         private TgcMesh mesh;
         private String nombre;
         private TgcBoundingSphere esferaColision;
-        private bool renderiza;
 
         public bool colisionaCon(TgcBoundingCylinder cilindro)
         {
             return TgcCollisionUtils.testSphereCylinder(EsferaColision, cilindro);
         }
-        public void recolectado()
-        {
-            renderiza = false;
-        }
 
         public void Render()
         {
-            if (Renderiza)
+            EsferaColision.Render();
+            if (Objeto == null)
             {
-                EsferaColision.Render();
-                if (Objeto == null)
-                {
-                    Mesh.Render();
-                }
-                else
-                {
-                    Objeto.Render();
-                }
+                Mesh.Render();
+            }
+            else
+            {
+                Objeto.Render();
             }
         }
 
@@ -89,7 +79,6 @@ namespace LosTiburones.Model
         private TgcMesh Mesh { get => mesh; set => mesh = value; }
         public TgcBoundingSphere EsferaColision { get => esferaColision; set => esferaColision = value; }
         public String Nombre { get => nombre; set => nombre = value; }
-        public bool Renderiza { get => renderiza; set => renderiza = value; }
 
     }
 }
