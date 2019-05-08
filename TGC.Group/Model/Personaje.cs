@@ -16,7 +16,7 @@ namespace TGC.Group.Model
     //PUEDE MORIR O REVIVIR, SUFRIR DANIO, PERDER OXIGENO, ASI COMO RECUPERAR ENERGIA Y OXIGENO
     public class Personaje
     {
-        GameModel gmodel;
+        private GameModel gmodel;
         //TgcMesh mesh;
         //public List<InterfazRecolectable> inventario;   
         private Inventario inventario;
@@ -61,12 +61,12 @@ namespace TGC.Group.Model
             inventario.Dispose();
         }
 
-        public bool workbenchCerca(TgcMesh workbench)
+        private Boolean workbenchCerca(TgcMesh workbench)
         {            
             return FastMath.Sqrt(TGCVector3.LengthSq(workbench.Position - Position)) < radioDeteccionWorkbench;
         }
 
-        public Boolean cercaDeNave(TgcScene nave)
+        private Boolean cercaDeNave(TgcScene nave)
         {
             return FastMath.Sqrt(TGCVector3.LengthSq(nave.Meshes[4].Position - Position)) < radioDeteccionNave;
         }
@@ -122,6 +122,11 @@ namespace TGC.Group.Model
         public Boolean Vivo { get => vivo; }
         public TGCVector3 Position { get => gmodel.Camara.Position; }
         public Inventario Inventario { get => inventario; }
+
+        public Boolean estaCercaDeNave()
+        {
+            return cercaDeNave(gmodel.Escenario.Barco);
+        }
 
     }
 }

@@ -184,14 +184,14 @@ namespace LosTiburones.Model
             );
 
             //-----Skybox
-            skybox.Center = GModel.GetPersonaje.Position; //GModel.Camara.Position;
+            skybox.Center = GModel.Personaje.Position; //GModel.Camara.Position;
             //----------
 
             //REFRESCO EL TAMAÑO DE LA PANTALLA
             ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
             ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
-            this.actualizoValoresSaludOxigeno(GModel.GetPersonaje);
+            this.actualizoValoresSaludOxigeno(GModel.Personaje);
 
         }
 
@@ -202,19 +202,19 @@ namespace LosTiburones.Model
             GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
             GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
 
-            if (GModel.GetPersonaje.Vivo)
+            if (GModel.Personaje.Vivo)
             {
-                if (bajoElAgua(GModel.GetPersonaje))
+                if (bajoElAgua(GModel.Personaje))
                 {
                     GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", 0, 50, Color.Red);
                 }
 
-                if ((this.fueraDelMapa(GModel.GetPersonaje)))
+                if ((this.fueraDelMapa(GModel.Personaje)))
                 {
                     GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", 0, 60, Color.Red);
                 }
 
-                if ((tiburon.estoyCercaDelPersonaje(GModel.GetPersonaje)))
+                if ((tiburon.estoyCercaDelPersonaje(GModel.Personaje)))
                 {
                     GModel.DrawText.drawText("Estás cerca del tiburón", 0, 70, Color.Red);
                 }

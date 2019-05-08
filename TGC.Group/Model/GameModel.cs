@@ -156,7 +156,6 @@ namespace TGC.Group.Model
         }
 
         public Random GetRandom { get => rnd; }
-        public Personaje GetPersonaje { get => personaje; }
 
         public TgcMp3Player hacerSonar(String path)
         {
