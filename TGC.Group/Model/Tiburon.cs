@@ -41,7 +41,7 @@ namespace LosTiburones.Model
 
         public void moverse(Escenario escenario)
         {
-            if (!gmodel.GetPersonaje.cercaDeNave(escenario.getBarco()))
+            if (!gmodel.GetPersonaje.cercaDeNave(escenario.Barco))
             {
                 escapo = true;
 
@@ -63,6 +63,7 @@ namespace LosTiburones.Model
                 if (escapo)
                 {
                     Position = new TGCVector3((float)gmodel.GetRandom.NextDouble() * 1000 + 1000, Position.Y, (float)gmodel.GetRandom.NextDouble() * 1000 + 1000);
+                    gmodel.detener(sonido);
                 }
 
                 escapo = false;

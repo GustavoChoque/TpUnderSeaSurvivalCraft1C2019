@@ -23,7 +23,8 @@ namespace TGC.Group.Model
         private float health;
         private float oxygen;
         private Boolean vivo = true;
-        private float radioDeteccionNave = 50f;
+        private float radioDeteccionNave = 450f;
+        private float radioDeteccionWorkbench = 250f;
 
         public Personaje(float health, float oxygen)
         {
@@ -45,19 +46,10 @@ namespace TGC.Group.Model
             
             inventario.Update();
             //-----------crafteo------------
-            this.gmodel.escenario.objetosInteractivos.ForEach(objetoInteractivo =>
+            if (workbenchCerca(gmodel.Escenario.Workbench) && Input.keyPressed(Key.C))
             {
-                if (objetoCerca(objetoInteractivo))
-                {
-                    if (objetoInteractivo.Name.StartsWith("Workbench") && Input.keyPressed(Key.C))
-                    {
-                        gmodel.ic.activar();
-
-                    }
-
-
-                }
-            });
+                gmodel.InterfazCrafting.activar();
+            }
         }
         public void Render()
         {
@@ -69,16 +61,14 @@ namespace TGC.Group.Model
             inventario.Dispose();
         }
 
-        public bool objetoCerca(TgcMesh objeto)
-        {
-            var distanciaRecoleccion = 1000 * 8;//fui probando distintos numeros
-            return TGCVector3.LengthSq(objeto.Position - Position) < distanciaRecoleccion;
+        public bool workbenchCerca(TgcMesh workbench)
+        {            
+            return FastMath.Sqrt(TGCVector3.LengthSq(workbench.Position - Position)) < radioDeteccionWorkbench;
         }
 
-        public bool objetoCerca(TGCBox objeto)
+        public Boolean cercaDeNave(TgcScene nave)
         {
-            var distanciaRecoleccion = 1000 * 8;//fui probando distintos numeros
-            return TGCVector3.LengthSq(objeto.Position - Position) < distanciaRecoleccion;
+            return FastMath.Sqrt(TGCVector3.LengthSq(nave.Meshes[4].Position - Position)) < radioDeteccionNave;
         }
 
         public void sufriDanio(float danio)
@@ -132,11 +122,6 @@ namespace TGC.Group.Model
         public Boolean Vivo { get => vivo; }
         public TGCVector3 Position { get => gmodel.Camara.Position; }
         public Inventario Inventario { get => inventario; }
-
-        public Boolean cercaDeNave(TgcScene nave)
-        {
-            return FastMath.Sqrt(FastMath.Pow2(nave.Meshes[0].Position.X - this.Position.X) + FastMath.Pow2(nave.Meshes[0].Position.Z - this.Position.Z)) < radioDeteccionNave;
-        }
 
     }
 }

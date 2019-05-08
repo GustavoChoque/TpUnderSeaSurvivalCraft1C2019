@@ -28,7 +28,7 @@ namespace LosTiburones.Model
         private TgcMesh coralBrain, coral, meshTiburon, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
         private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
 
-        public TgcMesh workbench;
+        private TgcMesh workbench;
 
         private TgcScene barco;
         private TgcSkyBox skybox;
@@ -41,11 +41,10 @@ namespace LosTiburones.Model
 
         private TgcMp3Player musica;
 
-        public List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
+        private List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
         private List<Pez> pecesAmarillos = new List<Pez>();
         private List<Pez> pecesAzules = new List<Pez>();
 
-        public List<TgcMesh> objetosInteractivos;
         private Pez pezCircular;
 
         private Tiburon tiburon;
@@ -103,14 +102,11 @@ namespace LosTiburones.Model
 
             this.generoHUD();
             
-            objetosInteractivos = new List<TgcMesh>();
-
-            /*Luego cambiar el mesh, talvez por una computadora*/
             workbench = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "ModelosTgc\\Workbench\\Workbench-TgcScene.xml").Meshes[0];
-            workbench.Transform = TGCMatrix.Scaling(new TGCVector3(0.1f, 0.1f, 0.1f)) * TGCMatrix.Translation(new TGCVector3(0, 20, 10));
-            objetosInteractivos.Add(workbench);
-
-
+            workbench.Scale = new TGCVector3(0.2f, 0.2f, 0.2f);
+            workbench.Position = new TGCVector3(150f, -60, -50f);
+            workbench.RotateY(-FastMath.PI/2);
+            
         }
         public void Update()
         {
@@ -634,6 +630,9 @@ namespace LosTiburones.Model
 
         private void generoObjetosEstaticosSueltos()
         {
+            barco.Meshes.ForEach(meshBarco => meshBarco.Scale = new TGCVector3(10,10,10));
+            barco.Meshes.ForEach(meshBarco => meshBarco.Position = new TGCVector3(-100,0,-100));
+            
             //--------------objetos---------
             coral.Position = new TGCVector3(10, -300, 0);
             coral.Transform = TGCMatrix.Translation(coral.Position);
@@ -986,9 +985,8 @@ namespace LosTiburones.Model
 
         public float MovementSpeed { get => MOVEMENT_SPEED; }
 
-        public TgcScene getBarco()
-        {
-            return barco;
-        }
+        public TgcScene Barco { get => barco; }
+
+        public TgcMesh Workbench { get => workbench; }
     }
 }

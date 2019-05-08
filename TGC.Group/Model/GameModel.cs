@@ -46,7 +46,7 @@ namespace TGC.Group.Model
         //private bool BoundingBox { get; set; }
 
         //DECLARO VARIABLES 'GLOBALES'
-        public TgcFpsCamera camaraInterna;
+        private TgcFpsCamera camaraInterna;
         private TgcBoundingCylinder cilindroColision;
         private float leftrightRot;
         private float updownRot;
@@ -55,10 +55,10 @@ namespace TGC.Group.Model
         private const float camaraMoveSpeed = 400f;
         private const float camaraJumpSpeed = 80f;
 
-        public Personaje personaje = new Personaje(100, 100);
+        private Personaje personaje = new Personaje(100, 100);
 
-        public Escenario escenario = new Escenario();
-        public InterfazDeCrafting ic = new InterfazDeCrafting();
+        private Escenario escenario = new Escenario();
+        private InterfazDeCrafting ic = new InterfazDeCrafting();
 
         private Random rnd = new Random();
         private TgcMp3Player sonido = new TgcMp3Player();
@@ -151,7 +151,7 @@ namespace TGC.Group.Model
 
         private void configuroCamara()
         {
-            camaraInterna = new TgcFpsCamera(new TGCVector3(0, 60, 0), camaraMoveSpeed, camaraJumpSpeed, Input);
+            camaraInterna = new TgcFpsCamera(new TGCVector3(600, 60, -250), camaraMoveSpeed, camaraJumpSpeed, Input);
             Camara = camaraInterna;
         }
 
@@ -181,6 +181,10 @@ namespace TGC.Group.Model
 
         public Personaje Personaje { get => personaje; set => personaje = value; }
 
+        public Escenario Escenario { get => escenario; }
+        public TgcMesh Workbench { get => Workbench; }
+
+        public InterfazDeCrafting InterfazCrafting { get => ic; }
     }
 }
             
