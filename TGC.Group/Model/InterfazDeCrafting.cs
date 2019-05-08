@@ -73,7 +73,7 @@ namespace LosTiburones.Model
 
 
             texto = new TgcText2D();
-            texto.Text = "2 Coral Brain";
+            texto.Text = "2 CoralBrain";
             texto.Align = TgcText2D.TextAlign.RIGHT;
 
             texto.Position = new Point((int)posX + 100, (int)posY + 70);
@@ -91,7 +91,7 @@ namespace LosTiburones.Model
 
 
             texto2 = new TgcText2D();
-            texto2.Text = "2 Coral Brain, 1 Sea Shell";
+            texto2.Text = "2 CoralBrain, 1 SeaShell";
             texto2.Align = TgcText2D.TextAlign.RIGHT;
 
             texto2.Position = new Point((int)posX + 100, (int)posY + 120);

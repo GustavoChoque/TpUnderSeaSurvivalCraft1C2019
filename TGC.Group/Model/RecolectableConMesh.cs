@@ -15,6 +15,7 @@ namespace LosTiburones.Model
         {
             Mesh = mesh.createMeshInstance(nombrePar);
             Mesh.Position = posicion;
+            Mesh.Scale = tamanio;
             Mesh.Transform = TGCMatrix.Translation(Mesh.Position);
         }
 
@@ -32,6 +33,6 @@ namespace LosTiburones.Model
             base.Dispose();
         }
 
-        private TgcMesh Mesh { get => mesh; set => mesh = value; }
+        public TgcMesh Mesh { get => mesh; set => mesh = value; }
     }
 }

@@ -643,48 +643,48 @@ namespace LosTiburones.Model
             tiburon.RotateY(FastMath.PI / 2 + FastMath.PI / 4);
             tiburon.Move(new TGCVector3(-650, -100, 1000));
 
-            coralBrain.Position = new TGCVector3(-200, -300, 340);
+            coralBrain.Position = new TGCVector3(-200, -1000, 340);
             coralBrain.Transform = TGCMatrix.Translation(coralBrain.Position);
 
-            fish.Position = new TGCVector3(0, -200, 0);
-            fish.Transform = TGCMatrix.Translation(fish.Position);
+            //fish.Position = new TGCVector3(0, -1000, 0);
+            //fish.Transform = TGCMatrix.Translation(fish.Position);
 
-            pillarCoral.Position = new TGCVector3(0, -200, 40);
+            pillarCoral.Position = new TGCVector3(0, -1000, 40);
             pillarCoral.Transform = TGCMatrix.Translation(pillarCoral.Position);
 
-            seaShell.Position = new TGCVector3(500, -200, 40);
+            seaShell.Position = new TGCVector3(500, -1000, 40);
             seaShell.Transform = TGCMatrix.Translation(seaShell.Position);
 
-            spiralWireCoral.Position = new TGCVector3(-50, -300, 40);
+            spiralWireCoral.Position = new TGCVector3(-50, -1000, 40);
             spiralWireCoral.Transform = TGCMatrix.Translation(spiralWireCoral.Position);
 
             TGCVector3 escalaTreeCoral = new TGCVector3(10f, 10f, 10f);
-            treeCoral.Position = new TGCVector3(-70, -300, 200);
+            treeCoral.Position = new TGCVector3(-70, -1000, 200);
             treeCoral.Transform = TGCMatrix.Scaling(escalaTreeCoral) * TGCMatrix.Translation(treeCoral.Position);
 
-            yellowFish.Position = new TGCVector3(50, -200, -20);
-            yellowFish.Transform = TGCMatrix.Translation(yellowFish.Position);
+            //yellowFish.Position = new TGCVector3(50, -500, -20);
+            //yellowFish.Transform = TGCMatrix.Translation(yellowFish.Position);
 
-            arbusto.Position = new TGCVector3(70, -300, -30);
+            arbusto.Position = new TGCVector3(70, -1000, -30);
             arbusto.AlphaBlendEnable = true;
             arbusto.Transform = TGCMatrix.Translation(arbusto.Position);
 
-            arbusto2.Position = new TGCVector3(60, -300, -20);
+            arbusto2.Position = new TGCVector3(60, -1000, -20);
             arbusto2.Transform = TGCMatrix.Translation(arbusto2.Position);
 
-            pasto.Position = new TGCVector3(50, -300, -20);
+            pasto.Position = new TGCVector3(50, -1000, -20);
             pasto.Transform = TGCMatrix.Translation(pasto.Position);
 
-            planta.Position = new TGCVector3(40, -300, -20);
+            planta.Position = new TGCVector3(40, -1000, -20);
             planta.Transform = TGCMatrix.Translation(planta.Position);
 
-            planta2.Position = new TGCVector3(30, -300, -20);
+            planta2.Position = new TGCVector3(30, -1000, -20);
             planta2.Transform = TGCMatrix.Translation(planta2.Position);
 
-            planta3.Position = new TGCVector3(20, -300, -20);
+            planta3.Position = new TGCVector3(20, -1000, -20);
             planta3.Transform = TGCMatrix.Translation(planta3.Position);
 
-            roca.Position = new TGCVector3(10, -300, -20);
+            roca.Position = new TGCVector3(10, -1000, -20);
             roca.Transform = TGCMatrix.Translation(roca.Position);
         }
 
@@ -704,6 +704,8 @@ namespace LosTiburones.Model
 
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     var instance = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "Coral Brain");
+                    instance.Mesh.Scale = new TGCVector3(10, 10, 10);
+                    instance.Mesh.Transform = TGCMatrix.Scaling(instance.Mesh.Scale) * TGCMatrix.Translation(instance.Mesh.Position);
                     objetosRecolectables.Add(instance);
 
                 }
@@ -752,6 +754,8 @@ namespace LosTiburones.Model
 
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     var instance = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
+                    instance.Mesh.Scale = new TGCVector3(2, 2, 2);
+                    instance.Mesh.Transform = TGCMatrix.Scaling(instance.Mesh.Scale) * TGCMatrix.Translation(instance.Mesh.Position);
                     objetosRecolectables.Add(instance);
                 }
 
