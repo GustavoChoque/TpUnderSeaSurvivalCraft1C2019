@@ -57,11 +57,11 @@ namespace LosTiburones.Model
 
                 if (recienEmpiezoAAlejarme)
                 {
+                    recienEmpiezoAAlejarme = false;
                     var nuevaDir = new TGCVector3(movDir);
                     nuevaDir.Normalize();
                     nuevaDir.Multiply(-1);
                     cambioRumbo(nuevaDir);
-                    recienEmpiezoAAlejarme = false;
                     gmodel.detener(sonido);
                     posicionPersonajeOriginal = new TGCVector3(gmodel.Personaje.Position);
                 }
@@ -69,7 +69,7 @@ namespace LosTiburones.Model
                 var dirPosta = new TGCVector3(movDir);
                 dirPosta.Multiply(gmodel.ElapsedTime);
                 dirPosta.Multiply(Velocidad);
-                Move(movDir);                
+                Move(dirPosta);
                 
                 if (estoyLejosDelPersonaje(posicionPersonajeOriginal))
                 {
