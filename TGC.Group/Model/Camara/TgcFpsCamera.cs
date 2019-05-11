@@ -228,5 +228,11 @@ namespace TGC.Group.Model.Camara
 
             base.SetCamera(positionEye, cameraFinalTarget, cameraRotatedUpVector);
         }
+
+        public void setPosicion(TGCVector3 nuevaPos)
+        {
+            this.positionEye = nuevaPos;
+        }
+
     }
 }

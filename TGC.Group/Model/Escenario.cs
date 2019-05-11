@@ -1,4 +1,5 @@
-﻿using Microsoft.DirectX.DirectInput;
+﻿using BulletSharp;
+using Microsoft.DirectX.DirectInput;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TGC.Core.BoundingVolumes;
+using TGC.Core.BulletPhysics;
 using TGC.Core.Collision;
 using TGC.Core.Direct3D;
 using TGC.Core.Geometry;
@@ -74,9 +76,58 @@ namespace LosTiburones.Model
 
         //private Personaje personaje = new Personaje(100, 100);
 
+        //-----------Fisica-------------------
+        private RigidBody rigidCamera;
+
+        DiscreteDynamicsWorld dynamicsWorld;
+        CollisionDispatcher dispatcher;
+        DefaultCollisionConfiguration collisionConfiguration;
+        SequentialImpulseConstraintSolver constraintSolver;
+        BroadphaseInterface broadphaseInterface;
+
+        TGCVector3 posicionInicial = new TGCVector3(600, 60, -250);
+        TgcFpsCamera camaraInterna;
+        //-------------------
+
+
+
         public void Init(GameModel gmodel)
         {
             this.GModel = gmodel;
+
+            //----------------Fisica------------
+
+            //----configuracion del Mundo fisico--------------
+            collisionConfiguration = new DefaultCollisionConfiguration();
+            dispatcher = new CollisionDispatcher(collisionConfiguration);
+            GImpactCollisionAlgorithm.RegisterAlgorithm(dispatcher);
+            constraintSolver = new SequentialImpulseConstraintSolver();
+            broadphaseInterface = new DbvtBroadphase();
+            dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphaseInterface, constraintSolver, collisionConfiguration);
+            //dynamicsWorld.Gravity=new TGCVector3(0,-20f,0).ToBulletVector3();
+            //dynamicsWorld.Gravity=new TGCVector3(0,0,0).ToBulletVector3();
+            
+            //-------------creacion rigidbodies-------------------
+            var ballShape = new SphereShape(10);
+            var ballTransform = TGCMatrix.Identity;
+            ballTransform.Origin = posicionInicial;//GModel.Camara.Position;//new TGCVector3(100, 50, 0);
+            var ballMotionState = new DefaultMotionState(ballTransform.ToBsMatrix);
+            var ballInertia = ballShape.CalculateLocalInertia(1f);
+            var ballInfo = new RigidBodyConstructionInfo(1, ballMotionState, ballShape, ballInertia);
+
+            rigidCamera = new RigidBody(ballInfo);
+            rigidCamera.SetDamping(0.9f, 0.9f);
+            //esto es para que no le afecte la gravedad al inicio de la partida
+            rigidCamera.ActivationState = ActivationState.IslandSleeping;
+            dynamicsWorld.AddRigidBody(rigidCamera);
+
+            camaraInterna = new TgcFpsCamera(posicionInicial, GModel.Input);
+
+
+            //-----------------------------
+            //-----------------------------
+
+
             //Device de DirectX para crear primitivas.
             var d3dDevice = D3DDevice.Instance.Device;
             
@@ -101,7 +152,17 @@ namespace LosTiburones.Model
             this.generoMetales();
 
             this.generoHUD();
-            
+
+
+            //-----------Fisica---------
+            //para el heighmap
+
+            var heighmapRigid = BulletRigidBodyFactory.Instance.CreateSurfaceFromHeighMap(terreno.getData());
+            dynamicsWorld.AddRigidBody(heighmapRigid);
+
+
+            //----------------------
+
             workbench = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "ModelosTgc\\Workbench\\Workbench-TgcScene.xml").Meshes[0];
             workbench.Scale = new TGCVector3(0.2f, 0.2f, 0.2f);
             workbench.Position = new TGCVector3(150f, -60, -50f);
@@ -117,6 +178,51 @@ namespace LosTiburones.Model
             //}
 
             var Input=this.GModel.Input;
+
+            //-------Fisica----------
+            dynamicsWorld.StepSimulation(1 / 60f, 100);
+
+            //----------------
+            var director = GModel.Camara.LookAt - GModel.Camara.Position; //new TGCVector3(1,0,0);
+            director.Normalize();
+            var strength = 50f;
+            if (GModel.Input.keyDown(Key.UpArrow))
+            {
+
+                //muevo el rigidsegun a donde miro
+
+                rigidCamera.ActivationState = ActivationState.ActiveTag;
+               
+                rigidCamera.ApplyCentralImpulse(strength * director.ToBulletVector3());
+
+            }
+            if (GModel.Input.keyUp(Key.UpArrow))
+            {
+                //para detener el rigid
+                //op1
+                rigidCamera.ActivationState = ActivationState.IslandSleeping;
+                //op2
+                //rigidCamera.ActivationState = ActivationState.DisableSimulation;
+            }
+
+            if (GModel.Input.keyDown(Key.DownArrow))
+            {
+
+                //muevo el rigidsegun a donde miro
+                rigidCamera.ActivationState = ActivationState.ActiveTag;
+                rigidCamera.ApplyCentralImpulse(-strength * director.ToBulletVector3());
+
+            }
+            if (GModel.Input.keyUp(Key.DownArrow))
+            {
+                //para detener el rigid
+                //op1
+                rigidCamera.ActivationState = ActivationState.IslandSleeping;
+                //op2
+                //rigidCamera.ActivationState = ActivationState.DisableSimulation;
+            }
+            //-----------------------
+
             //Capturar Input teclado
             if (Input.keyPressed(Key.P))
             {
@@ -202,6 +308,16 @@ namespace LosTiburones.Model
             GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
             GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
 
+
+            //----Fisica----------
+           
+            camaraInterna.setPosicion(new TGCVector3(rigidCamera.CenterOfMassPosition));
+            GModel.Camara = camaraInterna;
+
+            //----------------
+
+
+
             if (GModel.Personaje.Vivo)
             {
                 if (bajoElAgua(GModel.Personaje))
@@ -276,6 +392,18 @@ namespace LosTiburones.Model
 
         public void Dispose()
         {
+
+            //---------fisica------
+            dynamicsWorld.Dispose();
+            dispatcher.Dispose();
+            collisionConfiguration.Dispose();
+            constraintSolver.Dispose();
+            broadphaseInterface.Dispose();
+            rigidCamera.Dispose();
+            
+            //------------
+
+
             //------------------------
             skybox.Dispose();
             terreno.Dispose();

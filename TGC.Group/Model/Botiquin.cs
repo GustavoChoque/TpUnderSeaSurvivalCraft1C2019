@@ -8,6 +8,6 @@ namespace LosTiburones.Model
 {
     class Botiquin: ObjetoInventario
     {
-        public Botiquin() : base("TanqueOxigeno", 1) { }
+        public Botiquin() : base("Botiquin", 1) { }
     }
 }
