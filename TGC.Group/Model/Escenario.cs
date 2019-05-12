@@ -19,6 +19,9 @@ using TGC.Core.Textures;
 using TGC.Group.Model;
 using TGC.Group.Model.Camara;
 using TGC.Group.Model.Sprites;
+using TGC.Core.Shaders;
+using Microsoft.DirectX.Direct3D;
+using Effect = Microsoft.DirectX.Direct3D.Effect;
 
 namespace LosTiburones.Model
 {
@@ -89,7 +92,10 @@ namespace LosTiburones.Model
         TgcFpsCamera camaraInterna;
         //-------------------
 
-
+        //-------Shaders----------
+        private Effect efectoSuperficieAgua;
+        private float time;
+        //---------------------
 
         public void Init(GameModel gmodel)
         {
@@ -162,6 +168,13 @@ namespace LosTiburones.Model
 
 
             //----------------------
+
+            //-----------cargar shaders----
+            efectoSuperficieAgua = TGCShaders.Instance.LoadEffect(GModel.ShadersDir + "SuperficieDeAgua.fx");
+            agua.Effect = efectoSuperficieAgua;
+            agua.Technique = "OleajeNormal";
+            time = 0;
+            //-----------
 
             workbench = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "ModelosTgc\\Workbench\\Workbench-TgcScene.xml").Meshes[0];
             workbench.Scale = new TGCVector3(0.2f, 0.2f, 0.2f);
@@ -316,7 +329,11 @@ namespace LosTiburones.Model
 
             //----------------
 
-
+            //----------Shaders----------
+            time += GModel.ElapsedTime;
+            efectoSuperficieAgua.SetValue("time", time);
+            
+            //--------------
 
             if (GModel.Personaje.Vivo)
             {
@@ -400,9 +417,12 @@ namespace LosTiburones.Model
             constraintSolver.Dispose();
             broadphaseInterface.Dispose();
             rigidCamera.Dispose();
-            
-            //------------
 
+            //------------
+            //----------Shaders-------
+            efectoSuperficieAgua.Dispose();
+
+            //-------------
 
             //------------------------
             skybox.Dispose();
