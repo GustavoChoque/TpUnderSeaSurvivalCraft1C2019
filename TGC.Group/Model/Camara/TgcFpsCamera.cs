@@ -162,6 +162,7 @@ namespace TGC.Group.Model.Camara
         {
             var moveVector = TGCVector3.Empty;
             //Forward
+            /*
             if (Input.keyDown(Key.W))
             {
                 moveVector += new TGCVector3(0, 0, -1) * MovementSpeed;
@@ -201,15 +202,17 @@ namespace TGC.Group.Model.Camara
             {
                 LockCam = !lockCam;
             }
+            */
 
             //Solo rotar si se esta aprentando el boton izq del mouse
-            if (lockCam || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
-            {
+            //if (lockCam || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
+            //if (lockCam || !Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
+            //{
                 leftrightRot -= -Input.XposRelative * RotationSpeed;
                 updownRot -= Input.YposRelative * RotationSpeed;
                 //Se actualiza matrix de rotacion, para no hacer este calculo cada vez y solo cuando en verdad es necesario.
                 cameraRotation = TGCMatrix.RotationX(updownRot) * TGCMatrix.RotationY(leftrightRot);
-            }
+            //}
 
             if (lockCam)
                 Cursor.Position = mouseCenter;

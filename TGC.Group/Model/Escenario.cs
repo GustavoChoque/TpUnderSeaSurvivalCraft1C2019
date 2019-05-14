@@ -199,7 +199,8 @@ namespace LosTiburones.Model
             var director = GModel.Camara.LookAt - GModel.Camara.Position; //new TGCVector3(1,0,0);
             director.Normalize();
             var strength = 50f;
-            if (GModel.Input.keyDown(Key.UpArrow))
+            //if (GModel.Input.keyDown(Key.UpArrow))
+            if (GModel.Input.keyDown(Key.W))
             {
 
                 //muevo el rigidsegun a donde miro
@@ -209,7 +210,7 @@ namespace LosTiburones.Model
                 rigidCamera.ApplyCentralImpulse(strength * director.ToBulletVector3());
 
             }
-            if (GModel.Input.keyUp(Key.UpArrow))
+            if (GModel.Input.keyUp(Key.W))
             {
                 //para detener el rigid
                 //op1
@@ -218,7 +219,54 @@ namespace LosTiburones.Model
                 //rigidCamera.ActivationState = ActivationState.DisableSimulation;
             }
 
-            if (GModel.Input.keyDown(Key.DownArrow))
+            if (GModel.Input.keyDown(Key.A))
+            {
+
+                //muevo el rigidsegun a donde miro
+
+                rigidCamera.ActivationState = ActivationState.ActiveTag;
+
+                var miIzquierda = new TGCVector3();
+                miIzquierda.X = director.X * FastMath.Cos(FastMath.PI_HALF) - director.Z * FastMath.Sin(FastMath.PI_HALF);
+                miIzquierda.Z = director.X * FastMath.Sin(FastMath.PI_HALF) + director.Z * FastMath.Cos(FastMath.PI_HALF);
+
+                rigidCamera.ApplyCentralImpulse(strength * miIzquierda.ToBulletVector3());
+
+            }
+            if (GModel.Input.keyUp(Key.A))
+            {
+                //para detener el rigid
+                //op1
+                rigidCamera.ActivationState = ActivationState.IslandSleeping;
+                //op2
+                //rigidCamera.ActivationState = ActivationState.DisableSimulation;
+            }
+
+            if (GModel.Input.keyDown(Key.D))
+            {
+
+                //muevo el rigidsegun a donde miro
+
+                rigidCamera.ActivationState = ActivationState.ActiveTag;
+
+                var miDerecha = new TGCVector3();
+                miDerecha.X = director.X * FastMath.Cos(FastMath.PI + FastMath.PI_HALF) - director.Z * FastMath.Sin(FastMath.PI + FastMath.PI_HALF);
+                miDerecha.Z = director.X * FastMath.Sin(FastMath.PI + FastMath.PI_HALF) + director.Z * FastMath.Cos(FastMath.PI + FastMath.PI_HALF);
+
+                rigidCamera.ApplyCentralImpulse(strength * miDerecha.ToBulletVector3());
+
+            }
+            if (GModel.Input.keyUp(Key.D))
+            {
+                //para detener el rigid
+                //op1
+                rigidCamera.ActivationState = ActivationState.IslandSleeping;
+                //op2
+                //rigidCamera.ActivationState = ActivationState.DisableSimulation;
+            }
+
+            //if (GModel.Input.keyDown(Key.DownArrow))
+            if (GModel.Input.keyDown(Key.S))
             {
 
                 //muevo el rigidsegun a donde miro
@@ -226,7 +274,7 @@ namespace LosTiburones.Model
                 rigidCamera.ApplyCentralImpulse(-strength * director.ToBulletVector3());
 
             }
-            if (GModel.Input.keyUp(Key.DownArrow))
+            if (GModel.Input.keyUp(Key.S))
             {
                 //para detener el rigid
                 //op1
