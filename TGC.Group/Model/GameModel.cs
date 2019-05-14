@@ -78,11 +78,9 @@ namespace TGC.Group.Model
 
             ic.Init(this, personaje);
 
-            cilindroColision = new TgcBoundingCylinder(camaraInterna.Position, 0.08f, 150f);
-            leftrightRot = 0;
+            cilindroColision = new TgcBoundingCylinder(camaraInterna.LookAt, 0.08f, 150f);
             updownRot = Geometry.DegreeToRadian(90f) + (FastMath.PI / 10.0f);
             cilindroColision.rotateZ(updownRot);
-            cilindroColision.rotateY(leftrightRot);
             cilindroColision.setRenderColor(Color.LimeGreen);
             cilindroColision.updateValues();
         }
@@ -99,14 +97,11 @@ namespace TGC.Group.Model
             personaje.Update();
             ic.Update();
 
-            cilindroColision.Center = camaraInterna.Position;
-            if (camaraInterna.LockCam || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
-            {
-                leftrightRot -= -Input.XposRelative * camaraInterna.RotationSpeed;
-                updownRot -= -Input.YposRelative * camaraInterna.RotationSpeed;
-                cilindroColision.Rotation = new TGCVector3(0, leftrightRot, updownRot);
-            }
-
+            cilindroColision.Center = camaraInterna.LookAt;
+            cilindroColision.move(personaje.Position - camaraInterna.LookAt);
+            leftrightRot -= -Input.XposRelative * camaraInterna.RotationSpeed;
+            updownRot -= -Input.YposRelative * camaraInterna.RotationSpeed;
+            cilindroColision.Rotation = new TGCVector3(0, leftrightRot, updownRot);
             cilindroColision.updateValues();
             escenario.detectarColision(cilindroColision);
 
@@ -127,7 +122,7 @@ namespace TGC.Group.Model
             personaje.Render();
             ic.Render();
 
-            //cilindroColision.Render();
+            cilindroColision.Render();
 
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
