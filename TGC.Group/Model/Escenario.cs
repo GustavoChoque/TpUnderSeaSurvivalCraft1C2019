@@ -44,7 +44,8 @@ namespace LosTiburones.Model
         private float currentScaleXZ;
         private float currentScaleY;
 
-        private TgcMp3Player musica;
+        private TgcMp3Player musica = new TgcMp3Player();
+        private TgcStaticSound sonidoTiburonCerca = new TgcStaticSound();
 
         private List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
         private List<Pez> pecesAmarillos = new List<Pez>();
@@ -395,10 +396,12 @@ namespace LosTiburones.Model
                     GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", 0, 60, Color.Red);
                 }
 
+                /*
                 if ((tiburon.estoyCercaDelPersonaje(GModel.Personaje)))
                 {
                     GModel.DrawText.drawText("Estás cerca del tiburón", 0, 70, Color.Red);
                 }
+                */
             }
             else
             {
@@ -1132,8 +1135,8 @@ namespace LosTiburones.Model
 
         private void cargoMusica()
         {
-            musica = new TgcMp3Player();
             musica.FileName = GModel.MediaDir + "\\Music\\AbandonShip.mp3";
+            sonidoTiburonCerca.loadSound(GModel.MediaDir + "\\Music\\SharkNear.wav", GModel.DirectSound.DsDevice);
         }
 
         private void generoMetales()
@@ -1201,6 +1204,26 @@ namespace LosTiburones.Model
                 cilindro.setRenderColor(Color.LimeGreen);
                 objetoAMostrar = null;
             }
+        }
+
+        public void hacerSonarTiburonCerca()
+        {
+            if (musica.getStatus().Equals(TgcMp3Player.States.Playing))
+            {
+                musica.pause();
+            }
+
+            sonidoTiburonCerca.play(true);
+        }
+
+        public void detenerSonidoTiburonCerca()
+        {
+            if (musica.getStatus().Equals(TgcMp3Player.States.Paused))
+            {
+                musica.resume();
+            }
+
+            sonidoTiburonCerca.stop();
         }
 
         public float MovementSpeed { get => MOVEMENT_SPEED; }

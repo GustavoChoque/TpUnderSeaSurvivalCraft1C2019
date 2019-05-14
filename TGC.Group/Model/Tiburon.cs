@@ -52,25 +52,18 @@ namespace LosTiburones.Model
         {
             if (estoyAlejandomeDeLaNave)
             {
-                //me muevo alejandome
-                Velocidad = 1000f;
-
                 if (recienEmpiezoAAlejarme)
                 {
                     recienEmpiezoAAlejarme = false;
                     var nuevaDir = new TGCVector3(movDir);
-                    nuevaDir.Normalize();
-                    nuevaDir.Multiply(-1);
+                    nuevaDir.Multiply(-1f);
                     cambioRumbo(nuevaDir);
-                    gmodel.detener(sonido);
+                    gmodel.Escenario.detenerSonidoTiburonCerca();
                     posicionPersonajeOriginal = new TGCVector3(gmodel.Personaje.Position);
                 }
-                
-                var dirPosta = new TGCVector3(movDir);
-                dirPosta.Multiply(gmodel.ElapsedTime);
-                dirPosta.Multiply(Velocidad);
-                Move(dirPosta);
-                
+
+                movetePosta(movDir, 500f);
+
                 if (estoyLejosDelPersonaje(posicionPersonajeOriginal))
                 {
                     estoyAlejandomeDeLaNave = false;
@@ -82,9 +75,8 @@ namespace LosTiburones.Model
 
                 if (loEstoyPersiguiendo)
                 {
-                    Velocidad = 200f;
                     perseguir(gmodel.Personaje);
-                    sonido = gmodel.hacerSonar("Music\\SharkNear.mp3");
+                    gmodel.Escenario.hacerSonarTiburonCerca();
 
                     if (gmodel.Personaje.estaCercaDeNave())
                     {
@@ -94,9 +86,8 @@ namespace LosTiburones.Model
                 }
                 else
                 {
-                    Velocidad = 100f;
                     pasear();
-                    gmodel.detener(sonido);
+                    gmodel.Escenario.detenerSonidoTiburonCerca();
 
                     if (estoyCercaDelPersonaje(gmodel.Personaje))
                     {
@@ -127,12 +118,10 @@ namespace LosTiburones.Model
 
             if (Position.Y >= 0)
             {
-                dirPosta.Y = 0;
+                dirPosta.Y = -0.05f;
             }
 
-            dirPosta.Multiply(gmodel.ElapsedTime);
-            dirPosta.Multiply(Velocidad);
-            Move(dirPosta);
+            movetePosta(dirPosta, 300f);
         }
 
         private void pasear()
@@ -141,10 +130,7 @@ namespace LosTiburones.Model
 
             if (contadorTiempo < tiempoCambioRumbo)
             {
-                var dirPosta = new TGCVector3(movDir);
-                dirPosta.Multiply(gmodel.ElapsedTime);
-                dirPosta.Multiply(Velocidad);
-                Move(dirPosta);
+                movetePosta(movDir, 100f);
             }
             else
             {
@@ -157,7 +143,7 @@ namespace LosTiburones.Model
         {
             contadorTiempo = 0;
 
-            var nuevaDir = new TGCVector3(vector.X, vector.Y, vector.Z);
+            var nuevaDir = new TGCVector3(vector);
             nuevaDir.Normalize();
 
             var thetaViejaDir = FastMath.Atan2(movDir.Z, movDir.X);
@@ -166,12 +152,8 @@ namespace LosTiburones.Model
             float anguloEntreDosVectores = thetaViejaDir - thetaNuevaDir;
 
             RotateY(anguloEntreDosVectores);
-
-            movDir = new TGCVector3(nuevaDir);
-            var dirPosta = new TGCVector3(movDir);
-            dirPosta.Multiply(gmodel.ElapsedTime);
-            dirPosta.Multiply(Velocidad);
-            Move(dirPosta);
+            
+            movetePosta(nuevaDir, Velocidad);
         }
 
         public void Render()
@@ -205,6 +187,19 @@ namespace LosTiburones.Model
         public void Move(TGCVector3 vector)
         {
             mesh.Move(vector);
+        }
+
+        private void movetePosta(TGCVector3 vector, float velocidad)
+        {
+            var tempDir = new TGCVector3(vector);
+            tempDir.Normalize();
+            movDir = tempDir;
+
+            Velocidad = velocidad;
+            var dirPosta = new TGCVector3(vector);
+            dirPosta.Multiply(gmodel.ElapsedTime);
+            dirPosta.Multiply(Velocidad);
+            Move(dirPosta);
         }
     }
 }
