@@ -105,6 +105,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
+    <Compile Include="Model\ADebugDrawer.cs" />
     <Compile Include="Model\BrainCoral.cs" />
     <Compile Include="Model\Camara\TgcFpsCamera.cs" />
     <Compile Include="Model\Botiquin.cs" />

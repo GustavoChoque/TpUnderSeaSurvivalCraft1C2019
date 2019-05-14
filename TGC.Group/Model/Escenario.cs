@@ -91,6 +91,10 @@ namespace LosTiburones.Model
 
         TGCVector3 posicionInicial = new TGCVector3(600, 60, -250);
         TgcFpsCamera camaraInterna;
+
+        //----------BULLET DEBUG: DebugDrawer para Bullet
+        private DebugDraw debugDrawer;
+        
         //-------------------
 
         //-------Shaders----------
@@ -128,12 +132,10 @@ namespace LosTiburones.Model
             rigidCamera.ActivationState = ActivationState.IslandSleeping;
             dynamicsWorld.AddRigidBody(rigidCamera);
 
+            //BULLET DEBUG: Desabilitar el Bullet Debug de la camara. Solo si se va a Debugear Bullet
+            //rigidCamera.CollisionFlags = CollisionFlags.DisableVisualizeObject; //Comentar esta linea si se quiere debugear la camara
+
             camaraInterna = new TgcFpsCamera(posicionInicial, GModel.Input);
-
-
-            //-----------------------------
-            //-----------------------------
-
 
             //Device de DirectX para crear primitivas.
             var d3dDevice = D3DDevice.Instance.Device;
@@ -167,6 +169,8 @@ namespace LosTiburones.Model
             var heighmapRigid = BulletRigidBodyFactory.Instance.CreateSurfaceFromHeighMap(terreno.getData());
             dynamicsWorld.AddRigidBody(heighmapRigid);
 
+            //BULLET DEBUG: Desabilitar el Bullet Debug del heighmap. Solo si se va a Debugear Bullet
+            //heighmapRigid.CollisionFlags = CollisionFlags.DisableVisualizeObject; //Comentar esta linea si se quiere debugear el Heighmap
 
             //----------------------
 
@@ -181,7 +185,13 @@ namespace LosTiburones.Model
             workbench.Scale = new TGCVector3(0.2f, 0.2f, 0.2f);
             workbench.Position = new TGCVector3(150f, -60, -50f);
             workbench.RotateY(-FastMath.PI/2);
-            
+
+            //BULLET DEBUG: Debug para Bullet (Commentar estas lineas si NO se desea Debugear)
+            //-------------Start Bullet Debug Config----------------
+            //debugDrawer = new ADebugDrawer(DebugDrawModes.DrawWireframe);
+            //dynamicsWorld.DebugDrawer = debugDrawer;
+            //-------------End Bullet Debug Config------------------
+
         }
         public void Update()
         {
@@ -370,9 +380,14 @@ namespace LosTiburones.Model
             GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
             GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
 
+            //BULLET DEBUG: Le indico a bullet que Dibuje las lineas de debug.
+
+            //dynamicsWorld.DebugDrawWorld(); //ATENCION: COMENTAR ESTA LINEA SI NO SE DESEA DEBUGEAR BULLET
+
+            //--------------------------------
 
             //----Fisica----------
-           
+
             camaraInterna.setPosicion(new TGCVector3(rigidCamera.CenterOfMassPosition));
             GModel.Camara = camaraInterna;
 
@@ -506,6 +521,9 @@ namespace LosTiburones.Model
             pecesAzules.ForEach(obj => obj.Dispose());
 
             objetosRecolectables.ForEach(obj => obj.Dispose());
+
+            //BULLET DEBUG: Libero el DebugDrawer
+            //debugDrawer.Dispose(); //Comentar esta linea si no se desea debugear
 
 
             workbench.Dispose();
