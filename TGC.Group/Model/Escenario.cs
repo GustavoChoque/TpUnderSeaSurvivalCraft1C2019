@@ -939,8 +939,10 @@ namespace LosTiburones.Model
                     //escalado random
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance.Transform = /*TGCMatrix.Scaling(instance.Scale)* */ TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
+                    var body = BulletRigidBodyFactory.Instance.CreateBall(50, 0, instance.Position);
+                    dynamicsWorld.AddRigidBody(body);
                 }
 
             }
@@ -955,6 +957,8 @@ namespace LosTiburones.Model
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
                     instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
                     objetosEstaticosEnArray.Add(instance);
+                    var body = BulletRigidBodyFactory.Instance.CreateBall(50, 0, instance.Position);
+                    dynamicsWorld.AddRigidBody(body);
                 }
 
             }
@@ -1149,6 +1153,18 @@ namespace LosTiburones.Model
 
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed.jpg");
             piso = new TgcPlane(new TGCVector3(-20000, -1000, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, pisoTextura);
+
+            var floorShape = new StaticPlaneShape(TGCVector3.Up.ToBulletVector3(), -1000);
+            var floorMotionState = new DefaultMotionState();
+
+            var floorInfo = new RigidBodyConstructionInfo(0, floorMotionState, floorShape);
+            var body = new RigidBody(floorInfo);
+
+            // var body=BulletRigidBodyFactory.Instance.CreateBox(new TGCVector3(40000, 1, 40000), 0,new TGCVector3(-20000, -1000, -20000), 0, 0, 0, 0,false);
+
+            dynamicsWorld.AddRigidBody(body);
+
+
         }
 
         private void cargoMusica()

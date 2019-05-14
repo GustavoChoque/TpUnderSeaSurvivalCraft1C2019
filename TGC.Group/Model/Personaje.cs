@@ -36,8 +36,15 @@ namespace TGC.Group.Model
         {
             this.gmodel = gmodel;
             inventario = new Inventario(gmodel, this);
-            Inventario.agregaObjeto(new ObjetoInventario("BrainCoral", 4));
-            Inventario.agregaObjeto(new ObjetoInventario("SeaShell", 1));
+            Inventario.agregaObjeto(new BrainCoral());
+            Inventario.agregaObjeto(new BrainCoral());
+            Inventario.agregaObjeto(new BrainCoral());
+            Inventario.agregaObjeto(new BrainCoral());
+            Inventario.agregaObjeto(new BrainCoral());
+            Inventario.agregaObjeto(new SeaShell());
+            Inventario.agregaObjeto(new SeaShell());
+            Inventario.agregaObjeto(new SeaShell());
+            Inventario.agregaObjeto(new SeaShell());
         }
 
         public void Update()
