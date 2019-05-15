@@ -1186,7 +1186,11 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side / 4, side / 2);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000 + side / 8, GModel.GetRandom.Next(-10000, 10000));
-                    var instance = new RecolectableConTextura(texturaOro, tamanio, posicion, "Oro");
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    dynamicsWorld.AddRigidBody(metalRigidBody);
+                    //Creo instancia en el (0,0,0). Despues se actualiza posicion con RigidBody
+                    var instance = new RecolectableConTextura(texturaOro, tamanio, new TGCVector3(0, 0, 0), "Oro");
+                    instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
                 }
 
@@ -1199,7 +1203,10 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000 + side / 2, GModel.GetRandom.Next(-10000, 10000));
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    dynamicsWorld.AddRigidBody(metalRigidBody);
                     var instance = new RecolectableConTextura(texturaRubi, tamanio, posicion, "Ruby");
+                    instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
                 }
 
@@ -1212,7 +1219,10 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000 + side / 2, GModel.GetRandom.Next(-10000, 10000));
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    dynamicsWorld.AddRigidBody(metalRigidBody);
                     var instance = new RecolectableConTextura(texturaPlatino, tamanio, posicion, "Platino");
+                    instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
                 }
             }
@@ -1230,6 +1240,11 @@ namespace LosTiburones.Model
                 {
                     GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventario(objetoAMostrar.Nombre, 1));
                     objetosRecolectables.Remove(objetoAMostrar);
+                    if(objetoAMostrar.CuerpoRigido != null)
+                    {
+                        dynamicsWorld.RemoveCollisionObject(objetoAMostrar.CuerpoRigido);
+                        objetoAMostrar.CuerpoRigido.Dispose();
+                    }                    
                     objetoAMostrar = null;
                 }
             }

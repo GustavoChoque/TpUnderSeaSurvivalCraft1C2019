@@ -23,14 +23,14 @@ namespace LosTiburones.Model
 
         public override void Render()
         {
-            Mesh.Render();
             base.Render();
+            Mesh.Render();
         }
 
         public override void Dispose()
         {
-            Mesh.Dispose();
             base.Dispose();
+            Mesh.Dispose();
         }
 
         public TgcMesh Mesh { get => mesh; set => mesh = value; }

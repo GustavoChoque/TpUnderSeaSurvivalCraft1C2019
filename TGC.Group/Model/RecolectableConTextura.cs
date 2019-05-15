@@ -1,4 +1,5 @@
-﻿using TGC.Core.Geometry;
+﻿using BulletSharp;
+using TGC.Core.Geometry;
 using TGC.Core.Mathematica;
 using TGC.Core.Textures;
 
@@ -18,14 +19,18 @@ namespace LosTiburones.Model
 
         public override void Render()
         {
-            Objeto.Render();
             base.Render();
+            if (CuerpoRigido != null)
+            {
+                Objeto.Transform = new TGCMatrix(CuerpoRigido.InterpolationWorldTransform);
+            }
+            Objeto.Render();
         }
 
         public override void Dispose()
         {
-            Objeto.Dispose();
             base.Dispose();
+            Objeto.Dispose();
         }
 
         private TGCBox Objeto { get => objeto; set => objeto = value; }
