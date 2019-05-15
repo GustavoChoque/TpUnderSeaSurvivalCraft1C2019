@@ -910,18 +910,34 @@ namespace LosTiburones.Model
             TgcMesh instance;
             BvhTriangleMeshShape childTriangleMesh;
             RigidBody rigidBody;
+            RecolectableConMesh instanceMesh;
+            TGCVector3 posicion;
             var rows = 6;
             var cols = 6;
-            //----------------
+
+            //-------CoralBrain---------
+            posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
+            instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "Brain Coral");
+            instanceMesh.Mesh.Scale = new TGCVector3(10, 10, 10);
+            instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
+            objetosRecolectables.Add(instanceMesh);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instanceMesh.Mesh);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "Coral Brain");
-                    instanceMesh.Mesh.Scale = new TGCVector3(10, 10, 10);
+                    posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
+                    instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "Brain Coral");
+                    instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
                     instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
                     objetosRecolectables.Add(instanceMesh);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instanceMesh.Mesh.Position, instanceMesh.Mesh.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
 
                 }
 
@@ -946,167 +962,231 @@ namespace LosTiburones.Model
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //---------PillarCoral--------
+            instance = crearInstanciasObjetosEstaticos(pillarCoral, 10000, 5, pillarCoral.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = pillarCoral.createMeshInstance(pillarCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(pillarCoral, 10000, 5, pillarCoral.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
-                    var body = BulletRigidBodyFactory.Instance.CreateBall(50, 0, instance.Position);
-                    dynamicsWorld.AddRigidBody(body);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
 
-            //-----------------
+            //-------SeaShell----------
+            posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
+            instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
+            instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
+            instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
+            objetosRecolectables.Add(instanceMesh);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instanceMesh.Mesh);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    /*var instance = seaShell.createMeshInstance(seaShell.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticosEnArray.Add(instance);*/
-
-                    var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
+                    posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
+                    instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
                     instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
                     instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
                     objetosRecolectables.Add(instanceMesh);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instanceMesh.Mesh.Position, instanceMesh.Mesh.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
+
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //--------treeCoral---------
+            instance = crearInstanciasObjetosEstaticos(treeCoral, 10000, 5, treeCoral.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = treeCoral.createMeshInstance(treeCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(treeCoral, 10000, 5, treeCoral.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //--------spiralWireCoral---------
+            instance = crearInstanciasObjetosEstaticos(spiralWireCoral, 10000, 5, spiralWireCoral.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = spiralWireCoral.createMeshInstance(spiralWireCoral.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(spiralWireCoral, 10000, 5, spiralWireCoral.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //--------arbusto---------
+            instance = crearInstanciasObjetosEstaticos(arbusto, 10000, 5, arbusto.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = arbusto.createMeshInstance(arbusto.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    instance.AlphaBlendEnable = true;
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(arbusto, 10000, 5, arbusto.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //--------arbusto 2---------
+            instance = crearInstanciasObjetosEstaticos(arbusto2, 10000, 5, arbusto2.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = arbusto2.createMeshInstance(arbusto2.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    instance.AlphaBlendEnable = true;
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(arbusto2, 10000, 5, arbusto2.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //--------pasto---------
+            instance = crearInstanciasObjetosEstaticos(pasto, 10000, 5, pasto.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = pasto.createMeshInstance(pasto.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    instance.AlphaBlendEnable = true;
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(pasto, 10000, 5, pasto.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //--------planta---------
+            instance = crearInstanciasObjetosEstaticos(planta, 10000, 5, planta.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = planta.createMeshInstance(planta.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(planta, 10000, 5, planta.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //--------planta 2---------
+            instance = crearInstanciasObjetosEstaticos(planta2, 10000, 5, planta2.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = planta2.createMeshInstance(planta2.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(planta2, 10000, 5, planta2.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //--------planta3---------
+            instance = crearInstanciasObjetosEstaticos(planta3, 10000, 5, planta3.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = planta3.createMeshInstance(planta3.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(planta3, 10000, 5, planta3.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
-            //-----------------
-            for (int i = 0; i < rows; i++)
+            //--------roca---------
+            instance = crearInstanciasObjetosEstaticos(roca, 10000, 5, roca.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 1; i < rows; i++)
             {
-                for (int j = 0; j < cols; j++)
+                for (int j = 1; j < cols; j++)
                 {
-                    instance = roca.createMeshInstance(roca.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    instance = crearInstanciasObjetosEstaticos(roca, 10000, 5, roca.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
             }
