@@ -907,6 +907,9 @@ namespace LosTiburones.Model
 
         private void generoObjetosEstaticosEnArray()
         {
+            TgcMesh instance;
+            BvhTriangleMeshShape childTriangleMesh;
+            RigidBody rigidBody;
             var rows = 6;
             var cols = 6;
             //----------------
@@ -914,35 +917,32 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    /*var instance = coralBrain.createMeshInstance(coralBrain.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    instance.Transform = TGCMatrix.Translation(instance.Position);
-                    objetosEstaticosEnArray.Add(instance);*/
-
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var instance = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "Coral Brain");
-                    instance.Mesh.Scale = new TGCVector3(10, 10, 10);
-                    instance.Mesh.Transform = TGCMatrix.Scaling(instance.Mesh.Scale) * TGCMatrix.Translation(instance.Mesh.Position);
-                    objetosRecolectables.Add(instance);
+                    var instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "Coral Brain");
+                    instanceMesh.Mesh.Scale = new TGCVector3(10, 10, 10);
+                    instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
+                    objetosRecolectables.Add(instanceMesh);
 
                 }
 
             }
-            //----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = coral.createMeshInstance(coral.Name + i + "_" + j);
+            //--------Coral--------
+            instance = crearInstanciasObjetosEstaticos(coral, 10000, 5, coral.Name + 0 + "_" + 0);
+            objetosEstaticosEnArray.Add(instance);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instance);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
 
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    //escalado random
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = /*TGCMatrix.Scaling(instance.Scale)* */ TGCMatrix.Translation(instance.Position);
+            for (int i = 1; i < rows; i++)
+            {
+                for (int j = 1; j < cols; j++)
+                {
+                    instance = crearInstanciasObjetosEstaticos(coral, 10000, 5, coral.Name + i + "_" + j);
                     objetosEstaticosEnArray.Add(instance);
-                    var body = BulletRigidBodyFactory.Instance.CreateBall(50, 0, instance.Position);
-                    dynamicsWorld.AddRigidBody(body);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);                    
                 }
 
             }
@@ -951,7 +951,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = pillarCoral.createMeshInstance(pillarCoral.Name + i + "_" + j);
+                    instance = pillarCoral.createMeshInstance(pillarCoral.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
@@ -974,10 +974,10 @@ namespace LosTiburones.Model
                     objetosEstaticosEnArray.Add(instance);*/
 
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    var instance = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
-                    instance.Mesh.Scale = new TGCVector3(2, 2, 2);
-                    instance.Mesh.Transform = TGCMatrix.Scaling(instance.Mesh.Scale) * TGCMatrix.Translation(instance.Mesh.Position);
-                    objetosRecolectables.Add(instance);
+                    var instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
+                    instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
+                    instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
+                    objetosRecolectables.Add(instanceMesh);
                 }
 
             }
@@ -986,7 +986,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = treeCoral.createMeshInstance(treeCoral.Name + i + "_" + j);
+                    instance = treeCoral.createMeshInstance(treeCoral.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
@@ -1000,7 +1000,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = spiralWireCoral.createMeshInstance(spiralWireCoral.Name + i + "_" + j);
+                    instance = spiralWireCoral.createMeshInstance(spiralWireCoral.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
@@ -1014,22 +1014,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = arbusto.createMeshInstance(arbusto.Name + i + "_" + j);
-                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    instance.AlphaBlendEnable = true;
-                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
-                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
-                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
-                    objetosEstaticosEnArray.Add(instance);
-                }
-
-            }
-            //-----------------
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    var instance = arbusto2.createMeshInstance(arbusto2.Name + i + "_" + j);
+                    instance = arbusto.createMeshInstance(arbusto.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     instance.AlphaBlendEnable = true;
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
@@ -1044,7 +1029,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = pasto.createMeshInstance(pasto.Name + i + "_" + j);
+                    instance = arbusto2.createMeshInstance(arbusto2.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     instance.AlphaBlendEnable = true;
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
@@ -1059,7 +1044,22 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = planta.createMeshInstance(planta.Name + i + "_" + j);
+                    instance = pasto.createMeshInstance(pasto.Name + i + "_" + j);
+                    instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
+                    instance.AlphaBlendEnable = true;
+                    var escalaObjeto = GModel.GetRandom.Next(5, 15);
+                    instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
+                    instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+                    objetosEstaticosEnArray.Add(instance);
+                }
+
+            }
+            //-----------------
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    instance = planta.createMeshInstance(planta.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
@@ -1073,7 +1073,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = planta2.createMeshInstance(planta2.Name + i + "_" + j);
+                    instance = planta2.createMeshInstance(planta2.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
@@ -1087,7 +1087,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = planta3.createMeshInstance(planta3.Name + i + "_" + j);
+                    instance = planta3.createMeshInstance(planta3.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
@@ -1101,7 +1101,7 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var instance = roca.createMeshInstance(roca.Name + i + "_" + j);
+                    instance = roca.createMeshInstance(roca.Name + i + "_" + j);
                     instance.Position = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
                     var escalaObjeto = GModel.GetRandom.Next(5, 15);
                     instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
@@ -1253,6 +1253,64 @@ namespace LosTiburones.Model
                 cilindro.setRenderColor(Color.LimeGreen);
                 objetoAMostrar = null;
             }
+        }
+
+        private TgcMesh crearInstanciasObjetosEstaticos(TgcMesh mesh, int randomPosition, int escala, String name)
+        {
+            var instance = mesh.createMeshInstance(name);
+
+            instance.Position = new TGCVector3(GModel.GetRandom.Next(-randomPosition, randomPosition), -(randomPosition / 10), GModel.GetRandom.Next(-randomPosition, randomPosition));
+            //escalado random
+            var escalaObjeto = GModel.GetRandom.Next(escala, escala * 3);
+            instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
+            instance.Transform = TGCMatrix.Scaling(instance.Scale) * TGCMatrix.Translation(instance.Position);
+
+            return instance;
+        }
+
+        private BvhTriangleMeshShape construirTriangleMeshShape(TgcMesh mesh)
+        {
+            var vertexCoords = mesh.getVertexPositions();
+
+            TriangleMesh triangleMesh = new TriangleMesh();
+            for (int i = 0; i < vertexCoords.Length; i = i + 3)
+            {
+                triangleMesh.AddTriangle(vertexCoords[i].ToBulletVector3(), vertexCoords[i + 1].ToBulletVector3(), vertexCoords[i + 2].ToBulletVector3());
+            }
+            return new BvhTriangleMeshShape(triangleMesh, false);
+        }
+
+        private RigidBody construirRigidBodyDeTriangleMeshShape(BvhTriangleMeshShape triangleMeshShape)
+        {
+            var transformationMatrix = TGCMatrix.RotationYawPitchRoll(0, 0, 0).ToBsMatrix;
+            DefaultMotionState motionState = new DefaultMotionState(transformationMatrix);
+
+            var boxLocalInertia = triangleMeshShape.CalculateLocalInertia(0);
+            var bodyInfo = new RigidBodyConstructionInfo(0, motionState, triangleMeshShape, boxLocalInertia);
+            var rigidBody = new RigidBody(bodyInfo);
+            rigidBody.Friction = 0.4f;
+            rigidBody.RollingFriction = 1;
+            rigidBody.Restitution = 1f;
+
+            return rigidBody;
+        }
+
+        private RigidBody construirRigidBodyDeChildTriangleMeshShape(BvhTriangleMeshShape triangleMeshShape, TGCVector3 posicion, TGCVector3 escalado)
+        {
+            var transformationMatrix = TGCMatrix.RotationYawPitchRoll(0, 0, 0);
+            transformationMatrix.Origin = posicion;
+            DefaultMotionState motionState = new DefaultMotionState(transformationMatrix.ToBsMatrix);
+
+            var bulletShape = new ScaledBvhTriangleMeshShape(triangleMeshShape, escalado.ToBulletVector3());
+            var boxLocalInertia = bulletShape.CalculateLocalInertia(0);
+
+            var bodyInfo = new RigidBodyConstructionInfo(0, motionState, bulletShape, boxLocalInertia);
+            var rigidBody = new RigidBody(bodyInfo);
+            rigidBody.Friction = 0.4f;
+            rigidBody.RollingFriction = 1;
+            rigidBody.Restitution = 1f;
+
+            return rigidBody;
         }
 
         public void hacerSonarTiburonCerca()

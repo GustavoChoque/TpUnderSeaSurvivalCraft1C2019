@@ -35,7 +35,7 @@ namespace LosTiburones.Model
                 var vector = new TGCVector3(centroDeMasa.X, centroDeMasa.Y, centroDeMasa.Z);
                 EsferaColision.setCenter(vector);
             }
-            EsferaColision.Render();
+            //EsferaColision.Render();
         }
 
         public virtual void Dispose()
