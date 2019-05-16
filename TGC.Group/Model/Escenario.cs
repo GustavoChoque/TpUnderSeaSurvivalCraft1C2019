@@ -1269,6 +1269,7 @@ namespace LosTiburones.Model
                     var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     //Creo instancia en el (0,0,0). Despues se actualiza posicion con RigidBody
+                    tamanio.Multiply(2f);
                     var instance = new RecolectableConTextura(texturaOro, tamanio, new TGCVector3(0, 0, 0), "Oro");
                     instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
@@ -1285,7 +1286,8 @@ namespace LosTiburones.Model
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000 + side / 2, GModel.GetRandom.Next(-10000, 10000));
                     var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
-                    var instance = new RecolectableConTextura(texturaRubi, tamanio, posicion, "Ruby");
+                    tamanio.Multiply(2f);
+                    var instance = new RecolectableConTextura(texturaRubi, tamanio, new TGCVector3(0, 0, 0), "Ruby");
                     instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
                 }
@@ -1301,7 +1303,8 @@ namespace LosTiburones.Model
                     var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000 + side / 2, GModel.GetRandom.Next(-10000, 10000));
                     var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
-                    var instance = new RecolectableConTextura(texturaPlatino, tamanio, posicion, "Platino");
+                    tamanio.Multiply(2f);
+                    var instance = new RecolectableConTextura(texturaPlatino, tamanio, new TGCVector3(0, 0, 0), "Platino");
                     instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
                 }
