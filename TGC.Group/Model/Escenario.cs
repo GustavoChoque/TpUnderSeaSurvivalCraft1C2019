@@ -1052,6 +1052,7 @@ namespace LosTiburones.Model
             }
             //--------arbusto---------
             instance = crearInstanciasObjetosEstaticos(arbusto, 10000, 5, arbusto.Name + 0 + "_" + 0);
+            instance.AlphaBlendEnable = true;
             objetosEstaticosEnArray.Add(instance);
             //Contruyo el BulletShape de base para clonar al resto de los objetos
             childTriangleMesh = construirTriangleMeshShape(instance);
@@ -1063,6 +1064,7 @@ namespace LosTiburones.Model
                 for (int j = 1; j < cols; j++)
                 {
                     instance = crearInstanciasObjetosEstaticos(arbusto, 10000, 5, arbusto.Name + i + "_" + j);
+                    instance.AlphaBlendEnable = true;
                     objetosEstaticosEnArray.Add(instance);
                     //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
                     rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
@@ -1072,6 +1074,7 @@ namespace LosTiburones.Model
             }
             //--------arbusto 2---------
             instance = crearInstanciasObjetosEstaticos(arbusto2, 10000, 5, arbusto2.Name + 0 + "_" + 0);
+            instance.AlphaBlendEnable = true;
             objetosEstaticosEnArray.Add(instance);
             //Contruyo el BulletShape de base para clonar al resto de los objetos
             childTriangleMesh = construirTriangleMeshShape(instance);
@@ -1083,6 +1086,7 @@ namespace LosTiburones.Model
                 for (int j = 1; j < cols; j++)
                 {
                     instance = crearInstanciasObjetosEstaticos(arbusto2, 10000, 5, arbusto2.Name + i + "_" + j);
+                    instance.AlphaBlendEnable = true;
                     objetosEstaticosEnArray.Add(instance);
                     //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
                     rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
@@ -1092,6 +1096,7 @@ namespace LosTiburones.Model
             }
             //--------pasto---------
             instance = crearInstanciasObjetosEstaticos(pasto, 10000, 5, pasto.Name + 0 + "_" + 0);
+            instance.AlphaBlendEnable = true;
             objetosEstaticosEnArray.Add(instance);
             //Contruyo el BulletShape de base para clonar al resto de los objetos
             childTriangleMesh = construirTriangleMeshShape(instance);
@@ -1103,6 +1108,7 @@ namespace LosTiburones.Model
                 for (int j = 1; j < cols; j++)
                 {
                     instance = crearInstanciasObjetosEstaticos(pasto, 10000, 5, pasto.Name + i + "_" + j);
+                    instance.AlphaBlendEnable = true;
                     objetosEstaticosEnArray.Add(instance);
                     //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
                     rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
@@ -1152,6 +1158,7 @@ namespace LosTiburones.Model
             }
             //--------planta3---------
             instance = crearInstanciasObjetosEstaticos(planta3, 10000, 5, planta3.Name + 0 + "_" + 0);
+            instance.AlphaBlendEnable = true;
             objetosEstaticosEnArray.Add(instance);
             //Contruyo el BulletShape de base para clonar al resto de los objetos
             childTriangleMesh = construirTriangleMeshShape(instance);
@@ -1163,6 +1170,7 @@ namespace LosTiburones.Model
                 for (int j = 1; j < cols; j++)
                 {
                     instance = crearInstanciasObjetosEstaticos(planta3, 10000, 5, planta3.Name + i + "_" + j);
+                    instance.AlphaBlendEnable = true;
                     objetosEstaticosEnArray.Add(instance);
                     //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
                     rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
@@ -1421,5 +1429,7 @@ namespace LosTiburones.Model
         public TgcScene Barco { get => barco; }
 
         public TgcMesh Workbench { get => workbench; }
+
+        public RigidBody RigidCamera { get => rigidCamera; }
     }
 }
