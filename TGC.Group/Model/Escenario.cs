@@ -101,6 +101,7 @@ namespace LosTiburones.Model
         private Effect efectoSuperficieAgua;
         private float time;
         //---------------------
+        private TgcScene objetosDelTerreno;
 
         public void Init(GameModel gmodel)
         {
@@ -185,6 +186,25 @@ namespace LosTiburones.Model
             workbench.Scale = new TGCVector3(0.2f, 0.2f, 0.2f);
             workbench.Position = new TGCVector3(150f, -60, -50f);
             workbench.RotateY(-FastMath.PI/2);
+
+
+            objetosDelTerreno = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "MeshCreator\\Scenes\\vegetacionScena\\objetosScene-TgcScene.xml");
+
+            objetosDelTerreno.Meshes.ForEach(o => {
+                //o.AutoTransformEnable = false;
+                o.Move(new TGCVector3(0, -5270, 0));
+                //o.Transform = TGCMatrix.Translation(new TGCVector3(0, -5000, 0));
+            });
+
+            objetosDelTerreno.Meshes.ForEach(mesh => {
+                var body = BulletRigidBodyFactory.Instance.CreateBall(50, 0, mesh.Position);
+                
+                dynamicsWorld.AddRigidBody(body);
+
+            });
+
+
+
 
             //BULLET DEBUG: Debug para Bullet (Commentar estas lineas si NO se desea Debugear)
             //-------------Start Bullet Debug Config----------------
@@ -436,7 +456,7 @@ namespace LosTiburones.Model
 
             //------------------------------------
             agua.Render();
-            piso.Render();
+            //piso.Render();
             coral.Render();
             tiburon.Render();
             coralBrain.Render();
@@ -470,6 +490,8 @@ namespace LosTiburones.Model
 
 
             workbench.Render();
+
+            objetosDelTerreno.RenderAll();
 
         }
 
@@ -527,6 +549,7 @@ namespace LosTiburones.Model
 
 
             workbench.Dispose();
+            objetosDelTerreno.DisposeAll();
         }
 
 
@@ -1050,6 +1073,7 @@ namespace LosTiburones.Model
                 }
 
             }
+            /*
             //--------arbusto---------
             instance = crearInstanciasObjetosEstaticos(arbusto, 10000, 5, arbusto.Name + 0 + "_" + 0);
             instance.AlphaBlendEnable = true;
@@ -1197,7 +1221,7 @@ namespace LosTiburones.Model
                     dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
-            }
+            }*/
         }
 
         private void cargoSkybox()
@@ -1250,7 +1274,7 @@ namespace LosTiburones.Model
 
             // var body=BulletRigidBodyFactory.Instance.CreateBox(new TGCVector3(40000, 1, 40000), 0,new TGCVector3(-20000, -1000, -20000), 0, 0, 0, 0,false);
 
-            dynamicsWorld.AddRigidBody(body);
+           // dynamicsWorld.AddRigidBody(body);
 
 
         }
