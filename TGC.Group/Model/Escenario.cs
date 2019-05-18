@@ -22,6 +22,7 @@ using TGC.Group.Model.Sprites;
 using TGC.Core.Shaders;
 using Microsoft.DirectX.Direct3D;
 using Effect = Microsoft.DirectX.Direct3D.Effect;
+using TGC.Group.Model.Quadtree;
 
 namespace LosTiburones.Model
 {
@@ -102,6 +103,7 @@ namespace LosTiburones.Model
         private float time;
         //---------------------
         private TgcScene objetosDelTerreno;
+        private Quadtree quadtree;
 
         public void Init(GameModel gmodel)
         {
@@ -202,9 +204,13 @@ namespace LosTiburones.Model
                 dynamicsWorld.AddRigidBody(body);
 
             });
-
-
-
+            //--------creo Quadtree para la Optimizacion---------------
+            quadtree = new Quadtree();
+            
+            objetosDelTerreno.BoundingBox.move(new TGCVector3(0, -5270, 0));
+            quadtree.create(objetosDelTerreno.Meshes, objetosDelTerreno.BoundingBox);
+            quadtree.createDebugQuadtreeMeshes();
+            //----------------------------------
 
             //BULLET DEBUG: Debug para Bullet (Commentar estas lineas si NO se desea Debugear)
             //-------------Start Bullet Debug Config----------------
@@ -492,6 +498,9 @@ namespace LosTiburones.Model
             workbench.Render();
 
             objetosDelTerreno.RenderAll();
+
+            quadtree.render(GModel.Frustum, true);
+
 
         }
 

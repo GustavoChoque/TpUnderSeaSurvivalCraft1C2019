@@ -119,6 +119,9 @@
     <Compile Include="Model\ObjetoInventario.cs" />
     <Compile Include="Model\Personaje.cs" />
     <Compile Include="Model\Pez.cs" />
+    <Compile Include="Model\Quadtree\Quadtree.cs" />
+    <Compile Include="Model\Quadtree\QuadtreeBuilder.cs" />
+    <Compile Include="Model\Quadtree\QuadtreeNode.cs" />
     <Compile Include="Model\RecolectableConMesh.cs" />
     <Compile Include="Model\RecolectableConTextura.cs" />
     <Compile Include="Model\SeaShell.cs" />
