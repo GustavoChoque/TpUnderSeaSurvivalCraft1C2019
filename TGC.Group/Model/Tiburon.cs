@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BulletSharp;
+using BulletSharp.Math;
+using Microsoft.DirectX.Direct3D;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +28,7 @@ namespace LosTiburones.Model
         private Boolean estoyAlejandomeDeLaNave = false;
         private Boolean recienEmpiezoAAlejarme = true;
         private Boolean loEstoyPersiguiendo = false;
+        private RigidBody cuerpoRigido;
 
         public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
@@ -158,6 +162,15 @@ namespace LosTiburones.Model
 
         public void Render()
         {
+            //Logica de mover y rotar 90 grados la capsula de cuerpo Rigido
+            this.mesh.RotateZ(Geometry.DegreeToRadian(90f));
+            this.mesh.UpdateMeshTransform();
+            TGCMatrix transform = new TGCMatrix(this.mesh.Transform);
+            var bulletTransform = transform.ToBsMatrix;
+            CuerpoRigido.MotionState.SetWorldTransform(ref bulletTransform);
+            this.mesh.RotateZ(-(Geometry.DegreeToRadian(90f)));
+            this.mesh.UpdateMeshTransform();
+            
             this.mesh.Render();
         }
 
@@ -168,7 +181,9 @@ namespace LosTiburones.Model
 
         public TGCMatrix Transform { get => mesh.Transform; set => mesh.Transform = value; }
         public TGCVector3 Position { get => mesh.Position; set => mesh.Position = value; }
+        public TGCVector3 Scale { get => mesh.Scale; set => mesh.Scale = value; }
         public float Velocidad { get => velocidad; set => velocidad = value; }
+        public RigidBody CuerpoRigido { get => cuerpoRigido; set => cuerpoRigido = value; }
         public void RotateX(float angle)
         {
             mesh.RotateX(angle);
@@ -186,6 +201,11 @@ namespace LosTiburones.Model
 
         public void Move(TGCVector3 vector)
         {
+            /*Matrix newTransf;
+            CuerpoRigido.MotionState.GetWorldTransform(out newTransf);
+            newTransf.Origin = vector.ToBulletVector3();
+            CuerpoRigido.MotionState.SetWorldTransform(ref newTransf);*/
+            
             mesh.Move(vector);
         }
 
