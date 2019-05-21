@@ -194,7 +194,7 @@ namespace LosTiburones.Model
 
             objetosDelTerreno.Meshes.ForEach(o => {
                 //o.AutoTransformEnable = false;
-                o.Move(new TGCVector3(0, -5270, 0));
+                o.Move(new TGCVector3(0, -5260, 0));
                 //o.Transform = TGCMatrix.Translation(new TGCVector3(0, -5000, 0));
             });
 
@@ -207,7 +207,7 @@ namespace LosTiburones.Model
             //--------creo Quadtree para la Optimizacion---------------
             quadtree = new Quadtree();
             
-            objetosDelTerreno.BoundingBox.move(new TGCVector3(0, -5270, 0));
+            objetosDelTerreno.BoundingBox.move(new TGCVector3(0, -5260, 0));
             quadtree.create(objetosDelTerreno.Meshes, objetosDelTerreno.BoundingBox);
             quadtree.createDebugQuadtreeMeshes();
             //----------------------------------
@@ -462,7 +462,7 @@ namespace LosTiburones.Model
 
             //------------------------------------
             agua.Render();
-            //piso.Render();
+            piso.Render();
             coral.Render();
             tiburon.Render();
             coralBrain.Render();
@@ -1273,9 +1273,9 @@ namespace LosTiburones.Model
             agua = new TgcPlane(new TGCVector3(-20000, 0, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, aguaTextura);
 
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed.jpg");
-            piso = new TgcPlane(new TGCVector3(-20000, -1000, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, pisoTextura);
+            piso = new TgcPlane(new TGCVector3(-20000, -5230, -20000), new TGCVector3(60000, 0, 60000), TgcPlane.Orientations.XZplane, pisoTextura);
 
-            var floorShape = new StaticPlaneShape(TGCVector3.Up.ToBulletVector3(), -1000);
+            var floorShape = new StaticPlaneShape(TGCVector3.Up.ToBulletVector3(), -5230);
             var floorMotionState = new DefaultMotionState();
 
             var floorInfo = new RigidBodyConstructionInfo(0, floorMotionState, floorShape);
@@ -1283,7 +1283,7 @@ namespace LosTiburones.Model
 
             // var body=BulletRigidBodyFactory.Instance.CreateBox(new TGCVector3(40000, 1, 40000), 0,new TGCVector3(-20000, -1000, -20000), 0, 0, 0, 0,false);
 
-           // dynamicsWorld.AddRigidBody(body);
+            dynamicsWorld.AddRigidBody(body);
 
 
         }
