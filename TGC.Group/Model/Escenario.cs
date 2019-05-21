@@ -23,6 +23,7 @@ using TGC.Core.Shaders;
 using Microsoft.DirectX.Direct3D;
 using Effect = Microsoft.DirectX.Direct3D.Effect;
 using TGC.Group.Model.Quadtree;
+using TGC.Group.Model.Optimizacion;
 
 namespace LosTiburones.Model
 {
@@ -104,6 +105,8 @@ namespace LosTiburones.Model
         //---------------------
         private TgcScene objetosDelTerreno;
         private Quadtree quadtree;
+        private Octree octree;
+
 
         public void Init(GameModel gmodel)
         {
@@ -204,13 +207,24 @@ namespace LosTiburones.Model
                 dynamicsWorld.AddRigidBody(body);
 
             });
-            //--------creo Quadtree para la Optimizacion---------------
+          /*  //--------creo Quadtree para la Optimizacion---------------
             quadtree = new Quadtree();
             
             objetosDelTerreno.BoundingBox.move(new TGCVector3(0, -5260, 0));
             quadtree.create(objetosDelTerreno.Meshes, objetosDelTerreno.BoundingBox);
             quadtree.createDebugQuadtreeMeshes();
             //----------------------------------
+            */
+            //--------creo Octree para la Optimizacion---------------
+            octree = new Octree();
+
+            objetosDelTerreno.BoundingBox.move(new TGCVector3(0, -5260, 0));
+            octree.create(objetosDelTerreno.Meshes, objetosDelTerreno.BoundingBox);
+            octree.createDebugOctreeMeshes();
+            //----------------------------------
+
+
+
 
             //BULLET DEBUG: Debug para Bullet (Commentar estas lineas si NO se desea Debugear)
             //-------------Start Bullet Debug Config----------------
@@ -499,7 +513,9 @@ namespace LosTiburones.Model
 
             objetosDelTerreno.RenderAll();
 
-            quadtree.render(GModel.Frustum, true);
+            //quadtree.render(GModel.Frustum, true);
+
+            octree.render(GModel.Frustum, true);
 
 
         }
