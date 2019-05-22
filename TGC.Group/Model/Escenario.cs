@@ -22,6 +22,8 @@ using TGC.Group.Model.Sprites;
 using TGC.Core.Shaders;
 using Microsoft.DirectX.Direct3D;
 using Effect = Microsoft.DirectX.Direct3D.Effect;
+using TGC.Group.Model.Quadtree;
+using TGC.Group.Model.Optimizacion;
 
 namespace LosTiburones.Model
 {
@@ -101,6 +103,10 @@ namespace LosTiburones.Model
         private Effect efectoSuperficieAgua;
         private float time;
         //---------------------
+        private TgcScene objetosDelTerreno;
+        private Quadtree quadtree;
+        private Octree octree;
+        private const int DESPLAZAMIENTO_EN_Y = 5260;
 
         public void Init(GameModel gmodel)
         {
@@ -180,7 +186,41 @@ namespace LosTiburones.Model
             workbench.Position = new TGCVector3(150f, -60, -50f);
             workbench.RotateY(-FastMath.PI/2);
 
-            //BULLET DEBUG: Debug para Bullet
+
+            objetosDelTerreno = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "MeshCreator\\Scenes\\vegetacionScena\\objetosScene-TgcScene.xml");
+
+            objetosDelTerreno.Meshes.ForEach(o => {
+                //o.AutoTransformEnable = false;
+                o.Move(new TGCVector3(0, -DESPLAZAMIENTO_EN_Y, 0));
+                //o.Transform = TGCMatrix.Translation(new TGCVector3(0, -5000, 0));
+            });
+
+            objetosDelTerreno.Meshes.ForEach(mesh => {
+                var body = BulletRigidBodyFactory.Instance.CreateBall(50, 0, mesh.Position);
+                
+                dynamicsWorld.AddRigidBody(body);
+
+            });
+          /*  //--------creo Quadtree para la Optimizacion---------------
+            quadtree = new Quadtree();
+            
+            objetosDelTerreno.BoundingBox.move(new TGCVector3(0, -5260, 0));
+            quadtree.create(objetosDelTerreno.Meshes, objetosDelTerreno.BoundingBox);
+            quadtree.createDebugQuadtreeMeshes();
+            //----------------------------------
+            */
+            //--------creo Octree para la Optimizacion---------------
+            octree = new Octree();
+
+            objetosDelTerreno.BoundingBox.move(new TGCVector3(0, -DESPLAZAMIENTO_EN_Y, 0));
+            octree.create(objetosDelTerreno.Meshes, objetosDelTerreno.BoundingBox);
+            octree.createDebugOctreeMeshes();
+            //----------------------------------
+
+
+
+
+            //BULLET DEBUG: Debug para Bullet (Commentar estas lineas si NO se desea Debugear)
             //-------------Start Bullet Debug Config----------------
             debugDrawer = new ADebugDrawer(DebugDrawModes.DrawWireframe);
             dynamicsWorld.DebugDrawer = debugDrawer;
@@ -465,6 +505,27 @@ namespace LosTiburones.Model
 
             workbench.Render();
 
+            objetosDelTerreno.RenderAll();
+
+            //quadtree.render(GModel.Frustum, true);
+
+            octree.render(GModel.Frustum, true);
+
+            //----------Frustum Culling-------------
+            //por alguna razon no funciona bien al renderizar los objetos,
+           /* objetosEstaticosEnArray.ForEach(mesh => {
+                if (mesh.Enabled)
+                {
+                    var r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, mesh.BoundingBox);
+                    if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
+                    {
+                        mesh.Render();
+
+                    }
+                }
+
+            });*/
+            //-------------------------
         }
 
         public void Dispose()
@@ -521,6 +582,7 @@ namespace LosTiburones.Model
 
 
             workbench.Dispose();
+            objetosDelTerreno.DisposeAll();
         }
 
 
@@ -914,8 +976,10 @@ namespace LosTiburones.Model
             var cols = 6;
 
             //-------CoralBrain---------
-            posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-            instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "Brain Coral");
+            var x = GModel.GetRandom.Next(-10000, 10000);
+            var z = GModel.GetRandom.Next(-10000, 10000);
+            posicion = new TGCVector3(x, CalcularAltura(x,z,terreno),z );
+            instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "BrainCoral");
             instanceMesh.Mesh.Scale = new TGCVector3(10, 10, 10);
             instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
             objetosRecolectables.Add(instanceMesh);
@@ -928,8 +992,10 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "Brain Coral");
+                    var x2 = GModel.GetRandom.Next(-10000, 10000);
+                    var z2 = GModel.GetRandom.Next(-10000, 10000);
+                    posicion = new TGCVector3(x2, CalcularAltura(x2, z2, terreno), z2);
+                    instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "BrainCoral");
                     instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
                     instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
                     objetosRecolectables.Add(instanceMesh);
@@ -982,8 +1048,10 @@ namespace LosTiburones.Model
             }
 
             //-------SeaShell----------
-            posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-            instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
+            var x3 = GModel.GetRandom.Next(-10000, 10000);
+            var z3 = GModel.GetRandom.Next(-10000, 10000);
+            posicion = new TGCVector3(x3, CalcularAltura(x3, z3, terreno), z3);
+            instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "SeaShell");
             instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
             instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
             objetosRecolectables.Add(instanceMesh);
@@ -996,8 +1064,10 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000, GModel.GetRandom.Next(-10000, 10000));
-                    instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "Sea Shell");
+                    var x4 = GModel.GetRandom.Next(-10000, 10000);
+                    var z4 = GModel.GetRandom.Next(-10000, 10000);
+                    posicion = new TGCVector3(x4, CalcularAltura(x4, z4, terreno), z4);
+                    instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "SeaShell");
                     instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
                     instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
                     objetosRecolectables.Add(instanceMesh);
@@ -1048,6 +1118,7 @@ namespace LosTiburones.Model
                 }
 
             }
+            /*
             //--------arbusto---------
             instance = crearInstanciasObjetosEstaticos(arbusto, 10000, 5, arbusto.Name + 0 + "_" + 0);
             instance.AlphaBlendEnable = true;
@@ -1195,7 +1266,7 @@ namespace LosTiburones.Model
                     dynamicsWorld.AddRigidBody(rigidBody);
                 }
 
-            }
+            }*/
         }
 
         private void cargoSkybox()
@@ -1220,13 +1291,13 @@ namespace LosTiburones.Model
         {
             terreno = new TgcSimpleTerrain();
             //var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
-            var path = GModel.MediaDir + "Texturas\\Heighmaps\\heighmap1.jpg";
+            var path = GModel.MediaDir + "Texturas\\Heighmaps\\heightmap1Final.jpg";
             //var textu = MediaDir + "Texturas\\Grass.jpg";
             var textu = GModel.MediaDir + "Texturas\\mountain.jpg";
             currentScaleXZ = 100f;
-            currentScaleY = 160f;
+            currentScaleY = 25;
             //terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
-            terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -195, 0));
+            terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -210, 0));
             terreno.loadTexture(textu);
             terreno.AlphaBlendEnable = true;
         }
@@ -1238,9 +1309,9 @@ namespace LosTiburones.Model
             agua = new TgcPlane(new TGCVector3(-20000, 0, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, aguaTextura);
 
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed.jpg");
-            piso = new TgcPlane(new TGCVector3(-20000, -1000, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, pisoTextura);
+            piso = new TgcPlane(new TGCVector3(-20000, -5230, -20000), new TGCVector3(60000, 0, 60000), TgcPlane.Orientations.XZplane, pisoTextura);
 
-            var floorShape = new StaticPlaneShape(TGCVector3.Up.ToBulletVector3(), -1000);
+            var floorShape = new StaticPlaneShape(TGCVector3.Up.ToBulletVector3(), -5230);
             var floorMotionState = new DefaultMotionState();
 
             var floorInfo = new RigidBodyConstructionInfo(0, floorMotionState, floorShape);
@@ -1347,8 +1418,10 @@ namespace LosTiburones.Model
         private TgcMesh crearInstanciasObjetosEstaticos(TgcMesh mesh, int randomPosition, int escala, String name)
         {
             var instance = mesh.createMeshInstance(name);
+            var x = GModel.GetRandom.Next(-randomPosition, randomPosition);
+            var z = GModel.GetRandom.Next(-randomPosition, randomPosition);
 
-            instance.Position = new TGCVector3(GModel.GetRandom.Next(-randomPosition, randomPosition), -(randomPosition / 10), GModel.GetRandom.Next(-randomPosition, randomPosition));
+            instance.Position = new TGCVector3(x, CalcularAltura(x,z,terreno),z);
             //escalado random
             var escalaObjeto = GModel.GetRandom.Next(escala, escala * 3);
             instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
@@ -1429,5 +1502,45 @@ namespace LosTiburones.Model
         public TgcMesh Workbench { get => workbench; }
 
         public RigidBody RigidCamera { get => rigidCamera; }
+
+
+        public float CalcularAltura(float x, float z, TgcSimpleTerrain terrain)
+        {
+            var largo = currentScaleXZ * 128;
+            var pos_i = 128f * (0.5f + x / largo);
+            var pos_j = 128f * (0.5f + z / largo);
+
+            var pi = (int)pos_i;
+            var fracc_i = pos_i - pi;
+            var pj = (int)pos_j;
+            var fracc_j = pos_j - pj;
+
+            if (pi < 0)
+                pi = 0;
+            else if (pi > 127)
+                pi = 127;
+
+            if (pj < 0)
+                pj = 0;
+            else if (pj > 127)
+                pj = 127;
+
+            var pi1 = pi + 1;
+            var pj1 = pj + 1;
+            if (pi1 > 127)
+                pi1 = 127;
+            if (pj1 > 127)
+                pj1 = 127;
+
+            // 2x2 percent closest filtering usual:
+            var H0 = terrain.HeightmapData[pi, pj] * currentScaleY;
+            var H1 = terrain.HeightmapData[pi1, pj] * currentScaleY;
+            var H2 = terrain.HeightmapData[pi, pj1] * currentScaleY;
+            var H3 = terrain.HeightmapData[pi1, pj1] * currentScaleY;
+            var H = (H0 * (1 - fracc_i) + H1 * fracc_i) * (1 - fracc_j) + (H2 * (1 - fracc_i) + H3 * fracc_i) * fracc_j;
+
+            return H - DESPLAZAMIENTO_EN_Y;
+        }
+
     }
 }

@@ -117,8 +117,14 @@
     <Compile Include="Model\MovimientoPez.cs" />
     <Compile Include="Model\ObjetoRecolectable.cs" />
     <Compile Include="Model\ObjetoInventario.cs" />
+    <Compile Include="Model\Optimizacion\Octree.cs" />
+    <Compile Include="Model\Optimizacion\OctreeBuilder.cs" />
+    <Compile Include="Model\Optimizacion\OctreeNode.cs" />
     <Compile Include="Model\Personaje.cs" />
     <Compile Include="Model\Pez.cs" />
+    <Compile Include="Model\Optimizacion\Quadtree.cs" />
+    <Compile Include="Model\Optimizacion\QuadtreeBuilder.cs" />
+    <Compile Include="Model\Optimizacion\QuadtreeNode.cs" />
     <Compile Include="Model\RecolectableConMesh.cs" />
     <Compile Include="Model\RecolectableConTextura.cs" />
     <Compile Include="Model\SeaShell.cs" />
