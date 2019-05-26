@@ -113,6 +113,9 @@
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\InterfazDeCrafting.cs" />
     <Compile Include="Model\Inventario.cs" />
+    <Compile Include="Model\Menu\GUI.cs" />
+    <Compile Include="Model\Menu\GUIItem.cs" />
+    <Compile Include="Model\Menu\MenuPrincipal.cs" />
     <Compile Include="Model\MovimientoCircular.cs" />
     <Compile Include="Model\MovimientoPez.cs" />
     <Compile Include="Model\ObjetoRecolectable.cs" />

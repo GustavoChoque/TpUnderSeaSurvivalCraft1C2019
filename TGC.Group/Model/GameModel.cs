@@ -19,6 +19,7 @@ using LosTiburones.Model;
 using Microsoft.DirectX.Direct3D;
 using TGC.Core.BoundingVolumes;
 using System.Windows.Forms;
+using TGC.Group.Model.Menu;
 
 namespace TGC.Group.Model
 {
@@ -62,6 +63,11 @@ namespace TGC.Group.Model
 
         private Random rnd = new Random();
 
+
+        //-----para el menu------------
+        public bool partidaActiva = false;
+        public MenuPrincipal menu = new MenuPrincipal();
+
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
         ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
@@ -72,6 +78,8 @@ namespace TGC.Group.Model
         //------------------------------------------------------
         public override void Init()
         {
+
+            menu.Init(this);
             this.configuroCamara();
             personaje.Init(this);
             escenario.Init(this);
@@ -92,7 +100,7 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
-
+            if (partidaActiva) { 
             escenario.Update();
             personaje.Update();
             ic.Update();
@@ -104,7 +112,7 @@ namespace TGC.Group.Model
             cilindroColision.Rotation = new TGCVector3(0, leftrightRot, updownRot);
             cilindroColision.updateValues();
             escenario.detectarColision(cilindroColision);
-
+            }
             PostUpdate();
         }
 
@@ -117,13 +125,18 @@ namespace TGC.Group.Model
         {
             //Inicio el render de la escena, para ejemplos simples. Cuando tenemos postprocesado o shaders es mejor realizar las operaciones según nuestra conveniencia.
             PreRender();
+            if (partidaActiva)
+            {
+                escenario.Render();
+                personaje.Render();
+                ic.Render();
 
-            escenario.Render();
-            personaje.Render();
-            ic.Render();
-
-            cilindroColision.Render();
-
+                cilindroColision.Render();
+            }
+            else
+            {
+                menu.Render();
+            }
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
         }
@@ -135,6 +148,7 @@ namespace TGC.Group.Model
         /// </summary>
         public override void Dispose()
         {
+            menu.Dispose();
             escenario.Dispose();
             personaje.Dispose();
             ic.Dispose();
