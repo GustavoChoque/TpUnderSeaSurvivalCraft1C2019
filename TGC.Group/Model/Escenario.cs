@@ -421,10 +421,10 @@ namespace LosTiburones.Model
             //--------------------------------
 
             //----Fisica----------
-
+            if (GModel.partidaActiva) { 
             camaraInterna.setPosicion(new TGCVector3(rigidCamera.CenterOfMassPosition));
             GModel.Camara = camaraInterna;
-
+            }
             //----------------
 
             //----------Shaders----------
@@ -497,11 +497,12 @@ namespace LosTiburones.Model
 
             objetosRecolectables.ForEach(obj => obj.Render());
 
+            if (GModel.partidaActiva) { 
             //SPRITES
             spriteDrawer.BeginDrawSprite();
             sprites.ForEach(sprite => spriteDrawer.DrawSprite(sprite));
             spriteDrawer.EndDrawSprite();
-
+            }
 
             workbench.Render();
 

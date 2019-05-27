@@ -67,7 +67,7 @@ namespace TGC.Group.Model
         //-----para el menu------------
         public bool partidaActiva = false;
         public MenuPrincipal menu = new MenuPrincipal();
-
+        public TgcFpsCameraMenu camaraMenu;
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
         ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
@@ -91,6 +91,9 @@ namespace TGC.Group.Model
             cilindroColision.rotateZ(updownRot);
             cilindroColision.setRenderColor(Color.LimeGreen);
             cilindroColision.updateValues();
+
+            camaraMenu = new TgcFpsCameraMenu(new TGCVector3(3966, 25, -37), new TGCVector3(3965, 25, -38));
+            Camara = camaraMenu;
         }
         /// <summary>
         ///     Se llama en cada frame.
@@ -125,9 +128,10 @@ namespace TGC.Group.Model
         {
             //Inicio el render de la escena, para ejemplos simples. Cuando tenemos postprocesado o shaders es mejor realizar las operaciones según nuestra conveniencia.
             PreRender();
+            escenario.Render();
             if (partidaActiva)
             {
-                escenario.Render();
+                
                 personaje.Render();
                 ic.Render();
 
@@ -160,7 +164,7 @@ namespace TGC.Group.Model
         private void configuroCamara()
         {
             camaraInterna = new TgcFpsCamera(new TGCVector3(600, 60, -250), camaraMoveSpeed, camaraJumpSpeed, Input);
-            Camara = camaraInterna;
+            //Camara = camaraInterna;
         }
 
         public Random GetRandom { get => rnd; }
