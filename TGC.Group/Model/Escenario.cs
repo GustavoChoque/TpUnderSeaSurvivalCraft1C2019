@@ -510,7 +510,7 @@ namespace LosTiburones.Model
 
             //quadtree.render(GModel.Frustum, true);
 
-            octree.render(GModel.Frustum, true);
+            octree.render(GModel.Frustum, false);
 
             //objetosEstaticosEnArray.ForEach(obj => obj.Render());
 

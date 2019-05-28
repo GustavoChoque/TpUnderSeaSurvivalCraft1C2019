@@ -11,6 +11,7 @@ using TGC.Core.Input;
 using System.Drawing;
 using TGC.Core.Text;
 using TGC.Group.Model;
+using TGC.Group.Model.Menu;
 
 namespace LosTiburones.Model
 {
@@ -25,14 +26,14 @@ namespace LosTiburones.Model
         private CustomSprite boton, boton2;
         private TgcText2D texto, texto2;
 
-
+        private DXGui gui = new DXGui();
         public void Init(GameModel gmodel, Personaje personaje)
         {
             this.GModel = gmodel;
             this.personaje = personaje;
 
 
-
+            /*
             drawer2D = new Drawer2D();
 
             sprite = new CustomSprite();
@@ -101,6 +102,54 @@ namespace LosTiburones.Model
 
             boton2.Scaling = new TGCVector2(0.3f, 0.3f);
             boton2.Position = new TGCVector2(posX + 300, posY + 110);
+            */
+
+
+            //--------------Usando GUI de Tgc----------------
+
+
+
+            gui.Create(GModel.MediaDir);
+            gui.InitDialog(false, false);
+
+            int W = D3DDevice.Instance.Width;
+            int H = D3DDevice.Instance.Height;
+          
+            int dy = H - 50;
+            int dy2 = dy;
+            int dx = W / 2;
+
+            int posEnX = (W / 2) - (dx / 2);
+            int posEnY = (H / 2) - (dy / 2);
+            int x0 = posEnX + 150;
+            int y0 = posEnY + 50;
+            int x1 = x0;
+            int y1 = y0;
+
+            GUIItem frame = gui.InsertIFrame("", posEnX, posEnY, dx, dy, Color.FromArgb(140, 240, 140));
+            frame.c_font = Color.FromArgb(0, 0, 0);
+            frame.scrolleable = true;
+            //----------------------
+            GUIItem item = gui.InsertImage("OxygenReducida.png", x1, y1 + 30, GModel.MediaDir);
+            gui.InsertItem("2 CoralBrain", x1 += 50, y1 + 20);
+            gui.InsertButton(1, "Craftear", x1 += 300, y1, 120, 60);
+            //-----------------------------------
+            x1 = x0;
+            y1 = y1 + item.image_height + 20;
+            gui.InsertImage("botiquinReducido.png", x1, y1 + 30, GModel.MediaDir);
+            gui.InsertItem("2CoralBrain,1SeaShell", x1 += 50, y1 + 20);
+            gui.InsertButton(2, "Craftear", x1 += 300, y1, 120, 60);
+            //---------------------
+            /*x1 = x0;
+            y1 = y1 + item.image_height+20;
+            gui.InsertImage("OxygenReducida.png", x1, y1 + 30, GModel.MediaDir);
+            gui.InsertItem("2 CoralBrain", x1 += 50, y1 + 20);
+            gui.InsertButton(3, "Craftear", x1 += 300, y1, 120, 60);*/
+            //-------------------
+
+
+
+
 
             /*Luego agremar los demas objetos crafteables y ver si existe o si se puede hacer una grilla para 
              * ubicar mejor los sprites*/
@@ -115,7 +164,16 @@ namespace LosTiburones.Model
 
         public void Render()
         {
+
             if (activo)
+            {
+                
+                gui_render();
+
+            }
+
+
+            /*if (activo)
             {
                 drawer2D.BeginDrawSprite();
                 drawer2D.DrawSprite(sprite);
@@ -128,8 +186,8 @@ namespace LosTiburones.Model
                 texto.render();
                 texto2.render();
 
-            }
-
+            }*/
+            /*
             var Input = GModel.Input;
             if (Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT) && sobreSprite(boton, 0.3f))
             {
@@ -146,16 +204,46 @@ namespace LosTiburones.Model
                 craftingBotiquin();
 
             }
-
+            */
 
         }
 
         public void Dispose()
         {
 
-            texto.Dispose();
-            texto2.Dispose();
+            /*texto.Dispose();
+            texto2.Dispose();*/
         }
+
+
+        public void gui_render()
+        {
+            GuiMessage msg = gui.Update(GModel.ElapsedTime, GModel.Input);
+            switch (msg.message)
+            {
+                case MessageType.WM_COMMAND:
+
+                    switch (msg.id)
+                    {
+                        case 1:
+                            craftingOxigeno();
+                            break;
+                        case 2:
+                            craftingBotiquin();
+                            break;
+                    }
+
+
+                    break;
+
+            }
+
+            gui.Render();
+
+
+        }
+
+
 
         public void activar()
         {
