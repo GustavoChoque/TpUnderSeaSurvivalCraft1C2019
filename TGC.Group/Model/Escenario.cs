@@ -240,6 +240,10 @@ namespace LosTiburones.Model
             //-------Fisica----------
             dynamicsWorld.StepSimulation(1 / 60f, 100);
 
+
+            ContactoTiburonCallback tiburonCallback = new ContactoTiburonCallback(this.tiburon, this.GModel.Personaje);
+            dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, tiburonCallback);
+
             //----------------
             var director = GModel.Camara.LookAt - GModel.Camara.Position; //new TGCVector3(1,0,0);
             director.Normalize();

@@ -29,6 +29,7 @@ namespace LosTiburones.Model
         private Boolean recienEmpiezoAAlejarme = true;
         private Boolean loEstoyPersiguiendo = false;
         private RigidBody cuerpoRigido;
+        private float fuerzaMordida = 5f;
 
         public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
@@ -220,6 +221,11 @@ namespace LosTiburones.Model
             dirPosta.Multiply(gmodel.ElapsedTime);
             dirPosta.Multiply(Velocidad);
             Move(dirPosta);
+        }
+
+        public void aplicaDaño(Personaje personaje)
+        {
+            personaje.sufriDanio(this.fuerzaMordida);
         }
     }
 }

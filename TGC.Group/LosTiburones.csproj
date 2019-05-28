@@ -110,6 +110,7 @@
     <Compile Include="Model\Camara\TgcFpsCamera.cs" />
     <Compile Include="Model\Botiquin.cs" />
     <Compile Include="Model\Camara\TgcFpsCameraMenu.cs" />
+    <Compile Include="Model\ContactoTiburonCallback.cs" />
     <Compile Include="Model\Escenario.cs" />
     <Compile Include="Model\GameModel.cs" />
     <Compile Include="Model\InterfazDeCrafting.cs" />
