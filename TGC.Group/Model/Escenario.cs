@@ -62,11 +62,8 @@ namespace LosTiburones.Model
         private const float MOVEMENT_SPEED = 50f;
 
         private CustomBitmap bitmapCursor;
-        private CustomBitmap bitmapCorazon, bitmapTanqueOxigeno, bitmapBarra00;
-        private CustomBitmap bitmapBarraVida10, bitmapBarraVida20, bitmapBarraVida30, bitmapBarraVida40, bitmapBarraVida50,
-                bitmapBarraVida60, bitmapBarraVida70, bitmapBarraVida80, bitmapBarraVida90, bitmapBarraVida100;
-        private CustomBitmap bitmapBarraOxigeno10, bitmapBarraOxigeno20, bitmapBarraOxigeno30, bitmapBarraOxigeno40, bitmapBarraOxigeno50,
-                bitmapBarraOxigeno60, bitmapBarraOxigeno70, bitmapBarraOxigeno80, bitmapBarraOxigeno90, bitmapBarraOxigeno100;
+        private CustomBitmap bitmapCorazon, bitmapTanqueOxigeno, bitmapBarra;
+        private CustomBitmap bitmapRellenoVida, bitmapRellenoOxigeno;
         private Drawer2D spriteDrawer = new Drawer2D();
 
         private List<CustomSprite> sprites = new List<CustomSprite>();
@@ -75,6 +72,8 @@ namespace LosTiburones.Model
         private CustomSprite spriteCorazon = new CustomSprite();
         private CustomSprite spriteBarraVida = new CustomSprite();
         private CustomSprite spriteBarraOxigeno = new CustomSprite();
+        private CustomSprite spriteRellenoVida = new CustomSprite();
+        private CustomSprite spriteRellenoOxigeno = new CustomSprite();
         private CustomSprite spriteTanqueOxigeno = new CustomSprite();
 
         private int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
@@ -647,74 +646,74 @@ namespace LosTiburones.Model
                 switch (personaje.Health)
                 {
                     case float n when (n <= 0):
-                        spriteBarraVida.Bitmap = bitmapBarra00;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.0f, 1f);
                         break;
                     case float n when (n >= 1 && n <= 10):
-                        spriteBarraVida.Bitmap = bitmapBarraVida10;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.1f, 1f);
                         break;
                     case float n when (n >= 11 && n <= 20):
-                        spriteBarraVida.Bitmap = bitmapBarraVida20;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.2f, 1f);
                         break;
                     case float n when (n >= 21 && n <= 30):
-                        spriteBarraVida.Bitmap = bitmapBarraVida30;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.3f, 1f);
                         break;
                     case float n when (n >= 31 && n <= 40):
-                        spriteBarraVida.Bitmap = bitmapBarraVida40;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.4f, 1f);
                         break;
                     case float n when (n >= 41 && n <= 50):
-                        spriteBarraVida.Bitmap = bitmapBarraVida50;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.5f, 1f);
                         break;
                     case float n when (n >= 51 && n <= 60):
-                        spriteBarraVida.Bitmap = bitmapBarraVida60;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.6f, 1f);
                         break;
                     case float n when (n >= 61 && n <= 70):
-                        spriteBarraVida.Bitmap = bitmapBarraVida70;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.7f, 1f);
                         break;
                     case float n when (n >= 71 && n <= 80):
-                        spriteBarraVida.Bitmap = bitmapBarraVida80;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.8f, 1f);
                         break;
                     case float n when (n >= 81 && n <= 90):
-                        spriteBarraVida.Bitmap = bitmapBarraVida90;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.9f, 1f);
                         break;
                     case float n when (n >= 91 && n <= 100):
-                        spriteBarraVida.Bitmap = bitmapBarraVida100;
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 1.0f, 1f);
                         break;
                 }
 
                 switch (personaje.Oxygen)
                 {
                     case float n when (n <= 0):
-                        spriteBarraOxigeno.Bitmap = bitmapBarra00;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.0f, 1f);
                         break;
                     case float n when (n >= 1 && n <= 10):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno10;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.1f, 1f);
                         break;
                     case float n when (n >= 11 && n <= 20):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno20;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.2f, 1f);
                         break;
                     case float n when (n >= 21 && n <= 30):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno30;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.3f, 1f);
                         break;
                     case float n when (n >= 31 && n <= 40):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno40;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.4f, 1f);
                         break;
                     case float n when (n >= 41 && n <= 50):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno50;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.5f, 1f);
                         break;
                     case float n when (n >= 51 && n <= 60):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno60;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.6f, 1f);
                         break;
                     case float n when (n >= 61 && n <= 70):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno70;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.7f, 1f);
                         break;
                     case float n when (n >= 71 && n <= 80):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno80;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.8f, 1f);
                         break;
                     case float n when (n >= 81 && n <= 90):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno90;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.9f, 1f);
                         break;
                     case float n when (n >= 91 && n <= 100):
-                        spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 1.0f, 1f);
                         break;
                 }
             }
@@ -722,12 +721,12 @@ namespace LosTiburones.Model
             {
                 if (personaje.Health < 0)
                 {
-                    spriteBarraVida.Bitmap = bitmapBarra00;
+                    spriteRellenoVida.Scaling = new TGCVector2(.75f, .0f);
                 }
 
                 if (personaje.Oxygen < 0)
                 {
-                    spriteBarraOxigeno.Bitmap = bitmapBarra00;
+                    spriteRellenoOxigeno.Scaling = new TGCVector2(.75f, .0f);
                 }
             }
         }
@@ -827,23 +826,36 @@ namespace LosTiburones.Model
             spriteCorazon.Position = new TGCVector2(ScreenWidth / 1.1f, ScreenHeight / 1.15f);
             sprites.Add(spriteCorazon);
 
-            bitmapBarraVida100 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida1.0.png", D3DDevice.Instance.Device);
-            spriteBarraVida.Bitmap = bitmapBarraVida100;
-            spriteBarraVida.Scaling = new TGCVector2(.75f, 1f);
-            spriteBarraVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
-            sprites.Add(spriteBarraVida);
-
             bitmapTanqueOxigeno = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "Oxygen.png", D3DDevice.Instance.Device);
             spriteTanqueOxigeno.Bitmap = bitmapTanqueOxigeno;
             spriteTanqueOxigeno.Scaling = new TGCVector2(0.25f, 0.2f);
             spriteTanqueOxigeno.Position = new TGCVector2(ScreenWidth / 1.125f, ScreenHeight / 1.4f);
             sprites.Add(spriteTanqueOxigeno);
 
-            bitmapBarraOxigeno100 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device);
-            spriteBarraOxigeno.Bitmap = bitmapBarraOxigeno100;
+            bitmapBarra = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "Barra0.0.png", D3DDevice.Instance.Device);
+            spriteBarraOxigeno.Bitmap = bitmapBarra;
             spriteBarraOxigeno.Scaling = new TGCVector2(.75f, 1f);
             spriteBarraOxigeno.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.325f);
             sprites.Add(spriteBarraOxigeno);
+
+            spriteBarraVida.Bitmap = bitmapBarra;
+            spriteBarraVida.Scaling = new TGCVector2(.75f, 1f);
+            spriteBarraVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
+            sprites.Add(spriteBarraVida);
+            
+            bitmapRellenoOxigeno = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "RellenoOxigeno.png", D3DDevice.Instance.Device);
+            spriteRellenoOxigeno.Bitmap = bitmapRellenoOxigeno;
+            spriteRellenoOxigeno.Scaling = new TGCVector2(.75f, 1f);
+            spriteRellenoOxigeno.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.325f);
+            sprites.Add(spriteRellenoOxigeno);
+
+            bitmapRellenoVida = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "RellenoVida.png", D3DDevice.Instance.Device);
+            spriteRellenoVida.Bitmap = bitmapRellenoVida;
+            spriteRellenoVida.Scaling = new TGCVector2(.75f, 1f);
+            spriteRellenoVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
+            sprites.Add(spriteRellenoVida);
+
+            /*
 
             //ANIMACION DE LAS BARRAS DE ENERGIA Y OXIGENO
             bitmapBarra00 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "Barra0.0.png", D3DDevice.Instance.Device);
@@ -868,7 +880,10 @@ namespace LosTiburones.Model
             bitmapBarraOxigeno70 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.7.png", D3DDevice.Instance.Device);
             bitmapBarraOxigeno80 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.8.png", D3DDevice.Instance.Device);
             bitmapBarraOxigeno90 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.9.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno100 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device);
+            bitmapBarraOxigeno100 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device)
+            
+            ;
+            */
         }
 
         private void cargoMeshes()
