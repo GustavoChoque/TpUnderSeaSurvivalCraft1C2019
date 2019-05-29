@@ -43,7 +43,7 @@ namespace TGC.Group.Model.Menu
 
             gui.InsertMenuItem(ID_NUEVA_PARTIDA, "  Jugar", "play.png",x0, y0, GModel.MediaDir, dx, dy);
             gui.InsertMenuItem(ID_CONTROLES, "  Controles", "navegar.png", x0, y0 += dy2, GModel.MediaDir, dx, dy);
-            gui.InsertMenuItem(ID_APP_EXIT, "  Sair", "salir.png", x0, y0+= dy2, GModel.MediaDir, dx, dy);
+            gui.InsertMenuItem(ID_APP_EXIT, "  Salir", "salir.png", x0, y0+= dy2, GModel.MediaDir, dx, dy);
             //gui.InsertButton(123,"Prueba", W - 500, y0 += dy2, dx, dy);
         }
         public void Render() {
@@ -83,6 +83,9 @@ namespace TGC.Group.Model.Menu
                             gui.MessageBox("Desea Salir?", "TGC Gui Demo");
                             msg_box_app_exit = true;
                             msg_box_nueva_mision = false;
+                            break;
+                        case ID_CONTROLES:
+                            gui.MessageBoxControles("Controles", "TGC Gui Demo");
                             break;
                     }
                     break;
