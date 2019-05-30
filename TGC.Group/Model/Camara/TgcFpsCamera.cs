@@ -210,8 +210,14 @@ namespace TGC.Group.Model.Camara
             //{
                 leftrightRot -= -Input.XposRelative * RotationSpeed;
                 updownRot -= Input.YposRelative * RotationSpeed;
-                //Se actualiza matrix de rotacion, para no hacer este calculo cada vez y solo cuando en verdad es necesario.
-                cameraRotation = TGCMatrix.RotationX(updownRot) * TGCMatrix.RotationY(leftrightRot);
+
+            if (updownRot > 1.5)
+                updownRot = 1.5f;
+            if (updownRot < -1.5)
+                updownRot = -1.5f;
+
+            //Se actualiza matrix de rotacion, para no hacer este calculo cada vez y solo cuando en verdad es necesario.
+            cameraRotation = TGCMatrix.RotationX(updownRot) * TGCMatrix.RotationY(leftrightRot);
             //}
 
             if (lockCam)
