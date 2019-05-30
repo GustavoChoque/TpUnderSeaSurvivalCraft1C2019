@@ -380,6 +380,14 @@ namespace TGC.Group.Model.Menu
 
             InsertFrame(titulo, x0, y0, dx, dy, Color.FromArgb(64, 32, 64));
             InsertItem(msg, x0 + 50, y0 + 80);
+
+            InsertItem("W - Adelante", x0 + 50, y0 + 150);
+            InsertItem("A - Izquierda", x0 + 50, y0 + 180);
+            InsertItem("S - Atrás", x0 + 50, y0 + 210);
+            InsertItem("D - Derecha", x0 + 50, y0 + 240);
+            InsertItem("Clic Izq - Ataque", x0 + 50, y0 + 270);
+            InsertItem("P - Música On/Off", x0 + 50, y0 + 300);
+
             InsertCircleButton(1, "CANCEL", "cancel.png", x0 + dx - r - 70, y0 + dy - r - 90, mediaDir, r);
         }
 

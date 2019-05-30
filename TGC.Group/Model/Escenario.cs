@@ -414,8 +414,8 @@ namespace LosTiburones.Model
         {
             //Dibuja un texto por pantalla
             //DrawText.drawText("Con la tecla F se dibuja el bounding box.", 0, 20, Color.OrangeRed);
-            GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
-            GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
+            //GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
+            //GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
 
             //BULLET DEBUG: Le indico a bullet que Dibuje las lineas de debug.
             //ATENCION: COMENTAR ESTA LINEA SI NO SE DESEA DEBUGEAR BULLET
