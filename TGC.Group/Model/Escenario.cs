@@ -335,16 +335,19 @@ namespace LosTiburones.Model
             //Capturar Input teclado
             if (Input.keyPressed(Key.P))
             {
-                if (musica.getStatus().Equals(TgcMp3Player.States.Playing))
-                {
-                    musica.pause();
-                }
-                else if (musica.getStatus().Equals(TgcMp3Player.States.Paused))
-                {
-                    musica.resume();
-                } else if (musica.getStatus().Equals(TgcMp3Player.States.Open))
-                {
-                    musica.play(true);
+                switch (musica.getStatus()){
+                    case TgcMp3Player.States.Playing:
+                        musica.pause();
+                        break;
+                    case TgcMp3Player.States.Paused:
+                        musica.resume();
+                        break;
+                    case TgcMp3Player.States.Open:
+                        musica.play(true);
+                        break;
+                    case TgcMp3Player.States.Stopped:
+                        musica.play(true);
+                        break;
                 }
             }
 
@@ -440,12 +443,12 @@ namespace LosTiburones.Model
             {
                 if (bajoElAgua(GModel.Personaje))
                 {
-                    GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", 0, 50, Color.Red);
+                    GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", ScreenWidth - (ScreenWidth * 2)/10, ScreenHeight - (ScreenHeight * 95)/100, Color.Red);
                 }
 
                 if ((this.fueraDelMapa(GModel.Personaje)))
                 {
-                    GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", 0, 60, Color.Red);
+                    GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", ScreenWidth - (ScreenWidth * 1) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 10, Color.Red);
                 }
 
                 /*
@@ -457,7 +460,7 @@ namespace LosTiburones.Model
             }
             else
             {
-                GModel.DrawText.drawText("Te moriste", ScreenWidth / 2, ScreenHeight / 2, Color.Red);
+                GModel.DrawText.drawText("Te moriste", ScreenWidth / 2 - 25, ScreenHeight / 2, Color.Red);
 
                 camaraInterna.LockCam = false;
             }
@@ -1541,11 +1544,6 @@ namespace LosTiburones.Model
 
         public void detenerSonidoTiburonCerca()
         {
-            if (musica.getStatus().Equals(TgcMp3Player.States.Paused))
-            {
-                musica.resume();
-            }
-
             sonidoTiburonCerca.stop();
         }
 
