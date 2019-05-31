@@ -387,6 +387,7 @@ namespace TGC.Group.Model.Menu
             InsertItem("D - Derecha", x0 + 50, y0 + 240);
             InsertItem("Clic Izq - Ataque", x0 + 50, y0 + 270);
             InsertItem("P - Música On/Off", x0 + 50, y0 + 300);
+            InsertItem("Esc - Recuperar Mouse", x0 + 50, y0 + 330);
 
             InsertCircleButton(1, "CANCEL", "cancel.png", x0 + dx - r - 70, y0 + dy - r - 90, mediaDir, r);
         }

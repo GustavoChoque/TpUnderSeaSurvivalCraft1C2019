@@ -1380,7 +1380,11 @@ namespace LosTiburones.Model
                 {
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side / 4, side / 2);
-                    var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000 + side / 8, GModel.GetRandom.Next(-10000, 10000));
+
+                    var x = GModel.GetRandom.Next(-10000, 10000);
+                    var z = GModel.GetRandom.Next(-10000, 10000);
+
+                    var posicion = new TGCVector3(x, this.CalcularAltura(x, z, terreno) + side / 8, z);
                     var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     //Creo instancia en el (0,0,0). Despues se actualiza posicion con RigidBody
@@ -1398,7 +1402,12 @@ namespace LosTiburones.Model
                 {
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
-                    var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000 + side / 2, GModel.GetRandom.Next(-10000, 10000));
+
+                    var x = GModel.GetRandom.Next(-10000, 10000);
+                    var z = GModel.GetRandom.Next(-10000, 10000);
+
+                    var posicion = new TGCVector3(x, this.CalcularAltura(x, z, terreno) + side / 2, z);
+
                     var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
@@ -1415,7 +1424,12 @@ namespace LosTiburones.Model
                 {
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
-                    var posicion = new TGCVector3(GModel.GetRandom.Next(-10000, 10000), -1000 + side / 2, GModel.GetRandom.Next(-10000, 10000));
+
+                    var x = GModel.GetRandom.Next(-10000, 10000);
+                    var z = GModel.GetRandom.Next(-10000, 10000);
+
+                    var posicion = new TGCVector3(x, this.CalcularAltura(x, z, terreno) + side / 2, z);
+
                     var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
