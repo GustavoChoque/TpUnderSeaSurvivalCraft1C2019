@@ -135,8 +135,7 @@ namespace TGC.Group.Model
                 personaje.Render();
                 ic.Render();
 
-                //we
-                cilindroColision.Render();
+                //cilindroColision.Render();
             }
             else
             {

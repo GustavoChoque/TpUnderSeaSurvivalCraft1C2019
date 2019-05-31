@@ -41,12 +41,14 @@ namespace TGC.Group.Model.Camara
         /// <summary>
         ///  Se traba la camara, se utiliza para ocultar el puntero del mouse y manejar la rotacion de la camara.
         /// </summary>
-        private bool lockCam;
+        private bool lockCam = true;
 
         /// <summary>
         ///     Posicion de la camara
         /// </summary>
         private TGCVector3 positionEye;
+
+        private bool habiaSalido = false;
 
         /// <summary>
         ///     Constructor de la camara a partir de un TgcD3dInput el cual ya tiene por default el positionEye (0,0,0), el mouseCenter a partir del centro del a pantalla, RotationSpeed 1.0f,
@@ -126,7 +128,7 @@ namespace TGC.Group.Model.Camara
                 }
                 if (lockCam && !value)
                     Cursor.Show();
-                this.lockCam = value;
+                lockCam = value;
             }
         }
 
@@ -204,10 +206,23 @@ namespace TGC.Group.Model.Camara
             }
             */
 
+            if (Input.keyPressed(Key.Escape)){
+                LockCam = !lockCam;
+                habiaSalido = true;
+            }
+
+            if ((Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT) && habiaSalido))
+            {
+                LockCam = !lockCam;
+                habiaSalido = false;
+            }
+
             //Solo rotar si se esta aprentando el boton izq del mouse
             //if (lockCam || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
             //if (lockCam || !Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
             //{
+
+            if (lockCam) { 
                 leftrightRot -= -Input.XposRelative * RotationSpeed;
                 updownRot -= Input.YposRelative * RotationSpeed;
 
@@ -218,7 +233,8 @@ namespace TGC.Group.Model.Camara
 
             //Se actualiza matrix de rotacion, para no hacer este calculo cada vez y solo cuando en verdad es necesario.
             cameraRotation = TGCMatrix.RotationX(updownRot) * TGCMatrix.RotationY(leftrightRot);
-            //}
+                //}
+            }
 
             if (lockCam)
                 Cursor.Position = mouseCenter;
