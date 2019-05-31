@@ -124,7 +124,7 @@ namespace LosTiburones.Model
             //dynamicsWorld.Gravity=new TGCVector3(0,0,0).ToBulletVector3();
             
             //-------------creacion rigidbodies-------------------
-            var ballShape = new SphereShape(10);
+            var ballShape = new SphereShape(50);
             var ballTransform = TGCMatrix.Identity;
             ballTransform.Origin = posicionInicial;//GModel.Camara.Position;//new TGCVector3(100, 50, 0);
             var ballMotionState = new DefaultMotionState(ballTransform.ToBsMatrix);
@@ -458,6 +458,8 @@ namespace LosTiburones.Model
             else
             {
                 GModel.DrawText.drawText("Te moriste", ScreenWidth / 2, ScreenHeight / 2, Color.Red);
+
+                camaraInterna.LockCam = false;
             }
 
             if (objetoAMostrar != null)
