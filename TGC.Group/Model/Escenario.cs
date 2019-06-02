@@ -99,7 +99,7 @@ namespace LosTiburones.Model
         //-------------------
 
         //-------Shaders----------
-        private Effect efectoSuperficieAgua;
+        private Effect efectoSuperficieAgua, efectoMetalico;
         private float time;
         //---------------------
         private TgcScene objetosDelTerreno;
@@ -178,6 +178,10 @@ namespace LosTiburones.Model
             agua.Effect = efectoSuperficieAgua;
             agua.Technique = "OleajeNormal";
             time = 0;
+
+
+            efectoMetalico = TGCShaders.Instance.TgcMeshPhongShader;
+
             //-----------
 
             workbench = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "ModelosTgc\\Workbench\\Workbench-TgcScene.xml").Meshes[0];
@@ -418,7 +422,7 @@ namespace LosTiburones.Model
             //Dibuja un texto por pantalla
             //DrawText.drawText("Con la tecla F se dibuja el bounding box.", 0, 20, Color.OrangeRed);
             //GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
-            //GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
+            GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
 
             //BULLET DEBUG: Le indico a bullet que Dibuje las lineas de debug.
             //ATENCION: COMENTAR ESTA LINEA SI NO SE DESEA DEBUGEAR BULLET
@@ -436,7 +440,24 @@ namespace LosTiburones.Model
             //----------Shaders----------
             time += GModel.ElapsedTime;
             efectoSuperficieAgua.SetValue("time", time);
-            
+
+
+
+            var posLuz = new TGCVector3(-100, 500, 0);
+
+            foreach (var mesh in barco.Meshes)
+            {
+                mesh.Effect = efectoMetalico;
+                mesh.Technique = TGCShaders.Instance.GetTGCMeshTechnique(mesh.RenderType);
+                mesh.Effect.SetValue("lightPosition", TGCVector3.Vector3ToFloat4Array(posLuz));
+                mesh.Effect.SetValue("eyePosition", TGCVector3.Vector3ToFloat4Array(GModel.Camara.Position));
+                mesh.Effect.SetValue("ambientColor", ColorValue.FromColor(Color.Orange));
+                mesh.Effect.SetValue("diffuseColor", ColorValue.FromColor(Color.LightGoldenrodYellow));
+                mesh.Effect.SetValue("specularColor", ColorValue.FromColor(Color.Gray));
+                mesh.Effect.SetValue("specularExp", 30f);
+            }
+
+
             //--------------
 
             if (GModel.Personaje.Vivo)
@@ -1285,9 +1306,10 @@ namespace LosTiburones.Model
 
         private void cargoSkybox()
         {
+            var skyBoxSize = 20000;
             skybox = new TgcSkyBox();
             skybox.Center = TGCVector3.Empty;
-            skybox.Size = new TGCVector3(10000, 10000, 10000);
+            skybox.Size = new TGCVector3(skyBoxSize, skyBoxSize, skyBoxSize);
 
             var texturesPath = GModel.MediaDir + "Texturas\\SkyBox\\";
 
@@ -1316,8 +1338,9 @@ namespace LosTiburones.Model
         
         private void cargoPisos()
         {
+            var aguaSize = 50000;
             var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\agua20.jpg");
-            agua = new TgcPlane(new TGCVector3(-20000, 0, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, aguaTextura);
+            agua = new TgcPlane(new TGCVector3(-aguaSize/2, 0, -aguaSize/2), new TGCVector3(aguaSize, 0, aguaSize), TgcPlane.Orientations.XZplane, aguaTextura);
 
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed.jpg");
             piso = new TgcPlane(new TGCVector3(-20000, -5230, -20000), new TGCVector3(60000, 0, 60000), TgcPlane.Orientations.XZplane, pisoTextura);
