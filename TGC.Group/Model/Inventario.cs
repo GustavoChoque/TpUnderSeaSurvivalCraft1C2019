@@ -15,72 +15,11 @@ namespace LosTiburones.Model
 {
     public class Inventario
     {
-        Personaje personaje;
         List<ObjetoInventario> objetos;
-        List<TgcText2D> textosAMostrar;
-        private GameModel GModel;
-        private Drawer2D drawer2D;
-        private CustomSprite sprite;
-        private bool activo;
 
-        public Inventario(GameModel gmodel, Personaje per)
+        public Inventario()
         {
             objetos = new List<ObjetoInventario>();
-            textosAMostrar = new List<TgcText2D>();
-
-            this.GModel = gmodel;
-            this.personaje = per;
-            drawer2D = new Drawer2D();
-            sprite = new CustomSprite();
-            sprite.Bitmap = new CustomBitmap(GModel.MediaDir + "\\Texturas\\5.png", D3DDevice.Instance.Device);
-
-            //Ubicarlo centrado en la pantalla
-
-            var textureSize = sprite.Bitmap.Size;
-            //sprite.Position = new TGCVector2(FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width / 2, 0), FastMath.Max(D3DDevice.Instance.Height / 2 - textureSize.Height / 2, 0));
-            sprite.Position = new TGCVector2(FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), FastMath.Max(D3DDevice.Instance.Height / 2 - textureSize.Height * 0.5f / 2, 0));
-
-            sprite.Scaling = new TGCVector2(0.5f, 0.5f);
-
-            sprite.Color = Color.Blue;
-
-
-            activo = false;
-        }
-        public void Update()
-        {
-            var Input = GModel.Input;
-            if (Input.keyPressed(Key.I))
-            {
-                activo = !activo;
-                if (activo)
-                {
-                    limpiarListaDeTextoAMostrar();
-                    llenarListaDeTextoAMostrar();
-                }
-            }
-        }
-
-        public void Render()
-        {
-            
-
-            if (activo)
-            {
-                drawer2D.BeginDrawSprite();
-                drawer2D.DrawSprite(sprite);
-                //drawer2D.DrawLine(new TGCVector2(1, 1), new TGCVector2(1, 200), Color.Red, 5, true);
-                drawer2D.EndDrawSprite();
-                textosAMostrar.ForEach(texto => texto.render());
-            }
-           
-
-        }
-        public void Dispose()
-        {
-            sprite.Dispose();
-            limpiarListaDeTextoAMostrar();
-
         }
 
         //Agrega objetos controlando la no repeticion
@@ -112,29 +51,6 @@ namespace LosTiburones.Model
         public bool tieneObjetoYCantidad(String nombre, int cantidad)
         {
             return objetos.Exists(objeto => objeto.Nombre.Equals(nombre) && objeto.Cantidad >= cantidad);
-        }
-
-        private void limpiarListaDeTextoAMostrar()
-        {
-            //textosAMostrar.ForEach(texto => texto.Dispose());
-            textosAMostrar.Clear();
-        }
-
-        private void llenarListaDeTextoAMostrar()
-        {
-            objetos.ForEach(objeto => textoParaMostrar(objeto));
-        }
-
-        private void textoParaMostrar(ObjetoInventario objeto)
-        {
-            var textureSize = sprite.Bitmap.Size;
-            TgcText2D texto = new TgcText2D();
-            texto.Text = objeto.Nombre + "-----" + objeto.Cantidad.ToString();
-            texto.Align = TgcText2D.TextAlign.RIGHT;
-            texto.Position = new Point((int)FastMath.Max(D3DDevice.Instance.Width / 2 - textureSize.Width * 0.5f / 2, 0), 150 + (10 * textosAMostrar.Count));
-            texto.Size = new Size(300, 100);
-            texto.Color = Color.Gold;
-            textosAMostrar.Add(texto);
         }
 
     }

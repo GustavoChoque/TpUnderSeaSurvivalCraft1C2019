@@ -60,6 +60,7 @@ namespace TGC.Group.Model
 
         private Escenario escenario = new Escenario();
         private InterfazDeCrafting ic = new InterfazDeCrafting();
+        private InterfazDeInventario ii = new InterfazDeInventario();
 
         private Random rnd = new Random();
 
@@ -88,6 +89,7 @@ namespace TGC.Group.Model
             escenario.Init(this);
 
             ic.Init(this, personaje);
+            ii.Init(this, personaje);
 
             cilindroColision = new TgcBoundingCylinder(camaraInterna.LookAt, 0.08f, 150f);
             updownRot = Geometry.DegreeToRadian(90f) + (FastMath.PI / 10.0f);
@@ -115,6 +117,7 @@ namespace TGC.Group.Model
             escenario.Update();
             personaje.Update();
             ic.Update();
+            ii.Update();
 
             cilindroColision.Center = camaraInterna.LookAt;
             cilindroColision.move(personaje.Position - camaraInterna.LookAt);
@@ -142,6 +145,7 @@ namespace TGC.Group.Model
                 
                 personaje.Render();
                 ic.Render();
+                ii.Render();
 
                 //cilindroColision.Render();
             }
@@ -168,6 +172,7 @@ namespace TGC.Group.Model
             escenario.Dispose();
             personaje.Dispose();
             ic.Dispose();
+            ii.Dispose();
 
             cilindroColision.Dispose();
 
@@ -184,6 +189,7 @@ namespace TGC.Group.Model
         public Escenario Escenario { get => escenario; }
         public TgcMesh Workbench { get => Workbench; }
         public InterfazDeCrafting InterfazCrafting { get => ic; }
+        public InterfazDeInventario InterfazInventario { get => ii; }
     }
 }
             

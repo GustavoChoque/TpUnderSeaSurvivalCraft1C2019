@@ -22,6 +22,8 @@ namespace TGC.Group.Model
         private Inventario inventario;
         private float health;
         private float oxygen;
+        private float maxHealth;
+        private float maxOxygen;
         private Boolean vivo = true;
         private float radioDeteccionNave = 450f;
         private float radioDeteccionWorkbench = 250f;
@@ -30,12 +32,32 @@ namespace TGC.Group.Model
         {
             this.health = health;
             this.oxygen = oxygen;
+            maxHealth = health;
+            maxOxygen = oxygen;
+        }
+
+        public void aumentoOxigeno(float newMaxOxygen)
+        {
+            if (newMaxOxygen > maxOxygen)
+            {
+                maxOxygen = newMaxOxygen;
+                oxygen = newMaxOxygen;
+            }
+        }
+
+        public void aumentoSalud(float newMaxHealth)
+        {
+            if (newMaxHealth > maxHealth)
+            {
+                maxHealth = newMaxHealth;
+                health = newMaxHealth;
+            }
         }
 
         public void Init(GameModel gmodel)
         {
             this.gmodel = gmodel;
-            inventario = new Inventario(gmodel, this);
+            inventario = new Inventario();
             Inventario.agregaObjeto(new BrainCoral());
             Inventario.agregaObjeto(new BrainCoral());
             Inventario.agregaObjeto(new BrainCoral());
@@ -50,22 +72,27 @@ namespace TGC.Group.Model
         public void Update()
         {
             var Input = this.gmodel.Input;
-            
-            inventario.Update();
+
             //-----------crafteo------------
             if (workbenchCerca(gmodel.Escenario.Workbench) && Input.keyPressed(Key.C))
             {
                 gmodel.InterfazCrafting.activar();
             }
+
+            //inventario
+            if (Input.keyPressed(Key.I))
+            {
+                gmodel.InterfazInventario.activar();
+            }
         }
         public void Render()
         {
-            inventario.Render();           
+            //inventario.Render();           
         }
 
         public void Dispose()
         {
-            inventario.Dispose();
+            //inventario.Dispose();
         }
 
         private Boolean workbenchCerca(TgcMesh workbench)
@@ -96,9 +123,9 @@ namespace TGC.Group.Model
 
         public void recuperaVida(float vidaRecuperada)
         {
-            if ((this.health + vidaRecuperada) > 100)
+            if ((this.health + vidaRecuperada) > maxHealth)
             {
-                this.health = 100;
+                this.health = maxHealth;
             }
             else
             {
@@ -114,9 +141,9 @@ namespace TGC.Group.Model
 
         public void recuperaOxigeno(float oxigenoRecuperado)
         {
-            if ((this.oxygen + oxigenoRecuperado) > 100)
+            if ((this.oxygen + oxigenoRecuperado) > maxOxygen)
             {
-                this.oxygen = 100;
+                this.oxygen = maxOxygen;
             }
             else
             {
@@ -134,6 +161,8 @@ namespace TGC.Group.Model
         {
             return cercaDeNave(gmodel.Escenario.Barco);
         }
+        public float MaxHealth { get => maxHealth; }
+        public float MaxOxygen { get => maxOxygen; }
 
     }
 }

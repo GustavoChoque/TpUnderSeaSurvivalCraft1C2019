@@ -648,76 +648,76 @@ namespace LosTiburones.Model
             //ACTUALIZO LOS SPRITES DE ENERGIA Y OXIGENO
             if (personaje.Vivo)
             {
-                switch (personaje.Health)
+                switch (personaje.Health / personaje.MaxHealth)
                 {
                     case float n when (n <= 0):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.0f, 1f);
                         break;
-                    case float n when (n >= 1 && n <= 10):
+                    case float n when (n <= .1):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.1f, 1f);
                         break;
-                    case float n when (n >= 11 && n <= 20):
+                    case float n when (n <= .2):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.2f, 1f);
                         break;
-                    case float n when (n >= 21 && n <= 30):
+                    case float n when (n <= .3):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.3f, 1f);
                         break;
-                    case float n when (n >= 31 && n <= 40):
+                    case float n when (n <= .4):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.4f, 1f);
                         break;
-                    case float n when (n >= 41 && n <= 50):
+                    case float n when (n <= .5):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.5f, 1f);
                         break;
-                    case float n when (n >= 51 && n <= 60):
+                    case float n when (n <= .6):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.6f, 1f);
                         break;
-                    case float n when (n >= 61 && n <= 70):
+                    case float n when (n <= .7):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.7f, 1f);
                         break;
-                    case float n when (n >= 71 && n <= 80):
+                    case float n when (n <= .8):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.8f, 1f);
                         break;
-                    case float n when (n >= 81 && n <= 90):
+                    case float n when (n <= .9):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.9f, 1f);
                         break;
-                    case float n when (n >= 91 && n <= 100):
+                    case float n when (n <= 1):
                         spriteRellenoVida.Scaling = new TGCVector2(.75f * 1.0f, 1f);
                         break;
                 }
 
-                switch (personaje.Oxygen)
+                switch (personaje.Oxygen / personaje.MaxOxygen)
                 {
                     case float n when (n <= 0):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.0f, 1f);
                         break;
-                    case float n when (n >= 1 && n <= 10):
+                    case float n when (n <= .1):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.1f, 1f);
                         break;
-                    case float n when (n >= 11 && n <= 20):
+                    case float n when (n <= .2):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.2f, 1f);
                         break;
-                    case float n when (n >= 21 && n <= 30):
+                    case float n when (n <= .3):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.3f, 1f);
                         break;
-                    case float n when (n >= 31 && n <= 40):
+                    case float n when (n <= .4):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.4f, 1f);
                         break;
-                    case float n when (n >= 41 && n <= 50):
+                    case float n when (n <= .5):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.5f, 1f);
                         break;
-                    case float n when (n >= 51 && n <= 60):
+                    case float n when (n <= .6):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.6f, 1f);
                         break;
-                    case float n when (n >= 61 && n <= 70):
+                    case float n when (n <= .7):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.7f, 1f);
                         break;
-                    case float n when (n >= 71 && n <= 80):
+                    case float n when (n <= .8):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.8f, 1f);
                         break;
-                    case float n when (n >= 81 && n <= 90):
+                    case float n when (n <= .9):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.9f, 1f);
                         break;
-                    case float n when (n >= 91 && n <= 100):
+                    case float n when (n <= 1):
                         spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 1.0f, 1f);
                         break;
                 }
