@@ -39,14 +39,14 @@ namespace LosTiburones.Model
             textoErrorCrafteo = new TgcText2D();
             textoErrorCrafteo.Text = "No se pudo craftear el elemento, faltan items.";
             textoErrorCrafteo.Align = TgcText2D.TextAlign.CENTER;
-            textoErrorCrafteo.Position = new Point(D3DDevice.Instance.Device.Viewport.Width / 3, D3DDevice.Instance.Device.Viewport.Height / 2);
+            textoErrorCrafteo.Position = new Point(D3DDevice.Instance.Device.Viewport.Width / 3, D3DDevice.Instance.Device.Viewport.Height / 2 + 20);
             textoErrorCrafteo.Size = new Size(500, 500);
             textoErrorCrafteo.Color = Color.Red;
 
             textoCrafteoExitoso = new TgcText2D();
-            textoCrafteoExitoso.Text = "Elemento crafteado con éxito!";
+            textoCrafteoExitoso.Text = "Elemento agregado al inventario!!!";
             textoCrafteoExitoso.Align = TgcText2D.TextAlign.CENTER;
-            textoCrafteoExitoso.Position = new Point(D3DDevice.Instance.Device.Viewport.Width / 3, D3DDevice.Instance.Device.Viewport.Height / 2);
+            textoCrafteoExitoso.Position = new Point(D3DDevice.Instance.Device.Viewport.Width / 3, D3DDevice.Instance.Device.Viewport.Height / 2 + 20);
             textoCrafteoExitoso.Size = new Size(500, 500);
             textoCrafteoExitoso.Color = Color.LawnGreen;
             

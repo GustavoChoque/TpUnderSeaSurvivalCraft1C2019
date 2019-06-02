@@ -151,12 +151,6 @@ namespace TGC.Group.Model
             {
                 switch (musicaMenu.getStatus())
                 {
-                    case TgcMp3Player.States.Playing:
-                        //musica.pause();
-                        break;
-                    case TgcMp3Player.States.Paused:
-                        //musica.resume();
-                        break;
                     case TgcMp3Player.States.Open:
                         musicaMenu.play(true);
                         break;

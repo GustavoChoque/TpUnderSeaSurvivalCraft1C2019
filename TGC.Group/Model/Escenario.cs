@@ -37,8 +37,13 @@ namespace LosTiburones.Model
         //private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
 
         private TgcMesh workbench;
-        private TgcMesh redPesca;
-        private TgcMesh arpon;
+        //private TgcMesh redPesca;
+        //private TgcMesh arpon;
+
+        private CustomSprite spriteArpon = new CustomSprite();
+        private CustomSprite spriteRedPesca = new CustomSprite();
+        private CustomBitmap bitmapArpon;
+        private CustomBitmap bitmapRedPesca;
 
         private TgcScene barco;
         private TgcSkyBox skybox;
@@ -250,17 +255,15 @@ namespace LosTiburones.Model
 
         private void configuroRedYArpon()
         {
-            arpon.Scale = new TGCVector3(.2f, .2f, .2f);
-            var posArp = arpon.Position;
-            posArp.X = GModel.Personaje.Position.X;
-            posArp.Y = GModel.Personaje.Position.Y - 200;
-            posArp.Z = GModel.Personaje.Position.Z;
-            arpon.Position = posArp;
-            //arpon.RotateY(-FastMath.PI / 2);
+            bitmapArpon = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "ArponPersonaje.png", D3DDevice.Instance.Device);
+            spriteArpon.Bitmap = bitmapArpon;
+            spriteArpon.Scaling = new TGCVector2(.5f, .5f);
+            spriteArpon.Position = new TGCVector2(ScreenWidth / 3.5f, ScreenHeight / 2f + 25f);
 
-            redPesca.Scale = new TGCVector3(.2f, .2f, .2f);
-            redPesca.Position = GModel.Personaje.Position;
-            //redPesca.RotateY(-FastMath.PI / 2);
+            bitmapRedPesca = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "RedPersonaje.png", D3DDevice.Instance.Device);
+            spriteRedPesca.Bitmap = bitmapRedPesca;
+            spriteRedPesca.Scaling = new TGCVector2(.5f, .5f);
+            spriteRedPesca.Position = new TGCVector2(ScreenWidth / 2.5f, ScreenHeight / 2f + 50f);
         }
 
         public void Update()
@@ -453,12 +456,19 @@ namespace LosTiburones.Model
 
             if (GModel.Personaje.UsoArma)
             {
-                arpon.Position = GModel.Personaje.Position;
+                /*var posArp = arpon.Position;
+                posArp.X = GModel.Personaje.Position.X;
+                posArp.Y = GModel.Personaje.Position.Y - 200;
+                posArp.Z = GModel.Personaje.Position.Z;
+                arpon.Position = posArp;
+                //arpon.RotateY(-FastMath.PI / 2);
+                */
+
             }
 
             if (GModel.Personaje.UsoRedPesca)
             {
-                redPesca.Position = GModel.Personaje.Position;
+                /*redPesca.Position = GModel.Personaje.Position;*/
             }
         }
 
@@ -526,7 +536,7 @@ namespace LosTiburones.Model
             }
             else
             {
-                GModel.DrawText.drawText("Te moriste", ScreenWidth / 2 - 25, ScreenHeight / 2, Color.Red);
+                GModel.DrawText.drawText("Te moriste", ScreenWidth / 2 - 25, ScreenHeight / 2 + 20, Color.Red);
 
                 camaraInterna.LockCam = false;
             }
@@ -609,12 +619,16 @@ namespace LosTiburones.Model
 
             if (GModel.Personaje.UsoArma)
             {
-                arpon.Render();
+                spriteDrawer.BeginDrawSprite();
+                spriteDrawer.DrawSprite(spriteArpon);
+                spriteDrawer.EndDrawSprite();
             }
 
             if (GModel.Personaje.UsoRedPesca)
             {
-                redPesca.Render();
+                spriteDrawer.BeginDrawSprite();
+                spriteDrawer.DrawSprite(spriteRedPesca);
+                spriteDrawer.EndDrawSprite();
             }
         }
 
@@ -679,8 +693,8 @@ namespace LosTiburones.Model
             textoVida.Dispose();
             textoOxigeno.Dispose();
 
-            arpon.Dispose();
-            redPesca.Dispose();
+            spriteArpon.Dispose();
+            spriteRedPesca.Dispose();
         }
 
 
@@ -990,9 +1004,9 @@ namespace LosTiburones.Model
             roca = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Roca\\Roca-TgcScene.xml").Meshes[0];
             */
 
-            redPesca = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\RedPesca\\RedPesca-TgcScene.xml").Meshes[0];
+            //redPesca = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\RedPesca\\RedPesca-TgcScene.xml").Meshes[0];
 
-            arpon = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\Arpon1\\Arpon1-TgcScene.xml").Meshes[0];
+            //arpon = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\Arpon1\\Arpon1-TgcScene.xml").Meshes[0];
         }
 
         private void generoObjetosEstaticosSueltos()

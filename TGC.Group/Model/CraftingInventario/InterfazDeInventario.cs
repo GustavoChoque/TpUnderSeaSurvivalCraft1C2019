@@ -42,7 +42,7 @@ namespace LosTiburones.Model
             textoUtilizacionExitosa = new TgcText2D();
             textoUtilizacionExitosa.Text = "Elemento utilizado con éxito!";
             textoUtilizacionExitosa.Align = TgcText2D.TextAlign.CENTER;
-            textoUtilizacionExitosa.Position = new Point(D3DDevice.Instance.Device.Viewport.Width / 3, D3DDevice.Instance.Device.Viewport.Height / 2);
+            textoUtilizacionExitosa.Position = new Point(D3DDevice.Instance.Device.Viewport.Width / 3, D3DDevice.Instance.Device.Viewport.Height / 2 + 20);
             textoUtilizacionExitosa.Size = new Size(500, 500);
             textoUtilizacionExitosa.Color = Color.LawnGreen;
         }
