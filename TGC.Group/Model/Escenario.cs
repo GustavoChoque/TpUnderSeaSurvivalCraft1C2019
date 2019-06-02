@@ -446,6 +446,16 @@ namespace LosTiburones.Model
 
             textoOxigeno.Text = ((int)Math.Round(GModel.Personaje.Oxygen)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxOxygen)).ToString();
             textoVida.Text = ((int)Math.Round(GModel.Personaje.Health)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxHealth)).ToString();
+
+            if (GModel.Personaje.UsoArma)
+            {
+                arpon.Position = GModel.Personaje.Position;
+            }
+
+            if (GModel.Personaje.UsoRedPesca)
+            {
+                redPesca.Position = GModel.Personaje.Position;
+            }
         }
 
         public void Render()

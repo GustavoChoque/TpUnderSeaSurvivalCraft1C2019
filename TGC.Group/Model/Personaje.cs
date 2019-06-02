@@ -58,6 +58,7 @@ namespace TGC.Group.Model
         {
             this.gmodel = gmodel;
             inventario = new Inventario();
+            //Para probar +100 oxigeno y +100 salud
             Inventario.agregaObjeto(new BrainCoral());
             Inventario.agregaObjeto(new BrainCoral());
             Inventario.agregaObjeto(new BrainCoral());
@@ -67,6 +68,10 @@ namespace TGC.Group.Model
             Inventario.agregaObjeto(new SeaShell());
             Inventario.agregaObjeto(new SeaShell());
             Inventario.agregaObjeto(new SeaShell());
+            //Para probar arma
+            Inventario.agregaObjeto(new ObjetoInventario("Oro", 3));
+            //Para probar red de pesca
+            Inventario.agregaObjeto(new ObjetoInventario("Platino", 4));
         }
 
         public void Update()
@@ -150,7 +155,7 @@ namespace TGC.Group.Model
                 this.oxygen = this.oxygen + oxigenoRecuperado;
             }
         }
-        
+
         public float Health { get => health; }
         public float Oxygen { get => oxygen; }
         public Boolean Vivo { get => vivo; }

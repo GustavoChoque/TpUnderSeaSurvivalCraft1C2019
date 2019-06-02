@@ -138,36 +138,22 @@ namespace LosTiburones.Model
 
         private void utilizarRed()
         {
-            personaje.UsoRedPesca = true;
-            //personaje.Inventario.sacarObjetoYCantidad("Red", 1);
+            personaje.UsoRedPesca = !personaje.UsoRedPesca;
 
             if (personaje.UsoArma)
             {
-                this.dejarUtilizarArma();
-            }            
+                personaje.UsoArma = false;
+            }
         }
 
         private void utilizarArma()
         {
-            personaje.UsoArma = true;
-            //personaje.Inventario.sacarObjetoYCantidad("Arma", 1);
+            personaje.UsoArma = !personaje.UsoArma;
 
             if (personaje.UsoRedPesca)
             {
-                this.dejarUtilizarRed();
+                personaje.UsoRedPesca = false;
             }            
-        }
-
-        private void dejarUtilizarRed()
-        {
-            personaje.UsoRedPesca = false;
-            //personaje.Inventario.agregaObjeto(new RedPesca());
-        }
-
-        private void dejarUtilizarArma()
-        {
-            personaje.UsoArma = false;
-            //personaje.Inventario.agregaObjeto(new Arma());
         }
 
         private void incrementarSalud()
@@ -215,6 +201,36 @@ namespace LosTiburones.Model
 
                     switch (elemento.Nombre)
                     {
+                        case "BrainCoral":
+                            gui.InsertItem("BrainCoral" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+                        case "SeaShell":
+
+                            gui.InsertItem("SeaShell" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+                        case "Oro":
+
+                            gui.InsertItem("Oro" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+                        case "Platino":
+
+                            gui.InsertItem("Platino" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+                        case "Ruby":
+
+                            gui.InsertItem("Ruby" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+
                         case "TanqueOxigeno":
                             item = gui.InsertImage("OxygenReducida.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("+100 Oxigeno" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
@@ -238,33 +254,7 @@ namespace LosTiburones.Model
                             gui.InsertItem("Red de Pesca" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             gui.InsertButton(4, "Usar", x1 += 300, y1, 120, 60);
                             agregueItem = true;
-                            break;
-
-                        case "BrainCoral":
-                            gui.InsertItem("BrainCoral" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
-                            agregueItem = true;
-                            y1 = y1 + 50;
-                            break;
-                        case "SeaShell":
-                            gui.InsertItem("SeaShell" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
-                            agregueItem = true;
-                            y1 = y1 + 50;
-                            break;
-                        case "Oro":
-                            gui.InsertItem("Oro" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
-                            agregueItem = true;
-                            y1 = y1 + 50;
-                            break;
-                        case "Platino":
-                            gui.InsertItem("Platino" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
-                            agregueItem = true;
-                            y1 = y1 + 50;
-                            break;
-                        case "Ruby":
-                            gui.InsertItem("Ruby" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
-                            agregueItem = true;
-                            y1 = y1 + 50;
-                            break;
+                            break;                        
                     }
 
                     if (agregueItem)
