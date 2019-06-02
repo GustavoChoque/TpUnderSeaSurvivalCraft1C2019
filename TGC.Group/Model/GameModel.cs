@@ -73,6 +73,9 @@ namespace TGC.Group.Model
         public bool partidaActiva = false;
         public MenuPrincipal menu = new MenuPrincipal();
         public TgcFpsCameraMenu camaraMenu;
+        private TgcMp3Player musicaMenu = new TgcMp3Player();
+        private Boolean comenceAJugar = true;
+
         /// <summary>
         ///     Se llama una sola vez, al principio cuando se ejecuta el ejemplo.
         ///     Escribir aquí todo el código de inicialización: cargar modelos, texturas, estructuras de optimización, todo
@@ -107,6 +110,7 @@ namespace TGC.Group.Model
 
             camaraMenu = new TgcFpsCameraMenu(new TGCVector3(3966, 25, -37), new TGCVector3(3965, 25, -38));
             Camara = camaraMenu;
+            musicaMenu.FileName = MediaDir + "\\Music\\MenuTheme.mp3";
 
             bitmapTitulo = new CustomBitmap(this.MediaDir + "Bitmaps\\" + "Titulo.png", D3DDevice.Instance.Device);
             spriteTitulo.Bitmap = bitmapTitulo;
@@ -121,19 +125,45 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
-            if (partidaActiva) { 
-            escenario.Update();
-            personaje.Update();
-            ic.Update();
-            ii.Update();
+            if (partidaActiva) {
 
-            cilindroColision.Center = camaraInterna.LookAt;
-            cilindroColision.move(personaje.Position - camaraInterna.LookAt);
-            leftrightRot -= -Input.XposRelative * camaraInterna.RotationSpeed;
-            updownRot -= -Input.YposRelative * camaraInterna.RotationSpeed;
-            cilindroColision.Rotation = new TGCVector3(0, leftrightRot, updownRot);
-            cilindroColision.updateValues();
-            escenario.detectarColision(cilindroColision);
+                if (comenceAJugar)
+                {
+                    musicaMenu.closeFile();
+                }
+
+                escenario.Update();
+                personaje.Update();
+                ic.Update();
+                ii.Update();
+
+                cilindroColision.Center = camaraInterna.LookAt;
+                cilindroColision.move(personaje.Position - camaraInterna.LookAt);
+                leftrightRot -= -Input.XposRelative * camaraInterna.RotationSpeed;
+                updownRot -= -Input.YposRelative * camaraInterna.RotationSpeed;
+                cilindroColision.Rotation = new TGCVector3(0, leftrightRot, updownRot);
+                cilindroColision.updateValues();
+                escenario.detectarColision(cilindroColision);
+
+                comenceAJugar = false;
+            }
+            else
+            {
+                switch (musicaMenu.getStatus())
+                {
+                    case TgcMp3Player.States.Playing:
+                        //musica.pause();
+                        break;
+                    case TgcMp3Player.States.Paused:
+                        //musica.resume();
+                        break;
+                    case TgcMp3Player.States.Open:
+                        musicaMenu.play(true);
+                        break;
+                    case TgcMp3Player.States.Stopped:
+                        musicaMenu.play(true);
+                        break;
+                }
             }
             PostUpdate();
         }
