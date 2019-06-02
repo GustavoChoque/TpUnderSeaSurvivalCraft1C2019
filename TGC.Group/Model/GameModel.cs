@@ -164,6 +164,19 @@ namespace TGC.Group.Model
                         musicaMenu.play(true);
                         break;
                 }
+
+                if (Input.keyPressed(Key.P))
+                {
+                    switch (musicaMenu.getStatus())
+                    {
+                        case TgcMp3Player.States.Playing:
+                            musicaMenu.pause();
+                            break;
+                        case TgcMp3Player.States.Paused:
+                            musicaMenu.resume();
+                            break;
+                    }
+                }
             }
             PostUpdate();
         }

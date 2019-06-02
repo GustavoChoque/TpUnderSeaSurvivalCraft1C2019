@@ -169,6 +169,8 @@ namespace LosTiburones.Model
 
             this.generoHUD();
 
+            this.configuroRedYArpon();
+
 
             //-----------Fisica---------
             //para el heighmap
@@ -245,6 +247,18 @@ namespace LosTiburones.Model
             textoOxigeno.Color = Color.White;
 
         }
+
+        private void configuroRedYArpon()
+        {
+            arpon.Scale = new TGCVector3(1f, 1f, 1f);
+            arpon.Position = GModel.Personaje.Position;
+            //arpon.RotateY(-FastMath.PI / 2);
+
+            redPesca.Scale = new TGCVector3(1f, 1f, 1f);
+            redPesca.Position = GModel.Personaje.Position;
+            //redPesca.RotateY(-FastMath.PI / 2);
+        }
+
         public void Update()
         {
             //Capturar Input teclado
@@ -578,6 +592,16 @@ namespace LosTiburones.Model
 
             textoOxigeno.render();
             textoVida.render();
+
+            if (GModel.Personaje.UsoArma)
+            {
+                arpon.Render();
+            }
+
+            if (GModel.Personaje.UsoRedPesca)
+            {
+                redPesca.Render();
+            }
         }
 
         public void Dispose()
@@ -640,6 +664,9 @@ namespace LosTiburones.Model
 
             textoVida.Dispose();
             textoOxigeno.Dispose();
+
+            arpon.Dispose();
+            redPesca.Dispose();
         }
 
 
@@ -951,7 +978,7 @@ namespace LosTiburones.Model
 
             redPesca = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\RedPesca\\RedPesca-TgcScene.xml").Meshes[0];
 
-
+            arpon = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\Arpon1\\Arpon1-TgcScene.xml").Meshes[0];
         }
 
         private void generoObjetosEstaticosSueltos()

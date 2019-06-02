@@ -139,7 +139,7 @@ namespace LosTiburones.Model
         private void utilizarRed()
         {
             personaje.UsoRedPesca = true;
-            personaje.Inventario.sacarObjetoYCantidad("Red", 1);
+            //personaje.Inventario.sacarObjetoYCantidad("Red", 1);
 
             if (personaje.UsoArma)
             {
@@ -150,7 +150,7 @@ namespace LosTiburones.Model
         private void utilizarArma()
         {
             personaje.UsoArma = true;
-            personaje.Inventario.sacarObjetoYCantidad("Arma", 1);
+            //personaje.Inventario.sacarObjetoYCantidad("Arma", 1);
 
             if (personaje.UsoRedPesca)
             {
@@ -161,13 +161,13 @@ namespace LosTiburones.Model
         private void dejarUtilizarRed()
         {
             personaje.UsoRedPesca = false;
-            personaje.Inventario.agregaObjeto(new RedPesca());
+            //personaje.Inventario.agregaObjeto(new RedPesca());
         }
 
         private void dejarUtilizarArma()
         {
             personaje.UsoArma = false;
-            personaje.Inventario.agregaObjeto(new Arma());
+            //personaje.Inventario.agregaObjeto(new Arma());
         }
 
         private void incrementarSalud()
@@ -226,6 +226,44 @@ namespace LosTiburones.Model
                             gui.InsertItem("+100 Salud" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             gui.InsertButton(2, "Usar", x1 += 300, y1, 120, 60);
                             agregueItem = true;
+                            break;
+                        case "Arma":
+                            item = gui.InsertImage("ArponReducido.png", x1, y1 + 30, GModel.MediaDir);
+                            gui.InsertItem("Arpón" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            gui.InsertButton(3, "Usar", x1 += 300, y1, 120, 60);
+                            agregueItem = true;
+                            break;
+                        case "RedPesca":
+                            item = gui.InsertImage("RedPescaReducido.png", x1, y1 + 30, GModel.MediaDir);
+                            gui.InsertItem("Red de Pesca" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            gui.InsertButton(4, "Usar", x1 += 300, y1, 120, 60);
+                            agregueItem = true;
+                            break;
+
+                        case "BrainCoral":
+                            gui.InsertItem("BrainCoral" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+                        case "SeaShell":
+                            gui.InsertItem("SeaShell" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+                        case "Oro":
+                            gui.InsertItem("Oro" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+                        case "Platino":
+                            gui.InsertItem("Platino" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+                        case "Ruby":
+                            gui.InsertItem("Ruby" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
                             break;
                     }
 
