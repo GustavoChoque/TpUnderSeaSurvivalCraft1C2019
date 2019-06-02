@@ -227,10 +227,5 @@ namespace LosTiburones.Model
         {
             personaje.sufriDanio(this.fuerzaMordida);
         }
-
-        public bool RecienEmpiezoAAlejarme()
-        {
-            return recienEmpiezoAAlejarme;
-        }
     }
 }

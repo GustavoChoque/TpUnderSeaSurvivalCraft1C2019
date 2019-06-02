@@ -63,6 +63,9 @@ namespace TGC.Group.Model
 
         private Random rnd = new Random();
 
+        private Drawer2D spriteDrawer = new Drawer2D();
+        private CustomBitmap bitmapTitulo;
+        private CustomSprite spriteTitulo = new CustomSprite();
 
         //-----para el menu------------
         public bool partidaActiva = false;
@@ -94,6 +97,11 @@ namespace TGC.Group.Model
 
             camaraMenu = new TgcFpsCameraMenu(new TGCVector3(3966, 25, -37), new TGCVector3(3965, 25, -38));
             Camara = camaraMenu;
+
+            bitmapTitulo = new CustomBitmap(this.MediaDir + "Bitmaps\\" + "Titulo.png", D3DDevice.Instance.Device);
+            spriteTitulo.Bitmap = bitmapTitulo;
+            spriteTitulo.Scaling = new TGCVector2(.8f, 1.6f);
+            spriteTitulo.Position = new TGCVector2(D3DDevice.Instance.Device.Viewport.Width / 5f, D3DDevice.Instance.Device.Viewport.Height / 8f);
         }
         /// <summary>
         ///     Se llama en cada frame.
@@ -139,6 +147,10 @@ namespace TGC.Group.Model
             }
             else
             {
+                spriteDrawer.BeginDrawSprite();
+                spriteDrawer.DrawSprite(spriteTitulo);
+                spriteDrawer.EndDrawSprite();
+
                 menu.Render();
             }
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
@@ -163,7 +175,7 @@ namespace TGC.Group.Model
 
         private void configuroCamara()
         {
-            camaraInterna = new TgcFpsCamera(new TGCVector3(600, 60, -250), camaraMoveSpeed, camaraJumpSpeed, Input);
+            camaraInterna = new TgcFpsCamera(new TGCVector3(600, 10, -250), camaraMoveSpeed, camaraJumpSpeed, Input);
             //Camara = camaraInterna;
         }
 

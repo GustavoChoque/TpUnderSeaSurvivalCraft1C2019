@@ -90,7 +90,7 @@ namespace LosTiburones.Model
         SequentialImpulseConstraintSolver constraintSolver;
         BroadphaseInterface broadphaseInterface;
 
-        TGCVector3 posicionInicial = new TGCVector3(600, 60, -250);
+        TGCVector3 posicionInicial = new TGCVector3(600, 10, -250);
         TgcFpsCamera camaraInterna;
 
         //----------BULLET DEBUG: DebugDrawer para Bullet
@@ -364,7 +364,7 @@ namespace LosTiburones.Model
             //-----------
             //Muevo los peces amarillos
 
-            pezCircular.Update(GModel.ElapsedTime);
+            //pezCircular.Update(GModel.ElapsedTime);
 
             pecesAmarillos.ForEach(pez =>
             {
@@ -500,7 +500,7 @@ namespace LosTiburones.Model
             
 
             pecesAmarillos.ForEach(obj => obj.Render());
-            pezCircular.Render();
+            //pezCircular.Render();
             pecesAzules.ForEach(obj => obj.Render());
 
             objetosRecolectables.ForEach(obj => obj.Render());
@@ -582,7 +582,7 @@ namespace LosTiburones.Model
             objetosEstaticosEnArray.ForEach(obj => obj.Dispose());
 
             pecesAmarillos.ForEach(obj => obj.Dispose());
-            pezCircular.Dispose();
+            //pezCircular.Dispose();
 
             pecesAzules.ForEach(obj => obj.Dispose());
 
@@ -738,7 +738,7 @@ namespace LosTiburones.Model
 
         private void generoPecesAmarillos()
         {
-            pezCircular = new Pez(yellowFish.createMeshInstance("pezPrueba"), new TGCVector3(0, -100, 0), new TGCVector3(0, 1.57f, 0), new MovimientoCircular(new TGCVector3(0, -100, 0), 150, 0.25f));
+            //pezCircular = new Pez(yellowFish.createMeshInstance("pezPrueba"), new TGCVector3(0, -100, 0), new TGCVector3(0, 1.57f, 0), new MovimientoCircular(new TGCVector3(0, -100, 0), 150, 0.25f));
             //----------------
             //PECES AMARILLOS
             //Se mueven en X
@@ -859,36 +859,7 @@ namespace LosTiburones.Model
             spriteRellenoVida.Scaling = new TGCVector2(.75f, 1f);
             spriteRellenoVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
             sprites.Add(spriteRellenoVida);
-
-            /*
-
-            //ANIMACION DE LAS BARRAS DE ENERGIA Y OXIGENO
-            bitmapBarra00 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "Barra0.0.png", D3DDevice.Instance.Device);
-
-            bitmapBarraVida10 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida0.1.png", D3DDevice.Instance.Device);
-            bitmapBarraVida20 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida0.2.png", D3DDevice.Instance.Device);
-            bitmapBarraVida30 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida0.3.png", D3DDevice.Instance.Device);
-            bitmapBarraVida40 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida0.4.png", D3DDevice.Instance.Device);
-            bitmapBarraVida50 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida0.5.png", D3DDevice.Instance.Device);
-            bitmapBarraVida60 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida0.6.png", D3DDevice.Instance.Device);
-            bitmapBarraVida70 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida0.7.png", D3DDevice.Instance.Device);
-            bitmapBarraVida80 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida0.8.png", D3DDevice.Instance.Device);
-            bitmapBarraVida90 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida0.9.png", D3DDevice.Instance.Device);
-            bitmapBarraVida100 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraVida1.0.png", D3DDevice.Instance.Device);
-
-            bitmapBarraOxigeno10 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.1.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno20 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.2.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno30 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.3.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno40 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.4.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno50 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.5.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno60 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.6.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno70 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.7.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno80 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.8.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno90 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno0.9.png", D3DDevice.Instance.Device);
-            bitmapBarraOxigeno100 = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "BarraOxigeno1.0.png", D3DDevice.Instance.Device)
             
-            ;
-            */
         }
 
         private void cargoMeshes()
@@ -1333,13 +1304,10 @@ namespace LosTiburones.Model
         private void cargoHeightmap()
         {
             terreno = new TgcSimpleTerrain();
-            //var path = MediaDir + "Texturas\\Heighmaps\\heighmap.jpg";
             var path = GModel.MediaDir + "Texturas\\Heighmaps\\heightmap1Final.jpg";
-            //var textu = MediaDir + "Texturas\\Grass.jpg";
             var textu = GModel.MediaDir + "Texturas\\mountain.jpg";
             currentScaleXZ = 100f;
             currentScaleY = 25;
-            //terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -130, 0));
             terreno.loadHeightmap(path, currentScaleXZ, currentScaleY, new TGCVector3(0, -210, 0));
             terreno.loadTexture(textu);
             terreno.AlphaBlendEnable = true;
@@ -1359,9 +1327,7 @@ namespace LosTiburones.Model
 
             var floorInfo = new RigidBodyConstructionInfo(0, floorMotionState, floorShape);
             var body = new RigidBody(floorInfo);
-
-            // var body=BulletRigidBodyFactory.Instance.CreateBox(new TGCVector3(40000, 1, 40000), 0,new TGCVector3(-20000, -1000, -20000), 0, 0, 0, 0,false);
-
+            
             dynamicsWorld.AddRigidBody(body);
 
 
@@ -1390,11 +1356,10 @@ namespace LosTiburones.Model
                     var z = GModel.GetRandom.Next(-10000, 10000);
 
                     var posicion = new TGCVector3(x, this.CalcularAltura(x, z, terreno) + side / 8, z);
-                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 0, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
-                    //Creo instancia en el (0,0,0). Despues se actualiza posicion con RigidBody
                     tamanio.Multiply(2f);
-                    var instance = new RecolectableConTextura(texturaOro, tamanio, new TGCVector3(0, 0, 0), "Oro");
+                    var instance = new RecolectableConTextura(texturaOro, tamanio, posicion, "Oro");
                     instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
                 }
@@ -1413,10 +1378,10 @@ namespace LosTiburones.Model
 
                     var posicion = new TGCVector3(x, this.CalcularAltura(x, z, terreno) + side / 2, z);
 
-                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 0, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
-                    var instance = new RecolectableConTextura(texturaRubi, tamanio, new TGCVector3(0, 0, 0), "Ruby");
+                    var instance = new RecolectableConTextura(texturaRubi, tamanio, posicion, "Ruby");
                     instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
                 }
@@ -1435,10 +1400,10 @@ namespace LosTiburones.Model
 
                     var posicion = new TGCVector3(x, this.CalcularAltura(x, z, terreno) + side / 2, z);
 
-                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 50f, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 0, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
-                    var instance = new RecolectableConTextura(texturaPlatino, tamanio, new TGCVector3(0, 0, 0), "Platino");
+                    var instance = new RecolectableConTextura(texturaPlatino, tamanio, posicion, "Platino");
                     instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
                 }
