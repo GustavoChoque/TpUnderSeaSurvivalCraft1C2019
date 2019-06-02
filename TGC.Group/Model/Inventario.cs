@@ -69,7 +69,7 @@ namespace LosTiburones.Model
             {
                 drawer2D.BeginDrawSprite();
                 drawer2D.DrawSprite(sprite);
-                drawer2D.DrawLine(new TGCVector2(1, 1), new TGCVector2(1, 200), Color.Red, 5, true);
+                //drawer2D.DrawLine(new TGCVector2(1, 1), new TGCVector2(1, 200), Color.Red, 5, true);
                 drawer2D.EndDrawSprite();
                 textosAMostrar.ForEach(texto => texto.render());
             }

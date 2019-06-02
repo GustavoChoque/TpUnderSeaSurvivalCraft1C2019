@@ -12,6 +12,7 @@ using System.Drawing;
 using TGC.Core.Text;
 using TGC.Group.Model;
 using TGC.Group.Model.Menu;
+using TGC.Group.Model.Camara;
 
 namespace LosTiburones.Model
 {
@@ -20,6 +21,7 @@ namespace LosTiburones.Model
         Personaje personaje;
         bool activo;
         private GameModel GModel;
+        private bool recienActivo = false;
         private Drawer2D drawer2D;
         private CustomSprite sprite;
         private CustomSprite oxigeno, botiquin;
@@ -159,7 +161,20 @@ namespace LosTiburones.Model
 
         public void Update()
         {
+            if (activo && recienActivo)
+            {
 
+                var camaraInterna = (TgcFpsCamera)GModel.Camara;
+                camaraInterna.LockCam = false;
+                recienActivo = false;
+
+            }
+            else if (!activo && recienActivo)
+            {
+                var camaraInterna = (TgcFpsCamera)GModel.Camara;
+                camaraInterna.LockCam = true;
+                recienActivo = false;
+            }
         }
 
         public void Render()
@@ -247,8 +262,8 @@ namespace LosTiburones.Model
 
         public void activar()
         {
-
             activo = !activo;
+            recienActivo = true;
         }
         /* Luego cambiar, en vez de sumar y restar en las variables cantidades de los objetos, 
          * agregar el objeto removerlo de la lista de objetos del pesonaje*/
