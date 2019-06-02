@@ -1075,6 +1075,14 @@ namespace LosTiburones.Model
             var x = GModel.GetRandom.Next(-10000, 10000);
             var z = GModel.GetRandom.Next(-10000, 10000);
             posicion = new TGCVector3(x, CalcularAltura(x,z,terreno),z );
+
+            while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+            {
+                x = GModel.GetRandom.Next(-10000, 10000);
+                z = GModel.GetRandom.Next(-10000, 10000);
+                posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
+            }
+
             instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "BrainCoral");
             instanceMesh.Mesh.Scale = new TGCVector3(10, 10, 10);
             instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
@@ -1088,9 +1096,17 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var x2 = GModel.GetRandom.Next(-10000, 10000);
-                    var z2 = GModel.GetRandom.Next(-10000, 10000);
-                    posicion = new TGCVector3(x2, CalcularAltura(x2, z2, terreno), z2);
+                    x = GModel.GetRandom.Next(-10000, 10000);
+                    z = GModel.GetRandom.Next(-10000, 10000);
+                    posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
+
+                    while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+                    {
+                        x = GModel.GetRandom.Next(-10000, 10000);
+                        z = GModel.GetRandom.Next(-10000, 10000);
+                        posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
+                    }
+
                     instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "BrainCoral");
                     instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
                     instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
@@ -1524,10 +1540,18 @@ namespace LosTiburones.Model
         private TgcMesh crearInstanciasObjetosEstaticos(TgcMesh mesh, int randomPosition, int escala, String name)
         {
             var instance = mesh.createMeshInstance(name);
-            var x = GModel.GetRandom.Next(-randomPosition, randomPosition);
-            var z = GModel.GetRandom.Next(-randomPosition, randomPosition);
+            var x = GModel.GetRandom.Next(-10000, 10000);
+            var z = GModel.GetRandom.Next(-10000, 10000);
+            var posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
 
-            instance.Position = new TGCVector3(x, CalcularAltura(x,z,terreno),z);
+            while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+            {
+                x = GModel.GetRandom.Next(-10000, 10000);
+                z = GModel.GetRandom.Next(-10000, 10000);
+                posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
+            }
+
+            instance.Position = posicion;
             //escalado random
             var escalaObjeto = GModel.GetRandom.Next(escala, escala * 3);
             instance.Scale = new TGCVector3(escalaObjeto, escalaObjeto, escalaObjeto);
