@@ -24,6 +24,7 @@ using Microsoft.DirectX.Direct3D;
 using Effect = Microsoft.DirectX.Direct3D.Effect;
 using TGC.Group.Model.Quadtree;
 using TGC.Group.Model.Optimizacion;
+using TGC.Core.Text;
 
 namespace LosTiburones.Model
 {
@@ -53,7 +54,7 @@ namespace LosTiburones.Model
         private List<Pez> pecesAmarillos = new List<Pez>();
         private List<Pez> pecesAzules = new List<Pez>();
 
-        private Pez pezCircular;
+        //private Pez pezCircular;
 
         private Tiburon tiburon;
 
@@ -75,6 +76,8 @@ namespace LosTiburones.Model
         private CustomSprite spriteRellenoVida = new CustomSprite();
         private CustomSprite spriteRellenoOxigeno = new CustomSprite();
         private CustomSprite spriteTanqueOxigeno = new CustomSprite();
+        private TgcText2D textoVida;
+        private TgcText2D textoOxigeno;
 
         private int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
         private int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
@@ -228,6 +231,20 @@ namespace LosTiburones.Model
             debugDrawer = new ADebugDrawer(DebugDrawModes.DrawWireframe);
             dynamicsWorld.DebugDrawer = debugDrawer;
             //-------------End Bullet Debug Config------------------
+
+            textoVida = new TgcText2D();
+            textoVida.Align = TgcText2D.TextAlign.CENTER;
+            var width = D3DDevice.Instance.Device.Viewport.Width;
+            var height = D3DDevice.Instance.Device.Viewport.Height;
+            textoVida.Position = new Point((width / 2) + (width / 8) + (width / 16), (height / 2) + (height / 4) + (height / 20) + (height / 8));
+            textoVida.Size = new Size(100, 100);
+            textoVida.Color = Color.White;
+
+            textoOxigeno = new TgcText2D();
+            textoOxigeno.Align = TgcText2D.TextAlign.CENTER;
+            textoOxigeno.Position = new Point((width / 2) + (width / 8) + (width / 16), (height / 2) + (height / 4) + (height / 24));
+            textoOxigeno.Size = new Size(100, 100);
+            textoOxigeno.Color = Color.White;
 
         }
         public void Update()
@@ -415,6 +432,8 @@ namespace LosTiburones.Model
 
             this.actualizoValoresSaludOxigeno(GModel.Personaje);
 
+            textoOxigeno.Text = ((int)Math.Round(GModel.Personaje.Oxygen)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxOxygen)).ToString();
+            textoVida.Text = ((int)Math.Round(GModel.Personaje.Health)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxHealth)).ToString();
         }
 
         public void Render()
@@ -558,6 +577,9 @@ namespace LosTiburones.Model
 
             });
             //-------------------------
+
+            textoOxigeno.render();
+            textoVida.render();
         }
 
         public void Dispose()
@@ -615,6 +637,9 @@ namespace LosTiburones.Model
 
             workbench.Dispose();
             objetosDelTerreno.DisposeAll();
+
+            textoVida.Dispose();
+            textoOxigeno.Dispose();
         }
 
 
