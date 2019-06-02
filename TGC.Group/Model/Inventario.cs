@@ -15,7 +15,7 @@ namespace LosTiburones.Model
 {
     public class Inventario
     {
-        List<ObjetoInventario> objetos;
+        private List<ObjetoInventario> objetos;
 
         public Inventario()
         {
@@ -52,6 +52,8 @@ namespace LosTiburones.Model
         {
             return objetos.Exists(objeto => objeto.Nombre.Equals(nombre) && objeto.Cantidad >= cantidad);
         }
+
+        public List<ObjetoInventario> Objetos { get => objetos; }
 
     }
 }
