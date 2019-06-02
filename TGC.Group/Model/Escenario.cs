@@ -34,9 +34,11 @@ namespace LosTiburones.Model
         
         private TgcPlane piso, agua;
         private TgcMesh coralBrain, coral, meshTiburon, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
-        private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
+        //private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
 
         private TgcMesh workbench;
+        private TgcMesh redPesca;
+        private TgcMesh arpon;
 
         private TgcScene barco;
         private TgcSkyBox skybox;
@@ -187,14 +189,10 @@ namespace LosTiburones.Model
 
             //-----------
 
-            workbench = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "ModelosTgc\\Workbench\\Workbench-TgcScene.xml").Meshes[0];
             workbench.Scale = new TGCVector3(0.2f, 0.2f, 0.2f);
             workbench.Position = new TGCVector3(150f, -60, -50f);
             workbench.RotateY(-FastMath.PI/2);
-
-
-            objetosDelTerreno = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "MeshCreator\\Scenes\\vegetacionScena\\objetosScene-TgcScene.xml");
-
+            
             objetosDelTerreno.Meshes.ForEach(o => {
                 //o.AutoTransformEnable = false;
                 o.Move(new TGCVector3(0, -DESPLAZAMIENTO_EN_Y, 0));
@@ -614,13 +612,15 @@ namespace LosTiburones.Model
             spiralWireCoral.Dispose();
             treeCoral.Dispose();
             yellowFish.Dispose();
-            arbusto.Dispose();
+            /*
+             * arbusto.Dispose();
             arbusto2.Dispose();
             pasto.Dispose();
             planta.Dispose();
             planta2.Dispose();
             planta3.Dispose();
             roca.Dispose();
+            */
 
             objetosEstaticosEnArray.ForEach(obj => obj.Dispose());
 
@@ -910,6 +910,10 @@ namespace LosTiburones.Model
 
         private void cargoMeshes()
         {
+            workbench = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "ModelosTgc\\Workbench\\Workbench-TgcScene.xml").Meshes[0];
+
+            objetosDelTerreno = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "MeshCreator\\Scenes\\vegetacionScena\\objetosScene-TgcScene.xml");
+
             coral = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\Aquatic\\Meshes\\coral-TgcScene.xml").Meshes[0];
 
             meshTiburon = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\Aquatic\\Meshes\\shark-TgcScene.xml").Meshes[0];
@@ -930,7 +934,7 @@ namespace LosTiburones.Model
 
             yellowFish = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\Aquatic\\Meshes\\yellow_fish-TgcScene.xml").Meshes[0];
 
-            arbusto = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Arbusto\\Arbusto-TgcScene.xml").Meshes[0];
+            /*arbusto = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Arbusto\\Arbusto-TgcScene.xml").Meshes[0];
 
             arbusto2 = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Arbusto2\\Arbusto2-TgcScene.xml").Meshes[0];
 
@@ -943,6 +947,11 @@ namespace LosTiburones.Model
             planta3 = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta3\\Planta3-TgcScene.xml").Meshes[0];
 
             roca = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Roca\\Roca-TgcScene.xml").Meshes[0];
+            */
+
+            redPesca = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\RedPesca\\RedPesca-TgcScene.xml").Meshes[0];
+
+
         }
 
         private void generoObjetosEstaticosSueltos()

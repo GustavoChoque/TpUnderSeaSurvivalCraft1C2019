@@ -25,6 +25,8 @@ namespace TGC.Group.Model
         private Boolean vivo = true;
         private float radioDeteccionNave = 450f;
         private float radioDeteccionWorkbench = 250f;
+        private bool usoArma = false;
+        private bool usoRedPesca = false;
 
         public Personaje(float health, float oxygen)
         {
@@ -137,11 +139,6 @@ namespace TGC.Group.Model
             if (this.Oxygen <= 1) this.morite();
         }
 
-        internal void utilizarRed()
-        {
-            throw new NotImplementedException();
-        }
-
         public void recuperaOxigeno(float oxigenoRecuperado)
         {
             if ((this.oxygen + oxigenoRecuperado) > maxOxygen)
@@ -153,12 +150,7 @@ namespace TGC.Group.Model
                 this.oxygen = this.oxygen + oxigenoRecuperado;
             }
         }
-
-        internal void utilizarArma()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public float Health { get => health; }
         public float Oxygen { get => oxygen; }
         public Boolean Vivo { get => vivo; }
@@ -171,6 +163,7 @@ namespace TGC.Group.Model
         }
         public float MaxHealth { get => maxHealth; }
         public float MaxOxygen { get => maxOxygen; }
-
+        public bool UsoArma { get => usoArma; set => usoArma = value; }
+        public bool UsoRedPesca { get => usoRedPesca; set => usoRedPesca = value; }
     }
 }

@@ -138,14 +138,36 @@ namespace LosTiburones.Model
 
         private void utilizarRed()
         {
-            personaje.utilizarRed();
+            personaje.UsoRedPesca = true;
             personaje.Inventario.sacarObjetoYCantidad("Red", 1);
+
+            if (personaje.UsoArma)
+            {
+                this.dejarUtilizarArma();
+            }            
         }
 
         private void utilizarArma()
         {
-            personaje.utilizarArma();
+            personaje.UsoArma = true;
             personaje.Inventario.sacarObjetoYCantidad("Arma", 1);
+
+            if (personaje.UsoRedPesca)
+            {
+                this.dejarUtilizarRed();
+            }            
+        }
+
+        private void dejarUtilizarRed()
+        {
+            personaje.UsoRedPesca = false;
+            personaje.Inventario.agregaObjeto(new RedPesca());
+        }
+
+        private void dejarUtilizarArma()
+        {
+            personaje.UsoArma = false;
+            personaje.Inventario.agregaObjeto(new Arma());
         }
 
         private void incrementarSalud()
