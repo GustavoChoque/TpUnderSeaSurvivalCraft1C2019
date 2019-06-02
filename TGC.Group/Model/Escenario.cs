@@ -250,11 +250,15 @@ namespace LosTiburones.Model
 
         private void configuroRedYArpon()
         {
-            arpon.Scale = new TGCVector3(1f, 1f, 1f);
-            arpon.Position = GModel.Personaje.Position;
+            arpon.Scale = new TGCVector3(.2f, .2f, .2f);
+            var posArp = arpon.Position;
+            posArp.X = GModel.Personaje.Position.X;
+            posArp.Y = GModel.Personaje.Position.Y - 200;
+            posArp.Z = GModel.Personaje.Position.Z;
+            arpon.Position = posArp;
             //arpon.RotateY(-FastMath.PI / 2);
 
-            redPesca.Scale = new TGCVector3(1f, 1f, 1f);
+            redPesca.Scale = new TGCVector3(.2f, .2f, .2f);
             redPesca.Position = GModel.Personaje.Position;
             //redPesca.RotateY(-FastMath.PI / 2);
         }
@@ -510,7 +514,7 @@ namespace LosTiburones.Model
 
                 if ((this.fueraDelMapa(GModel.Personaje)))
                 {
-                    GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", ScreenWidth - (ScreenWidth * 1) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 10, Color.Red);
+                    GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 10, Color.Red);
                 }
 
                 /*
@@ -1170,9 +1174,17 @@ namespace LosTiburones.Model
             }
 
             //-------SeaShell----------
-            var x3 = GModel.GetRandom.Next(-10000, 10000);
-            var z3 = GModel.GetRandom.Next(-10000, 10000);
-            posicion = new TGCVector3(x3, CalcularAltura(x3, z3, terreno), z3);
+            x = GModel.GetRandom.Next(-10000, 10000);
+            z = GModel.GetRandom.Next(-10000, 10000);
+            posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
+
+            while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+            {
+                x = GModel.GetRandom.Next(-10000, 10000);
+                z = GModel.GetRandom.Next(-10000, 10000);
+                posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
+            }
+
             instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "SeaShell");
             instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
             instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
@@ -1186,9 +1198,18 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    var x4 = GModel.GetRandom.Next(-10000, 10000);
-                    var z4 = GModel.GetRandom.Next(-10000, 10000);
-                    posicion = new TGCVector3(x4, CalcularAltura(x4, z4, terreno), z4);
+                    x = GModel.GetRandom.Next(-10000, 10000);
+                    z = GModel.GetRandom.Next(-10000, 10000);
+                    posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
+
+                    while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+                    {
+                        x = GModel.GetRandom.Next(-10000, 10000);
+                        z = GModel.GetRandom.Next(-10000, 10000);
+                        posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
+                    }
+
+                    posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
                     instanceMesh = new RecolectableConMesh(seaShell, new TGCVector3(67, 0, 0), posicion, "SeaShell");
                     instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
                     instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
@@ -1464,9 +1485,16 @@ namespace LosTiburones.Model
 
                     var x = GModel.GetRandom.Next(-10000, 10000);
                     var z = GModel.GetRandom.Next(-10000, 10000);
+                    var posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side/8, z);
 
-                    var posicion = new TGCVector3(x, this.CalcularAltura(x, z, terreno) + side / 8, z);
-                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 0, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+                    {
+                        x = GModel.GetRandom.Next(-10000, 10000);
+                        z = GModel.GetRandom.Next(-10000, 10000);
+                        posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
+                    }
+                    
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 10, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
                     var instance = new RecolectableConTextura(texturaOro, tamanio, posicion, "Oro");
@@ -1485,10 +1513,16 @@ namespace LosTiburones.Model
 
                     var x = GModel.GetRandom.Next(-10000, 10000);
                     var z = GModel.GetRandom.Next(-10000, 10000);
+                    var posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
 
-                    var posicion = new TGCVector3(x, this.CalcularAltura(x, z, terreno) + side / 2, z);
+                    while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+                    {
+                        x = GModel.GetRandom.Next(-10000, 10000);
+                        z = GModel.GetRandom.Next(-10000, 10000);
+                        posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
+                    }
 
-                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 0, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 10, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
                     var instance = new RecolectableConTextura(texturaRubi, tamanio, posicion, "Ruby");
@@ -1507,10 +1541,16 @@ namespace LosTiburones.Model
 
                     var x = GModel.GetRandom.Next(-10000, 10000);
                     var z = GModel.GetRandom.Next(-10000, 10000);
+                    var posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
 
-                    var posicion = new TGCVector3(x, this.CalcularAltura(x, z, terreno) + side / 2, z);
+                    while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+                    {
+                        x = GModel.GetRandom.Next(-10000, 10000);
+                        z = GModel.GetRandom.Next(-10000, 10000);
+                        posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
+                    }
 
-                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 0, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 10, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
                     var instance = new RecolectableConTextura(texturaPlatino, tamanio, posicion, "Platino");
