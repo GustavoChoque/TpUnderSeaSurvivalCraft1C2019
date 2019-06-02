@@ -1285,9 +1285,10 @@ namespace LosTiburones.Model
 
         private void cargoSkybox()
         {
+            var skyBoxSize = 20000;
             skybox = new TgcSkyBox();
             skybox.Center = TGCVector3.Empty;
-            skybox.Size = new TGCVector3(10000, 10000, 10000);
+            skybox.Size = new TGCVector3(skyBoxSize, skyBoxSize, skyBoxSize);
 
             var texturesPath = GModel.MediaDir + "Texturas\\SkyBox\\";
 
@@ -1316,8 +1317,9 @@ namespace LosTiburones.Model
         
         private void cargoPisos()
         {
+            var aguaSize = 50000;
             var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\agua20.jpg");
-            agua = new TgcPlane(new TGCVector3(-20000, 0, -20000), new TGCVector3(40000, 0, 40000), TgcPlane.Orientations.XZplane, aguaTextura);
+            agua = new TgcPlane(new TGCVector3(-aguaSize/2, 0, -aguaSize/2), new TGCVector3(aguaSize, 0, aguaSize), TgcPlane.Orientations.XZplane, aguaTextura);
 
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed.jpg");
             piso = new TgcPlane(new TGCVector3(-20000, -5230, -20000), new TGCVector3(60000, 0, 60000), TgcPlane.Orientations.XZplane, pisoTextura);

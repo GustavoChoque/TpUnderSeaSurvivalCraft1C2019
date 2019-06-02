@@ -20,6 +20,7 @@ using Microsoft.DirectX.Direct3D;
 using TGC.Core.BoundingVolumes;
 using System.Windows.Forms;
 using TGC.Group.Model.Menu;
+using Microsoft.DirectX;
 
 namespace TGC.Group.Model
 {
@@ -82,6 +83,13 @@ namespace TGC.Group.Model
         //------------------------------------------------------
         public override void Init()
         {
+
+            D3DDevice.Instance.Device.Transform.Projection =
+               Matrix.PerspectiveFovLH(D3DDevice.Instance.FieldOfView,
+                   D3DDevice.Instance.AspectRatio,
+                   D3DDevice.Instance.ZNearPlaneDistance,
+                   D3DDevice.Instance.ZFarPlaneDistance * 2f);
+
 
             menu.Init(this);
             this.configuroCamara();
