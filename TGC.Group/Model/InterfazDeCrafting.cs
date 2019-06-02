@@ -24,9 +24,10 @@ namespace LosTiburones.Model
         private bool recienActivo = false;
         private Drawer2D drawer2D;
         private CustomSprite sprite;
-        private CustomSprite oxigeno, botiquin;
-        private CustomSprite boton, boton2;
-        private TgcText2D texto, texto2;
+        private TgcText2D textoErrorCrafteo;
+        private bool renderizoTextoError = false;
+        private bool huboErrorCrafteo = false;
+        private float acumuloTiempo = 0;
 
         private DXGui gui = new DXGui();
         public void Init(GameModel gmodel, Personaje personaje)
@@ -34,6 +35,12 @@ namespace LosTiburones.Model
             this.GModel = gmodel;
             this.personaje = personaje;
 
+            textoErrorCrafteo = new TgcText2D();
+            textoErrorCrafteo.Text = "No se pudo craftear el elemento, faltan items";
+            textoErrorCrafteo.Align = TgcText2D.TextAlign.CENTER;
+            textoErrorCrafteo.Position = new Point(D3DDevice.Instance.Device.Viewport.Width / 2, D3DDevice.Instance.Device.Viewport.Height / 2);
+            textoErrorCrafteo.Size = new Size(100, 100);
+            textoErrorCrafteo.Color = Color.Red;
 
             /*
             drawer2D = new Drawer2D();
@@ -175,6 +182,14 @@ namespace LosTiburones.Model
                 camaraInterna.LockCam = true;
                 recienActivo = false;
             }
+
+            //Muestro el error por 2 segundos
+            acumuloTiempo = acumuloTiempo + GModel.ElapsedTime;
+            if (acumuloTiempo > 2 && huboErrorCrafteo)
+            {
+                renderizoTextoError = false;
+            }
+
         }
 
         public void Render()
@@ -185,6 +200,11 @@ namespace LosTiburones.Model
                 
                 gui_render();
 
+            }
+
+            if (renderizoTextoError)
+            {
+                textoErrorCrafteo.render();
             }
 
 
@@ -273,6 +293,13 @@ namespace LosTiburones.Model
             {
                 personaje.Inventario.agregaObjeto(new TanqueOxigeno());
                 personaje.Inventario.sacarObjetoYCantidad("BrainCoral", 2);
+                huboErrorCrafteo = false;
+            }
+            else
+            {
+                renderizoTextoError = true;
+                huboErrorCrafteo = true;
+                acumuloTiempo = 0;
             }
         }
 
@@ -284,7 +311,13 @@ namespace LosTiburones.Model
                 personaje.Inventario.agregaObjeto(new Botiquin());
                 personaje.Inventario.sacarObjetoYCantidad("BrainCoral", 2);
                 personaje.Inventario.sacarObjetoYCantidad("SeaShell", 1);
-
+                huboErrorCrafteo = false;
+            }
+            else
+            {
+                renderizoTextoError = true;
+                huboErrorCrafteo = true;
+                acumuloTiempo = 0;
             }
         }
 
