@@ -128,6 +128,9 @@ namespace LosTiburones.Model
                         case 3:
                             craftingArma();
                             break;
+                        case 4:
+                            craftingRedPesca();
+                            break;
                     }
 
                     break;
@@ -139,11 +142,37 @@ namespace LosTiburones.Model
 
         }
 
+        private void craftingRedPesca()
+        {
+            if (personaje.Inventario.tieneObjetoYCantidad("Platino", 4))
+            {
+                personaje.Inventario.agregaObjeto(new RedPesca());
+                personaje.Inventario.sacarObjetoYCantidad("Platino", 4);
+                huboErrorCrafteo = false;
+                renderizoTextoExito = true;
+                huboCrafteoExitoso = true;
+            }
+            else
+            {
+                renderizoTextoError = true;
+                huboErrorCrafteo = true;
+            }
+
+            acumuloTiempo = 0;
+
+            //Despues de craftear un item cierro el menu
+            var camaraInterna = (TgcFpsCamera)GModel.Camara;
+            camaraInterna.LockCam = true;
+            recienActivo = false;
+            activo = false;
+            gui.Reset();
+        }
+
         private void craftingArma()
         {
             if (personaje.Inventario.tieneObjetoYCantidad("Oro", 3))
             {
-                //personaje.Inventario.agregaObjeto(new Botiquin());
+                personaje.Inventario.agregaObjeto(new Arma());
                 personaje.Inventario.sacarObjetoYCantidad("Oro", 3);
                 huboErrorCrafteo = false;
                 renderizoTextoExito = true;
@@ -205,9 +234,15 @@ namespace LosTiburones.Model
                 //---------------------
                 x1 = x0;
                 y1 = y1 + item.image_height + 20;
-                //gui.InsertImage("botiquinReducido.png", x1, y1 + 30, GModel.MediaDir); //ver que imagen de arma ponemos segun el arma que usamos
+                gui.InsertImage("ArponReducido.png", x1, y1 + 30, GModel.MediaDir);
                 gui.InsertItem("3 Oro", x1 += 50, y1 + 20);
                 gui.InsertButton(3, "Craftear", x1 += 300, y1, 120, 60);
+                //---------------------
+                x1 = x0;
+                y1 = y1 + item.image_height + 20;
+                gui.InsertImage("RedPescaReducido.png", x1, y1 + 30, GModel.MediaDir); 
+                gui.InsertItem("4 Platino", x1 += 50, y1 + 20);
+                gui.InsertButton(4, "Craftear", x1 += 300, y1, 120, 60);
             }
         }
         /* Luego cambiar, en vez de sumar y restar en las variables cantidades de los objetos, 

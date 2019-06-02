@@ -8,7 +8,7 @@ using TGC.Core.SceneLoader;
 
 namespace LosTiburones.Model
 {
-    class RecolectableConMesh: ObjetoRecolectable
+    public class RecolectableConMesh: ObjetoRecolectable
     {
         public RecolectableConMesh(TgcMesh mesh, TGCVector3 tamanio, TGCVector3 posicion, string nombrePar):
             base(tamanio, posicion, nombrePar)

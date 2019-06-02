@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace LosTiburones.Model
 {
-    public class Botiquin: ObjetoInventario
+    class RedPesca: ObjetoInventario
     {
-        public Botiquin() : base("Botiquin", 1) { }
+        public RedPesca() : base("RedPesca", 1) { }
     }
 }

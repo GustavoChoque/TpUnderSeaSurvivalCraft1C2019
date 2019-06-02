@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LosTiburones.Model
 {
-    class BrainCoral : ObjetoInventario
+    public class BrainCoral : ObjetoInventario
     {
         public BrainCoral() : base("BrainCoral", 1) { }
     }

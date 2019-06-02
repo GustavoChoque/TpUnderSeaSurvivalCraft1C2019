@@ -8,7 +8,7 @@ using TGC.Core.Textures;
 
 namespace LosTiburones.Model
 {
-    abstract class ObjetoRecolectable
+    public abstract class ObjetoRecolectable
     {
         public ObjetoRecolectable(TGCVector3 tamanio, TGCVector3 posicion, string nombrePar)
         {
