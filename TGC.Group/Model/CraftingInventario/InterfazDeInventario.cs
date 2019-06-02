@@ -81,6 +81,10 @@ namespace LosTiburones.Model
                 gui_render();
 
             }
+            else
+            {
+                gui.Reset();
+            }
 
             if (renderizoTextoExito)
             {
