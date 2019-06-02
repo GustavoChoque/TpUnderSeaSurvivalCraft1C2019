@@ -113,6 +113,9 @@ namespace LosTiburones.Model
                         case 3:
                             utilizarArma();
                             break;
+                        case 4:
+                            utilizarRed();
+                            break;
                     }
 
                     //Luego de usar un item cierro el inventario
@@ -133,9 +136,16 @@ namespace LosTiburones.Model
 
         }
 
+        private void utilizarRed()
+        {
+            personaje.utilizarRed();
+            personaje.Inventario.sacarObjetoYCantidad("Red", 1);
+        }
+
         private void utilizarArma()
         {
-            throw new NotImplementedException();
+            personaje.utilizarArma();
+            personaje.Inventario.sacarObjetoYCantidad("Arma", 1);
         }
 
         private void incrementarSalud()

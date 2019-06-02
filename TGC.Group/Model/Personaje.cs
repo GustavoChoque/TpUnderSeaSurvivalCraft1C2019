@@ -137,6 +137,11 @@ namespace TGC.Group.Model
             if (this.Oxygen <= 1) this.morite();
         }
 
+        internal void utilizarRed()
+        {
+            throw new NotImplementedException();
+        }
+
         public void recuperaOxigeno(float oxigenoRecuperado)
         {
             if ((this.oxygen + oxigenoRecuperado) > maxOxygen)
@@ -147,6 +152,11 @@ namespace TGC.Group.Model
             {
                 this.oxygen = this.oxygen + oxigenoRecuperado;
             }
+        }
+
+        internal void utilizarArma()
+        {
+            throw new NotImplementedException();
         }
 
         public float Health { get => health; }
