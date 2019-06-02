@@ -24,6 +24,10 @@ namespace LosTiburones.Model
         private bool recienActivo;
         private DXGui gui = new DXGui();
         private Boolean agregueItem = false;
+        private TgcText2D textoUtilizacionExitosa;
+        private bool renderizoTextoExito = false;
+        private bool huboUtilizacionExitosa = false;
+        private float acumuloTiempo = 0;
 
         public void Init(GameModel gmodel, Personaje personaje)
         {
@@ -34,6 +38,13 @@ namespace LosTiburones.Model
             gui.InitDialog(false, false);
 
             activo = false;
+
+            textoUtilizacionExitosa = new TgcText2D();
+            textoUtilizacionExitosa.Text = "Elemento utilizado con éxito!";
+            textoUtilizacionExitosa.Align = TgcText2D.TextAlign.CENTER;
+            textoUtilizacionExitosa.Position = new Point(D3DDevice.Instance.Device.Viewport.Width / 3, D3DDevice.Instance.Device.Viewport.Height / 2);
+            textoUtilizacionExitosa.Size = new Size(500, 500);
+            textoUtilizacionExitosa.Color = Color.LawnGreen;
         }
 
         public void Update()
@@ -52,6 +63,13 @@ namespace LosTiburones.Model
                 camaraInterna.LockCam = true;
                 recienActivo = false;
             }
+
+            //Muestro el error por 2 segundos
+            acumuloTiempo = acumuloTiempo + GModel.ElapsedTime;
+            if (acumuloTiempo > 2 && huboUtilizacionExitosa)
+            {
+                renderizoTextoExito = false;
+            }
         }
 
         public void Render()
@@ -62,6 +80,11 @@ namespace LosTiburones.Model
 
                 gui_render();
 
+            }
+
+            if (renderizoTextoExito)
+            {
+                textoUtilizacionExitosa.render();
             }
 
         }
@@ -87,11 +110,22 @@ namespace LosTiburones.Model
                         case 2:
                             incrementarSalud();
                             break;
+                        case 3:
+                            utilizarArma();
+                            break;
                     }
 
+                    //Luego de usar un item cierro el inventario
+                    renderizoTextoExito = true;
+                    huboUtilizacionExitosa = true;
+                    acumuloTiempo = 0;
+                    var camaraInterna = (TgcFpsCamera)GModel.Camara;
+                    camaraInterna.LockCam = true;
+                    recienActivo = false;
+                    activo = false;
+                    gui.Reset();
 
                     break;
-
             }
 
             gui.Render();
@@ -99,15 +133,24 @@ namespace LosTiburones.Model
 
         }
 
-        private void incrementarSalud()
+        private void utilizarArma()
         {
             throw new NotImplementedException();
         }
 
+        private void incrementarSalud()
+        {
+            personaje.aumentoSalud(personaje.MaxHealth + 100);
+            personaje.Inventario.sacarObjetoYCantidad("Botiquin", 1);
+        }
+
         private void incrementarOxigeno()
         {
-            throw new NotImplementedException();
+            personaje.aumentoOxigeno(personaje.MaxOxygen + 100);
+            personaje.Inventario.sacarObjetoYCantidad("TanqueOxigeno", 1);            
         }
+
+        public Boolean Activo { get => activo; }
 
         public void activar()
         {
@@ -149,7 +192,7 @@ namespace LosTiburones.Model
                         case "Botiquin":
                             item = gui.InsertImage("botiquinReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("+100 Salud" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
-                            gui.InsertButton(1, "Usar", x1 += 300, y1, 120, 60);
+                            gui.InsertButton(2, "Usar", x1 += 300, y1, 120, 60);
                             agregueItem = true;
                             break;
                     }
@@ -162,10 +205,6 @@ namespace LosTiburones.Model
                     }
 
                 });
-            }
-            else
-            {
-                gui.Reset();
             }
         }
     }

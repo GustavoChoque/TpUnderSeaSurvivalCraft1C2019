@@ -17,8 +17,6 @@ namespace TGC.Group.Model
     public class Personaje
     {
         private GameModel gmodel;
-        //TgcMesh mesh;
-        //public List<InterfazRecolectable> inventario;   
         private Inventario inventario;
         private float health;
         private float oxygen;
@@ -74,25 +72,25 @@ namespace TGC.Group.Model
             var Input = this.gmodel.Input;
 
             //-----------crafteo------------
-            if (workbenchCerca(gmodel.Escenario.Workbench) && Input.keyPressed(Key.C))
+            if (workbenchCerca(gmodel.Escenario.Workbench) && Input.keyPressed(Key.C) && !gmodel.InterfazInventario.Activo)
             {
                 gmodel.InterfazCrafting.activar();
             }
 
             //inventario
-            if (Input.keyPressed(Key.I))
+            if (Input.keyPressed(Key.I) && !gmodel.InterfazCrafting.Activo)
             {
                 gmodel.InterfazInventario.activar();
             }
         }
         public void Render()
         {
-            //inventario.Render();           
+            
         }
 
         public void Dispose()
         {
-            //inventario.Dispose();
+
         }
 
         private Boolean workbenchCerca(TgcMesh workbench)
