@@ -520,6 +520,12 @@ namespace LosTiburones.Model
 
 
             //--------------
+            if (GModel.Personaje.ModoDios)
+            {
+                GModel.DrawText.drawText("Modo Dios Activado", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 20, Color.Green);
+            }
+            //--------------
+
 
             if (GModel.Personaje.Vivo)
             {
