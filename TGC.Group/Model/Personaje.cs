@@ -27,6 +27,7 @@ namespace TGC.Group.Model
         private float radioDeteccionWorkbench = 250f;
         private bool usoArma = false;
         private bool usoRedPesca = false;
+        private bool modoDios = false;
 
         public Personaje(float health, float oxygen)
         {
@@ -112,13 +113,19 @@ namespace TGC.Group.Model
 
         public void sufriDanio(float danio)
         {
-            this.health = this.health - danio;
-            if (this.Health <= 0) this.morite();
+            if (!ModoDios)
+            {
+                this.health = this.health - danio;
+                if (this.Health <= 0) this.morite();
+            }
         }
 
         public void morite()
         {
-            this.vivo = false;
+            if (!ModoDios)
+            {
+                this.vivo = false;
+            }
         }
 
         public void revivi()
@@ -140,8 +147,11 @@ namespace TGC.Group.Model
 
         public void perdeOxigeno(float oxigenoPerdido)
         {
-            this.oxygen = this.oxygen - oxigenoPerdido;
-            if (this.Oxygen <= 1) this.morite();
+            if (!ModoDios)
+            {
+                this.oxygen = this.oxygen - oxigenoPerdido;
+                if (this.Oxygen <= 1) this.morite();
+            }
         }
 
         public void recuperaOxigeno(float oxigenoRecuperado)
@@ -170,5 +180,6 @@ namespace TGC.Group.Model
         public float MaxOxygen { get => maxOxygen; }
         public bool UsoArma { get => usoArma; set => usoArma = value; }
         public bool UsoRedPesca { get => usoRedPesca; set => usoRedPesca = value; }
+        public bool ModoDios { get => modoDios; set => modoDios = value; }
     }
 }

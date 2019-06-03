@@ -372,7 +372,7 @@ namespace LosTiburones.Model
             }
             //-----------------------
 
-            //Capturar Input teclado
+            //Music toggle on/off
             if (Input.keyPressed(Key.P))
             {
                 switch (musica.getStatus()){
@@ -389,6 +389,12 @@ namespace LosTiburones.Model
                         musica.play(true);
                         break;
                 }
+            }
+
+            //God Mode toggle on/off
+            if (Input.keyPressed(Key.G))
+            {
+                GModel.Personaje.ModoDios = !GModel.Personaje.ModoDios;
             }
 
             //Reseteo el juego si apreto R
