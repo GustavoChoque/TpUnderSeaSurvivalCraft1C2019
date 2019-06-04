@@ -25,6 +25,7 @@ using Effect = Microsoft.DirectX.Direct3D.Effect;
 using TGC.Group.Model.Quadtree;
 using TGC.Group.Model.Optimizacion;
 using TGC.Core.Text;
+using TGC.Core.Input;
 
 namespace LosTiburones.Model
 {
@@ -60,6 +61,8 @@ namespace LosTiburones.Model
         private List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
         private List<Pez> pecesAmarillos = new List<Pez>();
         private List<Pez> pecesAzules = new List<Pez>();
+        private List<Pez> pecesAmarillosCercaPersonaje = new List<Pez>();
+        private List<Pez> pecesAzulesCercaPersonaje = new List<Pez>();
 
         //private Pez pezCircular;
 
@@ -274,7 +277,7 @@ namespace LosTiburones.Model
             //    BoundingBox = !BoundingBox;
             //}
 
-            var Input=this.GModel.Input;
+            var Input = this.GModel.Input;
 
             //-------Fisica----------
             dynamicsWorld.StepSimulation(1 / 60f, 100);
@@ -294,7 +297,7 @@ namespace LosTiburones.Model
                 //muevo el rigidsegun a donde miro
 
                 rigidCamera.ActivationState = ActivationState.ActiveTag;
-               
+
                 rigidCamera.ApplyCentralImpulse(strength * director.ToBulletVector3());
 
             }
@@ -375,7 +378,7 @@ namespace LosTiburones.Model
             //Music toggle on/off
             if (Input.keyPressed(Key.P))
             {
-                switch (musica.getStatus()){
+                switch (musica.getStatus()) {
                     case TgcMp3Player.States.Playing:
                         musica.pause();
                         break;
@@ -460,22 +463,24 @@ namespace LosTiburones.Model
             textoOxigeno.Text = ((int)Math.Round(GModel.Personaje.Oxygen)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxOxygen)).ToString();
             textoVida.Text = ((int)Math.Round(GModel.Personaje.Health)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxHealth)).ToString();
 
-            if (GModel.Personaje.UsoArma)
-            {
-                /*var posArp = arpon.Position;
-                posArp.X = GModel.Personaje.Position.X;
-                posArp.Y = GModel.Personaje.Position.Y - 200;
-                posArp.Z = GModel.Personaje.Position.Z;
-                arpon.Position = posArp;
-                //arpon.RotateY(-FastMath.PI / 2);
-                */
-
-            }
-
+            /////////PESCO
             if (GModel.Personaje.UsoRedPesca)
             {
-                /*redPesca.Position = GModel.Personaje.Position;*/
-            }
+                pecesAmarillosCercaPersonaje = pecesAmarillos.FindAll(pez => pez.estoyCercaDePersonaje(GModel.Personaje));
+                pecesAzulesCercaPersonaje = pecesAzules.FindAll(pez => pez.estoyCercaDePersonaje(GModel.Personaje));
+
+                if (pecesAmarillosCercaPersonaje.Count > 0 && (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT)))
+                {
+                    ////AGREGO EL PEZ AL INVENTARIO??? ////SUMO PUNTOS???
+                    pecesAmarillosCercaPersonaje.ForEach(pez => pez.disable());
+                }
+
+                if (pecesAzulesCercaPersonaje.Count > 0 && (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT)))
+                {
+                    ////AGREGO EL PEZ AL INVENTARIO??? ////SUMO PUNTOS???
+                    pecesAzulesCercaPersonaje.ForEach(pez => pez.disable());
+                }
+            }            
         }
 
         public void Render()

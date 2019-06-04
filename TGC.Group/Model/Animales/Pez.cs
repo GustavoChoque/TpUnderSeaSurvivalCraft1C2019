@@ -17,13 +17,15 @@ using LosTiburones.Model;
 
 namespace TGC.Group.Model
 {
-    class Pez
+    public class Pez
     {
         private TgcMesh meshPez;
         private float currentMoveDir;
         private float moveSpeed;
         private MovimientoPez movimiento;
-        
+        private float radioCercaniaPersonaje = 200f;
+
+
         public Pez(TgcMesh meshOriginal, float currentMoveDir, float moveSpeed)
         {
             meshPez = meshOriginal;
@@ -60,6 +62,16 @@ namespace TGC.Group.Model
         public void Dispose()
         {
             meshPez.Dispose();
+        }
+
+        public Boolean estoyCercaDePersonaje(Personaje personaje)
+        {
+            return FastMath.Sqrt(TGCVector3.LengthSq(personaje.Position - this.Position)) < radioCercaniaPersonaje;
+        }
+
+        public void disable()
+        {
+            meshPez.Enabled = false;
         }
 
         public float CurrentMoveDir { get => currentMoveDir; set => currentMoveDir = value; }

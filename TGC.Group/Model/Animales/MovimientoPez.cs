@@ -8,7 +8,7 @@ using TGC.Core.SceneLoader;
 namespace LosTiburones.Model
 {
     //Inferfaz que deberan usar los peces para moverse
-    interface MovimientoPez
+    public interface MovimientoPez
     {
         void mover(TgcMesh pez, float ElapsedTime);
     }
