@@ -210,27 +210,40 @@ namespace LosTiburones.Model
                             agregueItem = true;
                             y1 = y1 + 50;
                             break;
-                        case "SeaShell":
 
+                        case "SeaShell":
                             gui.InsertItem("SeaShell" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
                             y1 = y1 + 50;
                             break;
-                        case "Oro":
 
+                        case "Oro":
                             gui.InsertItem("Oro" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
                             y1 = y1 + 50;
                             break;
-                        case "Platino":
 
+                        case "Platino":
                             gui.InsertItem("Platino" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
                             y1 = y1 + 50;
                             break;
-                        case "Ruby":
 
+                        case "Ruby":
                             gui.InsertItem("Ruby" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+
+                        case "Pez Amarillo":
+
+                            gui.InsertItem("Pez Amarillo" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            y1 = y1 + 50;
+                            break;
+
+                        case "Pez Azul":
+                            gui.InsertItem("Pez Azul" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
                             y1 = y1 + 50;
                             break;
@@ -241,18 +254,21 @@ namespace LosTiburones.Model
                             gui.InsertButton(1, "Usar", x1 += 300, y1, 120, 60);
                             agregueItem = true;
                             break;
+
                         case "Botiquin":
                             item = gui.InsertImage("botiquinReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("+100 Salud" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             gui.InsertButton(2, "Usar", x1 += 300, y1, 120, 60);
                             agregueItem = true;
                             break;
+
                         case "Arma":
                             item = gui.InsertImage("ArponReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("Arpón" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             gui.InsertButton(3, "Usar", x1 += 300, y1, 120, 60);
                             agregueItem = true;
                             break;
+
                         case "RedPesca":
                             item = gui.InsertImage("RedPescaReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("Red de Pesca" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);

@@ -116,7 +116,11 @@ namespace TGC.Group.Model
             if (!ModoDios)
             {
                 this.health = this.health - danio;
-                if (this.Health <= 0) this.morite();
+                if (this.Health <= 0)
+                {
+                    this.morite();
+                    this.health = -1;
+                }
             }
         }
 
@@ -150,7 +154,11 @@ namespace TGC.Group.Model
             if (!ModoDios)
             {
                 this.oxygen = this.oxygen - oxigenoPerdido;
-                if (this.Oxygen <= 1) this.morite();
+                if (this.Oxygen <= 0)
+                {
+                    this.morite();
+                    this.oxygen = -1;
+                }
             }
         }
 

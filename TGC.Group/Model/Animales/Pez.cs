@@ -23,7 +23,7 @@ namespace TGC.Group.Model
         private float currentMoveDir;
         private float moveSpeed;
         private MovimientoPez movimiento;
-        private float radioCercaniaPersonaje = 200f;
+        private float radioCercaniaPersonaje = 250f;
 
 
         public Pez(TgcMesh meshOriginal, float currentMoveDir, float moveSpeed)

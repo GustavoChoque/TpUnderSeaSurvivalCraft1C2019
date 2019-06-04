@@ -26,6 +26,7 @@ using TGC.Group.Model.Quadtree;
 using TGC.Group.Model.Optimizacion;
 using TGC.Core.Text;
 using TGC.Core.Input;
+using LosTiburones.Model.CraftingInventario;
 
 namespace LosTiburones.Model
 {
@@ -119,6 +120,11 @@ namespace LosTiburones.Model
         private Quadtree quadtree;
         private Octree octree;
         private const int DESPLAZAMIENTO_EN_Y = 5260;
+
+        //////////////////////////////
+        private TgcText2D textoPesque;
+        private bool renderizoTextoPesque = false;
+        private float acumuloTiempo = 0;
 
         public void Init(GameModel gmodel)
         {
@@ -254,6 +260,12 @@ namespace LosTiburones.Model
             textoOxigeno.Size = new Size(100, 100);
             textoOxigeno.Color = Color.White;
 
+            textoPesque = new TgcText2D();
+            textoPesque.Text = "Pez capturado con exito!";
+            textoPesque.Align = TgcText2D.TextAlign.CENTER;
+            textoPesque.Position = new Point(width / 3, height / 2 + 20);
+            textoPesque.Size = new Size(500, 500);
+            textoPesque.Color = Color.LawnGreen;
         }
 
         private void configuroRedYArpon()
@@ -471,16 +483,36 @@ namespace LosTiburones.Model
 
                 if (pecesAmarillosCercaPersonaje.Count > 0 && (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT)))
                 {
-                    ////AGREGO EL PEZ AL INVENTARIO??? ////SUMO PUNTOS???
-                    pecesAmarillosCercaPersonaje.ForEach(pez => pez.disable());
+                    renderizoTextoPesque = true;
+                    acumuloTiempo = 0;
+                    pecesAmarillosCercaPersonaje.ForEach(pez => {
+                        pez.disable();
+                        pecesAmarillos.Remove(pez);
+                        pez.Dispose();
+                        GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventarioPezAmarillo());
+                    });
                 }
 
                 if (pecesAzulesCercaPersonaje.Count > 0 && (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT)))
                 {
-                    ////AGREGO EL PEZ AL INVENTARIO??? ////SUMO PUNTOS???
-                    pecesAzulesCercaPersonaje.ForEach(pez => pez.disable());
+
+                    renderizoTextoPesque = true;
+                    acumuloTiempo = 0;
+                    pecesAzulesCercaPersonaje.ForEach(pez => {
+                        pez.disable();
+                        pecesAzules.Remove(pez);
+                        pez.Dispose();
+                        GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventarioPezAzul());
+                    });
                 }
-            }            
+            }
+
+            //Muestro el mensaje de haber pescado por 2 segundos
+            acumuloTiempo = acumuloTiempo + GModel.ElapsedTime;
+            if (acumuloTiempo > 2 && renderizoTextoPesque)
+            {
+                renderizoTextoPesque = false;
+            }
         }
 
         public void Render()
@@ -646,6 +678,11 @@ namespace LosTiburones.Model
                 spriteDrawer.BeginDrawSprite();
                 spriteDrawer.DrawSprite(spriteRedPesca);
                 spriteDrawer.EndDrawSprite();
+            }
+
+            if (renderizoTextoPesque)
+            {
+                textoPesque.render();
             }
         }
 

@@ -110,6 +110,8 @@
     <Compile Include="Model\Animales\MovimientoPez.cs" />
     <Compile Include="Model\Animales\Pez.cs" />
     <Compile Include="Model\Animales\Tiburon.cs" />
+    <Compile Include="Model\CraftingInventario\ObjetoInventarioPezAmarillo.cs" />
+    <Compile Include="Model\CraftingInventario\ObjetoInventarioPezAzul.cs" />
     <Compile Include="Model\CraftingInventario\RedPesca.cs" />
     <Compile Include="Model\CraftingInventario\Arma.cs" />
     <Compile Include="Model\CraftingInventario\Inventario.cs" />
