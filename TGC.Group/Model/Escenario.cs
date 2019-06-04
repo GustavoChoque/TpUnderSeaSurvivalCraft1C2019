@@ -113,7 +113,7 @@ namespace LosTiburones.Model
         //-------------------
 
         //-------Shaders----------
-        private Effect efectoSuperficieAgua, efectoMetalico;
+        private Effect efectoSuperficieAgua, efectoMetalico, efectoNiebla;
         private float time;
         //---------------------
         private TgcScene objetosDelTerreno;
@@ -200,6 +200,7 @@ namespace LosTiburones.Model
             agua.Technique = "OleajeNormal";
             time = 0;
 
+            efectoNiebla = TGCShaders.Instance.LoadEffect(GModel.ShadersDir + "TgcFogShader.fx");
 
             efectoMetalico = TGCShaders.Instance.TgcMeshPhongShader;
 
@@ -546,8 +547,41 @@ namespace LosTiburones.Model
             time += GModel.ElapsedTime;
             efectoSuperficieAgua.SetValue("time", time);
 
+            //-----------
+            // Cargamos las variables de shader, color del fog.
+            efectoNiebla.SetValue("ColorFog", Color.SeaGreen.ToArgb());
+            efectoNiebla.SetValue("CameraPos", TGCVector3.Vector3ToFloat4Array(GModel.Camara.Position));
+            efectoNiebla.SetValue("StartFogDistance", 2000);
+            efectoNiebla.SetValue("EndFogDistance", 7000);
+            efectoNiebla.SetValue("Density", 0.0025f);
 
+            foreach (var mesh in skybox.Faces)
+            {
+                mesh.Effect = efectoNiebla;
+                mesh.Technique = "RenderScene";
+                //mesh.Render();
+            }
 
+            foreach (var mesh in objetosEstaticosEnArray)
+            {
+                mesh.Effect = efectoNiebla;
+                mesh.Technique = "RenderScene";
+
+            }
+
+            foreach (var mesh in objetosDelTerreno.Meshes)
+            {
+                mesh.Effect = efectoNiebla;
+                mesh.Technique = "RenderScene";
+
+            }
+
+            terreno.Effect = efectoNiebla;
+            terreno.Technique = "RenderScene";
+
+            piso.Effect = efectoNiebla;
+            piso.Technique = "RenderScene";
+            //----------
             var posLuz = new TGCVector3(-100, 500, 0);
 
             foreach (var mesh in barco.Meshes)

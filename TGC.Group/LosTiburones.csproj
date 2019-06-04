@@ -215,6 +215,9 @@
   <ItemGroup>
     <Folder Include="Media\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Shaders\TgcFogShader.fx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
