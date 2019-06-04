@@ -79,16 +79,19 @@ namespace TGC.Group.Model
         {
             var Input = this.gmodel.Input;
 
-            //-----------crafteo------------
-            if (workbenchCerca(gmodel.Escenario.Workbench) && Input.keyPressed(Key.C) && !gmodel.InterfazInventario.Activo)
+            if (vivo)
             {
-                gmodel.InterfazCrafting.activar();
-            }
+                //-----------crafteo------------
+                if (workbenchCerca(gmodel.Escenario.Workbench) && Input.keyPressed(Key.C) && !gmodel.InterfazInventario.Activo)
+                {
+                    gmodel.InterfazCrafting.activar();
+                }
 
-            //inventario
-            if (Input.keyPressed(Key.I) && !gmodel.InterfazCrafting.Activo)
-            {
-                gmodel.InterfazInventario.activar();
+                //inventario
+                if (Input.keyPressed(Key.I) && !gmodel.InterfazCrafting.Activo)
+                {
+                    gmodel.InterfazInventario.activar();
+                }
             }
         }
         public void Render()
@@ -119,7 +122,7 @@ namespace TGC.Group.Model
                 if (this.Health <= 0)
                 {
                     this.morite();
-                    this.health = -1;
+                    this.health = 0;
                 }
             }
         }
@@ -157,7 +160,7 @@ namespace TGC.Group.Model
                 if (this.Oxygen <= 0)
                 {
                     this.morite();
-                    this.oxygen = -1;
+                    this.oxygen = 0;
                 }
             }
         }

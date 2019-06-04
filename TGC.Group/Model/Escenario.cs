@@ -303,89 +303,139 @@ namespace LosTiburones.Model
             director.Normalize();
             var strength = 50f;
             //if (GModel.Input.keyDown(Key.UpArrow))
-            if (GModel.Input.keyDown(Key.W))
+
+            //SI ME MUERO NO ME MUEVO
+            if (GModel.Personaje.Vivo)
             {
+                if (GModel.Input.keyDown(Key.W))
+                {
 
-                //muevo el rigidsegun a donde miro
+                    //muevo el rigidsegun a donde miro
 
-                rigidCamera.ActivationState = ActivationState.ActiveTag;
+                    rigidCamera.ActivationState = ActivationState.ActiveTag;
 
-                rigidCamera.ApplyCentralImpulse(strength * director.ToBulletVector3());
+                    rigidCamera.ApplyCentralImpulse(strength * director.ToBulletVector3());
 
+                }
+                if (GModel.Input.keyUp(Key.W))
+                {
+                    //para detener el rigid
+                    //op1
+                    rigidCamera.ActivationState = ActivationState.IslandSleeping;
+                    //op2
+                    //rigidCamera.ActivationState = ActivationState.DisableSimulation;
+                }
+
+                if (GModel.Input.keyDown(Key.A))
+                {
+
+                    //muevo el rigidsegun a donde miro
+
+                    rigidCamera.ActivationState = ActivationState.ActiveTag;
+
+                    var miIzquierda = new TGCVector3();
+                    miIzquierda.X = director.X * FastMath.Cos(FastMath.PI_HALF) - director.Z * FastMath.Sin(FastMath.PI_HALF);
+                    miIzquierda.Z = director.X * FastMath.Sin(FastMath.PI_HALF) + director.Z * FastMath.Cos(FastMath.PI_HALF);
+
+                    rigidCamera.ApplyCentralImpulse(strength * miIzquierda.ToBulletVector3());
+
+                }
+                if (GModel.Input.keyUp(Key.A))
+                {
+                    //para detener el rigid
+                    //op1
+                    rigidCamera.ActivationState = ActivationState.IslandSleeping;
+                    //op2
+                    //rigidCamera.ActivationState = ActivationState.DisableSimulation;
+                }
+
+                if (GModel.Input.keyDown(Key.D))
+                {
+
+                    //muevo el rigidsegun a donde miro
+
+                    rigidCamera.ActivationState = ActivationState.ActiveTag;
+
+                    var miDerecha = new TGCVector3();
+                    miDerecha.X = director.X * FastMath.Cos(FastMath.PI + FastMath.PI_HALF) - director.Z * FastMath.Sin(FastMath.PI + FastMath.PI_HALF);
+                    miDerecha.Z = director.X * FastMath.Sin(FastMath.PI + FastMath.PI_HALF) + director.Z * FastMath.Cos(FastMath.PI + FastMath.PI_HALF);
+
+                    rigidCamera.ApplyCentralImpulse(strength * miDerecha.ToBulletVector3());
+
+                }
+                if (GModel.Input.keyUp(Key.D))
+                {
+                    //para detener el rigid
+                    //op1
+                    rigidCamera.ActivationState = ActivationState.IslandSleeping;
+                    //op2
+                    //rigidCamera.ActivationState = ActivationState.DisableSimulation;
+                }
+
+                //if (GModel.Input.keyDown(Key.DownArrow))
+                if (GModel.Input.keyDown(Key.S))
+                {
+
+                    //muevo el rigidsegun a donde miro
+                    rigidCamera.ActivationState = ActivationState.ActiveTag;
+                    rigidCamera.ApplyCentralImpulse(-strength * director.ToBulletVector3());
+
+                }
+                if (GModel.Input.keyUp(Key.S))
+                {
+                    //para detener el rigid
+                    //op1
+                    rigidCamera.ActivationState = ActivationState.IslandSleeping;
+                    //op2
+                    //rigidCamera.ActivationState = ActivationState.DisableSimulation;
+                }
+                //-----------------------
+
+                //God Mode toggle on/off
+                if (Input.keyPressed(Key.G))
+                {
+                    GModel.Personaje.ModoDios = !GModel.Personaje.ModoDios;
+                }
+
+                /////////PESCO
+                if (GModel.Personaje.UsoRedPesca)
+                {
+                    pecesAmarillosCercaPersonaje = pecesAmarillos.FindAll(pez => pez.estoyCercaDePersonaje(GModel.Personaje));
+                    pecesAzulesCercaPersonaje = pecesAzules.FindAll(pez => pez.estoyCercaDePersonaje(GModel.Personaje));
+
+                    if (pecesAmarillosCercaPersonaje.Count > 0 && (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT)))
+                    {
+                        renderizoTextoPesque = true;
+                        acumuloTiempo = 0;
+                        pecesAmarillosCercaPersonaje.ForEach(pez => {
+                            pez.disable();
+                            pecesAmarillos.Remove(pez);
+                            pez.Dispose();
+                            GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventarioPezAmarillo());
+                        });
+                    }
+
+                    if (pecesAzulesCercaPersonaje.Count > 0 && (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT)))
+                    {
+
+                        renderizoTextoPesque = true;
+                        acumuloTiempo = 0;
+                        pecesAzulesCercaPersonaje.ForEach(pez => {
+                            pez.disable();
+                            pecesAzules.Remove(pez);
+                            pez.Dispose();
+                            GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventarioPezAzul());
+                        });
+                    }
+                }
+
+                //Muestro el mensaje de haber pescado por 2 segundos
+                acumuloTiempo = acumuloTiempo + GModel.ElapsedTime;
+                if (acumuloTiempo > 2 && renderizoTextoPesque)
+                {
+                    renderizoTextoPesque = false;
+                }
             }
-            if (GModel.Input.keyUp(Key.W))
-            {
-                //para detener el rigid
-                //op1
-                rigidCamera.ActivationState = ActivationState.IslandSleeping;
-                //op2
-                //rigidCamera.ActivationState = ActivationState.DisableSimulation;
-            }
-
-            if (GModel.Input.keyDown(Key.A))
-            {
-
-                //muevo el rigidsegun a donde miro
-
-                rigidCamera.ActivationState = ActivationState.ActiveTag;
-
-                var miIzquierda = new TGCVector3();
-                miIzquierda.X = director.X * FastMath.Cos(FastMath.PI_HALF) - director.Z * FastMath.Sin(FastMath.PI_HALF);
-                miIzquierda.Z = director.X * FastMath.Sin(FastMath.PI_HALF) + director.Z * FastMath.Cos(FastMath.PI_HALF);
-
-                rigidCamera.ApplyCentralImpulse(strength * miIzquierda.ToBulletVector3());
-
-            }
-            if (GModel.Input.keyUp(Key.A))
-            {
-                //para detener el rigid
-                //op1
-                rigidCamera.ActivationState = ActivationState.IslandSleeping;
-                //op2
-                //rigidCamera.ActivationState = ActivationState.DisableSimulation;
-            }
-
-            if (GModel.Input.keyDown(Key.D))
-            {
-
-                //muevo el rigidsegun a donde miro
-
-                rigidCamera.ActivationState = ActivationState.ActiveTag;
-
-                var miDerecha = new TGCVector3();
-                miDerecha.X = director.X * FastMath.Cos(FastMath.PI + FastMath.PI_HALF) - director.Z * FastMath.Sin(FastMath.PI + FastMath.PI_HALF);
-                miDerecha.Z = director.X * FastMath.Sin(FastMath.PI + FastMath.PI_HALF) + director.Z * FastMath.Cos(FastMath.PI + FastMath.PI_HALF);
-
-                rigidCamera.ApplyCentralImpulse(strength * miDerecha.ToBulletVector3());
-
-            }
-            if (GModel.Input.keyUp(Key.D))
-            {
-                //para detener el rigid
-                //op1
-                rigidCamera.ActivationState = ActivationState.IslandSleeping;
-                //op2
-                //rigidCamera.ActivationState = ActivationState.DisableSimulation;
-            }
-
-            //if (GModel.Input.keyDown(Key.DownArrow))
-            if (GModel.Input.keyDown(Key.S))
-            {
-
-                //muevo el rigidsegun a donde miro
-                rigidCamera.ActivationState = ActivationState.ActiveTag;
-                rigidCamera.ApplyCentralImpulse(-strength * director.ToBulletVector3());
-
-            }
-            if (GModel.Input.keyUp(Key.S))
-            {
-                //para detener el rigid
-                //op1
-                rigidCamera.ActivationState = ActivationState.IslandSleeping;
-                //op2
-                //rigidCamera.ActivationState = ActivationState.DisableSimulation;
-            }
-            //-----------------------
 
             //Music toggle on/off
             if (Input.keyPressed(Key.P))
@@ -406,11 +456,7 @@ namespace LosTiburones.Model
                 }
             }
 
-            //God Mode toggle on/off
-            if (Input.keyPressed(Key.G))
-            {
-                GModel.Personaje.ModoDios = !GModel.Personaje.ModoDios;
-            }
+            
 
             //Reseteo el juego si apreto R
             //if (Input.keyPressed(Key.R))
@@ -474,45 +520,6 @@ namespace LosTiburones.Model
 
             textoOxigeno.Text = ((int)Math.Round(GModel.Personaje.Oxygen)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxOxygen)).ToString();
             textoVida.Text = ((int)Math.Round(GModel.Personaje.Health)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxHealth)).ToString();
-
-            /////////PESCO
-            if (GModel.Personaje.UsoRedPesca)
-            {
-                pecesAmarillosCercaPersonaje = pecesAmarillos.FindAll(pez => pez.estoyCercaDePersonaje(GModel.Personaje));
-                pecesAzulesCercaPersonaje = pecesAzules.FindAll(pez => pez.estoyCercaDePersonaje(GModel.Personaje));
-
-                if (pecesAmarillosCercaPersonaje.Count > 0 && (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT)))
-                {
-                    renderizoTextoPesque = true;
-                    acumuloTiempo = 0;
-                    pecesAmarillosCercaPersonaje.ForEach(pez => {
-                        pez.disable();
-                        pecesAmarillos.Remove(pez);
-                        pez.Dispose();
-                        GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventarioPezAmarillo());
-                    });
-                }
-
-                if (pecesAzulesCercaPersonaje.Count > 0 && (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT)))
-                {
-
-                    renderizoTextoPesque = true;
-                    acumuloTiempo = 0;
-                    pecesAzulesCercaPersonaje.ForEach(pez => {
-                        pez.disable();
-                        pecesAzules.Remove(pez);
-                        pez.Dispose();
-                        GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventarioPezAzul());
-                    });
-                }
-            }
-
-            //Muestro el mensaje de haber pescado por 2 segundos
-            acumuloTiempo = acumuloTiempo + GModel.ElapsedTime;
-            if (acumuloTiempo > 2 && renderizoTextoPesque)
-            {
-                renderizoTextoPesque = false;
-            }
         }
 
         public void Render()
@@ -879,12 +886,12 @@ namespace LosTiburones.Model
             }
             else
             {
-                if (personaje.Health < 0)
+                if (personaje.Health <= 0)
                 {
                     spriteRellenoVida.Scaling = new TGCVector2(.75f, .0f);
                 }
 
-                if (personaje.Oxygen < 0)
+                if (personaje.Oxygen <= 0)
                 {
                     spriteRellenoOxigeno.Scaling = new TGCVector2(.75f, .0f);
                 }
