@@ -452,7 +452,7 @@ namespace LosTiburones.Model
                         var meshArpon = arponMesh.createMeshInstance(arponMesh.Name + "_" + arponSeq);
                         var arponRigidBody = BulletRigidBodyFactory.Instance.CreateCapsule(10f, 500f, posicionArpon, 1000f, false);
                         
-                        arponRigidBody.LinearVelocity = dir * 1000;
+                        arponRigidBody.LinearVelocity = dir * 5000f;
                         arponRigidBody.LinearFactor = TGCVector3.One.ToBulletVector3();
 
                         var arponPosta = new Arpon(meshArpon, arponRigidBody, posicionArpon, GModel, new TGCVector3(dir.X, dir.Y, dir.Z));
