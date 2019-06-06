@@ -43,18 +43,26 @@ namespace LosTiburones.Model.CraftingInventario
 
         public void Update()
         {
-            tiempoAcumulado = tiempoAcumulado + gmodel.ElapsedTime;
-            Position = new TGCVector3(RigidBody.CenterOfMassPosition.X, RigidBody.CenterOfMassPosition.Y, RigidBody.CenterOfMassPosition.Z);
-            Mesh.Scale = new TGCVector3(1f, 1f, 1f);
+                tiempoAcumulado = tiempoAcumulado + gmodel.ElapsedTime;
+                Position = new TGCVector3(RigidBody.CenterOfMassPosition.X, RigidBody.CenterOfMassPosition.Y, RigidBody.CenterOfMassPosition.Z);
+                Mesh.Scale = new TGCVector3(1f, 1f, 1f);
 
-            var dirMeshInicial = new TGCVector3(0, 0, 1);
+                var dirMeshInicial = new TGCVector3(1, 0, 1);
 
-            var numerador = TGCVector3.Dot(Direction, dirMeshInicial);
-            float denominador = TGCVector3.Length(Direction) * TGCVector3.Length(dirMeshInicial);
+                var numerador = TGCVector3.Dot(Direction, dirMeshInicial);
+                float denominador = TGCVector3.Length(Direction) * TGCVector3.Length(dirMeshInicial);
 
-            var theta = FastMath.Acos(numerador / denominador);
+                var theta = FastMath.Acos(numerador / denominador);
 
-            Mesh.Transform = TGCMatrix.Scaling(Mesh.Scale) * TGCMatrix.RotationYawPitchRoll(theta, FastMath.PI_HALF, 0) * TGCMatrix.Translation(Mesh.Position);
+                Mesh.Transform = TGCMatrix.Scaling(Mesh.Scale) * TGCMatrix.RotationYawPitchRoll(0, FastMath.PI_HALF, 0) * TGCMatrix.Translation(Mesh.Position);
+        }
+
+        public void Render()
+        {
+            if (gmodel.Personaje.estaCercaArpon(this))
+            {
+                meshArpon.Render();
+            }
         }
     }
 }

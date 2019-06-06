@@ -444,14 +444,14 @@ namespace LosTiburones.Model
                 {
                     if (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
                     {
-                        arponSeq = arponSeq + 1;
-                        var posicionArpon = new TGCVector3(GModel.Camara.Position.X, GModel.Camara.Position.Y, GModel.Camara.Position.Z);
-                        var meshArpon = arponMesh.createMeshInstance(arponMesh.Name + "_" + arponSeq);
-                        var arponRigidBody = BulletRigidBodyFactory.Instance.CreateBall(5f, 2000f, posicionArpon);
-
                         var dir = new TGCVector3(GModel.Camara.LookAt.X - GModel.Camara.Position.X, GModel.Camara.LookAt.Y - GModel.Camara.Position.Y, GModel.Camara.LookAt.Z - GModel.Camara.Position.Z).ToBulletVector3();
                         dir.Normalize();
 
+                        arponSeq = arponSeq + 1;
+                        var posicionArpon = new TGCVector3(dir.X * 10 + GModel.Camara.Position.X, dir.Y * 10 + GModel.Camara.Position.Y, dir.Z * 10 + GModel.Camara.Position.Z);
+                        var meshArpon = arponMesh.createMeshInstance(arponMesh.Name + "_" + arponSeq);
+                        var arponRigidBody = BulletRigidBodyFactory.Instance.CreateCapsule(20f, 500f, posicionArpon, 2000f, false);
+                        
                         arponRigidBody.LinearVelocity = dir * 1000;
                         arponRigidBody.LinearFactor = TGCVector3.One.ToBulletVector3();
 
@@ -768,10 +768,7 @@ namespace LosTiburones.Model
             ///////////////////////////ARPONES
             arpones.ForEach(arpon => {
 
-                if (GModel.Personaje.estaCercaArpon(arpon))
-                {
-                    arpon.Mesh.Render();
-                }
+                arpon.Render();
 
             });
         }

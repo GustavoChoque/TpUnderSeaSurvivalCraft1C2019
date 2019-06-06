@@ -198,7 +198,7 @@ namespace TGC.Group.Model
 
         public bool estaCercaArpon(Arpon arpon)
         {
-            var posicionArpon = new TGCVector3(arpon.RigidBody.CenterOfMassPosition.X, arpon.RigidBody.CenterOfMassPosition.Y, arpon.RigidBody.CenterOfMassPosition.Z);
+            var posicionArpon = new TGCVector3(arpon.Mesh.Position.X, arpon.Mesh.Position.Y, arpon.Mesh.Position.Z);
             return FastMath.Sqrt(TGCVector3.LengthSq(posicionArpon - Position)) < distanciaVisibilidadArpones;
         }
     }
