@@ -454,8 +454,8 @@ namespace LosTiburones.Model
 
                         arponRigidBody.LinearVelocity = dir * 1000;
                         arponRigidBody.LinearFactor = TGCVector3.One.ToBulletVector3();
-                        
-                        var arponPosta = new Arpon(meshArpon, arponRigidBody, posicionArpon);
+
+                        var arponPosta = new Arpon(meshArpon, arponRigidBody, posicionArpon, GModel, new TGCVector3(dir.X, dir.Y, dir.Z));
                         arpones.Add(arponPosta);
                         dynamicsWorld.AddRigidBody(arponPosta.RigidBody);
                     }
