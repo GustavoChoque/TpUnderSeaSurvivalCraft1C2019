@@ -15,7 +15,6 @@ namespace LosTiburones.Model.CraftingInventario
         private TgcMesh meshArpon;
         private RigidBody rigidBodyArpon;
         private GameModel gmodel;
-        //private float tiempoAcumulado = 0;
         private TGCVector3 direccion;
 
         public Arpon(TgcMesh meshArpon, RigidBody rigidBodyArpon, TGCVector3 posicion, GameModel gmodel, TGCVector3 direccion)
@@ -43,9 +42,8 @@ namespace LosTiburones.Model.CraftingInventario
 
         public void Update()
         {
-                //tiempoAcumulado = tiempoAcumulado + gmodel.ElapsedTime;
                 Position = new TGCVector3(RigidBody.CenterOfMassPosition.X, RigidBody.CenterOfMassPosition.Y, RigidBody.CenterOfMassPosition.Z);
-                Mesh.Scale = new TGCVector3(1f, 1f, 1f);
+                Mesh.Scale = new TGCVector3(1f, 1f, .75f);
 
                 var dirMeshInicial = new TGCVector3(0, 0, 1);
 
@@ -62,7 +60,9 @@ namespace LosTiburones.Model.CraftingInventario
                 theta = FastMath.Acos(-numerador / denominador) + FastMath.PI;
             }
 
-            Mesh.Transform = TGCMatrix.Scaling(Mesh.Scale) * TGCMatrix.RotationYawPitchRoll(theta, FastMath.PI_HALF, 0) * TGCMatrix.Translation(Mesh.Position);
+            float gamma = FastMath.Acos(Direccion.Y);
+
+            Mesh.Transform = TGCMatrix.Scaling(Mesh.Scale) * TGCMatrix.RotationYawPitchRoll(theta, gamma, 0) * TGCMatrix.Translation(Mesh.Position);
         }
 
         public void Render()

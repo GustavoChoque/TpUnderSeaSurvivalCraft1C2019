@@ -585,11 +585,13 @@ namespace LosTiburones.Model
                 theta = FastMath.Acos(-numerador / denominador) + FastMath.PI;
             }
 
-            //Dibuja un texto por pantalla
+            float gamma = FastMath.Acos(dir.Y);
+
             GModel.DrawText.drawText("Posicion Camara: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 20, Color.OrangeRed);
             GModel.DrawText.drawText("LookAt: " + TGCVector3.PrintVector3(GModel.Camara.LookAt), 0, 30, Color.OrangeRed);
             GModel.DrawText.drawText("Direction (LookAt - Posicion): " + TGCVector3.PrintVector3(dir), 0, 40, Color.OrangeRed);
             GModel.DrawText.drawText("Theta entre Direction y Z: " + theta, 0, 50, Color.OrangeRed);
+            GModel.DrawText.drawText("Gamma entre Direction y Z: " + gamma, 0, 60, Color.OrangeRed);
 
             //BULLET DEBUG: Le indico a bullet que Dibuje las lineas de debug.
             //ATENCION: COMENTAR ESTA LINEA SI NO SE DESEA DEBUGEAR BULLET
