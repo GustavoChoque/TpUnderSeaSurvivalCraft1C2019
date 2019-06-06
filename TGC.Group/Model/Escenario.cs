@@ -27,6 +27,7 @@ using TGC.Group.Model.Optimizacion;
 using TGC.Core.Text;
 using TGC.Core.Input;
 using LosTiburones.Model.CraftingInventario;
+using LosTiburones.Model.Animales;
 
 namespace LosTiburones.Model
 {
@@ -285,24 +286,17 @@ namespace LosTiburones.Model
 
         public void Update()
         {
-            //Capturar Input teclado
-            //if (Input.keyPressed(Key.F))
-            //{
-            //    BoundingBox = !BoundingBox;
-            //}
-
             var Input = this.GModel.Input;
 
             //-------Fisica----------
             dynamicsWorld.StepSimulation(1 / 60f, 100);
-
 
             ContactoTiburonCallback tiburonCallback = new ContactoTiburonCallback(this.tiburon, this.GModel.Personaje);
             dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, tiburonCallback);
 
             arpones.ForEach(arpon => {
 
-                //dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon, arponCallback);
+                dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, this.Tiburon));
 
             });
 
@@ -1897,6 +1891,8 @@ namespace LosTiburones.Model
 
             return H - DESPLAZAMIENTO_EN_Y;
         }
+
+        public Tiburon Tiburon { get => tiburon; }
 
     }
 }

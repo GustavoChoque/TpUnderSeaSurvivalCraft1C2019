@@ -13,7 +13,7 @@ using TGC.Group.Model;
 
 namespace LosTiburones.Model
 {
-    class Tiburon
+    public class Tiburon
     {
         private GameModel gmodel;
         private TgcMesh mesh;
@@ -30,6 +30,8 @@ namespace LosTiburones.Model
         private Boolean loEstoyPersiguiendo = false;
         private RigidBody cuerpoRigido;
         private float fuerzaMordida = 5f;
+        private bool enabled = true;
+        private float energia = 100;
 
         public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
@@ -163,21 +165,39 @@ namespace LosTiburones.Model
 
         public void Render()
         {
-            //Logica de mover y rotar 90 grados la capsula de cuerpo Rigido
-            this.mesh.RotateZ(Geometry.DegreeToRadian(90f));
-            this.mesh.UpdateMeshTransform();
-            TGCMatrix transform = new TGCMatrix(this.mesh.Transform);
-            var bulletTransform = transform.ToBsMatrix;
-            CuerpoRigido.MotionState.SetWorldTransform(ref bulletTransform);
-            this.mesh.RotateZ(-(Geometry.DegreeToRadian(90f)));
-            this.mesh.UpdateMeshTransform();
-            
-            this.mesh.Render();
+            if (enabled)
+            {
+                //Logica de mover y rotar 90 grados la capsula de cuerpo Rigido
+                this.mesh.RotateZ(Geometry.DegreeToRadian(90f));
+                this.mesh.UpdateMeshTransform();
+                TGCMatrix transform = new TGCMatrix(this.mesh.Transform);
+                var bulletTransform = transform.ToBsMatrix;
+                CuerpoRigido.MotionState.SetWorldTransform(ref bulletTransform);
+                this.mesh.RotateZ(-(Geometry.DegreeToRadian(90f)));
+                this.mesh.UpdateMeshTransform();
+
+                this.mesh.Render();
+            }
         }
 
         public void Dispose()
         {
             this.mesh.Dispose();
+        }
+
+        public void morite()
+        {
+            this.enabled = false;
+        }
+
+        public void sufriDanio()
+        {
+            this.energia = this.energia - 100;
+
+            if (this.energia <= 0)
+            {
+                this.morite();
+            }
         }
 
         public TGCMatrix Transform { get => mesh.Transform; set => mesh.Transform = value; }

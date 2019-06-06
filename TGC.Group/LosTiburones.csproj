@@ -105,6 +105,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
+    <Compile Include="Model\Animales\ContactoTiburonArponCallback.cs" />
     <Compile Include="Model\Animales\ContactoTiburonCallback.cs" />
     <Compile Include="Model\Animales\MovimientoCircular.cs" />
     <Compile Include="Model\Animales\MovimientoPez.cs" />
