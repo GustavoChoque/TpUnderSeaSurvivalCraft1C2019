@@ -450,7 +450,7 @@ namespace LosTiburones.Model
                         arponSeq = arponSeq + 1;
                         var posicionArpon = new TGCVector3(dir.X * 10 + GModel.Camara.Position.X, dir.Y * 10 + GModel.Camara.Position.Y, dir.Z * 10 + GModel.Camara.Position.Z);
                         var meshArpon = arponMesh.createMeshInstance(arponMesh.Name + "_" + arponSeq);
-                        var arponRigidBody = BulletRigidBodyFactory.Instance.CreateCapsule(20f, 500f, posicionArpon, 2000f, false);
+                        var arponRigidBody = BulletRigidBodyFactory.Instance.CreateCapsule(10f, 500f, posicionArpon, 1000f, false);
                         
                         arponRigidBody.LinearVelocity = dir * 1000;
                         arponRigidBody.LinearFactor = TGCVector3.One.ToBulletVector3();
@@ -564,10 +564,32 @@ namespace LosTiburones.Model
 
         public void Render()
         {
+            ///DEBUGGING DE LANZAMIENTO DE ARPON
+            var dir = new TGCVector3(GModel.Camara.LookAt.X - GModel.Camara.Position.X, GModel.Camara.LookAt.Y - GModel.Camara.Position.Y, GModel.Camara.LookAt.Z - GModel.Camara.Position.Z);
+            dir.Normalize();
+
+            //VECTOR EN Z
+            var dirMeshInicial = new TGCVector3(0, 0, 1);
+
+            //CALCULO ANGULO
+            var numerador = TGCVector3.Dot(dir, dirMeshInicial);
+            var denominador = TGCVector3.Length(dir) * TGCVector3.Length(dirMeshInicial);
+
+            float theta;
+            if (dir.X > 0)
+            {
+                theta = FastMath.Acos(numerador / denominador);
+            }
+            else
+            {
+                theta = FastMath.Acos(-numerador / denominador) + FastMath.PI;
+            }
+
             //Dibuja un texto por pantalla
-            //DrawText.drawText("Con la tecla F se dibuja el bounding box.", 0, 20, Color.OrangeRed);
-            //GModel.DrawText.drawText("Con la tecla P se activa o desactiva la música.", 0, 30, Color.OrangeRed);
-            GModel.DrawText.drawText("Con clic izquierdo subimos la camara [Actual]: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 40, Color.OrangeRed);
+            GModel.DrawText.drawText("Posicion Camara: " + TGCVector3.PrintVector3(GModel.Camara.Position), 0, 20, Color.OrangeRed);
+            GModel.DrawText.drawText("LookAt: " + TGCVector3.PrintVector3(GModel.Camara.LookAt), 0, 30, Color.OrangeRed);
+            GModel.DrawText.drawText("Direction (LookAt - Posicion): " + TGCVector3.PrintVector3(dir), 0, 40, Color.OrangeRed);
+            GModel.DrawText.drawText("Theta entre Direction y Z: " + theta, 0, 50, Color.OrangeRed);
 
             //BULLET DEBUG: Le indico a bullet que Dibuje las lineas de debug.
             //ATENCION: COMENTAR ESTA LINEA SI NO SE DESEA DEBUGEAR BULLET
