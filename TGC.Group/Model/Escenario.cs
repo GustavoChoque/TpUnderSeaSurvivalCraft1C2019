@@ -39,8 +39,6 @@ namespace LosTiburones.Model
         //private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
 
         private TgcMesh workbench;
-        //private TgcMesh redPesca;
-        //private TgcMesh arpon;
 
         private CustomSprite spriteArpon = new CustomSprite();
         private CustomSprite spriteRedPesca = new CustomSprite();
@@ -64,8 +62,6 @@ namespace LosTiburones.Model
         private List<Pez> pecesAzules = new List<Pez>();
         private List<Pez> pecesAmarillosCercaPersonaje = new List<Pez>();
         private List<Pez> pecesAzulesCercaPersonaje = new List<Pez>();
-
-        //private Pez pezCircular;
 
         private Tiburon tiburon;
 
@@ -93,8 +89,6 @@ namespace LosTiburones.Model
         private int ScreenWidth = D3DDevice.Instance.Device.Viewport.Width;
         private int ScreenHeight = D3DDevice.Instance.Device.Viewport.Height;
 
-        //private Personaje personaje = new Personaje(100, 100);
-
         //-----------Fisica-------------------
         private RigidBody rigidCamera;
 
@@ -106,9 +100,6 @@ namespace LosTiburones.Model
 
         TGCVector3 posicionInicial = new TGCVector3(600, 10, -250);
         TgcFpsCamera camaraInterna;
-
-        //----------BULLET DEBUG: DebugDrawer para Bullet
-        private DebugDraw debugDrawer;
         
         //-------------------
 
@@ -117,7 +108,7 @@ namespace LosTiburones.Model
         private float time;
         //---------------------
         private TgcScene objetosDelTerreno;
-        private Quadtree quadtree;
+        //private Quadtree quadtree;
         private Octree octree;
         private const int DESPLAZAMIENTO_EN_Y = 5260;
 
@@ -125,6 +116,11 @@ namespace LosTiburones.Model
         private TgcText2D textoPesque;
         private bool renderizoTextoPesque = false;
         private float acumuloTiempo = 0;
+
+        //////////////////////////////
+        private List<Arpon> arpones = new List<Arpon>();
+        private TgcMesh arponMesh;
+        private Int64 arponSeq = 0;
 
         public void Init(GameModel gmodel)
         {
@@ -243,8 +239,8 @@ namespace LosTiburones.Model
 
             //BULLET DEBUG: Debug para Bullet (Commentar estas lineas si NO se desea Debugear)
             //-------------Start Bullet Debug Config----------------
-            debugDrawer = new ADebugDrawer(DebugDrawModes.DrawWireframe);
-            dynamicsWorld.DebugDrawer = debugDrawer;
+            //debugDrawer = new ADebugDrawer(DebugDrawModes.DrawWireframe);
+            //dynamicsWorld.DebugDrawer = debugDrawer;
             //-------------End Bullet Debug Config------------------
 
             textoVida = new TgcText2D();
@@ -267,6 +263,11 @@ namespace LosTiburones.Model
             textoPesque.Position = new Point(width / 3, height / 2 + 20);
             textoPesque.Size = new Size(500, 500);
             textoPesque.Color = Color.LawnGreen;
+
+            ////////////////////////USAR OTRO MESH PARA EL ARPON
+            //sphereMesh = new TGCSphere(1, Color.Red, TGCVector3.Empty);
+            //Tgc no crea el vertex buffer hasta invocar a update values.
+            //sphereMesh.updateValues();
         }
 
         private void configuroRedYArpon()
@@ -298,6 +299,14 @@ namespace LosTiburones.Model
 
             ContactoTiburonCallback tiburonCallback = new ContactoTiburonCallback(this.tiburon, this.GModel.Personaje);
             dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, tiburonCallback);
+
+            arpones.ForEach(arpon => {
+
+                //dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon, arponCallback);
+
+            });
+
+            //dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, )
 
             //----------------
             var director = GModel.Camara.LookAt - GModel.Camara.Position; //new TGCVector3(1,0,0);
@@ -430,12 +439,36 @@ namespace LosTiburones.Model
                     }
                 }
 
-                //Muestro el mensaje de haber pescado por 2 segundos
-                acumuloTiempo = acumuloTiempo + GModel.ElapsedTime;
+                /////////ATACO
+                if (GModel.Personaje.UsoArma)
+                {
+                    if (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
+                    {
+                        arponSeq = arponSeq + 1;
+                        var posicionArpon = new TGCVector3(GModel.Camara.Position.X, GModel.Camara.Position.Y, GModel.Camara.Position.Z);
+                        var meshArpon = arponMesh.createMeshInstance(arponMesh.Name + "_" + arponSeq);
+                        var arponRigidBody = BulletRigidBodyFactory.Instance.CreateBall(5f, 2000f, posicionArpon);
+
+                        var dir = new TGCVector3(GModel.Camara.LookAt.X - GModel.Camara.Position.X, GModel.Camara.LookAt.Y - GModel.Camara.Position.Y, GModel.Camara.LookAt.Z - GModel.Camara.Position.Z).ToBulletVector3();
+                        dir.Normalize();
+
+                        arponRigidBody.LinearVelocity = dir * 1000;
+                        arponRigidBody.LinearFactor = TGCVector3.One.ToBulletVector3();
+                        
+                        var arponPosta = new Arpon(meshArpon, arponRigidBody, posicionArpon);
+                        arpones.Add(arponPosta);
+                        dynamicsWorld.AddRigidBody(arponPosta.RigidBody);
+                    }
+                }
+
+                    //Muestro el mensaje de haber pescado por 2 segundos
+                    acumuloTiempo = acumuloTiempo + GModel.ElapsedTime;
                 if (acumuloTiempo > 2 && renderizoTextoPesque)
                 {
                     renderizoTextoPesque = false;
                 }
+
+
             }
 
             //Music toggle on/off
@@ -521,6 +554,12 @@ namespace LosTiburones.Model
 
             textoOxigeno.Text = ((int)Math.Round(GModel.Personaje.Oxygen)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxOxygen)).ToString();
             textoVida.Text = ((int)Math.Round(GModel.Personaje.Health)).ToString() + "/" + ((int)Math.Round(GModel.Personaje.MaxHealth)).ToString();
+
+            arpones.ForEach(arpon => {
+
+                arpon.Update();
+
+            });
         }
 
         public void Render()
@@ -725,6 +764,16 @@ namespace LosTiburones.Model
             {
                 textoPesque.render();
             }
+
+            ///////////////////////////ARPONES
+            arpones.ForEach(arpon => {
+
+                if (GModel.Personaje.estaCercaArpon(arpon))
+                {
+                    arpon.Mesh.Render();
+                }
+
+            });
         }
 
         public void Dispose()
@@ -779,7 +828,7 @@ namespace LosTiburones.Model
             objetosRecolectables.ForEach(obj => obj.Dispose());
 
             //BULLET DEBUG: Libero el DebugDrawer
-            debugDrawer.Dispose();
+            //debugDrawer.Dispose();
 
 
             workbench.Dispose();
@@ -790,6 +839,8 @@ namespace LosTiburones.Model
 
             spriteArpon.Dispose();
             spriteRedPesca.Dispose();
+
+            arpones.ForEach(obj => obj.Dispose());
         }
 
 
@@ -1101,7 +1152,7 @@ namespace LosTiburones.Model
 
             //redPesca = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\RedPesca\\RedPesca-TgcScene.xml").Meshes[0];
 
-            //arpon = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\Arpon1\\Arpon1-TgcScene.xml").Meshes[0];
+            arponMesh = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\Arpon\\Arpon-TgcScene.xml").Meshes[0];
         }
 
         private void generoObjetosEstaticosSueltos()

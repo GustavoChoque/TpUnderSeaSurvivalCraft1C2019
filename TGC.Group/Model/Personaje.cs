@@ -8,6 +8,8 @@ using Microsoft.DirectX.DirectInput;
 using TGC.Core.SceneLoader;
 using LosTiburones.Model;
 using TGC.Core.Geometry;
+using BulletSharp;
+using LosTiburones.Model.CraftingInventario;
 
 namespace TGC.Group.Model
 {
@@ -25,6 +27,7 @@ namespace TGC.Group.Model
         private Boolean vivo = true;
         private float radioDeteccionNave = 450f;
         private float radioDeteccionWorkbench = 250f;
+        private float distanciaVisibilidadArpones = 2000f;
         private bool usoArma = false;
         private bool usoRedPesca = false;
         private bool modoDios = false;
@@ -192,5 +195,11 @@ namespace TGC.Group.Model
         public bool UsoArma { get => usoArma; set => usoArma = value; }
         public bool UsoRedPesca { get => usoRedPesca; set => usoRedPesca = value; }
         public bool ModoDios { get => modoDios; set => modoDios = value; }
+
+        public bool estaCercaArpon(Arpon arpon)
+        {
+            var posicionArpon = new TGCVector3(arpon.RigidBody.CenterOfMassPosition.X, arpon.RigidBody.CenterOfMassPosition.Y, arpon.RigidBody.CenterOfMassPosition.Z);
+            return FastMath.Sqrt(TGCVector3.LengthSq(posicionArpon - Position)) < distanciaVisibilidadArpones;
+        }
     }
 }
