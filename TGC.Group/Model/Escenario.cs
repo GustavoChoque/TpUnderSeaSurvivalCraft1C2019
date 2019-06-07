@@ -129,10 +129,14 @@ namespace LosTiburones.Model
         //////////////////////////////
         //escalado para pantallas de otros sizes
         //pantalla que use originalmente, ancho 1366, alto 768
-        float anchoOriginal = 1366f;
-        float altoOriginal = 768f;
-        float factorCorreccionAncho;
-        float factorCorreccionAlto;
+        private float anchoOriginal = 1366f;
+        private float altoOriginal = 768f;
+        private float factorCorreccionAncho;
+        private float factorCorreccionAlto;
+
+        /////////////////////////////
+        private int sizeMapa = 80000;
+        private int fondoMapa = -5230;
 
         public void Init(GameModel gmodel)
         {
@@ -278,11 +282,6 @@ namespace LosTiburones.Model
             textoPesque.Position = new Point(width / 3, height / 2 + 20);
             textoPesque.Size = new Size(500, 500);
             textoPesque.Color = Color.LawnGreen;
-
-            ////////////////////////USAR OTRO MESH PARA EL ARPON
-            //sphereMesh = new TGCSphere(1, Color.Red, TGCVector3.Empty);
-            //Tgc no crea el vertex buffer hasta invocar a update values.
-            //sphereMesh.updateValues();
         }
 
         private void configuroRedYArpon()
@@ -501,15 +500,6 @@ namespace LosTiburones.Model
                 }
             }
 
-            
-
-            //Reseteo el juego si apreto R
-            //if (Input.keyPressed(Key.R))
-            //{
-            //this.Dispose();
-            //this.Init();
-            //}
-
             //-----------movimientos-------------
             tiburon.moverse(this);
 
@@ -693,7 +683,6 @@ namespace LosTiburones.Model
                 mesh.Effect.SetValue("specularExp", 30f);
             }
 
-
             //--------------
             if (GModel.Personaje.ModoDios)
             {
@@ -713,13 +702,6 @@ namespace LosTiburones.Model
                 {
                     GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 10, Color.Red);
                 }
-
-                /*
-                if ((tiburon.estoyCercaDelPersonaje(GModel.Personaje)))
-                {
-                    GModel.DrawText.drawText("Estás cerca del tiburón", 0, 70, Color.Red);
-                }
-                */
             }
             else
             {
@@ -901,17 +883,17 @@ namespace LosTiburones.Model
 
         private Boolean fueraDelMapa(Personaje personaje)
         {
-            return personaje.Position.X > 20000 || personaje.Position.X < -20000 || personaje.Position.Z > 20000 || personaje.Position.Z < -20000;
+            return personaje.Position.X > sizeMapa / 2 || personaje.Position.X < -sizeMapa / 2 || personaje.Position.Z > sizeMapa / 2 || personaje.Position.Z < -sizeMapa / 2;
         }
 
         private Boolean fueraDelMapa(Pez pez)
         {
-            return pez.Position.X > 20000 || pez.Position.X < -20000 || pez.Position.Z > 20000 || pez.Position.Z < -20000;
+            return pez.Position.X > sizeMapa / 2 || pez.Position.X < -sizeMapa / 2 || pez.Position.Z > sizeMapa / 2 || pez.Position.Z < -sizeMapa / 2;
         }
 
         private Boolean dentroDelMapa(Personaje personaje)
         {
-            return personaje.Position.X <= 20000 && personaje.Position.X >= -20000 && personaje.Position.Z <= 20000 && personaje.Position.Z >= -20000;
+            return personaje.Position.X <= sizeMapa / 2 && personaje.Position.X >= -sizeMapa / 2 && personaje.Position.Z <= sizeMapa / 2 && personaje.Position.Z >= -sizeMapa / 2;
         }
 
         private Boolean bajoElAgua(Personaje personaje)
@@ -1301,14 +1283,14 @@ namespace LosTiburones.Model
             var cols = 10;
 
             //-------CoralBrain---------
-            var x = GModel.GetRandom.Next(-10000, 10000);
-            var z = GModel.GetRandom.Next(-10000, 10000);
+            var x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+            var z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
             posicion = new TGCVector3(x, CalcularAltura(x,z,terreno),z );
 
             while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
             {
-                x = GModel.GetRandom.Next(-10000, 10000);
-                z = GModel.GetRandom.Next(-10000, 10000);
+                x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                 posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
             }
 
@@ -1325,14 +1307,14 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    x = GModel.GetRandom.Next(-10000, 10000);
-                    z = GModel.GetRandom.Next(-10000, 10000);
+                    x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                    z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                     posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
 
                     while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
                     {
-                        x = GModel.GetRandom.Next(-10000, 10000);
-                        z = GModel.GetRandom.Next(-10000, 10000);
+                        x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                        z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                         posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
                     }
 
@@ -1389,14 +1371,14 @@ namespace LosTiburones.Model
             }
 
             //-------SeaShell----------
-            x = GModel.GetRandom.Next(-10000, 10000);
-            z = GModel.GetRandom.Next(-10000, 10000);
+            x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+            z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
             posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
 
             while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
             {
-                x = GModel.GetRandom.Next(-10000, 10000);
-                z = GModel.GetRandom.Next(-10000, 10000);
+                x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                 posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
             }
 
@@ -1413,14 +1395,14 @@ namespace LosTiburones.Model
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    x = GModel.GetRandom.Next(-10000, 10000);
-                    z = GModel.GetRandom.Next(-10000, 10000);
+                    x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                    z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                     posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
 
                     while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
                     {
-                        x = GModel.GetRandom.Next(-10000, 10000);
-                        z = GModel.GetRandom.Next(-10000, 10000);
+                        x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                        z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                         posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
                     }
 
@@ -1629,7 +1611,7 @@ namespace LosTiburones.Model
 
         private void cargoSkybox()
         {
-            var skyBoxSize = 20000;
+            var skyBoxSize = sizeMapa / 4;
             skybox = new TgcSkyBox();
             skybox.Center = TGCVector3.Empty;
             skybox.Size = new TGCVector3(skyBoxSize, skyBoxSize, skyBoxSize);
@@ -1661,22 +1643,19 @@ namespace LosTiburones.Model
         
         private void cargoPisos()
         {
-            var aguaSize = 50000;
             var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\agua20.jpg");
-            agua = new TgcPlane(new TGCVector3(-aguaSize/2, 0, -aguaSize/2), new TGCVector3(aguaSize, 0, aguaSize), TgcPlane.Orientations.XZplane, aguaTextura);
+            agua = new TgcPlane(new TGCVector3(-sizeMapa / 2, 0, -sizeMapa / 2), new TGCVector3(sizeMapa, 0, sizeMapa), TgcPlane.Orientations.XZplane, aguaTextura);
 
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed.jpg");
-            piso = new TgcPlane(new TGCVector3(-20000, -5230, -20000), new TGCVector3(60000, 0, 60000), TgcPlane.Orientations.XZplane, pisoTextura);
+            piso = new TgcPlane(new TGCVector3(-sizeMapa / 2, fondoMapa, -sizeMapa / 2), new TGCVector3(sizeMapa, 0, sizeMapa), TgcPlane.Orientations.XZplane, pisoTextura);
 
-            var floorShape = new StaticPlaneShape(TGCVector3.Up.ToBulletVector3(), -5230);
+            var floorShape = new StaticPlaneShape(TGCVector3.Up.ToBulletVector3(), fondoMapa);
             var floorMotionState = new DefaultMotionState();
 
             var floorInfo = new RigidBodyConstructionInfo(0, floorMotionState, floorShape);
             var body = new RigidBody(floorInfo);
             
             dynamicsWorld.AddRigidBody(body);
-
-
         }
 
         private void cargoMusica()
@@ -1698,18 +1677,18 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side / 4, side / 2);
 
-                    var x = GModel.GetRandom.Next(-10000, 10000);
-                    var z = GModel.GetRandom.Next(-10000, 10000);
+                    var x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                    var z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                     var posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side/8, z);
 
                     while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
                     {
-                        x = GModel.GetRandom.Next(-10000, 10000);
-                        z = GModel.GetRandom.Next(-10000, 10000);
+                        x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                        z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                         posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
                     }
                     
-                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 10, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 100, posicion, 0, 0, 0, 10, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
                     var instance = new RecolectableConTextura(texturaOro, tamanio, posicion, "Oro");
@@ -1726,18 +1705,18 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
 
-                    var x = GModel.GetRandom.Next(-10000, 10000);
-                    var z = GModel.GetRandom.Next(-10000, 10000);
+                    var x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                    var z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                     var posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
 
                     while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
                     {
-                        x = GModel.GetRandom.Next(-10000, 10000);
-                        z = GModel.GetRandom.Next(-10000, 10000);
+                        x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                        z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                         posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
                     }
 
-                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 10, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 100, posicion, 0, 0, 0, 10, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
                     var instance = new RecolectableConTextura(texturaRubi, tamanio, posicion, "Ruby");
@@ -1754,18 +1733,18 @@ namespace LosTiburones.Model
                     var side = GModel.GetRandom.Next(50, 75);
                     var tamanio = new TGCVector3(side, side, side);
 
-                    var x = GModel.GetRandom.Next(-10000, 10000);
-                    var z = GModel.GetRandom.Next(-10000, 10000);
+                    var x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                    var z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                     var posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
 
                     while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
                     {
-                        x = GModel.GetRandom.Next(-10000, 10000);
-                        z = GModel.GetRandom.Next(-10000, 10000);
+                        x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                        z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                         posicion = new TGCVector3(x, CalcularAltura(x, z, terreno) + side / 8, z);
                     }
 
-                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 10f, posicion, 0, 0, 0, 10, false); //ACLARACION: Se esta reutilizando vector tamanio
+                    var metalRigidBody = BulletRigidBodyFactory.Instance.CreateBox(tamanio, 100, posicion, 0, 0, 0, 10, false); //ACLARACION: Se esta reutilizando vector tamanio
                     dynamicsWorld.AddRigidBody(metalRigidBody);
                     tamanio.Multiply(2f);
                     var instance = new RecolectableConTextura(texturaPlatino, tamanio, posicion, "Platino");
@@ -1805,14 +1784,14 @@ namespace LosTiburones.Model
         private TgcMesh crearInstanciasObjetosEstaticos(TgcMesh mesh, int randomPosition, int escala, String name)
         {
             var instance = mesh.createMeshInstance(name);
-            var x = GModel.GetRandom.Next(-10000, 10000);
-            var z = GModel.GetRandom.Next(-10000, 10000);
+            var x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+            var z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
             var posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
 
             while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
             {
-                x = GModel.GetRandom.Next(-10000, 10000);
-                z = GModel.GetRandom.Next(-10000, 10000);
+                x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
                 posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
             }
 
