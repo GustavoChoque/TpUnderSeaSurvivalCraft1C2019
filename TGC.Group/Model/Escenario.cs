@@ -123,11 +123,23 @@ namespace LosTiburones.Model
         private TgcMesh arponMesh;
         private Int64 arponSeq = 0;
 
+        //////////////////////////////
         private Boolean recienMeSumergi = false;
+
+        //////////////////////////////
+        //escalado para pantallas de otros sizes
+        //pantalla que use originalmente, ancho 1366, alto 768
+        float anchoOriginal = 1366f;
+        float altoOriginal = 768f;
+        float factorCorreccionAncho;
+        float factorCorreccionAlto;
 
         public void Init(GameModel gmodel)
         {
             this.GModel = gmodel;
+
+            factorCorreccionAncho = D3DDevice.Instance.Device.Viewport.Width / anchoOriginal;
+            factorCorreccionAlto = D3DDevice.Instance.Device.Viewport.Height / altoOriginal;
 
             //----------------Fisica------------
 
@@ -277,18 +289,21 @@ namespace LosTiburones.Model
         {
             bitmapArpon = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "ArponPersonaje.png", D3DDevice.Instance.Device);
             spriteArpon.Bitmap = bitmapArpon;
-            spriteArpon.Scaling = new TGCVector2(.5f, .5f);
+            spriteArpon.Scaling = new TGCVector2(.5f * factorCorreccionAncho, .5f * factorCorreccionAlto);
             spriteArpon.Position = new TGCVector2(ScreenWidth / 3.5f, ScreenHeight / 2f + 25f);
 
             bitmapRedPesca = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "RedPersonaje.png", D3DDevice.Instance.Device);
             spriteRedPesca.Bitmap = bitmapRedPesca;
-            spriteRedPesca.Scaling = new TGCVector2(.5f, .5f);
+            spriteRedPesca.Scaling = new TGCVector2(.5f * factorCorreccionAncho, .5f * factorCorreccionAlto);
             spriteRedPesca.Position = new TGCVector2(ScreenWidth / 2.5f, ScreenHeight / 2f + 50f);
         }
 
         public void Update()
         {
             var Input = this.GModel.Input;
+
+            factorCorreccionAncho = D3DDevice.Instance.Device.Viewport.Width / anchoOriginal;
+            factorCorreccionAlto = D3DDevice.Instance.Device.Viewport.Height / altoOriginal;
 
             //-------Fisica----------
             dynamicsWorld.StepSimulation(1 / 60f, 100);
@@ -938,74 +953,74 @@ namespace LosTiburones.Model
                 switch (personaje.Health / personaje.MaxHealth)
                 {
                     case float n when (n <= 0):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.0f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.0f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .1):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.1f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.1f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .2):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.2f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.2f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .3):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.3f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.3f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .4):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.4f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.4f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .5):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.5f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.5f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .6):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.6f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.6f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .7):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.7f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.7f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .8):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.8f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.8f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .9):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.9f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 0.9f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= 1):
-                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 1.0f, 1f);
+                        spriteRellenoVida.Scaling = new TGCVector2(.75f * 1.0f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                 }
 
                 switch (personaje.Oxygen / personaje.MaxOxygen)
                 {
                     case float n when (n <= 0):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.0f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.0f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .1):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.1f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.1f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .2):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.2f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.2f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .3):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.3f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.3f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .4):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.4f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.4f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .5):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.5f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.5f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .6):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.6f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.6f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .7):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.7f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.7f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .8):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.8f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.8f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= .9):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.9f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 0.9f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                     case float n when (n <= 1):
-                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 1.0f, 1f);
+                        spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * 1.0f * factorCorreccionAncho, 1f * factorCorreccionAlto);
                         break;
                 }
             }
@@ -1013,12 +1028,12 @@ namespace LosTiburones.Model
             {
                 if (personaje.Health <= 0)
                 {
-                    spriteRellenoVida.Scaling = new TGCVector2(.75f, .0f);
+                    spriteRellenoVida.Scaling = new TGCVector2(.75f * factorCorreccionAncho, .0f * factorCorreccionAlto);
                 }
 
                 if (personaje.Oxygen <= 0)
                 {
-                    spriteRellenoOxigeno.Scaling = new TGCVector2(.75f, .0f);
+                    spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * factorCorreccionAncho, .0f * factorCorreccionAlto);
                 }
             }
         }
@@ -1108,42 +1123,42 @@ namespace LosTiburones.Model
             Microsoft.DirectX.Direct3D.Device d3dDevice = D3DDevice.Instance.Device;
             bitmapCursor = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "cursor_default.png", d3dDevice);
             spriteCursor.Bitmap = bitmapCursor;
-            spriteCursor.Scaling = new TGCVector2(1f, 1f);
+            spriteCursor.Scaling = new TGCVector2(1f * factorCorreccionAncho, 1f * factorCorreccionAlto);
             spriteCursor.Position = new TGCVector2(ScreenWidth / 2.093f, ScreenHeight / 2.17f);
             sprites.Add(spriteCursor);
             //HUD
             bitmapCorazon = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "Vida.png", D3DDevice.Instance.Device);
             spriteCorazon.Bitmap = bitmapCorazon;
-            spriteCorazon.Scaling = new TGCVector2(0.15f, 0.15f);
+            spriteCorazon.Scaling = new TGCVector2(0.15f * factorCorreccionAncho, 0.15f * factorCorreccionAlto);
             spriteCorazon.Position = new TGCVector2(ScreenWidth / 1.1f, ScreenHeight / 1.15f);
             sprites.Add(spriteCorazon);
 
             bitmapTanqueOxigeno = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "Oxygen.png", D3DDevice.Instance.Device);
             spriteTanqueOxigeno.Bitmap = bitmapTanqueOxigeno;
-            spriteTanqueOxigeno.Scaling = new TGCVector2(0.25f, 0.2f);
+            spriteTanqueOxigeno.Scaling = new TGCVector2(0.25f * factorCorreccionAncho, 0.2f * factorCorreccionAlto);
             spriteTanqueOxigeno.Position = new TGCVector2(ScreenWidth / 1.125f, ScreenHeight / 1.4f);
             sprites.Add(spriteTanqueOxigeno);
 
             bitmapBarra = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "Barra0.0.png", D3DDevice.Instance.Device);
             spriteBarraOxigeno.Bitmap = bitmapBarra;
-            spriteBarraOxigeno.Scaling = new TGCVector2(.75f, 1f);
+            spriteBarraOxigeno.Scaling = new TGCVector2(.75f * factorCorreccionAncho, 1f * factorCorreccionAlto);
             spriteBarraOxigeno.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.325f);
             sprites.Add(spriteBarraOxigeno);
 
             spriteBarraVida.Bitmap = bitmapBarra;
-            spriteBarraVida.Scaling = new TGCVector2(.75f, 1f);
+            spriteBarraVida.Scaling = new TGCVector2(.75f * factorCorreccionAncho, 1f * factorCorreccionAlto);
             spriteBarraVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
             sprites.Add(spriteBarraVida);
             
             bitmapRellenoOxigeno = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "RellenoOxigeno.png", D3DDevice.Instance.Device);
             spriteRellenoOxigeno.Bitmap = bitmapRellenoOxigeno;
-            spriteRellenoOxigeno.Scaling = new TGCVector2(.75f, 1f);
+            spriteRellenoOxigeno.Scaling = new TGCVector2(.75f * factorCorreccionAncho, 1f * factorCorreccionAlto);
             spriteRellenoOxigeno.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.325f);
             sprites.Add(spriteRellenoOxigeno);
 
             bitmapRellenoVida = new CustomBitmap(GModel.MediaDir + "Bitmaps\\" + "RellenoVida.png", D3DDevice.Instance.Device);
             spriteRellenoVida.Bitmap = bitmapRellenoVida;
-            spriteRellenoVida.Scaling = new TGCVector2(.75f, 1f);
+            spriteRellenoVida.Scaling = new TGCVector2(.75f * factorCorreccionAncho, 1f * factorCorreccionAlto);
             spriteRellenoVida.Position = new TGCVector2(ScreenWidth / 1.7f, ScreenHeight / 1.13f);
             sprites.Add(spriteRellenoVida);
             
