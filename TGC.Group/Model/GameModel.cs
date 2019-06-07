@@ -115,7 +115,16 @@ namespace TGC.Group.Model
 
             bitmapTitulo = new CustomBitmap(this.MediaDir + "Bitmaps\\" + "Titulo.png", D3DDevice.Instance.Device);
             spriteTitulo.Bitmap = bitmapTitulo;
-            spriteTitulo.Scaling = new TGCVector2(.8f, 1.6f);
+            
+            //escalado para pantallas de otros sizes
+            //pantalla que use originalmente, ancho 1366, alto 768
+            var anchoOriginal = 1366f;
+            var altoOriginal = 768f;
+
+            var factorCorreccionAncho = D3DDevice.Instance.Device.Viewport.Width / anchoOriginal;
+            var factorCorreccionAlto = D3DDevice.Instance.Device.Viewport.Height / altoOriginal;
+
+            spriteTitulo.Scaling = new TGCVector2(.8f * factorCorreccionAncho, 1.6f * factorCorreccionAlto);
             spriteTitulo.Position = new TGCVector2(D3DDevice.Instance.Device.Viewport.Width / 5f, D3DDevice.Instance.Device.Viewport.Height / 8f);
         }
         /// <summary>
