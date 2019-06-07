@@ -137,6 +137,7 @@ namespace LosTiburones.Model
         /////////////////////////////
         private int sizeMapa = 80000;
         private int fondoMapa = -5230;
+        private int alturaTecho = 100;
 
         public void Init(GameModel gmodel)
         {
@@ -417,8 +418,8 @@ namespace LosTiburones.Model
                     GModel.Personaje.ModoDios = !GModel.Personaje.ModoDios;
                 }
 
-                /////////PESCO
-                if (GModel.Personaje.UsoRedPesca)
+                /////////PESCO SOLO BAJO EL AGUA
+                if (GModel.Personaje.UsoRedPesca && bajoElAgua(GModel.Personaje))
                 {
                     pecesAmarillosCercaPersonaje = pecesAmarillos.FindAll(pez => pez.estoyCercaDePersonaje(GModel.Personaje));
                     pecesAzulesCercaPersonaje = pecesAzules.FindAll(pez => pez.estoyCercaDePersonaje(GModel.Personaje));
@@ -449,8 +450,8 @@ namespace LosTiburones.Model
                     }
                 }
 
-                /////////ATACO
-                if (GModel.Personaje.UsoArma)
+                /////////ATACO SOLO BAJO EL AGUA
+                if (GModel.Personaje.UsoArma && bajoElAgua(GModel.Personaje))
                 {
                     if (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
                     {
@@ -562,7 +563,7 @@ namespace LosTiburones.Model
 
             });
 
-            if (GModel.Personaje.Position.Y < 0)
+            if (bajoElAgua(GModel.Personaje))
             {
                 if (recienMeSumergi)
                 {
@@ -686,7 +687,7 @@ namespace LosTiburones.Model
             //--------------
             if (GModel.Personaje.ModoDios)
             {
-                GModel.DrawText.drawText("Modo Dios Activado", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 20, Color.Green);
+                GModel.DrawText.drawText("Modo Dios Activado", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 20, Color.Red);
             }
             //--------------
 
@@ -1649,13 +1650,20 @@ namespace LosTiburones.Model
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed.jpg");
             piso = new TgcPlane(new TGCVector3(-sizeMapa / 2, fondoMapa, -sizeMapa / 2), new TGCVector3(sizeMapa, 0, sizeMapa), TgcPlane.Orientations.XZplane, pisoTextura);
 
+            //FLOOR
             var floorShape = new StaticPlaneShape(TGCVector3.Up.ToBulletVector3(), fondoMapa);
             var floorMotionState = new DefaultMotionState();
-
             var floorInfo = new RigidBodyConstructionInfo(0, floorMotionState, floorShape);
-            var body = new RigidBody(floorInfo);
-            
-            dynamicsWorld.AddRigidBody(body);
+            var bodyFloor = new RigidBody(floorInfo);
+
+            //ROOF
+            var techoShape = new StaticPlaneShape(TGCVector3.Down.ToBulletVector3(), -alturaTecho);
+            var techoMotionState = new DefaultMotionState();
+            var techoInfo = new RigidBodyConstructionInfo(0, techoMotionState, techoShape);
+            var bodyTecho = new RigidBody(techoInfo);
+
+            dynamicsWorld.AddRigidBody(bodyFloor);
+            dynamicsWorld.AddRigidBody(bodyTecho);
         }
 
         private void cargoMusica()
