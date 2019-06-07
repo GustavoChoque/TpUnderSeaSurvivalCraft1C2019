@@ -138,6 +138,8 @@ namespace LosTiburones.Model
         private int sizeMapa = 80000;
         private int fondoMapa = -5230;
         private int alturaTecho = 100;
+        private TgcText2D mensajeErrorArponRed;
+        private Boolean renderizoErrorArponRed = false;
 
         public void Init(GameModel gmodel)
         {
@@ -283,6 +285,13 @@ namespace LosTiburones.Model
             textoPesque.Position = new Point(width / 3, height / 2 + 20);
             textoPesque.Size = new Size(500, 500);
             textoPesque.Color = Color.LawnGreen;
+
+            mensajeErrorArponRed = new TgcText2D();
+            mensajeErrorArponRed.Text = "El arpon y la red se pueden usar solo bajo el agua!";
+            mensajeErrorArponRed.Align = TgcText2D.TextAlign.CENTER;
+            mensajeErrorArponRed.Position = new Point(width / 3, height / 2 + 20);
+            mensajeErrorArponRed.Size = new Size(500, 500);
+            mensajeErrorArponRed.Color = Color.Red;
         }
 
         private void configuroRedYArpon()
@@ -472,14 +481,24 @@ namespace LosTiburones.Model
                     }
                 }
 
-                    //Muestro el mensaje de haber pescado por 2 segundos
-                    acumuloTiempo = acumuloTiempo + GModel.ElapsedTime;
+                //ERROR ARPON Y RED
+                if ((GModel.Personaje.UsoRedPesca || GModel.Personaje.UsoArma) && !bajoElAgua(GModel.Personaje) && GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
+                {
+                    renderizoErrorArponRed = true;
+                    acumuloTiempo = 0;
+                }
+
+                //Muestro los mensajes por dos segundos
+                acumuloTiempo = acumuloTiempo + GModel.ElapsedTime;
                 if (acumuloTiempo > 2 && renderizoTextoPesque)
                 {
                     renderizoTextoPesque = false;
                 }
 
-
+                if (acumuloTiempo > 2 && renderizoErrorArponRed)
+                {
+                    renderizoErrorArponRed = false;
+                }
             }
 
             //Music toggle on/off
@@ -812,6 +831,11 @@ namespace LosTiburones.Model
                 arpon.Render();
 
             });
+
+            if (renderizoErrorArponRed)
+            {
+                mensajeErrorArponRed.render();
+            }
         }
 
         public void Dispose()
@@ -1663,7 +1687,7 @@ namespace LosTiburones.Model
             var bodyTecho = new RigidBody(techoInfo);
 
             dynamicsWorld.AddRigidBody(bodyFloor);
-            dynamicsWorld.AddRigidBody(bodyTecho);
+            dynamicsWorld.AddRigidBody(bodyTecho); //SIRVE PARA LIMITAR LA ALTURA DEL PERSONAJE... HACER QUE LAS LANZAS DESAPAREZCAN CUANDO TOCAN EL TECHO
         }
 
         private void cargoMusica()
