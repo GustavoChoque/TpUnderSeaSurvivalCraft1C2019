@@ -93,6 +93,7 @@ namespace TGC.Group.Model
                    D3DDevice.Instance.ZNearPlaneDistance,
                    D3DDevice.Instance.ZFarPlaneDistance * 2f);
 
+            Cursor.Hide();
 
             menu.Init(this);
             this.configuroCamara();
