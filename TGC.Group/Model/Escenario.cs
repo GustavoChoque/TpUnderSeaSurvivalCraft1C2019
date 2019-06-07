@@ -308,8 +308,8 @@ namespace LosTiburones.Model
             var strength = 50f;
             //if (GModel.Input.keyDown(Key.UpArrow))
 
-            //SI ME MUERO NO ME MUEVO
-            if (GModel.Personaje.Vivo)
+            //SI ME MUERO, o tengo los menues de inventario y crafting NO ME MUEVO
+            if (GModel.Personaje.Vivo && !GModel.InterfazCrafting.Activo && !GModel.InterfazInventario.Activo)
             {
                 if (GModel.Input.keyDown(Key.W))
                 {
