@@ -123,6 +123,8 @@ namespace LosTiburones.Model
         private TgcMesh arponMesh;
         private Int64 arponSeq = 0;
 
+        private Boolean recienMeSumergi = false;
+
         public void Init(GameModel gmodel)
         {
             this.GModel = gmodel;
@@ -554,6 +556,29 @@ namespace LosTiburones.Model
                 arpon.Update();
 
             });
+
+            if (GModel.Personaje.Position.Y < 0)
+            {
+                if (recienMeSumergi)
+                {
+                    recienMeSumergi = false;
+                    musica.stop();
+                    musica.closeFile();
+                    musica.FileName = GModel.MediaDir + "Music\\UnderWater.mp3";
+                    musica.play(true);
+                }
+            }
+            else
+            {
+                if (!recienMeSumergi)
+                {
+                    recienMeSumergi = true;
+                    musica.stop();
+                    musica.closeFile();
+                    musica.FileName = GModel.MediaDir + "Music\\SeaShore.mp3";
+                    musica.play(true);
+                }
+            }
         }
 
         public void Render()
@@ -1641,7 +1666,7 @@ namespace LosTiburones.Model
 
         private void cargoMusica()
         {
-            musica.FileName = GModel.MediaDir + "\\Music\\AbandonShip.mp3";
+            //musica.FileName = GModel.MediaDir + "\\Music\\AbandonShip.mp3";
             sonidoTiburonCerca.loadSound(GModel.MediaDir + "\\Music\\SharkNear.wav", GModel.DirectSound.DsDevice);
         }
 
