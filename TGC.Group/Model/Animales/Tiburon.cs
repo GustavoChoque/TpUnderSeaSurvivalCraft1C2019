@@ -244,5 +244,10 @@ namespace LosTiburones.Model
         }
 
         public Boolean Vivo { get => enabled; }
+
+        public void perseguilo()
+        {
+            this.loEstoyPersiguiendo = true;
+        }
     }
 }

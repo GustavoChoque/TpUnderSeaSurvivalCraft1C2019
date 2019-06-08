@@ -338,7 +338,7 @@ namespace LosTiburones.Model
             //CONTACTO TIBURONES CON ARPONES Y TIBURONES CON PERSONAJE
             tiburones.ForEach(tiburon => {
                 arpones.ForEach(arpon => {
-                    dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, tiburon));
+                    dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, tiburon, this));
                 });
 
                 //REVISAR dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, new ContactoTiburonCallback(tiburon, this.GModel.Personaje));
@@ -372,6 +372,7 @@ namespace LosTiburones.Model
 
             tiburonesMuertos.ForEach(tiburonMuerto => {
                 tiburones.Remove(tiburonMuerto);
+                detenerSonidoTiburonCerca(); //????? si matas a uno mientras otro te persigue se para la musica?
             });
 
             tiempoEsperaTiburon = tiempoEsperaTiburon + GModel.ElapsedTime;
