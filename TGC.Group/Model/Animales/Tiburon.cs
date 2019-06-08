@@ -273,6 +273,13 @@ namespace LosTiburones.Model
             {
                 tiempoAtaque = tiempoAtaque + gmodel.ElapsedTime;
             }
+
+            //SI EL TIBURON LO MATA SE ESCAPA
+            if (!gmodel.Personaje.Vivo)
+            {
+                estoyAlejandomeDeLaNave = true;
+                loEstoyPersiguiendo = false;
+            }
         }
     }
 }
