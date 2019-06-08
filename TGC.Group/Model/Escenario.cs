@@ -128,6 +128,7 @@ namespace LosTiburones.Model
         private List<Arpon> arpones = new List<Arpon>();
         private TgcMesh arponMesh;
         private Int64 arponSeq = 0;
+        private float tiempoEsperaArpon = 0;
 
         //////////////////////////////
         private Boolean recienMeSumergi = false;
@@ -338,6 +339,8 @@ namespace LosTiburones.Model
 
             });
 
+            tiempoEsperaArpon = tiempoEsperaArpon + GModel.ElapsedTime;
+
             //dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, )
 
             //----------------
@@ -471,8 +474,8 @@ namespace LosTiburones.Model
                     }
                 }
 
-                /////////ATACO SOLO BAJO EL AGUA
-                if (GModel.Personaje.UsoArma && bajoElAgua(GModel.Personaje))
+                /////////ATACO SOLO BAJO EL AGUA Y PUEDO DISPARAR CADA 1 SEGUNDO
+                if (GModel.Personaje.UsoArma && bajoElAgua(GModel.Personaje) && tiempoEsperaArpon <= 1)
                 {
                     if (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
                     {
@@ -490,6 +493,7 @@ namespace LosTiburones.Model
                         var arponPosta = new Arpon(meshArpon, arponRigidBody, posicionArpon, GModel, new TGCVector3(dir.X, dir.Y, dir.Z));
                         arpones.Add(arponPosta);
                         dynamicsWorld.AddRigidBody(arponPosta.RigidBody);
+                        tiempoEsperaArpon = 0;
                     }
                 }
 

@@ -67,10 +67,7 @@ namespace LosTiburones.Model.CraftingInventario
 
         public void Render()
         {
-            if (gmodel.Personaje.estaCercaArpon(this))
-            {
-                meshArpon.Render();
-            }
+            meshArpon.Render();
         }
     }
 }

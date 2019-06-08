@@ -195,11 +195,6 @@ namespace TGC.Group.Model
         public bool UsoArma { get => usoArma; set => usoArma = value; }
         public bool UsoRedPesca { get => usoRedPesca; set => usoRedPesca = value; }
         public bool ModoDios { get => modoDios; set => modoDios = value; }
-
-        public bool estaCercaArpon(Arpon arpon)
-        {
-            var posicionArpon = new TGCVector3(arpon.Mesh.Position.X, arpon.Mesh.Position.Y, arpon.Mesh.Position.Z);
-            return FastMath.Sqrt(TGCVector3.LengthSq(posicionArpon - Position)) < distanciaVisibilidadArpones;
-        }
+        
     }
 }
