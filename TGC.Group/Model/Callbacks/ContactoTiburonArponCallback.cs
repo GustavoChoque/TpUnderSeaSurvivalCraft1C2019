@@ -11,17 +11,20 @@ namespace LosTiburones.Model.Animales
     public class ContactoTiburonArponCallback : ContactResultCallback
     {
         private Arpon arpon;
-        private Escenario escenario;
+        //private Escenario escenario;
+        private Tiburon tiburon;
 
-        public ContactoTiburonArponCallback(Arpon arpon, Escenario escenario)
+        public ContactoTiburonArponCallback(Arpon arpon, Tiburon tiburon)//, Escenario escenario, 
         {
             this.arpon = arpon;
-            this.escenario = escenario;
+            //this.escenario = escenario;
+            this.tiburon = tiburon;
         }
 
         public override float AddSingleResult(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1)
         {
-            escenario.Tiburon.sufriDanio();
+            /////////////////////////MEJORAR ESTO... HACER QUE CAIGAN JUNTOS EL ARPON Y EL TIBURON AL FONDO DEL MAR, SUMAR PUNTOS O ALGO ASI
+            tiburon.sufriDanio();
             return 0;
         }
 

@@ -65,8 +65,6 @@ namespace LosTiburones.Model
         private List<Pez> pecesAmarillosCercaPersonaje = new List<Pez>();
         private List<Pez> pecesAzulesCercaPersonaje = new List<Pez>();
 
-        private Tiburon tiburon;
-
         //Constantes para velocidades de movimiento
         private const float ROTATION_SPEED = 50f;
         private const float MOVEMENT_SPEED = 50f;
@@ -131,6 +129,10 @@ namespace LosTiburones.Model
         private Int64 arponSeq = 0;
         private float tiempoEsperaArpon = 0;
         private RigidBody bodyTecho;
+        //private Tiburon tiburon;
+        private List<Tiburon> tiburones = new List<Tiburon>();
+        private Int64 tiburonSeq = 0;
+        private float tiempoEsperaTiburon = 25;
 
         //////////////////////////////
         private Boolean recienMeSumergi = false;
@@ -332,11 +334,17 @@ namespace LosTiburones.Model
             //-------Fisica----------
             dynamicsWorld.StepSimulation(1 / 60f, 100);
 
-            ContactoTiburonCallback tiburonCallback = new ContactoTiburonCallback(this.tiburon, this.GModel.Personaje);
-            dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, tiburonCallback);
+            //CONTACTO TIBURONES CON ARPONES Y TIBURONES CON PERSONAJE
+            tiburones.ForEach(tiburon => {
+                arpones.ForEach(arpon => {
+                    dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, tiburon));
+                });
 
+                //REVISAR dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, new ContactoTiburonCallback(tiburon, this.GModel.Personaje));
+            });            
+
+            //CONTACTO ARPONES CON EL TECHO
             arpones.ForEach(arpon => {
-                dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, this));
                 dynamicsWorld.ContactPairTest(bodyTecho, arpon.RigidBody, new TechoArponCallback(arpon, this));
             });
 
@@ -348,9 +356,20 @@ namespace LosTiburones.Model
             arponesCaducos.ForEach(arponCaduco => {
                 dynamicsWorld.RemoveRigidBody(arponCaduco.RigidBody);
                 arpones.Remove(arponCaduco);
+                arponCaduco.Dispose();
             });
 
-            //dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, )
+            //----------------
+            tiburones.ForEach(tiburon => {
+                if (!tiburon.Vivo)
+                {
+                    tiburones.Remove(tiburon);
+                    dynamicsWorld.RemoveRigidBody(tiburon.CuerpoRigido);
+                    tiburon.Dispose();
+                }
+            });
+
+            tiempoEsperaTiburon = tiempoEsperaTiburon + GModel.ElapsedTime;
 
             //----------------
             var director = GModel.Camara.LookAt - GModel.Camara.Position; //new TGCVector3(1,0,0);
@@ -545,8 +564,59 @@ namespace LosTiburones.Model
                 }
             }
 
+            ///////////////////////////GENERO TIBURONES CADA 30 SEGUNDOS
+            if (tiempoEsperaTiburon >= 30 && tiburones.Count.Equals(0))
+            {
+                int x;
+                int z;
+                Tiburon tiburon;
+                tiburonSeq = tiburonSeq + 1;
+
+                //APARECE CON IGUAL PROBABILIDAD EN CUALQUIERA DE LOS 4 CUADRANTES
+                if (GModel.GetRandom.NextDouble() < 0.25f)
+                {
+                    x = GModel.GetRandom.Next(500, 1000);
+                    z = GModel.GetRandom.Next(500, 1000);
+                }
+                else
+                {
+                    if (GModel.GetRandom.NextDouble() < 0.5f)
+                    {
+                        x = GModel.GetRandom.Next(-1000, -500);
+                        z = GModel.GetRandom.Next(-1000, -500);
+                    }
+                    else
+                    {
+                        if (GModel.GetRandom.NextDouble() < 0.75f)
+                        {
+                            x = GModel.GetRandom.Next(-1000, -500);
+                            z = GModel.GetRandom.Next(500, 1000);
+                        }
+                        else
+                        {
+                            x = GModel.GetRandom.Next(500, 1000);
+                            z = GModel.GetRandom.Next(-1000, -500);
+                        }
+                    }                        
+                }
+                
+                tiburon = new Tiburon(meshTiburon.createMeshInstance(meshTiburon.Name + "_" + tiburonSeq), GModel);
+                tiburon.RotateY(FastMath.PI / 2 + FastMath.PI / 4);
+                tiburon.Move(new TGCVector3(x, -100, z));
+                tiburon.Scale = new TGCVector3(1f, 1f, 1f);
+                tiburon.CuerpoRigido = BulletRigidBodyFactory.Instance.CreateCapsule(28f, 220f, tiburon.Position, 0, false);
+                tiburon.CuerpoRigido.CollisionFlags = CollisionFlags.KinematicObject;
+                tiburon.CuerpoRigido.ActivationState = ActivationState.DisableDeactivation;
+                dynamicsWorld.AddRigidBody(tiburon.CuerpoRigido);
+                tiburones.Add(tiburon);
+
+                tiempoEsperaTiburon = 0;
+            }
+
             //-----------movimientos-------------
-            tiburon.moverse(this);
+            tiburones.ForEach(tiburon => {
+                tiburon.moverse(this);
+            });            
 
             //-----------
             //Muevo los peces amarillos
@@ -663,10 +733,6 @@ namespace LosTiburones.Model
             GModel.DrawText.drawText("Theta entre Direction y Z: " + theta, 0, 50, Color.OrangeRed);
             GModel.DrawText.drawText("Gamma entre Direction y Z: " + gamma, 0, 60, Color.OrangeRed);
 
-            //BULLET DEBUG: Le indico a bullet que Dibuje las lineas de debug.
-            //ATENCION: COMENTAR ESTA LINEA SI NO SE DESEA DEBUGEAR BULLET
-            //dynamicsWorld.DebugDrawObject(tiburon.CuerpoRigido.WorldTransform, tiburon.CuerpoRigido.CollisionShape, new TGCVector3(Color.Red.R, Color.Red.G, Color.Red.B).ToBulletVector3());
-
             //--------------------------------
 
             //----Fisica----------
@@ -771,7 +837,7 @@ namespace LosTiburones.Model
             agua.Render();
             piso.Render();
             coral.Render();
-            tiburon.Render();
+            tiburones.ForEach(tiburon => tiburon.Render());
             coralBrain.Render();
             barco.RenderAll();
             fish.Render();
@@ -904,7 +970,7 @@ namespace LosTiburones.Model
             agua.Dispose();
             piso.Dispose();
             coral.Dispose();
-            tiburon.Dispose();
+            tiburones.ForEach(tiburon => tiburon.Dispose());
             coralBrain.Dispose();
             barco.DisposeAll();
             fish.Dispose();
@@ -1272,19 +1338,7 @@ namespace LosTiburones.Model
             TGCVector3 posCoral = new TGCVector3(10, -300, 0);
             coral.AutoTransformEnable = false;
             coral.Transform = TGCMatrix.Translation(posCoral);
-
-
-            tiburon = new Tiburon(meshTiburon, GModel);
-            tiburon.RotateY(FastMath.PI / 2 + FastMath.PI / 4);
-            tiburon.Move(new TGCVector3(-650, -100, 1000));
-            tiburon.Scale = new TGCVector3(1f, 1f, 1f);
-            var cuerpoRigido = BulletRigidBodyFactory.Instance.CreateCapsule(28f, 220f, tiburon.Position, 0, false);
-            cuerpoRigido.CollisionFlags = CollisionFlags.KinematicObject;
-            cuerpoRigido.ActivationState = ActivationState.DisableDeactivation;
-            tiburon.CuerpoRigido = cuerpoRigido;
-            dynamicsWorld.AddRigidBody(cuerpoRigido);
-
-
+            
             TGCVector3 posCoralBrain = new TGCVector3(10, -300, 0);
             //coralBrain.Position = new TGCVector3(-200, -1000, 340);
             coralBrain.AutoTransformEnable = false;
@@ -1926,16 +1980,25 @@ namespace LosTiburones.Model
 
         public void hacerSonarTiburonCerca()
         {
-            if (musica.getStatus().Equals(TgcMp3Player.States.Playing))
+            /*
+             * if (musica.getStatus().Equals(TgcMp3Player.States.Playing))
             {
                 musica.pause();
             }
+            */
 
             sonidoTiburonCerca.play(true);
         }
 
         public void detenerSonidoTiburonCerca()
         {
+            /*
+            if (musica.getStatus().Equals(TgcMp3Player.States.Paused))
+            {
+                musica.resume();
+            }
+            */
+
             sonidoTiburonCerca.stop();
         }
 
@@ -1985,8 +2048,5 @@ namespace LosTiburones.Model
 
             return H - DESPLAZAMIENTO_EN_Y;
         }
-
-        public Tiburon Tiburon { get => tiburon; }
-
     }
 }

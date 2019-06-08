@@ -40,11 +40,6 @@ namespace LosTiburones.Model
             movDir.Normalize();
         }
 
-        public Boolean tocoBorde()
-        {
-            return Position.X >= 20000 || Position.X <= -20000 || Position.Z >= 20000 || Position.Z <= -20000;
-        }
-
         private Boolean estoyLejosDelPersonaje(TGCVector3 posicionOriginal)
         {
             return FastMath.Sqrt(TGCVector3.LengthSq(posicionOriginal - this.Position)) > radioLejania;
@@ -192,7 +187,7 @@ namespace LosTiburones.Model
 
         public void sufriDanio()
         {
-            this.energia = this.energia - 100;
+            this.energia = this.energia - 50;
 
             if (this.energia <= 0)
             {
@@ -247,5 +242,7 @@ namespace LosTiburones.Model
         {
             personaje.sufriDanio(this.fuerzaMordida);
         }
+
+        public Boolean Vivo { get => enabled; }
     }
 }
