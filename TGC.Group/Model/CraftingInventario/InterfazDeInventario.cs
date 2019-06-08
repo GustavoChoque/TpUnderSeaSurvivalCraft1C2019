@@ -206,46 +206,59 @@ namespace LosTiburones.Model
                     switch (elemento.Nombre)
                     {
                         case "BrainCoral":
+                            item = gui.InsertImage("CoralBrainReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("BrainCoral" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
-                            y1 = y1 + 50;
+                            //y1 = y1 + 50;
                             break;
 
                         case "SeaShell":
+                            item = gui.InsertImage("SeaShellReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("SeaShell" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
-                            y1 = y1 + 50;
+                            //y1 = y1 + 50;
                             break;
 
                         case "Oro":
+                            item = gui.InsertImage("OroReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("Oro" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
-                            y1 = y1 + 50;
+                            //y1 = y1 + 50;
                             break;
 
                         case "Platino":
+                            item = gui.InsertImage("PlatinoReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("Platino" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
-                            y1 = y1 + 50;
+                            //y1 = y1 + 50;
                             break;
 
                         case "Ruby":
+                            item = gui.InsertImage("RubyReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("Ruby" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
-                            y1 = y1 + 50;
+                            //y1 = y1 + 50;
                             break;
 
                         case "Pez Amarillo":
-
+                            item = gui.InsertImage("PezAmarilloReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("Pez Amarillo" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
-                            y1 = y1 + 50;
+                            //y1 = y1 + 50;
                             break;
 
                         case "Pez Azul":
+                            item = gui.InsertImage("PezAzulReducido.png", x1, y1 + 30, GModel.MediaDir);
                             gui.InsertItem("Pez Azul" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
                             agregueItem = true;
-                            y1 = y1 + 50;
+                            //y1 = y1 + 50;
+                            break;
+
+                        case "Tiburon":
+                            item = gui.InsertImage("Tiburon.png", x1, y1 + 30, GModel.MediaDir);
+                            gui.InsertItem("Tiburon" + "(x" + elemento.Cantidad + ")", x1 += 50, y1 + 20);
+                            agregueItem = true;
+                            //y1 = y1 + 50;
                             break;
 
                         case "TanqueOxigeno":

@@ -187,7 +187,7 @@ namespace LosTiburones.Model
 
         public void sufriDanio()
         {
-            this.energia = this.energia - 50;
+            this.energia = this.energia - 35;
 
             if (this.energia <= 0)
             {
