@@ -11,17 +11,17 @@ namespace LosTiburones.Model.Animales
     public class ContactoTiburonArponCallback : ContactResultCallback
     {
         private Arpon arpon;
-        private Tiburon tiburon;
+        private Escenario escenario;
 
-        public ContactoTiburonArponCallback(Arpon arpon, Tiburon tiburon)
+        public ContactoTiburonArponCallback(Arpon arpon, Escenario escenario)
         {
             this.arpon = arpon;
-            this.tiburon = tiburon;
+            this.escenario = escenario;
         }
 
         public override float AddSingleResult(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1)
         {
-            tiburon.sufriDanio();
+            escenario.Tiburon.sufriDanio();
             return 0;
         }
 

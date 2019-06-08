@@ -334,12 +334,18 @@ namespace LosTiburones.Model
             dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, tiburonCallback);
 
             arpones.ForEach(arpon => {
-
-                dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, this.Tiburon));
-
+                dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, this));
             });
 
             tiempoEsperaArpon = tiempoEsperaArpon + GModel.ElapsedTime;
+
+            //LOS ARPONES DURAN 2 SEGUNDOS
+            var arponesCaducos = arpones.FindAll(arpon => arpon.Tiempo >= 2);
+
+            arponesCaducos.ForEach(arponCaduco => {
+                dynamicsWorld.RemoveRigidBody(arponCaduco.RigidBody);
+                arpones.Remove(arponCaduco);
+            });
 
             //dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, )
 
@@ -475,7 +481,7 @@ namespace LosTiburones.Model
                 }
 
                 /////////ATACO SOLO BAJO EL AGUA Y PUEDO DISPARAR CADA 1 SEGUNDO
-                if (GModel.Personaje.UsoArma && bajoElAgua(GModel.Personaje) && tiempoEsperaArpon <= 1)
+                if (GModel.Personaje.UsoArma && bajoElAgua(GModel.Personaje) && tiempoEsperaArpon >= 1)
                 {
                     if (GModel.Input.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
                     {

@@ -16,6 +16,7 @@ namespace LosTiburones.Model.CraftingInventario
         private RigidBody rigidBodyArpon;
         private GameModel gmodel;
         private TGCVector3 direccion;
+        private float tiempo = 0;
 
         public Arpon(TgcMesh meshArpon, RigidBody rigidBodyArpon, TGCVector3 posicion, GameModel gmodel, TGCVector3 direccion)
         {
@@ -63,11 +64,15 @@ namespace LosTiburones.Model.CraftingInventario
             float gamma = FastMath.Acos(Direccion.Y);
 
             Mesh.Transform = TGCMatrix.Scaling(Mesh.Scale) * TGCMatrix.RotationYawPitchRoll(theta, gamma, 0) * TGCMatrix.Translation(Mesh.Position);
+
+            tiempo = tiempo + gmodel.ElapsedTime;
         }
 
         public void Render()
         {
             meshArpon.Render();
         }
+
+        public float Tiempo { get => tiempo; }
     }
 }
