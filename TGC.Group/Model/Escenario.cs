@@ -131,6 +131,7 @@ namespace LosTiburones.Model
         private RigidBody bodyTecho;
         //private Tiburon tiburon;
         private List<Tiburon> tiburones = new List<Tiburon>();
+        private List<Tiburon> tiburonesMuertos = new List<Tiburon>();
         private Int64 tiburonSeq = 0;
         private float tiempoEsperaTiburon = 25;
 
@@ -363,10 +364,14 @@ namespace LosTiburones.Model
             tiburones.ForEach(tiburon => {
                 if (!tiburon.Vivo)
                 {
-                    tiburones.Remove(tiburon);
+                    tiburonesMuertos.Add(tiburon);
                     dynamicsWorld.RemoveRigidBody(tiburon.CuerpoRigido);
                     tiburon.Dispose();
                 }
+            });
+
+            tiburonesMuertos.ForEach(tiburonMuerto => {
+                tiburones.Remove(tiburonMuerto);
             });
 
             tiempoEsperaTiburon = tiempoEsperaTiburon + GModel.ElapsedTime;
@@ -513,7 +518,7 @@ namespace LosTiburones.Model
                         arponSeq = arponSeq + 1;
                         var posicionArpon = new TGCVector3(dir.X * 10 + GModel.Camara.Position.X, dir.Y * 10 + GModel.Camara.Position.Y, dir.Z * 10 + GModel.Camara.Position.Z);
                         var meshArpon = arponMesh.createMeshInstance(arponMesh.Name + "_" + arponSeq);
-                        var arponRigidBody = BulletRigidBodyFactory.Instance.CreateCapsule(10f, 500f, posicionArpon, 1000f, false);
+                        var arponRigidBody = BulletRigidBodyFactory.Instance.CreateCapsule(10f, 200f, posicionArpon, 1000f, false);
                         
                         arponRigidBody.LinearVelocity = dir * 5000f;
                         arponRigidBody.LinearFactor = TGCVector3.One.ToBulletVector3();
