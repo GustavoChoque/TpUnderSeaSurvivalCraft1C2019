@@ -105,22 +105,23 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Game.settings</DependentUpon>
     </Compile>
-    <Compile Include="Model\Animales\ContactoTiburonArponCallback.cs" />
-    <Compile Include="Model\Animales\ContactoTiburonCallback.cs" />
+    <Compile Include="Model\Callbacks\ContactoTiburonArponCallback.cs" />
+    <Compile Include="Model\Callbacks\ContactoTiburonCallback.cs" />
     <Compile Include="Model\Animales\MovimientoCircular.cs" />
     <Compile Include="Model\Animales\MovimientoPez.cs" />
     <Compile Include="Model\Animales\Pez.cs" />
     <Compile Include="Model\Animales\Tiburon.cs" />
-    <Compile Include="Model\CraftingInventario\Arpon.cs" />
+    <Compile Include="Model\Callbacks\TechoArponCallback.cs" />
+    <Compile Include="Model\Items\Arpon.cs" />
     <Compile Include="Model\CraftingInventario\ObjetoInventarioPezAmarillo.cs" />
     <Compile Include="Model\CraftingInventario\ObjetoInventarioPezAzul.cs" />
-    <Compile Include="Model\CraftingInventario\RedPesca.cs" />
-    <Compile Include="Model\CraftingInventario\Arma.cs" />
+    <Compile Include="Model\Items\RedPesca.cs" />
+    <Compile Include="Model\Items\Arma.cs" />
     <Compile Include="Model\CraftingInventario\Inventario.cs" />
     <Compile Include="Model\ADebugDrawer.cs" />
-    <Compile Include="Model\CraftingInventario\BrainCoral.cs" />
+    <Compile Include="Model\Items\BrainCoral.cs" />
     <Compile Include="Model\Camara\TgcFpsCamera.cs" />
-    <Compile Include="Model\CraftingInventario\Botiquin.cs" />
+    <Compile Include="Model\Items\Botiquin.cs" />
     <Compile Include="Model\Camara\TgcFpsCameraMenu.cs" />
     <Compile Include="Model\Escenario.cs" />
     <Compile Include="Model\GameModel.cs" />
@@ -140,11 +141,11 @@
     <Compile Include="Model\Optimizacion\QuadtreeNode.cs" />
     <Compile Include="Model\CraftingInventario\RecolectableConMesh.cs" />
     <Compile Include="Model\CraftingInventario\RecolectableConTextura.cs" />
-    <Compile Include="Model\CraftingInventario\SeaShell.cs" />
+    <Compile Include="Model\Items\SeaShell.cs" />
     <Compile Include="Model\Sprites\CustomBitmap.cs" />
     <Compile Include="Model\Sprites\CustomSprite.cs" />
     <Compile Include="Model\Sprites\Drawer2D.cs" />
-    <Compile Include="Model\CraftingInventario\TanqueOxigeno.cs" />
+    <Compile Include="Model\Items\TanqueOxigeno.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form\GameForm.resx">

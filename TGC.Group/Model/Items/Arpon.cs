@@ -73,6 +73,11 @@ namespace LosTiburones.Model.CraftingInventario
             meshArpon.Render();
         }
 
+        public void Deshabilitar()
+        {
+            this.tiempo = 10;
+        }
+
         public float Tiempo { get => tiempo; }
     }
 }

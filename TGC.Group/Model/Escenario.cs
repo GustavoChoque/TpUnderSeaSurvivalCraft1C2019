@@ -28,6 +28,7 @@ using TGC.Core.Text;
 using TGC.Core.Input;
 using LosTiburones.Model.CraftingInventario;
 using LosTiburones.Model.Animales;
+using LosTiburones.Model.Callbacks;
 
 namespace LosTiburones.Model
 {
@@ -129,6 +130,7 @@ namespace LosTiburones.Model
         private TgcMesh arponMesh;
         private Int64 arponSeq = 0;
         private float tiempoEsperaArpon = 0;
+        private RigidBody bodyTecho;
 
         //////////////////////////////
         private Boolean recienMeSumergi = false;
@@ -335,6 +337,7 @@ namespace LosTiburones.Model
 
             arpones.ForEach(arpon => {
                 dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, this));
+                dynamicsWorld.ContactPairTest(bodyTecho, arpon.RigidBody, new TechoArponCallback(arpon, this));
             });
 
             tiempoEsperaArpon = tiempoEsperaArpon + GModel.ElapsedTime;
@@ -1724,7 +1727,7 @@ namespace LosTiburones.Model
             var techoShape = new StaticPlaneShape(TGCVector3.Down.ToBulletVector3(), -alturaTecho);
             var techoMotionState = new DefaultMotionState();
             var techoInfo = new RigidBodyConstructionInfo(0, techoMotionState, techoShape);
-            var bodyTecho = new RigidBody(techoInfo);
+            bodyTecho = new RigidBody(techoInfo);
 
             dynamicsWorld.AddRigidBody(bodyFloor);
             dynamicsWorld.AddRigidBody(bodyTecho); //SIRVE PARA LIMITAR LA ALTURA DEL PERSONAJE... HACER QUE LAS LANZAS DESAPAREZCAN CUANDO TOCAN EL TECHO
