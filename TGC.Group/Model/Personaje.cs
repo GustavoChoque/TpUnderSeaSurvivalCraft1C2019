@@ -27,7 +27,6 @@ namespace TGC.Group.Model
         private Boolean vivo = true;
         private float radioDeteccionNave = 450f;
         private float radioDeteccionWorkbench = 250f;
-        private float distanciaVisibilidadArpones = 2000f;
         private bool usoArma = false;
         private bool usoRedPesca = false;
         private bool modoDios = false;
@@ -195,6 +194,10 @@ namespace TGC.Group.Model
         public bool UsoArma { get => usoArma; set => usoArma = value; }
         public bool UsoRedPesca { get => usoRedPesca; set => usoRedPesca = value; }
         public bool ModoDios { get => modoDios; set => modoDios = value; }
-        
+
+        internal void sufriDanioPorTiburonCerca()
+        {
+            this.sufriDanio(20);
+        }
     }
 }

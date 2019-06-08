@@ -23,9 +23,8 @@ namespace LosTiburones.Model.Animales
 
         public override float AddSingleResult(ManifoldPoint cp, CollisionObjectWrapper colObj0Wrap, int partId0, int index0, CollisionObjectWrapper colObj1Wrap, int partId1, int index1)
         {
-            /////////////////////////MEJORAR ESTO... HACER QUE CAIGAN JUNTOS EL ARPON Y EL TIBURON AL FONDO DEL MAR, SUMAR PUNTOS O ALGO ASI
             arpon.Deshabilitar();
-            tiburon.perseguilo(); //persecucion luego de impacto de arpon
+            tiburon.perseguilo();
             tiburon.sufriDanio();
             return 0;
         }

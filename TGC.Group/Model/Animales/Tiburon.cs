@@ -20,6 +20,7 @@ namespace LosTiburones.Model
         private float velocidad = 100f;
         private float radioCercania = 750f;
         private float radioLejania = 1250f;
+        private float distanciaDeAtaque = 200f;
         private TGCVector3 movDir = new TGCVector3(1, 0, 1);
         private TGCVector3 posicionPersonajeOriginal = new TGCVector3(1, 0, 1);
         private float tiempoCambioRumbo = 10;
@@ -32,6 +33,7 @@ namespace LosTiburones.Model
         private float fuerzaMordida = 5f;
         private bool enabled = true;
         private float energia = 100;
+        private float tiempoAtaque = 2;
 
         public Tiburon(TgcMesh mesh, GameModel gmodel)
         {
@@ -47,7 +49,14 @@ namespace LosTiburones.Model
 
         public Boolean estoyCercaDelPersonaje(Personaje personaje)
         {
-            return FastMath.Sqrt(TGCVector3.LengthSq(personaje.Position - this.Position)) < radioCercania;
+            //return FastMath.Sqrt(TGCVector3.LengthSq(personaje.Position - this.Position)) < radioCercania;
+            return TGCVector3.Length(personaje.Position - this.Position) < radioCercania;
+        }
+
+        public Boolean estoyADistanciaDeAtaqueDelPersonaje(Personaje personaje)
+        {
+            //return FastMath.Sqrt(TGCVector3.LengthSq(personaje.Position - this.Position)) < distanciaDeAtaque;
+            return TGCVector3.Length(personaje.Position - this.Position) < distanciaDeAtaque;
         }
 
         public void moverse(Escenario escenario)
@@ -249,6 +258,21 @@ namespace LosTiburones.Model
         public void perseguilo()
         {
             this.loEstoyPersiguiendo = true;
+        }
+
+        public void Update()
+        {
+            //ATACA CADA 0.5 SEGUNDOS
+            if (estoyADistanciaDeAtaqueDelPersonaje(gmodel.Personaje) && tiempoAtaque >= .5f)
+            {
+                gmodel.Personaje.sufriDanioPorTiburonCerca();
+                tiempoAtaque = 0;
+            }
+
+            if (estoyADistanciaDeAtaqueDelPersonaje(gmodel.Personaje))
+            {
+                tiempoAtaque = tiempoAtaque + gmodel.ElapsedTime;
+            }
         }
     }
 }

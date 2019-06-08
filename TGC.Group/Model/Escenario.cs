@@ -369,10 +369,10 @@ namespace LosTiburones.Model
             tiburones.ForEach(tiburon => {
                 arpones.ForEach(arpon => {
                     dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, tiburon, this));
-                });
-
-                //REVISAR dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, new ContactoTiburonCallback(tiburon, this.GModel.Personaje));
-            });            
+                });                
+                //GModel.Personaje.sufriDanioPorTiburonCerca();
+                //dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, new ContactoTiburonCallback(tiburon, this.GModel.Personaje));
+            });
 
             //CONTACTO ARPONES CON EL TECHO
             arpones.ForEach(arpon => {
@@ -413,6 +413,8 @@ namespace LosTiburones.Model
             });
 
             tiempoEsperaTiburon = tiempoEsperaTiburon + GModel.ElapsedTime;
+
+            tiburones.ForEach(tiburon => tiburon.Update());
 
             //----------------
             var director = GModel.Camara.LookAt - GModel.Camara.Position; //new TGCVector3(1,0,0);
@@ -1097,30 +1099,30 @@ namespace LosTiburones.Model
 
         private void actualizoValoresSaludOxigeno(Personaje personaje)
         {
-            //ACTUALIZO LOS VALORES DE SALUD Y OXIGENO
-            if (this.fueraDelMapa(personaje))
-            {
-                personaje.sufriDanio(7.5f * GModel.ElapsedTime) ;
-            }
-
-            if (this.dentroDelMapa(personaje))
-            {
-                personaje.recuperaVida(3f * GModel.ElapsedTime);
-            }
-
-            if (this.bajoElAgua(personaje))
-            {
-                personaje.perdeOxigeno(7.5f * GModel.ElapsedTime);
-            }
-
-            if (this.sobreElAgua(personaje))
-            {
-                personaje.recuperaOxigeno(3f * GModel.ElapsedTime);
-            }
-
             //ACTUALIZO LOS SPRITES DE ENERGIA Y OXIGENO
             if (personaje.Vivo)
             {
+                //ACTUALIZO LOS VALORES DE SALUD Y OXIGENO
+                if (this.fueraDelMapa(personaje))
+                {
+                    personaje.sufriDanio(7.5f * GModel.ElapsedTime);
+                }
+
+                if (this.dentroDelMapa(personaje))
+                {
+                    personaje.recuperaVida(1f * GModel.ElapsedTime);
+                }
+
+                if (this.bajoElAgua(personaje))
+                {
+                    personaje.perdeOxigeno(7.5f * GModel.ElapsedTime);
+                }
+
+                if (this.sobreElAgua(personaje))
+                {
+                    personaje.recuperaOxigeno(3f * GModel.ElapsedTime);
+                }
+
                 switch (personaje.Health / personaje.MaxHealth)
                 {
                     case float n when (n <= 0):
