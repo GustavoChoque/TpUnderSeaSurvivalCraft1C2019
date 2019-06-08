@@ -183,6 +183,7 @@ namespace LosTiburones.Model
         public void morite()
         {
             this.enabled = false;
+            gmodel.Escenario.hacerSonarMateTiburon();
         }
 
         public void sufriDanio()

@@ -58,6 +58,11 @@ namespace LosTiburones.Model
 
         private TgcMp3Player musica = new TgcMp3Player();
         private TgcStaticSound sonidoTiburonCerca = new TgcStaticSound();
+        private TgcStaticSound sonidoAtrapoPez = new TgcStaticSound();
+        private TgcStaticSound sonidoCrafteoItem = new TgcStaticSound();
+        private TgcStaticSound sonidoMatoTiburon = new TgcStaticSound();
+        private TgcStaticSound sonidoRecojoElemento = new TgcStaticSound();
+        private TgcStaticSound sonidoUsoElemento = new TgcStaticSound();
 
         private List<TgcMesh> objetosEstaticosEnArray = new List<TgcMesh>();
         private List<Pez> pecesAmarillos = new List<Pez>();
@@ -135,6 +140,22 @@ namespace LosTiburones.Model
         private Int64 tiburonSeq = 0;
         private float tiempoEsperaTiburon = 25;
         private TgcText2D textoTiburon;
+
+        public void hacerSonarCrafteoExitoso()
+        {
+            sonidoCrafteoItem.play();
+        }
+
+        public void hacerSonarUsoElementoInventario()
+        {
+            sonidoUsoElemento.play();
+        }
+
+        public void hacerSonarMateTiburon()
+        {
+            sonidoMatoTiburon.play();
+        }
+
         private bool renderizoTextoTiburon = false;
 
         //////////////////////////////
@@ -205,7 +226,7 @@ namespace LosTiburones.Model
 
             this.cargoHeightmap();
 
-            this.cargoMusica();
+            this.cargoSonidos();
 
             this.cargoMeshes();
 
@@ -507,6 +528,7 @@ namespace LosTiburones.Model
                             pecesAmarillos.Remove(pez);
                             pez.Dispose();
                             GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventarioPezAmarillo());
+                            sonidoAtrapoPez.play();
                         });
                     }
 
@@ -520,6 +542,7 @@ namespace LosTiburones.Model
                             pecesAzules.Remove(pez);
                             pez.Dispose();
                             GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventarioPezAzul());
+                            sonidoAtrapoPez.play();
                         });
                     }
                 }
@@ -1819,11 +1842,15 @@ namespace LosTiburones.Model
             dynamicsWorld.AddRigidBody(bodyTecho); //SIRVE PARA LIMITAR LA ALTURA DEL PERSONAJE... HACER QUE LAS LANZAS DESAPAREZCAN CUANDO TOCAN EL TECHO
         }
 
-        private void cargoMusica()
+        private void cargoSonidos()
         {
-            //musica.FileName = GModel.MediaDir + "\\Music\\AbandonShip.mp3";
             sonidoTiburonCerca.loadSound(GModel.MediaDir + "\\Music\\SharkNear.wav", GModel.DirectSound.DsDevice);
-        }
+            sonidoAtrapoPez.loadSound(GModel.MediaDir + "\\Music\\AtrapoPez.wav", GModel.DirectSound.DsDevice);
+            sonidoCrafteoItem.loadSound(GModel.MediaDir + "\\Music\\CrafteoItem.wav", GModel.DirectSound.DsDevice);
+            sonidoMatoTiburon.loadSound(GModel.MediaDir + "\\Music\\MatoTiburon.wav", GModel.DirectSound.DsDevice);
+            sonidoRecojoElemento.loadSound(GModel.MediaDir + "\\Music\\RecojoElemento.wav", GModel.DirectSound.DsDevice);
+            sonidoUsoElemento.loadSound(GModel.MediaDir + "\\Music\\UsoElemento.wav", GModel.DirectSound.DsDevice);
+    }
 
         private void generoMetales()
         {
@@ -1933,6 +1960,8 @@ namespace LosTiburones.Model
                         objetoAMostrar.CuerpoRigido.Dispose();
                     }                    
                     objetoAMostrar = null;
+
+                    sonidoRecojoElemento.play();
                 }
             }
             else

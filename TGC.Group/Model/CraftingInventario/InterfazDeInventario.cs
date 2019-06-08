@@ -132,6 +132,8 @@ namespace LosTiburones.Model
                     activo = false;
                     gui.Reset();
 
+                    GModel.Escenario.hacerSonarUsoElementoInventario();
+
                     break;
             }
 

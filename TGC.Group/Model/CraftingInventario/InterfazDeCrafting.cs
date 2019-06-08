@@ -151,6 +151,7 @@ namespace LosTiburones.Model
                 huboErrorCrafteo = false;
                 renderizoTextoExito = true;
                 huboCrafteoExitoso = true;
+                GModel.Escenario.hacerSonarCrafteoExitoso();
             }
             else
             {
@@ -177,6 +178,7 @@ namespace LosTiburones.Model
                 huboErrorCrafteo = false;
                 renderizoTextoExito = true;
                 huboCrafteoExitoso = true;
+                GModel.Escenario.hacerSonarCrafteoExitoso();
             }
             else
             {
@@ -256,6 +258,7 @@ namespace LosTiburones.Model
                 huboErrorCrafteo = false;
                 renderizoTextoExito = true;
                 huboCrafteoExitoso = true;
+                GModel.Escenario.hacerSonarCrafteoExitoso();
             }
             else
             {
@@ -285,6 +288,7 @@ namespace LosTiburones.Model
                 renderizoTextoExito = true;
                 huboCrafteoExitoso = true;
                 acumuloTiempo = 0;
+                GModel.Escenario.hacerSonarCrafteoExitoso();
             }
             else
             {
