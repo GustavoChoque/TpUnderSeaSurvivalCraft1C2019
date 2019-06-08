@@ -112,6 +112,7 @@
     <Compile Include="Model\Animales\Pez.cs" />
     <Compile Include="Model\Animales\Tiburon.cs" />
     <Compile Include="Model\Callbacks\TechoArponCallback.cs" />
+    <Compile Include="Model\CraftingInventario\ObjetoInventarioTiburon.cs" />
     <Compile Include="Model\Items\Arpon.cs" />
     <Compile Include="Model\CraftingInventario\ObjetoInventarioPezAmarillo.cs" />
     <Compile Include="Model\CraftingInventario\ObjetoInventarioPezAzul.cs" />

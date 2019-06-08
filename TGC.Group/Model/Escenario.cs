@@ -134,6 +134,8 @@ namespace LosTiburones.Model
         private List<Tiburon> tiburonesMuertos = new List<Tiburon>();
         private Int64 tiburonSeq = 0;
         private float tiempoEsperaTiburon = 25;
+        private TgcText2D textoTiburon;
+        private bool renderizoTextoTiburon = false;
 
         //////////////////////////////
         private Boolean recienMeSumergi = false;
@@ -304,6 +306,13 @@ namespace LosTiburones.Model
             textoPesque.Size = new Size(500, 500);
             textoPesque.Color = Color.LawnGreen;
 
+            textoTiburon = new TgcText2D();
+            textoTiburon.Text = "Atrapaste un tiburón!";
+            textoTiburon.Align = TgcText2D.TextAlign.CENTER;
+            textoTiburon.Position = new Point(width / 3, height / 2 + 20);
+            textoTiburon.Size = new Size(500, 500);
+            textoTiburon.Color = Color.LawnGreen;
+
             mensajeErrorArponRed = new TgcText2D();
             mensajeErrorArponRed.Text = "El arpon y la red se pueden usar solo bajo el agua!";
             mensajeErrorArponRed.Align = TgcText2D.TextAlign.CENTER;
@@ -365,8 +374,15 @@ namespace LosTiburones.Model
                 if (!tiburon.Vivo)
                 {
                     tiburonesMuertos.Add(tiburon);
+
+                    //USO ESTO CUANDO UN TIBURON MUERE
                     dynamicsWorld.RemoveRigidBody(tiburon.CuerpoRigido);
                     tiburon.Dispose();
+
+                    GModel.Personaje.Inventario.agregaObjeto(new ObjetoInventarioTiburon());
+
+                    renderizoTextoTiburon = true;
+                    acumuloTiempo = 0;
                 }
             });
 
@@ -548,6 +564,11 @@ namespace LosTiburones.Model
                 if (acumuloTiempo > 2 && renderizoErrorArponRed)
                 {
                     renderizoErrorArponRed = false;
+                }
+
+                if (acumuloTiempo > 2 && renderizoTextoTiburon)
+                {
+                    renderizoTextoTiburon = false;
                 }
             }
 
@@ -938,6 +959,11 @@ namespace LosTiburones.Model
             if (renderizoTextoPesque)
             {
                 textoPesque.render();
+            }
+
+            if (renderizoTextoTiburon)
+            {
+                textoTiburon.render();
             }
 
             ///////////////////////////ARPONES

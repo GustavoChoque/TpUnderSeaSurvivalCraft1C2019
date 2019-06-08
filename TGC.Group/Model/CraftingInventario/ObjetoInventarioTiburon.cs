@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace LosTiburones.Model.CraftingInventario
 {
-    public class ObjetoInventarioPezAzul : ObjetoInventario
+    public class ObjetoInventarioTiburon : ObjetoInventario
     {
-        public ObjetoInventarioPezAzul() : base("Pez Azul", 1) { }
+        public ObjetoInventarioTiburon() : base("Tiburon", 1) { }
     }
 }
