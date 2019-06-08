@@ -108,6 +108,12 @@ namespace LosTiburones.Model
         private Effect efectoSuperficieAgua, efectoMetalico, efectoNiebla;
         private float time;
         //---------------------
+
+        //--------Para las burbujas------
+        private TGCSphere burbuja;
+        private float movimientoBurbuja = 0;
+        private float timerBurbujas = 60f;
+        //----------------------
         private TgcScene objetosDelTerreno;
         //private Quadtree quadtree;
         private Octree octree;
@@ -178,7 +184,13 @@ namespace LosTiburones.Model
 
             //Device de DirectX para crear primitivas.
             var d3dDevice = D3DDevice.Instance.Device;
-            
+            //-----------init burbuja----------
+            var textureBurbuja = TgcTexture.createTexture(GModel.MediaDir + "Texturas\\burbuja7.png");
+            burbuja = new TGCSphere(50, textureBurbuja, new TGCVector3(0, 0, 0));
+            burbuja.AlphaBlendEnable = true;
+            burbuja.updateValues();
+            burbuja.Transform = TGCMatrix.Scaling(20, 20, 20) * TGCMatrix.Translation(100, -50, 100);
+            //------------------------------
             this.cargoPisos();
 
             this.cargoSkybox();
@@ -604,6 +616,7 @@ namespace LosTiburones.Model
                     musica.play(true);
                 }
             }
+            movimientoBurbuja += GModel.ElapsedTime * 100;
         }
 
         public void Render()
@@ -761,9 +774,26 @@ namespace LosTiburones.Model
             planta2.Render();
             planta3.Render();
             roca.Render();*/
-
             
+            ///------para rederear las burbujas-----
+            objetosDelTerreno.Meshes.ForEach(p => {
+                if (p.Position.Y + movimientoBurbuja + burbuja.Radius < 0)
+                {
+                    burbuja.Transform = TGCMatrix.Scaling(20, 20, 20) * TGCMatrix.Translation(p.Position.X, p.Position.Y + movimientoBurbuja, p.Position.Z);
 
+                    burbuja.Render();
+                }
+
+            });
+            //control de creacion burbujas, aprox cada 60 seg
+            timerBurbujas -= GModel.ElapsedTime;
+            if (timerBurbujas < 0)
+            {
+                movimientoBurbuja = 0;
+                timerBurbujas = 60;
+            }
+            //--------------------
+            
             pecesAmarillos.ForEach(obj => obj.Render());
             //pezCircular.Render();
             pecesAzules.ForEach(obj => obj.Render());
@@ -879,7 +909,7 @@ namespace LosTiburones.Model
             planta3.Dispose();
             roca.Dispose();
             */
-
+            burbuja.Dispose();
             objetosEstaticosEnArray.ForEach(obj => obj.Dispose());
 
             pecesAmarillos.ForEach(obj => obj.Dispose());
