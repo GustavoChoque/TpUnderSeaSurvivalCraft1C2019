@@ -33,6 +33,6 @@ namespace LosTiburones.Model
             Objeto.Dispose();
         }
 
-        private TGCBox Objeto { get => objeto; set => objeto = value; }
+        public TGCBox Objeto { get => objeto; set => objeto = value; }
     }
 }

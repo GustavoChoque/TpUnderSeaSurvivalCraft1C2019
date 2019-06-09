@@ -111,6 +111,7 @@ namespace LosTiburones.Model
         //-------Shaders----------
         private Effect efectoSuperficieAgua, efectoMetalico, efectoNiebla;
         private float time;
+        private List<RecolectableConTextura> metales=new List<RecolectableConTextura>();
         //---------------------
 
         //--------Para las burbujas------
@@ -824,6 +825,12 @@ namespace LosTiburones.Model
             {
                 mesh.Effect = efectoNiebla;
                 mesh.Technique = "RenderScene";
+
+            }
+            foreach (var mesh in metales)
+            {
+                mesh.Objeto.Effect = efectoNiebla;
+                mesh.Objeto.Technique = "RenderScene";
 
             }
 
@@ -1884,6 +1891,7 @@ namespace LosTiburones.Model
                     var instance = new RecolectableConTextura(texturaOro, tamanio, posicion, "Oro");
                     instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
+                    metales.Add(instance);
                 }
 
             }
@@ -1912,6 +1920,7 @@ namespace LosTiburones.Model
                     var instance = new RecolectableConTextura(texturaRubi, tamanio, posicion, "Ruby");
                     instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
+                    metales.Add(instance);
                 }
 
             }
@@ -1940,6 +1949,7 @@ namespace LosTiburones.Model
                     var instance = new RecolectableConTextura(texturaPlatino, tamanio, posicion, "Platino");
                     instance.CuerpoRigido = metalRigidBody;
                     objetosRecolectables.Add(instance);
+                    metales.Add(instance);
                 }
             }
 
