@@ -951,11 +951,13 @@ namespace LosTiburones.Model
                 }
             });
             //-------------------------
-            r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, barco.BoundingBox);
-            if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
-            {
-                barco.RenderAll();
-            }
+            barco.Meshes.ForEach(meshBarco => {
+                r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, meshBarco.BoundingBox);
+                if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
+                {
+                    meshBarco.Render();
+                }
+            });
             //-------------------------
 
             textoOxigeno.render();
