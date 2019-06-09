@@ -43,10 +43,7 @@ namespace TGC.Group.Model
             Name = Game.Default.Name;
             Description = Game.Default.Description;
         }
-
-        //Boleano para ver si dibujamos el boundingbox
-        //private bool BoundingBox { get; set; }
-
+        
         //DECLARO VARIABLES 'GLOBALES'
         private TgcFpsCamera camaraInterna;
         private TgcBoundingCylinder cilindroColision;
@@ -235,8 +232,7 @@ namespace TGC.Group.Model
 
         private void configuroCamara()
         {
-            camaraInterna = new TgcFpsCamera(new TGCVector3(600, 10, -250), camaraMoveSpeed, camaraJumpSpeed, Input);
-            //Camara = camaraInterna;
+            camaraInterna = new TgcFpsCamera(new TGCVector3(600, 10, -250), camaraMoveSpeed, camaraJumpSpeed, this);
         }
 
         public Random GetRandom { get => rnd; }

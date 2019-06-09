@@ -38,7 +38,6 @@ namespace LosTiburones.Model
         
         private TgcPlane piso, agua;
         private TgcMesh coralBrain, coral, meshTiburon, fish, pillarCoral, seaShell, spiralWireCoral, treeCoral, yellowFish;
-        //private TgcMesh arbusto, arbusto2, pasto, planta, planta2, planta3, roca;
 
         private TgcMesh workbench;
 
@@ -111,7 +110,7 @@ namespace LosTiburones.Model
         //-------Shaders----------
         private Effect efectoSuperficieAgua, efectoMetalico, efectoNiebla;
         private float time;
-        private List<RecolectableConTextura> metales=new List<RecolectableConTextura>();
+        private List<RecolectableConTextura> metales = new List<RecolectableConTextura>();
         //---------------------
 
         //--------Para las burbujas------
@@ -135,28 +134,11 @@ namespace LosTiburones.Model
         private Int64 arponSeq = 0;
         private float tiempoEsperaArpon = 0;
         private RigidBody bodyTecho;
-        //private Tiburon tiburon;
         private List<Tiburon> tiburones = new List<Tiburon>();
         private List<Tiburon> tiburonesMuertos = new List<Tiburon>();
         private Int64 tiburonSeq = 0;
         private float tiempoEsperaTiburon = 25;
         private TgcText2D textoTiburon;
-
-        public void hacerSonarCrafteoExitoso()
-        {
-            sonidoCrafteoItem.play();
-        }
-
-        public void hacerSonarUsoElementoInventario()
-        {
-            sonidoUsoElemento.play();
-        }
-
-        public void hacerSonarMateTiburon()
-        {
-            sonidoMatoTiburon.play();
-        }
-
         private bool renderizoTextoTiburon = false;
 
         //////////////////////////////
@@ -193,8 +175,6 @@ namespace LosTiburones.Model
             constraintSolver = new SequentialImpulseConstraintSolver();
             broadphaseInterface = new DbvtBroadphase();
             dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphaseInterface, constraintSolver, collisionConfiguration);
-            //dynamicsWorld.Gravity=new TGCVector3(0,-20f,0).ToBulletVector3();
-            //dynamicsWorld.Gravity=new TGCVector3(0,0,0).ToBulletVector3();
             
             //-------------creacion rigidbodies-------------------
             var ballShape = new SphereShape(50);
@@ -210,7 +190,7 @@ namespace LosTiburones.Model
             rigidCamera.ActivationState = ActivationState.IslandSleeping;
             dynamicsWorld.AddRigidBody(rigidCamera);
 
-            camaraInterna = new TgcFpsCamera(posicionInicial, GModel.Input);
+            camaraInterna = new TgcFpsCamera(posicionInicial, GModel);
 
             //Device de DirectX para crear primitivas.
             var d3dDevice = D3DDevice.Instance.Device;
@@ -265,11 +245,6 @@ namespace LosTiburones.Model
             efectoMetalico = TGCShaders.Instance.TgcMeshPhongShader;
 
             //-----------
-
-            workbench.Scale = new TGCVector3(0.2f, 0.2f, 0.2f);
-            workbench.Position = new TGCVector3(150f, -60, -50f);
-            workbench.RotateY(-FastMath.PI/2);
-            
             objetosDelTerreno.Meshes.ForEach(o => {
                 //o.AutoTransformEnable = false;
                 o.Move(new TGCVector3(0, -DESPLAZAMIENTO_EN_Y, 0));
@@ -297,10 +272,6 @@ namespace LosTiburones.Model
             octree.create(objetosDelTerreno.Meshes, objetosDelTerreno.BoundingBox);
             octree.createDebugOctreeMeshes();
             //----------------------------------
-
-
-
-
             //BULLET DEBUG: Debug para Bullet (Commentar estas lineas si NO se desea Debugear)
             //-------------Start Bullet Debug Config----------------
             //debugDrawer = new ADebugDrawer(DebugDrawModes.DrawWireframe);
@@ -371,8 +342,6 @@ namespace LosTiburones.Model
                 arpones.ForEach(arpon => {
                     dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, arpon.RigidBody, new ContactoTiburonArponCallback(arpon, tiburon, this));
                 });                
-                //GModel.Personaje.sufriDanioPorTiburonCerca();
-                //dynamicsWorld.ContactPairTest(tiburon.CuerpoRigido, RigidCamera, new ContactoTiburonCallback(tiburon, this.GModel.Personaje));
             });
 
             //CONTACTO ARPONES CON EL TECHO
@@ -673,9 +642,6 @@ namespace LosTiburones.Model
 
             //-----------
             //Muevo los peces amarillos
-
-            //pezCircular.Update(GModel.ElapsedTime);
-
             pecesAmarillos.ForEach(pez =>
             {
                 pez.Position += new TGCVector3(5f * pez.MoveSpeed * GModel.ElapsedTime * pez.CurrentMoveDir, 0, 0);
@@ -694,7 +660,6 @@ namespace LosTiburones.Model
 
             //-----------
             //Muevo los peces azules
-
             pecesAzules.ForEach(pez =>
             {
                 pez.Position += new TGCVector3(0, 0, 2f * pez.MoveSpeed * GModel.ElapsedTime * pez.CurrentMoveDir);
@@ -895,24 +860,9 @@ namespace LosTiburones.Model
             //------------------------------------
             agua.Render();
             piso.Render();
-            coral.Render();
-            tiburones.ForEach(tiburon => tiburon.Render());
-            coralBrain.Render();
-            barco.RenderAll();
-            fish.Render();
-            pillarCoral.Render();
-            seaShell.Render();
-            spiralWireCoral.Render();
-            treeCoral.Render();
-            yellowFish.Render();
-            /*arbusto.Render();
-            arbusto2.Render();
-            pasto.Render();
-            planta.Render();
-            planta2.Render();
-            planta3.Render();
-            roca.Render();*/
             
+            tiburones.ForEach(tiburon => tiburon.Render());
+                        
             ///------para rederear las burbujas-----
             objetosDelTerreno.Meshes.ForEach(p => {
                 if (p.Position.Y + movimientoBurbuja + burbuja.Radius < 0)
@@ -931,10 +881,6 @@ namespace LosTiburones.Model
                 timerBurbujas = 60;
             }
             //--------------------
-            
-            pecesAmarillos.ForEach(obj => obj.Render());
-            //pezCircular.Render();
-            pecesAzules.ForEach(obj => obj.Render());
 
             objetosRecolectables.ForEach(obj => obj.Render());
 
@@ -945,30 +891,71 @@ namespace LosTiburones.Model
             spriteDrawer.EndDrawSprite();
             }
 
-            workbench.Render();
-
             objetosDelTerreno.RenderAll();
 
             //quadtree.render(GModel.Frustum, true);
 
             octree.render(GModel.Frustum, false);
 
-            //objetosEstaticosEnArray.ForEach(obj => obj.Render());
-
             //----------Frustum Culling-------------
+            TgcCollisionUtils.FrustumResult r;
             //por alguna razon no funciona bien al renderizar los objetos,
             objetosEstaticosEnArray.ForEach(mesh => {
                 if (mesh.Enabled)
                 {
-                    var r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, mesh.BoundingBox);
+                    r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, mesh.BoundingBox);
                     if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
                     {
                         mesh.Render();
-
                     }
                 }
-
             });
+            //-------------------------
+            pecesAmarillos.ForEach(pezAmarillo =>{
+                if (pezAmarillo.Mesh.Enabled)
+                {
+                    r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, pezAmarillo.Mesh.BoundingBox);
+                    if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
+                    {
+                        pezAmarillo.Render();
+                    }
+                }
+            });
+            //-------------------------
+            pecesAzules.ForEach(pezAzul => {
+                if (pezAzul.Mesh.Enabled)
+                {
+                    r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, pezAzul.Mesh.BoundingBox);
+                    if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
+                    {
+                        pezAzul.Render();
+                    }
+                }
+            });
+            //-------------------------
+            r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, workbench.BoundingBox);
+            if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
+            {
+                workbench.Render();
+            }
+            //-------------------------
+            ///////////////////////////ARPONES
+            arpones.ForEach(arpon => {
+                if (arpon.Mesh.Enabled)
+                {
+                    r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, arpon.Mesh.BoundingBox);
+                    if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
+                    {
+                        arpon.Render();
+                    }
+                }
+            });
+            //-------------------------
+            r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, barco.BoundingBox);
+            if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
+            {
+                barco.RenderAll();
+            }
             //-------------------------
 
             textoOxigeno.render();
@@ -998,13 +985,6 @@ namespace LosTiburones.Model
                 textoTiburon.render();
             }
 
-            ///////////////////////////ARPONES
-            arpones.ForEach(arpon => {
-
-                arpon.Render();
-
-            });
-
             if (renderizoErrorArponRed)
             {
                 mensajeErrorArponRed.render();
@@ -1033,38 +1013,17 @@ namespace LosTiburones.Model
             terreno.Dispose();
             agua.Dispose();
             piso.Dispose();
-            coral.Dispose();
+            
             tiburones.ForEach(tiburon => tiburon.Dispose());
-            coralBrain.Dispose();
-            barco.DisposeAll();
-            fish.Dispose();
-            pillarCoral.Dispose();
-            seaShell.Dispose();
-            spiralWireCoral.Dispose();
-            treeCoral.Dispose();
-            yellowFish.Dispose();
-            /*
-             * arbusto.Dispose();
-            arbusto2.Dispose();
-            pasto.Dispose();
-            planta.Dispose();
-            planta2.Dispose();
-            planta3.Dispose();
-            roca.Dispose();
-            */
+            
             burbuja.Dispose();
             objetosEstaticosEnArray.ForEach(obj => obj.Dispose());
 
             pecesAmarillos.ForEach(obj => obj.Dispose());
-            //pezCircular.Dispose();
 
             pecesAzules.ForEach(obj => obj.Dispose());
 
             objetosRecolectables.ForEach(obj => obj.Dispose());
-
-            //BULLET DEBUG: Libero el DebugDrawer
-            //debugDrawer.Dispose();
-
 
             workbench.Dispose();
             objetosDelTerreno.DisposeAll();
@@ -1370,23 +1329,6 @@ namespace LosTiburones.Model
 
             yellowFish = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\Aquatic\\Meshes\\yellow_fish-TgcScene.xml").Meshes[0];
 
-            /*arbusto = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Arbusto\\Arbusto-TgcScene.xml").Meshes[0];
-
-            arbusto2 = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Arbusto2\\Arbusto2-TgcScene.xml").Meshes[0];
-
-            pasto = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Pasto\\Pasto-TgcScene.xml").Meshes[0];
-
-            planta = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta\\Planta-TgcScene.xml").Meshes[0];
-
-            planta2 = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta2\\Planta2-TgcScene.xml").Meshes[0];
-
-            planta3 = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Planta3\\Planta3-TgcScene.xml").Meshes[0];
-
-            roca = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Meshes\\Vegetacion\\Roca\\Roca-TgcScene.xml").Meshes[0];
-            */
-
-            //redPesca = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\RedPesca\\RedPesca-TgcScene.xml").Meshes[0];
-
             arponMesh = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\ModelosTgc\\Arpon\\Arpon-TgcScene.xml").Meshes[0];
         }
 
@@ -1395,67 +1337,9 @@ namespace LosTiburones.Model
             barco.Meshes.ForEach(meshBarco => meshBarco.Scale = new TGCVector3(10,10,10));
             barco.Meshes.ForEach(meshBarco => meshBarco.Position = new TGCVector3(-100,0,-100));
 
-            //--------------objetos---------
-            /*coral.Position = new TGCVector3(100, -1000, -435);
-            coral.Scale = new TGCVector3(15, 15, 15);*/
-
-            TGCVector3 posCoral = new TGCVector3(10, -300, 0);
-            coral.AutoTransformEnable = false;
-            coral.Transform = TGCMatrix.Translation(posCoral);
-            
-            TGCVector3 posCoralBrain = new TGCVector3(10, -300, 0);
-            //coralBrain.Position = new TGCVector3(-200, -1000, 340);
-            coralBrain.AutoTransformEnable = false;
-            coralBrain.Transform = TGCMatrix.Translation(posCoralBrain);
-
-            //fish.Position = new TGCVector3(0, -1000, 0);
-            //fish.Transform = TGCMatrix.Translation(fish.Position);
-
-            TGCVector3 posPillarCoral = new TGCVector3(10, -300, 0);
-            //pillarCoral.Position = new TGCVector3(0, -1000, 40);
-            pillarCoral.AutoTransformEnable = false;
-            pillarCoral.Transform = TGCMatrix.Translation(posPillarCoral);
-
-            TGCVector3 posSeaShell = new TGCVector3(10, -300, 0);
-            //seaShell.Position = new TGCVector3(500, -1000, 40);
-            seaShell.AutoTransformEnable = false;
-            seaShell.Transform = TGCMatrix.Translation(posSeaShell);
-
-            TGCVector3 posSpiralWireCoral = new TGCVector3(10, -300, 0);
-            //spiralWireCoral.Position = new TGCVector3(-50, -1000, 40);
-            spiralWireCoral.AutoTransformEnable = false;
-            spiralWireCoral.Transform = TGCMatrix.Translation(posSpiralWireCoral);
-
-            TGCVector3 posTreeCoral = new TGCVector3(10, -300, 0);
-            TGCVector3 escalaTreeCoral = new TGCVector3(10f, 10f, 10f);
-           // treeCoral.Position = new TGCVector3(-70, -1000, 200);
-            treeCoral.AutoTransformEnable = false;
-            treeCoral.Transform = TGCMatrix.Scaling(escalaTreeCoral) * TGCMatrix.Translation(posTreeCoral);
-
-            //yellowFish.Position = new TGCVector3(50, -500, -20);
-            //yellowFish.Transform = TGCMatrix.Translation(yellowFish.Position);
-
-           /* arbusto.Position = new TGCVector3(70, -1000, -30);
-            arbusto.AlphaBlendEnable = true;
-            arbusto.Transform = TGCMatrix.Translation(arbusto.Position);
-
-            arbusto2.Position = new TGCVector3(60, -1000, -20);
-            arbusto2.Transform = TGCMatrix.Translation(arbusto2.Position);
-
-            pasto.Position = new TGCVector3(50, -1000, -20);
-            pasto.Transform = TGCMatrix.Translation(pasto.Position);
-
-            planta.Position = new TGCVector3(40, -1000, -20);
-            planta.Transform = TGCMatrix.Translation(planta.Position);
-
-            planta2.Position = new TGCVector3(30, -1000, -20);
-            planta2.Transform = TGCMatrix.Translation(planta2.Position);
-
-            planta3.Position = new TGCVector3(20, -1000, -20);
-            planta3.Transform = TGCMatrix.Translation(planta3.Position);
-
-            roca.Position = new TGCVector3(10, -1000, -20);
-            roca.Transform = TGCMatrix.Translation(roca.Position);*/
+            workbench.Scale = new TGCVector3(0.2f, 0.2f, 0.2f);
+            workbench.Position = new TGCVector3(150f, -60, -50f);
+            workbench.RotateY(-FastMath.PI / 2);
         }
 
         private void generoObjetosEstaticosEnArray()
@@ -1644,155 +1528,6 @@ namespace LosTiburones.Model
                 }
 
             }
-            /*
-            //--------arbusto---------
-            instance = crearInstanciasObjetosEstaticos(arbusto, 10000, 5, arbusto.Name + 0 + "_" + 0);
-            instance.AlphaBlendEnable = true;
-            objetosEstaticosEnArray.Add(instance);
-            //Contruyo el BulletShape de base para clonar al resto de los objetos
-            childTriangleMesh = construirTriangleMeshShape(instance);
-            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
-            dynamicsWorld.AddRigidBody(rigidBody);
-
-            for (int i = 1; i < rows; i++)
-            {
-                for (int j = 1; j < cols; j++)
-                {
-                    instance = crearInstanciasObjetosEstaticos(arbusto, 10000, 5, arbusto.Name + i + "_" + j);
-                    instance.AlphaBlendEnable = true;
-                    objetosEstaticosEnArray.Add(instance);
-                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
-                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
-                    dynamicsWorld.AddRigidBody(rigidBody);
-                }
-
-            }
-            //--------arbusto 2---------
-            instance = crearInstanciasObjetosEstaticos(arbusto2, 10000, 5, arbusto2.Name + 0 + "_" + 0);
-            instance.AlphaBlendEnable = true;
-            objetosEstaticosEnArray.Add(instance);
-            //Contruyo el BulletShape de base para clonar al resto de los objetos
-            childTriangleMesh = construirTriangleMeshShape(instance);
-            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
-            dynamicsWorld.AddRigidBody(rigidBody);
-
-            for (int i = 1; i < rows; i++)
-            {
-                for (int j = 1; j < cols; j++)
-                {
-                    instance = crearInstanciasObjetosEstaticos(arbusto2, 10000, 5, arbusto2.Name + i + "_" + j);
-                    instance.AlphaBlendEnable = true;
-                    objetosEstaticosEnArray.Add(instance);
-                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
-                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
-                    dynamicsWorld.AddRigidBody(rigidBody);
-                }
-
-            }
-            //--------pasto---------
-            instance = crearInstanciasObjetosEstaticos(pasto, 10000, 5, pasto.Name + 0 + "_" + 0);
-            instance.AlphaBlendEnable = true;
-            objetosEstaticosEnArray.Add(instance);
-            //Contruyo el BulletShape de base para clonar al resto de los objetos
-            childTriangleMesh = construirTriangleMeshShape(instance);
-            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
-            dynamicsWorld.AddRigidBody(rigidBody);
-
-            for (int i = 1; i < rows; i++)
-            {
-                for (int j = 1; j < cols; j++)
-                {
-                    instance = crearInstanciasObjetosEstaticos(pasto, 10000, 5, pasto.Name + i + "_" + j);
-                    instance.AlphaBlendEnable = true;
-                    objetosEstaticosEnArray.Add(instance);
-                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
-                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
-                    dynamicsWorld.AddRigidBody(rigidBody);
-                }
-
-            }
-            //--------planta---------
-            instance = crearInstanciasObjetosEstaticos(planta, 10000, 5, planta.Name + 0 + "_" + 0);
-            objetosEstaticosEnArray.Add(instance);
-            //Contruyo el BulletShape de base para clonar al resto de los objetos
-            childTriangleMesh = construirTriangleMeshShape(instance);
-            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
-            dynamicsWorld.AddRigidBody(rigidBody);
-
-            for (int i = 1; i < rows; i++)
-            {
-                for (int j = 1; j < cols; j++)
-                {
-                    instance = crearInstanciasObjetosEstaticos(planta, 10000, 5, planta.Name + i + "_" + j);
-                    objetosEstaticosEnArray.Add(instance);
-                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
-                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
-                    dynamicsWorld.AddRigidBody(rigidBody);
-                }
-
-            }
-            //--------planta 2---------
-            instance = crearInstanciasObjetosEstaticos(planta2, 10000, 5, planta2.Name + 0 + "_" + 0);
-            objetosEstaticosEnArray.Add(instance);
-            //Contruyo el BulletShape de base para clonar al resto de los objetos
-            childTriangleMesh = construirTriangleMeshShape(instance);
-            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
-            dynamicsWorld.AddRigidBody(rigidBody);
-
-            for (int i = 1; i < rows; i++)
-            {
-                for (int j = 1; j < cols; j++)
-                {
-                    instance = crearInstanciasObjetosEstaticos(planta2, 10000, 5, planta2.Name + i + "_" + j);
-                    objetosEstaticosEnArray.Add(instance);
-                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
-                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
-                    dynamicsWorld.AddRigidBody(rigidBody);
-                }
-
-            }
-            //--------planta3---------
-            instance = crearInstanciasObjetosEstaticos(planta3, 10000, 5, planta3.Name + 0 + "_" + 0);
-            instance.AlphaBlendEnable = true;
-            objetosEstaticosEnArray.Add(instance);
-            //Contruyo el BulletShape de base para clonar al resto de los objetos
-            childTriangleMesh = construirTriangleMeshShape(instance);
-            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
-            dynamicsWorld.AddRigidBody(rigidBody);
-
-            for (int i = 1; i < rows; i++)
-            {
-                for (int j = 1; j < cols; j++)
-                {
-                    instance = crearInstanciasObjetosEstaticos(planta3, 10000, 5, planta3.Name + i + "_" + j);
-                    instance.AlphaBlendEnable = true;
-                    objetosEstaticosEnArray.Add(instance);
-                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
-                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
-                    dynamicsWorld.AddRigidBody(rigidBody);
-                }
-
-            }
-            //--------roca---------
-            instance = crearInstanciasObjetosEstaticos(roca, 10000, 5, roca.Name + 0 + "_" + 0);
-            objetosEstaticosEnArray.Add(instance);
-            //Contruyo el BulletShape de base para clonar al resto de los objetos
-            childTriangleMesh = construirTriangleMeshShape(instance);
-            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
-            dynamicsWorld.AddRigidBody(rigidBody);
-
-            for (int i = 1; i < rows; i++)
-            {
-                for (int j = 1; j < cols; j++)
-                {
-                    instance = crearInstanciasObjetosEstaticos(roca, 10000, 5, roca.Name + i + "_" + j);
-                    objetosEstaticosEnArray.Add(instance);
-                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
-                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instance.Position, instance.Scale);
-                    dynamicsWorld.AddRigidBody(rigidBody);
-                }
-
-            }*/
         }
 
         private void cargoSkybox()
@@ -2053,25 +1788,11 @@ namespace LosTiburones.Model
 
         public void hacerSonarTiburonCerca()
         {
-            /*
-             * if (musica.getStatus().Equals(TgcMp3Player.States.Playing))
-            {
-                musica.pause();
-            }
-            */
-
             sonidoTiburonCerca.play(true);
         }
 
         public void detenerSonidoTiburonCerca()
         {
-            /*
-            if (musica.getStatus().Equals(TgcMp3Player.States.Paused))
-            {
-                musica.resume();
-            }
-            */
-
             sonidoTiburonCerca.stop();
         }
 
@@ -2120,6 +1841,22 @@ namespace LosTiburones.Model
             var H = (H0 * (1 - fracc_i) + H1 * fracc_i) * (1 - fracc_j) + (H2 * (1 - fracc_i) + H3 * fracc_i) * fracc_j;
 
             return H - DESPLAZAMIENTO_EN_Y;
+        }
+
+
+        public void hacerSonarCrafteoExitoso()
+        {
+            sonidoCrafteoItem.play();
+        }
+
+        public void hacerSonarUsoElementoInventario()
+        {
+            sonidoUsoElemento.play();
+        }
+
+        public void hacerSonarMateTiburon()
+        {
+            sonidoMatoTiburon.play();
         }
     }
 }

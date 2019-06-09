@@ -50,14 +50,16 @@ namespace TGC.Group.Model.Camara
 
         private bool habiaSalido = false;
 
+        private GameModel gmodel;
+
         /// <summary>
         ///     Constructor de la camara a partir de un TgcD3dInput el cual ya tiene por default el positionEye (0,0,0), el mouseCenter a partir del centro del a pantalla, RotationSpeed 1.0f,
         ///     MovementSpeed y JumpSpeed 500f, el directionView (0,0,-1)
         /// </summary>
         /// <param name="input"></param>
-        public TgcFpsCamera(TgcD3dInput input)
+        public TgcFpsCamera(GameModel gmodel)
         {
-            this.Input = input;
+            this.Input = gmodel.Input;
             this.positionEye = TGCVector3.Empty;
             this.mouseCenter = new Point(D3DDevice.Instance.Device.Viewport.Width / 2, D3DDevice.Instance.Device.Viewport.Height / 2);
             this.RotationSpeed = 0.1f;
@@ -67,6 +69,7 @@ namespace TGC.Group.Model.Camara
             this.leftrightRot = FastMath.PI_HALF;
             this.updownRot = -FastMath.PI / 10.0f;
             this.cameraRotation = TGCMatrix.RotationX(updownRot) * TGCMatrix.RotationY(leftrightRot);
+            this.gmodel = gmodel;
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace TGC.Group.Model.Camara
         /// </summary>
         /// <param name="positionEye"></param>
         /// <param name="input"></param>
-        public TgcFpsCamera(TGCVector3 positionEye, TgcD3dInput input) : this(input)
+        public TgcFpsCamera(TGCVector3 positionEye, GameModel gmodel) : this(gmodel)
         {
             this.positionEye = positionEye;
         }
@@ -88,8 +91,8 @@ namespace TGC.Group.Model.Camara
         /// <param name="moveSpeed"></param>
         /// <param name="jumpSpeed"></param>
         /// <param name="input"></param>
-        public TgcFpsCamera(TGCVector3 positionEye, float moveSpeed, float jumpSpeed, TgcD3dInput input)
-            : this(positionEye, input)
+        public TgcFpsCamera(TGCVector3 positionEye, float moveSpeed, float jumpSpeed, GameModel gmodel)
+            : this(positionEye, gmodel)
         {
             this.MovementSpeed = moveSpeed;
             this.JumpSpeed = jumpSpeed;
@@ -104,8 +107,8 @@ namespace TGC.Group.Model.Camara
         /// <param name="jumpSpeed"></param>
         /// <param name="rotationSpeed"></param>
         /// <param name="input"></param>
-        public TgcFpsCamera(TGCVector3 positionEye, float moveSpeed, float jumpSpeed, float rotationSpeed, TgcD3dInput input)
-            : this(positionEye, moveSpeed, jumpSpeed, input)
+        public TgcFpsCamera(TGCVector3 positionEye, float moveSpeed, float jumpSpeed, float rotationSpeed, GameModel gmodel)
+            : this(positionEye, moveSpeed, jumpSpeed, gmodel)
         {
             this.RotationSpeed = rotationSpeed;
         }
@@ -163,50 +166,8 @@ namespace TGC.Group.Model.Camara
         public override void UpdateCamera(float elapsedTime)
         {
             var moveVector = TGCVector3.Empty;
-            //Forward
-            /*
-            if (Input.keyDown(Key.W))
-            {
-                moveVector += new TGCVector3(0, 0, -1) * MovementSpeed;
-            }
 
-            //Backward
-            if (Input.keyDown(Key.S))
-            {
-                moveVector += new TGCVector3(0, 0, 1) * MovementSpeed;
-            }
-
-            //Strafe right
-            if (Input.keyDown(Key.D))
-            {
-                moveVector += new TGCVector3(-1, 0, 0) * MovementSpeed;
-            }
-
-            //Strafe left
-            if (Input.keyDown(Key.A))
-            {
-                moveVector += new TGCVector3(1, 0, 0) * MovementSpeed;
-            }
-
-            //Jump
-            if (Input.keyDown(Key.Space))
-            {
-                moveVector += TGCVector3.Up * JumpSpeed;
-            }
-
-            //Crouch
-            if (Input.keyDown(Key.LeftControl))
-            {
-                moveVector += TGCVector3.Down * JumpSpeed;
-            }
-
-            if (Input.keyPressed(Key.L) || Input.keyPressed(Key.Escape))
-            {
-                LockCam = !lockCam;
-            }
-            */
-
-            if (Input.keyPressed(Key.Escape)){
+            if (Input.keyPressed(Key.Escape) && !gmodel.InterfazCrafting.Activo && !gmodel.InterfazInventario.Activo){
                 LockCam = !lockCam;
                 habiaSalido = true;
             }
@@ -216,11 +177,6 @@ namespace TGC.Group.Model.Camara
                 LockCam = !lockCam;
                 habiaSalido = false;
             }
-
-            //Solo rotar si se esta aprentando el boton izq del mouse
-            //if (lockCam || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
-            //if (lockCam || !Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) || Input.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT))
-            //{
 
             if (lockCam) { 
                 leftrightRot -= -Input.XposRelative * RotationSpeed;
@@ -233,7 +189,6 @@ namespace TGC.Group.Model.Camara
 
             //Se actualiza matrix de rotacion, para no hacer este calculo cada vez y solo cuando en verdad es necesario.
             cameraRotation = TGCMatrix.RotationX(updownRot) * TGCMatrix.RotationY(leftrightRot);
-                //}
             }
 
             if (lockCam)
