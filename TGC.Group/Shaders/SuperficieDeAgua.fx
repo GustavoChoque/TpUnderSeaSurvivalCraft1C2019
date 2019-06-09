@@ -56,9 +56,15 @@ VS_OUTPUT vs_main(VS_INPUT Input)
     VS_OUTPUT Output;
     Output.RealPos = Input.Position;
 		
-		
+	//------------
+	float frecuencia=2;
+	Input.Position.y=20*cos(frecuencia*(Input.Position.x+time))+20*sin(frecuencia*(Input.Position.z+time));
+    Input.Position.y+=cos(time);
+	//-------------
+	
+
 	//Input.Position.x=10*cos(time);
-	Input.Position.y=10*sin(time);
+	//Input.Position.y=10*sin(time);
 		
 	//Proyectar posicion
     Output.Position = mul(Input.Position, matWorldViewProj);
@@ -83,7 +89,7 @@ float4 ps_main(float2 Texcoord : TEXCOORD0, float4 Color : COLOR0) : COLOR0
     float4 fvBaseColor = tex2D(diffuseMap, Texcoord);
 	// combino color y textura
 	// en este ejemplo combino un 80% el color de la textura y un 20%el del vertice
-    return 0.8 * fvBaseColor + 0.2 * Color;
+    return fvBaseColor;//0.8 * fvBaseColor + 0.2 * Color;
 }
 
 // ------------------------------------------------------------------

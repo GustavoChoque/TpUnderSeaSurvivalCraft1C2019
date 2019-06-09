@@ -51,7 +51,7 @@ namespace LosTiburones.Model
         private ObjetoRecolectable objetoAMostrar;
         private List<ObjetoRecolectable> objetosRecolectables = new List<ObjetoRecolectable>();
 
-        private TgcSimpleTerrain terreno;
+        private TgcSimpleTerrain terreno, superficieAgua;
         private float currentScaleXZ;
         private float currentScaleY;
 
@@ -236,9 +236,13 @@ namespace LosTiburones.Model
 
             //-----------cargar shaders----
             efectoSuperficieAgua = TGCShaders.Instance.LoadEffect(GModel.ShadersDir + "SuperficieDeAgua.fx");
-            agua.Effect = efectoSuperficieAgua;
-            agua.Technique = "OleajeNormal";
+            //agua.Effect = efectoSuperficieAgua;
+            //agua.Technique = "OleajeNormal";
             time = 0;
+
+            superficieAgua.Effect = efectoSuperficieAgua;
+            superficieAgua.Technique = "OleajeNormal";
+
 
             efectoNiebla = TGCShaders.Instance.LoadEffect(GModel.ShadersDir + "TgcFogShader.fx");
 
@@ -858,7 +862,10 @@ namespace LosTiburones.Model
             terreno.Render();
 
             //------------------------------------
-            agua.Render();
+            //agua.Render();
+
+            superficieAgua.Render();
+
             piso.Render();
             
             tiburones.ForEach(tiburon => tiburon.Render());
@@ -891,7 +898,7 @@ namespace LosTiburones.Model
             spriteDrawer.EndDrawSprite();
             }
 
-            objetosDelTerreno.RenderAll();
+            //objetosDelTerreno.RenderAll();
 
             //quadtree.render(GModel.Frustum, true);
 
@@ -1013,7 +1020,10 @@ namespace LosTiburones.Model
             //------------------------
             skybox.Dispose();
             terreno.Dispose();
-            agua.Dispose();
+            //agua.Dispose();
+
+            superficieAgua.Dispose();
+
             piso.Dispose();
             
             tiburones.ForEach(tiburon => tiburon.Dispose());
@@ -1566,8 +1576,18 @@ namespace LosTiburones.Model
         
         private void cargoPisos()
         {
-            var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\agua20.jpg");
-            agua = new TgcPlane(new TGCVector3(-sizeMapa / 2, 0, -sizeMapa / 2), new TGCVector3(sizeMapa, 0, sizeMapa), TgcPlane.Orientations.XZplane, aguaTextura);
+            //var aguaTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\agua20.jpg");
+            //agua = new TgcPlane(new TGCVector3(-sizeMapa / 2, 0, -sizeMapa / 2), new TGCVector3(sizeMapa, 0, sizeMapa), TgcPlane.Orientations.XZplane, aguaTextura);
+
+
+            superficieAgua = new TgcSimpleTerrain();
+            superficieAgua.loadHeightmap(GModel.MediaDir + "Texturas\\Heighmaps\\heighmapmar2.jpg", 1000, 10, new TGCVector3(0, 0, 0));
+            superficieAgua.loadTexture(GModel.MediaDir + "Texturas\\mar2.jpg");
+            superficieAgua.AlphaBlendEnable = true;
+
+
+
+
 
             var pisoTextura = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\seabed.jpg");
             piso = new TgcPlane(new TGCVector3(-sizeMapa / 2, fondoMapa, -sizeMapa / 2), new TGCVector3(sizeMapa, 0, sizeMapa), TgcPlane.Orientations.XZplane, pisoTextura);
