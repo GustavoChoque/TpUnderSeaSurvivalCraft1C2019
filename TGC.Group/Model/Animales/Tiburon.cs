@@ -68,6 +68,7 @@ namespace LosTiburones.Model
                     recienEmpiezoAAlejarme = false;
                     var nuevaDir = new TGCVector3(movDir);
                     nuevaDir.Multiply(-1f);
+                    nuevaDir.Y = 0;
                     cambioRumbo(nuevaDir);
                     gmodel.Escenario.detenerSonidoTiburonCerca();
                     posicionPersonajeOriginal = new TGCVector3(gmodel.Personaje.Position);
