@@ -118,7 +118,7 @@ namespace LosTiburones.Model
         private float movimientoBurbuja = 0;
         private float timerBurbujas = 60f;
         //----------------------
-        private TgcScene objetosDelTerreno;
+        private TgcScene objetosDelTerreno, objetosAuxiliares;
         //private Quadtree quadtree;
         private Octree octree;
         private const int DESPLAZAMIENTO_EN_Y = 5260;
@@ -261,14 +261,27 @@ namespace LosTiburones.Model
                 dynamicsWorld.AddRigidBody(body);
 
             });
-          /*  //--------creo Quadtree para la Optimizacion---------------
-            quadtree = new Quadtree();
-            
-            objetosDelTerreno.BoundingBox.move(new TGCVector3(0, -5260, 0));
-            quadtree.create(objetosDelTerreno.Meshes, objetosDelTerreno.BoundingBox);
-            quadtree.createDebugQuadtreeMeshes();
-            //----------------------------------
-            */
+
+
+            //-----------para las posiciones de las burbujas-------
+            objetosAuxiliares = new TgcSceneLoader().loadSceneFromFile(GModel.MediaDir + "\\MeshCreator\\Scenes\\scenaAuxiliar\\objetosAuxiliares-TgcScene.xml");
+
+            objetosAuxiliares.Meshes.ForEach(o => {
+                //o.AutoTransformEnable = false;
+                o.Move(new TGCVector3(0, -DESPLAZAMIENTO_EN_Y, 0));
+                //o.Transform = TGCMatrix.Translation(new TGCVector3(0, -5000, 0));
+            });
+
+
+
+            /*  //--------creo Quadtree para la Optimizacion---------------
+              quadtree = new Quadtree();
+
+              objetosDelTerreno.BoundingBox.move(new TGCVector3(0, -5260, 0));
+              quadtree.create(objetosDelTerreno.Meshes, objetosDelTerreno.BoundingBox);
+              quadtree.createDebugQuadtreeMeshes();
+              //----------------------------------
+              */
             //--------creo Octree para la Optimizacion---------------
             octree = new Octree();
 
@@ -869,9 +882,9 @@ namespace LosTiburones.Model
             piso.Render();
             
             tiburones.ForEach(tiburon => tiburon.Render());
-                        
+
             ///------para rederear las burbujas-----
-            objetosDelTerreno.Meshes.ForEach(p => {
+            objetosAuxiliares.Meshes.ForEach(p => {
                 if (p.Position.Y + movimientoBurbuja + burbuja.Radius < 0)
                 {
                     burbuja.Transform = TGCMatrix.Scaling(20, 20, 20) * TGCMatrix.Translation(p.Position.X, p.Position.Y + movimientoBurbuja, p.Position.Z);

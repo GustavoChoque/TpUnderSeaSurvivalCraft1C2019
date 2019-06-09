@@ -1,0 +1,643 @@
+<tgcScene>
+  <name>objetosAuxiliares</name>
+  <texturesExport enabled="True" dir="Textures" />
+  <lightmapExport enabled="False" dir="LightMaps" />
+  <sceneBoundingBox min="[-6118.662,-1.7752,-6225.215]" max="[5957.836,5567.466,6091.921]" />
+  <materials count="1">
+    <m name="Standardmaterial" type="Standardmaterial">
+      <ambient>[0,0,0,0]</ambient>
+      <diffuse>[0,0,0,0]</diffuse>
+      <specular>[0,0,0,0]</specular>
+      <opacity>1</opacity>
+      <alphaBlendEnable>True</alphaBlendEnable>
+      <bitmap uvTiling="[1,1]" uvOffset="[1,1]">grass.png</bitmap>
+    </m>
+  </materials>
+  <meshes count="123">
+    <mesh name="Pasto" layer="0" type="Original" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-24.5236,-1.7752,-27.1082]" max="[30.9628,23.5675,25.7575]" />
+      <coordinatesIdx count="504">0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 9 10 11 12 10 9 12 13 10 14 13 12 11 15 16 10 15 11 10 17 15 13 17 10 18 19 20 21 19 18 21 22 19 23 22 21 20 24 25 19 24 20 19 26 24 22 26 19 27 28 29 30 28 27 30 31 28 32 31 30 29 33 34 28 33 29 28 35 33 31 35 28 36 37 38 39 37 36 39 40 37 41 40 39 38 42 43 37 42 38 37 44 42 40 44 37 45 46 47 48 46 45 48 49 46 50 49 48 47 51 52 46 51 47 46 53 51 49 53 46 54 55 56 57 55 54 57 58 55 59 58 57 56 60 61 55 60 56 55 62 60 58 62 55 63 64 65 66 64 63 66 67 64 68 67 66 65 69 70 64 69 65 64 71 69 67 71 64 72 73 74 75 73 72 75 76 73 77 76 75 74 78 79 73 78 74 73 80 78 76 80 73 81 82 83 84 82 81 84 85 82 86 85 84 83 87 88 82 87 83 82 89 87 85 89 82 90 91 92 93 91 90 93 94 91 95 94 93 92 96 97 91 96 92 91 98 96 94 98 91 99 100 101 102 100 99 102 103 100 104 103 102 101 105 106 100 105 101 100 107 105 103 107 100 108 109 110 111 109 108 111 112 109 113 112 111 110 114 115 109 114 110 109 116 114 112 116 109 117 118 119 120 118 117 120 121 118 122 121 120 119 123 124 118 123 119 118 125 123 121 125 118 126 127 128 129 127 126 129 130 127 131 130 129 128 132 133 127 132 128 127 134 132 130 134 127 135 136 137 138 136 135 138 139 136 140 139 138 137 141 142 136 141 137 136 143 141 139 143 136 144 145 146 147 145 144 147 148 145 149 148 147 146 150 151 145 150 146 145 152 150 148 152 145 153 154 155 156 154 153 156 157 154 158 157 156 155 159 160 154 159 155 154 161 159 157 161 154 162 163 164 165 163 162 165 166 163 167 166 165 164 168 169 163 168 164 163 170 168 166 170 163 171 172 173 174 172 171 174 175 172 176 175 174 173 177 178 172 177 173 172 179 177 175 179 172 180 181 182 183 181 180 183 184 181 185 184 183 182 186 187 181 186 182 181 188 186 184 188 181 </coordinatesIdx>
+      <textCoordsIdx count="504">0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 0 1 2 3 1 0 3 4 1 5 4 3 2 6 7 1 6 2 1 8 6 4 8 1 </textCoordsIdx>
+      <colorsIdx count="504">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 </colorsIdx>
+      <matIds count="1">0 </matIds>
+      <textCoordsLightMapIdx count="0">
+      </textCoordsLightMapIdx>
+      <vertices count="567">12.3504 17.7485 -14.4716 15.3865 9.8664 -0.7178 20.3047 7.6841 -15.8157 15.3865 19.8196 -0.7178 10.5935 11.7078 8.0696 14.4553 21.6609 10.9859 15.3865 -0.9062 -0.7178 16.1421 -0.9062 -17.0251 14.2322 -0.9062 7.9866 1.5758 17.7485 -2.992 15.486 9.8664 -0.7807 3.2379 7.6841 -10.886 15.486 19.8196 -0.7807 21.9079 11.7078 6.8973 26.0359 21.6609 4.3717 15.486 -0.9062 -0.7806 0.5881 -0.9062 -7.4554 23.1632 -0.9062 3.481 26.108 17.7485 -9.8039 15.2957 9.8664 -0.7774 30.9628 7.6841 -3.3612 15.2957 19.8196 -0.7774 5.2883 11.7078 -0.9873 4.477 21.6609 3.7834 15.2957 -0.9062 -0.7774 30.1202 -0.9062 -7.6133 7.037 -0.9062 2.2047 -12.7614 17.7485 -6.6924 -9.7253 9.8664 7.0614 -4.807 7.6841 -8.0365 -9.7253 19.8196 7.0614 -14.5183 11.7078 15.8488 -10.6565 21.6609 18.7652 -9.7253 -0.9062 7.0614 -8.9697 -0.9062 -9.2459 -10.8796 -0.9062 15.7659 -23.536 17.7485 4.7872 -9.6258 9.8664 6.9986 -21.874 7.6841 -3.1068 -9.6258 19.8196 6.9986 -3.204 11.7078 14.6765 0.924 21.6609 12.1509 -9.6258 -0.9062 6.9986 -24.5236 -0.9062 0.3238 -1.9487 -0.9062 11.2602 0.9962 17.7485 -2.0247 -9.8161 9.8664 7.0018 5.8511 7.6841 4.4181 -9.8161 19.8196 7.0018 -19.8234 11.7078 6.7919 -20.6348 21.6609 11.5627 -9.8161 -0.9062 7.0018 5.0085 -0.9062 0.166 -18.0748 -0.9062 9.9839 -11.9642 16.8794 -23.0256 -8.9282 8.9974 -9.2718 -4.0099 6.8151 -24.3697 -8.9282 18.9505 -9.2718 -13.7211 10.8388 -0.4844 -9.8594 20.7919 2.432 -8.9282 -1.7752 -9.2718 -8.1725 -1.7752 -25.5791 -10.0825 -1.7752 -0.5674 -22.7389 16.8794 -11.546 -8.8287 8.9974 -9.3346 -21.0768 6.8151 -19.44 -8.8287 18.9505 -9.3346 -2.4068 10.8388 -1.6567 1.7211 20.7919 -4.1823 -8.8287 -1.7752 -9.3346 -23.7265 -1.7752 -16.0094 -1.1515 -1.7752 -5.073 1.7934 16.8794 -18.3579 -9.0189 8.9974 -9.3314 6.6482 6.8151 -11.9151 -9.0189 18.9505 -9.3314 -19.0263 10.8388 -9.5413 -19.8376 20.7919 -4.7706 -9.0189 -1.7752 -9.3314 5.8057 -1.7752 -16.1672 -17.2776 -1.7752 -6.3493 1.9192 17.7485 -24.5545 4.9553 9.8664 -10.8008 9.8736 7.6841 -25.8986 4.9553 19.8196 -10.8008 0.1623 11.7078 -2.0134 4.0241 21.6609 0.9029 4.9553 -0.9062 -10.8008 5.7109 -0.9062 -27.1082 3.801 -0.9062 -2.0964 -8.8554 17.7485 -13.075 5.0548 9.8664 -10.8637 -7.1933 7.6841 -20.969 5.0548 19.8196 -10.8637 11.4767 11.7078 -3.1857 15.6045 21.6609 -5.7113 5.0548 -0.9062 -10.8636 -9.843 -0.9062 -17.5383 12.7319 -0.9062 -6.602 15.6768 17.7485 -19.887 4.8645 9.8664 -10.8604 20.5317 7.6841 -13.4442 4.8645 19.8196 -10.8604 -5.1428 11.7078 -11.0703 -5.9542 21.6609 -6.2996 4.8645 -0.9062 -10.8604 19.6891 -0.9062 -17.6963 -3.3942 -0.9062 -7.8783 -4.5587 17.7485 0.3 -1.5226 9.8664 14.0538 3.3957 7.6841 -1.0441 -1.5226 19.8196 14.0538 -6.3156 11.7078 22.8411 -2.4538 21.6609 25.7575 -1.5226 -0.9062 14.0538 -0.767 -0.9062 -2.2535 -2.6769 -0.9062 22.7582 -15.3333 17.7485 11.7796 -1.4231 9.8664 13.9909 -13.6712 7.6841 3.8856 -1.4231 19.8196 13.9909 4.9988 11.7078 21.6689 9.1267 21.6609 19.1434 -1.4231 -0.9062 13.9909 -16.3209 -0.9062 7.3162 6.254 -0.9062 18.2526 9.1989 17.7485 4.9676 -1.6134 9.8664 13.9942 14.0538 7.6841 11.4104 -1.6134 19.8196 13.9942 -11.6208 11.7078 13.7843 -12.4321 21.6609 18.5551 -1.6134 -0.9062 13.9942 13.2112 -0.9062 7.1583 -9.8721 -0.9062 16.9764 7.0905 19.655 -7.1874 10.1266 11.773 6.5664 15.0449 9.5906 -8.5315 10.1266 21.7261 6.5664 5.3336 13.6143 15.3538 9.1954 23.5675 18.2702 10.1266 1.0003 6.5664 10.8823 1.0003 -9.7409 8.9723 1.0003 15.2708 -3.6841 19.655 4.2922 10.2261 11.773 6.5035 -2.022 9.5906 -3.6018 10.2261 21.7261 6.5035 16.648 13.6143 14.1815 20.7759 23.5675 11.6559 10.2261 1.0003 6.5035 -4.6717 1.0003 -0.1712 17.9033 1.0003 10.7652 20.8482 19.655 -2.5198 10.0359 11.773 6.5068 25.7031 9.5906 3.923 10.0359 21.7261 6.5068 0.0285 13.6143 6.2969 -0.7828 23.5675 11.0676 10.0359 1.0003 6.5068 24.8605 1.0003 -0.3291 1.7771 1.0003 9.4889 -3.0714 17.7485 -12.4244 -0.0353 9.8664 1.3294 4.883 7.6841 -13.7685 -0.0353 19.8196 1.3294 -4.8282 11.7078 10.1168 -0.9665 21.6609 13.0331 -0.0353 -0.9062 1.3294 0.7204 -0.9062 -14.978 -1.1896 -0.9062 10.0338 -13.846 17.7485 -0.9448 0.0642 9.8664 1.2665 -12.1839 7.6841 -8.8388 0.0642 19.8196 1.2665 6.4861 11.7078 8.9445 10.614 21.6609 6.4189 0.0642 -0.9062 1.2665 -14.8336 -0.9062 -5.4082 7.7414 -0.9062 5.5282 10.6863 17.7485 -7.7568 -0.126 9.8664 1.2698 15.5411 7.6841 -1.314 -0.126 19.8196 1.2698 -10.1334 11.7078 1.0599 -10.9447 21.6609 5.8306 -0.126 -0.9062 1.2698 14.6986 -0.9062 -5.5661 -8.3848 -0.9062 4.2519 </vertices>
+      <normals count="567">-0.9131 -0.4065 -0.0314 -0.9585 -0.1248 -0.2564 -0.982 -0.0796 -0.1714 -0.9897 0.119 -0.0797 -0.9317 0.0305 -0.3619 -0.91 0.3924 -0.1341 -0.9807 0.0783 -0.1791 -0.8968 0.4404 -0.0416 -0.9549 -0.1179 -0.2726 -0.3636 -0.4065 0.8382 -0.5895 -0.1248 0.798 -0.5191 -0.0796 0.851 -0.4366 0.119 0.8917 -0.6779 0.0305 0.7345 -0.458 0.3924 0.7977 -0.5258 0.0783 0.847 -0.3671 0.4404 0.8193 -0.6033 -0.1179 0.7888 -0.3924 -0.4065 -0.8251 -0.2136 -0.1248 -0.9689 -0.2999 -0.0796 -0.9507 -0.3848 0.119 -0.9153 -0.1077 0.0305 -0.9937 -0.2998 0.3924 -0.8696 -0.2924 0.0783 -0.9531 -0.3759 0.4404 -0.8153 -0.1976 -0.1179 -0.9732 -0.9131 -0.4065 -0.0314 -0.9585 -0.1248 -0.2564 -0.982 -0.0796 -0.1714 -0.9897 0.119 -0.0797 -0.9317 0.0305 -0.3619 -0.91 0.3924 -0.1341 -0.9807 0.0783 -0.1791 -0.8968 0.4404 -0.0416 -0.9549 -0.1179 -0.2726 -0.3636 -0.4065 0.8382 -0.5895 -0.1248 0.798 -0.5191 -0.0796 0.851 -0.4366 0.119 0.8917 -0.6779 0.0305 0.7345 -0.458 0.3924 0.7977 -0.5258 0.0783 0.847 -0.3671 0.4404 0.8193 -0.6033 -0.1179 0.7888 -0.3924 -0.4065 -0.8251 -0.2136 -0.1248 -0.9689 -0.2999 -0.0796 -0.9507 -0.3848 0.119 -0.9153 -0.1077 0.0305 -0.9937 -0.2998 0.3924 -0.8696 -0.2924 0.0783 -0.9531 -0.3759 0.4404 -0.8153 -0.1976 -0.1179 -0.9732 -0.9131 -0.4065 -0.0314 -0.9585 -0.1248 -0.2564 -0.982 -0.0796 -0.1714 -0.9897 0.119 -0.0798 -0.9317 0.0305 -0.3619 -0.91 0.3924 -0.1341 -0.9807 0.0783 -0.1791 -0.8968 0.4404 -0.0416 -0.9549 -0.1179 -0.2726 -0.3636 -0.4065 0.8382 -0.5895 -0.1248 0.798 -0.5191 -0.0796 0.851 -0.4366 0.119 0.8917 -0.6779 0.0305 0.7345 -0.458 0.3924 0.7976 -0.5258 0.0783 0.847 -0.3671 0.4404 0.8193 -0.6033 -0.1179 0.7888 -0.3924 -0.4065 -0.8251 -0.2136 -0.1248 -0.9689 -0.2999 -0.0796 -0.9507 -0.3848 0.119 -0.9153 -0.1077 0.0305 -0.9937 -0.2998 0.3924 -0.8696 -0.2924 0.0783 -0.9531 -0.3759 0.4404 -0.8153 -0.1976 -0.1179 -0.9732 -0.9131 -0.4065 -0.0314 -0.9585 -0.1248 -0.2564 -0.982 -0.0795 -0.1714 -0.9897 0.119 -0.0797 -0.9317 0.0305 -0.3619 -0.91 0.3924 -0.1341 -0.9807 0.0783 -0.1791 -0.8968 0.4404 -0.0416 -0.9549 -0.1179 -0.2726 -0.3636 -0.4065 0.8382 -0.5895 -0.1248 0.798 -0.5191 -0.0795 0.851 -0.4366 0.119 0.8917 -0.6779 0.0305 0.7345 -0.458 0.3924 0.7977 -0.5258 0.0783 0.847 -0.3671 0.4404 0.8193 -0.6033 -0.1179 0.7888 -0.3924 -0.4065 -0.8251 -0.2136 -0.1248 -0.9689 -0.2999 -0.0796 -0.9507 -0.3848 0.119 -0.9153 -0.1077 0.0305 -0.9937 -0.2998 0.3924 -0.8696 -0.2924 0.0783 -0.9531 -0.3759 0.4404 -0.8153 -0.1976 -0.1179 -0.9732 -0.9131 -0.4065 -0.0314 -0.9585 -0.1248 -0.2564 -0.982 -0.0796 -0.1714 -0.9897 0.119 -0.0797 -0.9317 0.0305 -0.3619 -0.91 0.3924 -0.1341 -0.9807 0.0783 -0.1791 -0.8968 0.4404 -0.0416 -0.9549 -0.1179 -0.2726 -0.3636 -0.4065 0.8382 -0.5895 -0.1248 0.798 -0.5191 -0.0796 0.851 -0.4366 0.119 0.8917 -0.6779 0.0305 0.7345 -0.458 0.3924 0.7976 -0.5258 0.0783 0.847 -0.3671 0.4404 0.8193 -0.6033 -0.1179 0.7888 -0.3924 -0.4065 -0.8251 -0.2136 -0.1248 -0.9689 -0.2999 -0.0796 -0.9507 -0.3848 0.119 -0.9153 -0.1077 0.0305 -0.9937 -0.2998 0.3924 -0.8696 -0.2924 0.0783 -0.9531 -0.3759 0.4404 -0.8153 -0.1976 -0.1179 -0.9732 -0.9131 -0.4065 -0.0314 -0.9585 -0.1248 -0.2564 -0.982 -0.0796 -0.1714 -0.9897 0.119 -0.0798 -0.9317 0.0305 -0.3619 -0.91 0.3924 -0.1341 -0.9807 0.0783 -0.1791 -0.8968 0.4404 -0.0416 -0.9549 -0.1179 -0.2726 -0.3636 -0.4065 0.8382 -0.5895 -0.1248 0.798 -0.5191 -0.0796 0.851 -0.4366 0.119 0.8917 -0.6779 0.0305 0.7345 -0.458 0.3924 0.7976 -0.5258 0.0783 0.847 -0.3671 0.4404 0.8193 -0.6033 -0.1179 0.7888 -0.3924 -0.4065 -0.8251 -0.2136 -0.1248 -0.9689 -0.2999 -0.0796 -0.9507 -0.3848 0.119 -0.9153 -0.1077 0.0305 -0.9937 -0.2998 0.3924 -0.8696 -0.2924 0.0783 -0.9531 -0.3759 0.4404 -0.8153 -0.1976 -0.1179 -0.9732 -0.9131 -0.4065 -0.0314 -0.9585 -0.1248 -0.2564 -0.982 -0.0795 -0.1714 -0.9897 0.119 -0.0797 -0.9317 0.0305 -0.3619 -0.91 0.3924 -0.1341 -0.9807 0.0783 -0.1791 -0.8968 0.4404 -0.0416 -0.9549 -0.1179 -0.2726 -0.3636 -0.4065 0.8382 -0.5895 -0.1248 0.798 -0.5191 -0.0796 0.851 -0.4366 0.119 0.8917 -0.6779 0.0305 0.7345 -0.458 0.3924 0.7977 -0.5258 0.0783 0.847 -0.3671 0.4404 0.8193 -0.6033 -0.1179 0.7888 -0.3924 -0.4065 -0.8251 -0.2136 -0.1248 -0.9689 -0.2999 -0.0796 -0.9507 -0.3848 0.119 -0.9153 -0.1077 0.0305 -0.9937 -0.2998 0.3924 -0.8696 -0.2924 0.0783 -0.9531 -0.3759 0.4404 -0.8153 -0.1976 -0.1179 -0.9732 </normals>
+      <texCoords count="18">1 0 0.5 0.5 1 0.5 0.5 0 0 0.5 0 0 0.5 1 1 1 0 1 </texCoords>
+      <colors count="3">255 255 255 </colors>
+      <texCoordsLightMap count="0">
+      </texCoordsLightMap>
+    </mesh>
+    <mesh name="Pasto0" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5524.33,3086.012,5274.536]" max="[5579.816,3111.355,5327.402]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5548.853,3087.787,5301.645]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto1" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5499.977,3092.099,5173.289]" max="[5555.463,3117.442,5226.154]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5524.5,3093.875,5200.397]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto2" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5604.027,2792.043,5935.255]" max="[5659.514,2817.386,5988.121]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5628.551,2793.818,5962.364]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto3" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5416.795,2830.943,5942.019]" max="[5472.282,2856.285,5994.884]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5441.319,2832.718,5969.127]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto4" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5734.945,2958.995,5510.496]" max="[-5679.458,2984.338,5563.361]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5710.421,2960.771,5537.604]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto5" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5809.278,3029.091,5265.759]" max="[-5753.792,3054.433,5318.625]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5784.754,3030.866,5292.868]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto6" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-6118.662,2873.225,6024.525]" max="[-6063.175,2898.567,6077.391]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-6094.138,2875,6051.634]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto7" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5936.187,2873.225,6039.056]" max="[-5880.701,2898.567,6091.921]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5911.664,2875,6066.164]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto8" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5628.573,3097.212,-5510.842]" max="[-5573.087,3122.554,-5457.977]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5604.05,3098.988,-5483.734]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto9" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5475.742,3084.262,-5655.036]" max="[-5420.256,3109.604,-5602.17]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5451.219,3086.037,-5627.927]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto10" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5730.735,3050.025,-5654.465]" max="[-5675.249,3075.368,-5601.6]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5706.212,3051.801,-5627.357]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto11" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5890.141,2898.225,-6225.215]" max="[-5834.655,2923.567,-6172.349]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5865.618,2900,-6198.106]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto12" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5338.82,3073.225,-5558.103]" max="[5394.306,3098.567,-5505.237]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5363.343,3075,-5530.995]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto13" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5238.376,3072.643,-5627.994]" max="[5293.862,3097.986,-5575.128]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5262.899,3074.418,-5600.886]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto14" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5248.436,3073.225,-5532.194]" max="[5303.922,3098.567,-5479.329]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5272.959,3075,-5505.086]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto15" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5724.009,2935.684,-5730.278]" max="[5779.495,2961.027,-5677.412]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5748.532,2937.459,-5703.169]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto16" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5902.35,2874.625,-5894.636]" max="[5957.836,2899.968,-5841.771]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5926.874,2876.4,-5867.528]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto17" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[5673.299,2839.582,-6161.681]" max="[5728.785,2864.924,-6108.815]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[5697.822,2841.357,-6134.572]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto18" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[4506.725,3381.037,3365.613]" max="[4562.211,3406.38,3418.479]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[4531.249,3382.812,3392.721]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto19" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[4363.606,3369.702,3554.18]" max="[4419.093,3395.044,3607.046]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[4388.13,3371.477,3581.289]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto20" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[4488.535,3394.272,3454.709]" max="[4544.021,3419.615,3507.575]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[4513.059,3396.048,3481.817]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto21" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[4218.022,3190.955,2957.068]" max="[4273.508,3216.298,3009.934]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[4242.545,3192.73,2984.177]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto22" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[4225.519,3246.222,2825.604]" max="[4281.005,3271.565,2878.469]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[4250.042,3247.997,2852.712]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto23" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[4019.942,3050.964,4483.849]" max="[4075.429,3076.306,4536.715]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[4044.466,3052.739,4510.958]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto24" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[3938.074,3126.268,4642.69]" max="[3993.56,3151.61,4695.556]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[3962.597,3128.042,4669.798]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto25" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2359.682,3098.225,5024.487]" max="[2415.169,3123.567,5077.353]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2384.206,3100,5051.596]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto26" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2439.778,3098.225,4887.135]" max="[2495.265,3123.567,4940.001]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2464.302,3100,4914.244]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto27" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2191.297,3098.225,4983.788]" max="[2246.784,3123.567,5036.653]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2215.821,3100,5010.896]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto28" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2351.812,3098.225,4946.228]" max="[2407.299,3123.567,4999.094]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2376.336,3100,4973.336]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto29" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2343.028,3098.225,3327.667]" max="[2398.514,3123.567,3380.533]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2367.551,3100,3354.776]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto30" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2539.431,3098.225,3154.366]" max="[2594.917,3123.567,3207.232]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2563.955,3100,3181.474]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto31" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2553.691,3098.225,3348.896]" max="[2609.178,3123.567,3401.762]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2578.215,3100,3376.005]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto32" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[278.2733,3618.085,3252.332]" max="[333.7597,3643.428,3305.198]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[302.7969,3619.861,3279.44]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto33" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[255.8925,3763.929,3191.104]" max="[311.3789,3789.271,3243.969]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[280.4161,3765.704,3218.212]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto34" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[320.9033,3697.614,3207.511]" max="[376.3897,3722.957,3260.377]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[345.4269,3699.39,3234.62]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto35" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-830.9075,4086.819,3000.522]" max="[-775.421,4112.162,3053.388]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-806.3839,4088.594,3027.63]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto36" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-561.0809,3907.999,3092.543]" max="[-505.5945,3933.341,3145.408]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-536.5573,3909.774,3119.651]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto37" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-833.8604,3979.721,3081.965]" max="[-778.374,4005.064,3134.831]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-809.3368,3981.497,3109.073]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto38" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1755.328,3900.087,3472.95]" max="[-1699.842,3925.43,3525.816]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1730.804,3901.863,3500.059]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto39" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-2171.128,3797.615,2951.897]" max="[-2115.642,3822.958,3004.763]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-2146.605,3799.39,2979.005]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto40" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-2253.496,3732.425,2962.974]" max="[-2198.01,3757.767,3015.84]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-2228.972,3734.2,2990.082]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto41" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-2082.776,3951.516,2896.785]" max="[-2027.29,3976.859,2949.651]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-2058.252,3953.291,2923.894]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto42" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1335.661,3098.225,5194.013]" max="[-1280.175,3123.567,5246.879]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1311.137,3100,5221.122]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto43" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1485.363,3098.225,4916.667]" max="[-1429.876,3123.567,4969.532]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1460.839,3100,4943.775]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto44" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-3737.116,3184.793,5392.697]" max="[-3681.63,3210.136,5445.563]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-3712.593,3186.569,5419.805]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto45" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-3832.601,3035.104,5501.238]" max="[-3777.115,3060.448,5554.104]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-3808.077,3036.881,5528.347]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto46" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-3882.131,3007.063,5225.947]" max="[-3826.644,3032.406,5278.813]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-3857.607,3008.837,5253.056]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto47" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4999.215,3625.052,3961.359]" max="[-4943.729,3650.395,4014.225]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4974.691,3626.828,3988.467]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto48" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4977.496,3634.529,4196.727]" max="[-4922.01,3659.871,4249.593]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4952.973,3636.304,4223.835]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto49" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4097.009,4771.096,4208.597]" max="[-4041.523,4796.438,4261.462]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4072.486,4772.871,4235.705]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto50" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4123.036,4715.904,4066.712]" max="[-4067.55,4741.248,4119.578]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4098.513,4717.681,4093.82]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto51" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-3801.51,4776.075,3915.49]" max="[-3746.024,4801.418,3968.355]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-3776.987,4777.85,3942.598]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto52" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4978.158,3098.225,2562.006]" max="[-4922.671,3123.567,2614.872]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4953.634,3100,2589.114]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto53" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4469.474,3218.7,2585.017]" max="[-4413.987,3244.042,2637.883]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4444.95,3220.475,2612.125]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto54" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4335.031,5542.124,2914.853]" max="[-4279.544,5567.466,2967.718]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4310.507,5543.899,2941.961]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto55" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4358.041,5370.419,2944.303]" max="[-4302.555,5395.761,2997.169]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4333.518,5372.194,2971.412]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto56" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5798.06,3323.509,-18.7449]" max="[-5742.573,3348.851,34.1208]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5773.536,3325.283,8.3633]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto57" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5766.82,3366.569,-154.265]" max="[-5711.334,3391.912,-101.3993]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5742.297,3368.344,-127.1568]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto58" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5732.778,3424.663,39.7596]" max="[-5677.292,3450.006,92.6253]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5708.254,3426.438,66.8678]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto59" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5760.931,3384.363,-77.5747]" max="[-5705.445,3409.706,-24.709]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5736.408,3386.137,-50.4665]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto60" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5696.323,3515.764,-1884.331]" max="[-5640.837,3541.107,-1831.466]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5671.8,3517.539,-1857.223]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto61" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5740.064,3501.17,-1709.836]" max="[-5684.578,3526.512,-1656.97]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5715.541,3502.945,-1682.728]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto62" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4437.293,4028.109,-3204.595]" max="[-4381.807,4053.452,-3151.729]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4412.77,4029.885,-3177.487]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto63" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4114.401,3862.635,-3488.807]" max="[-4058.914,3887.978,-3435.941]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4089.877,3864.411,-3461.699]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto64" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-3689.051,4173.224,-2201.361]" max="[-3633.564,4198.567,-2148.495]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-3664.527,4175,-2174.252]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto65" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-3457.489,4173.224,-2252.942]" max="[-3402.002,4198.567,-2200.076]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-3432.965,4175,-2225.834]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto66" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-3637.308,4173.224,-2298.352]" max="[-3581.822,4198.567,-2245.486]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-3612.784,4175,-2271.243]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto67" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-3061.1,4193.755,-3844.125]" max="[-3005.613,4219.098,-3791.26]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-3036.576,4195.531,-3817.017]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto68" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-3.8907,4176.501,-3650.451]" max="[51.5957,4201.844,-3597.585]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[20.6329,4178.277,-3623.343]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto69" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2484.442,3107.754,-3376.137]" max="[2539.929,3133.097,-3323.272]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2508.966,3109.531,-3349.029]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto70" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2742.818,3042.18,-3323.465]" max="[2798.305,3067.523,-3270.599]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2767.342,3043.955,-3296.356]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto71" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2572.227,3108.033,-3542.3]" max="[2627.713,3133.376,-3489.435]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2596.75,3109.808,-3515.192]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto72" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[3465.216,3705.925,711.8871]" max="[3520.703,3731.267,764.7528]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[3489.74,3707.7,738.9953]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto73" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[335.4739,4253.042,2783.074]" max="[390.9603,4278.383,2835.94]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[359.9975,4254.816,2810.183]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto74" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-36.6158,4217.818,1794.062]" max="[18.8706,4243.161,1846.927]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-12.0922,4219.594,1821.17]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto75" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[206.7943,4218.132,1552.522]" max="[262.2807,4243.476,1605.388]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[231.3179,4219.908,1579.63]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto76" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-164.6233,4173.224,1736.104]" max="[-109.1369,4198.567,1788.969]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-140.0997,4175,1763.212]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto77" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-785.7796,4608.542,-578.3448]" max="[-730.2932,4633.885,-525.4791]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-761.256,4610.318,-551.2366]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto78" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-685.5381,4627.263,-485.3201]" max="[-630.0516,4652.604,-432.4544]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-661.0145,4629.038,-458.2119]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto79" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-996.5016,4533.216,-1461.434]" max="[-941.0151,4558.559,-1408.569]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-971.978,4534.992,-1434.326]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto80" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-861.0016,4376.889,-1561.54]" max="[-805.5151,4402.23,-1508.675]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-836.478,4378.664,-1534.432]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto81" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-807.5726,4264.135,-1697.814]" max="[-752.0862,4289.478,-1644.948]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-783.049,4265.911,-1670.706]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto82" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1623.888,3829.26,-4061.777]" max="[-1568.401,3854.602,-4008.911]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1599.364,3831.035,-4034.669]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto83" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1681.508,4206.298,-3748.775]" max="[-1626.021,4231.642,-3695.91]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1656.984,4208.073,-3721.667]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto84" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-2053.394,4180.784,-3443.958]" max="[-1997.907,4206.127,-3391.092]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-2028.87,4182.56,-3416.85]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto85" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-2544.621,4198.224,208.4867]" max="[-2489.135,4223.567,261.3524]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-2520.097,4200,235.5949]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto86" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-2465.829,4198.224,589.5818]" max="[-2410.343,4223.567,642.4475]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-2441.306,4200,616.69]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto87" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[364.6259,4815.076,-417.941]" max="[420.1122,4840.417,-365.0753]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[389.1494,4816.851,-390.8329]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto88" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[464.5267,4804.976,-476.4432]" max="[520.0131,4830.317,-423.5775]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[489.0503,4806.75,-449.3351]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto89" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[3710.508,3134.184,-3070.219]" max="[3765.995,3159.526,-3017.354]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[3735.032,3135.958,-3043.111]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto90" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[3716.539,3096.315,-2940.985]" max="[3772.026,3121.657,-2888.12]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[3741.063,3098.09,-2913.877]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto94" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[1966.157,3098.225,-5323.614]" max="[2021.643,3123.567,-5270.749]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[1990.681,3100,-5296.506]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto95" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[2045.247,3098.225,-5363.896]" max="[2100.733,3123.567,-5311.03]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2069.771,3100,-5336.787]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto93" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[416.0213,4275.879,262.2724]" max="[471.5077,4301.222,315.1381]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[440.5449,4277.655,289.3806]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto94" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[511.1796,4289.543,207.6154]" max="[566.666,4314.886,260.4811]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[535.7032,4291.319,234.7236]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto95" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[399.0848,4298.224,58.048]" max="[454.5712,4323.567,110.9137]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[423.6084,4300,85.1562]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto96" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[1910.949,4198.224,-1137.695]" max="[1966.436,4223.567,-1084.829]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[1935.473,4200,-1110.586]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto97" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[1945.021,4198.224,-1264.264]" max="[2000.508,4223.567,-1211.398]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[1969.545,4200,-1237.156]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto98" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[1997.335,4198.224,-1165.26]" max="[2052.822,4223.567,-1112.395]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[2021.859,4200,-1138.152]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto99" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[1918.865,3932.25,-3884.457]" max="[1974.351,3957.592,-3831.592]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[1943.388,3934.025,-3857.349]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto100" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[1918.679,3928.307,-3884.097]" max="[1974.166,3953.649,-3831.231]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[1943.203,3930.082,-3856.989]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto101" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[1851.818,3909.569,-3903.33]" max="[1907.305,3934.911,-3850.464]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[1876.342,3911.344,-3876.222]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto102" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[1851.624,3905.756,-3902.949]" max="[1907.11,3931.098,-3850.084]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[1876.147,3907.531,-3875.841]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto103" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1276.05,4120.442,-3343.168]" max="[-1220.564,4145.785,-3290.303]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1251.526,4122.217,-3316.06]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto104" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1727.074,4149.689,-3341.978]" max="[-1671.588,4175.032,-3289.113]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1702.55,4151.464,-3314.87]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto105" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1213.478,4198.224,-2886.015]" max="[-1157.991,4223.567,-2833.149]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1188.954,4200,-2858.907]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto106" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1410.53,4198.224,-2837.763]" max="[-1355.044,4223.567,-2784.898]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1386.007,4200,-2810.655]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto107" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1546.265,4312.151,-930.8378]" max="[-1490.779,4337.494,-877.972]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1521.741,4313.926,-903.7296]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto108" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1690.609,4219.617,-974.7957]" max="[-1635.122,4244.959,-921.9299]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1666.085,4221.392,-947.6874]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto109" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1622.289,4227.774,-1117.635]" max="[-1566.803,4253.117,-1064.77]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1597.766,4229.549,-1090.527]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto110" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-1075.871,4198.224,922.9604]" max="[-1020.385,4223.567,975.8261]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-1051.347,4200,950.0686]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto111" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-704.9839,3098.225,5019.877]" max="[-649.4974,3123.567,5072.743]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-680.4603,3100,5046.985]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto112" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-620.7474,3098.225,4906.383]" max="[-565.261,3123.567,4959.249]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-596.2238,3100,4933.491]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto113" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-618.4956,3098.225,4903.189]" max="[-563.0092,3123.567,4956.055]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-593.972,3100,4930.297]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto115" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[3942.931,4118.74,-2811.859]" max="[3998.417,4144.083,-2758.993]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[3967.454,4120.515,-2784.75]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto116" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[3949.433,4218.689,-2839.474]" max="[4004.92,4244.032,-2786.608]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[3973.957,4220.464,-2812.366]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto118" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-5160.469,3098.225,2317.868]" max="[-5104.982,3123.567,2370.734]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-5135.945,3100,2344.977]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto119" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4952.187,3098.225,2117.463]" max="[-4896.701,3123.567,2170.329]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4927.664,3100,2144.572]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto120" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4640.997,3179.049,3261.566]" max="[-4585.51,3204.391,3314.432]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4616.473,3180.824,3288.675]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto121" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[820.1235,4198.224,-2238.004]" max="[875.61,4223.567,-2185.138]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[844.6472,4200,-2210.896]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto122" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[528.0627,4835.799,-1069.941]" max="[583.5491,4861.142,-1017.075]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[552.5863,4837.575,-1042.832]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+    <mesh name="Pasto123" layer="" type="Instance" matId="0" color="[1,1,1]" visibility="0" lightmap="">
+      <boundingBox min="[-4293.306,4198.224,627.3297]" max="[-4237.82,4223.567,680.1954]" />
+      <originalMesh>0</originalMesh>
+      <transform pos="[-4268.783,4200,654.4379]" rotQuat="[0,0,0,0]" scale="[1,1,1]" />
+    </mesh>
+  </meshes>
+</tgcScene>
