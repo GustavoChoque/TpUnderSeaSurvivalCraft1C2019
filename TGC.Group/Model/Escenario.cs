@@ -740,6 +740,7 @@ namespace LosTiburones.Model
         public void Render()
         {
             ///DEBUGGING DE LANZAMIENTO DE ARPON
+            /*
             var dir = new TGCVector3(GModel.Camara.LookAt.X - GModel.Camara.Position.X, GModel.Camara.LookAt.Y - GModel.Camara.Position.Y, GModel.Camara.LookAt.Z - GModel.Camara.Position.Z);
             dir.Normalize();
 
@@ -767,7 +768,7 @@ namespace LosTiburones.Model
             GModel.DrawText.drawText("Direction (LookAt - Posicion): " + TGCVector3.PrintVector3(dir), 0, 40, Color.OrangeRed);
             GModel.DrawText.drawText("Theta entre Direction y Z: " + theta, 0, 50, Color.OrangeRed);
             GModel.DrawText.drawText("Gamma entre Direction y Z: " + gamma, 0, 60, Color.OrangeRed);
-
+            */
             //--------------------------------
 
             //----Fisica----------
