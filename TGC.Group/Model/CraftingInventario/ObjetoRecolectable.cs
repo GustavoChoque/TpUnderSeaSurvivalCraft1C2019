@@ -4,6 +4,7 @@ using System.Drawing;
 using TGC.Core.BoundingVolumes;
 using TGC.Core.Collision;
 using TGC.Core.Mathematica;
+using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
 
 namespace LosTiburones.Model
@@ -21,6 +22,7 @@ namespace LosTiburones.Model
         private String nombre;
         private TgcBoundingSphere esferaColision;
         private RigidBody cuerpoRigido;
+        private TgcMesh mesh;
 
         public bool colisionaCon(TgcBoundingCylinder cilindro)
         {
@@ -46,6 +48,6 @@ namespace LosTiburones.Model
         public TgcBoundingSphere EsferaColision { get => esferaColision; set => esferaColision = value; }
         public String Nombre { get => nombre; set => nombre = value; }
         public RigidBody CuerpoRigido { get => cuerpoRigido; set => cuerpoRigido = value; }
-
+        public TgcMesh Mesh { get => mesh; set => mesh = value; }
     }
 }

@@ -810,12 +810,20 @@ namespace LosTiburones.Model
                 mesh.Technique = "RenderScene";
 
             }
-            foreach (var mesh in metales)
+            /*foreach (var mesh in metales)
             {
-                mesh.Objeto.Effect = efectoNiebla;
-                mesh.Objeto.Technique = "RenderScene";
+                mesh.Mesh.Effect = efectoNiebla;
+                mesh.Mesh.Technique = "RenderScene";
+
+            }*/
+            
+            foreach (var mesh in objetosRecolectables)
+            {
+                mesh.Mesh.Effect = efectoNiebla;
+                mesh.Mesh.Technique = "RenderScene";
 
             }
+
 
             terreno.Effect = efectoNiebla;
             terreno.Technique = "RenderScene";
@@ -903,7 +911,7 @@ namespace LosTiburones.Model
             }
             //--------------------
 
-            objetosRecolectables.ForEach(obj => obj.Render());
+            //objetosRecolectables.ForEach(obj => obj.Render());
 
             if (GModel.partidaActiva) { 
             //SPRITES
@@ -920,17 +928,29 @@ namespace LosTiburones.Model
 
             //----------Frustum Culling-------------
             TgcCollisionUtils.FrustumResult r;
-            //por alguna razon no funciona bien al renderizar los objetos,
-            objetosEstaticosEnArray.ForEach(mesh => {
-                if (mesh.Enabled)
+
+            objetosRecolectables.ForEach(obj => {
+                if (obj.Mesh.Enabled)
                 {
-                    r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, mesh.BoundingBox);
+                    r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, obj.Mesh.BoundingBox);
                     if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
                     {
-                        mesh.Render();
+                        obj.Render();
                     }
                 }
             });
+            //--------------------------
+            pecesAmarillos.ForEach(pezAmarillo => {
+                if (pezAmarillo.Mesh.Enabled)
+                {
+                    r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, pezAmarillo.Mesh.BoundingBox);
+                    if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
+                    {
+                        pezAmarillo.Render();
+                    }
+                }
+            });
+
             //-------------------------
             pecesAmarillos.ForEach(pezAmarillo =>{
                 if (pezAmarillo.Mesh.Enabled)

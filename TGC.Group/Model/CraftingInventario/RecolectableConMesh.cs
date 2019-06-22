@@ -33,6 +33,6 @@ namespace LosTiburones.Model
             Mesh.Dispose();
         }
 
-        public TgcMesh Mesh { get => mesh; set => mesh = value; }
+        //public TgcMesh Mesh { get => mesh; set => mesh = value; }
     }
 }

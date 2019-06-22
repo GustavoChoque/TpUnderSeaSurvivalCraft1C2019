@@ -1,6 +1,7 @@
 ﻿using BulletSharp;
 using TGC.Core.Geometry;
 using TGC.Core.Mathematica;
+using TGC.Core.SceneLoader;
 using TGC.Core.Textures;
 
 namespace LosTiburones.Model
@@ -10,29 +11,29 @@ namespace LosTiburones.Model
         public RecolectableConTextura(TgcTexture textura, TGCVector3 tamanio, TGCVector3 posicion, string nombrePar):
             base(tamanio, posicion, nombrePar)
         {
-            Objeto = TGCBox.fromSize(tamanio, textura);
-            Objeto.Position = posicion;
-            Objeto.Transform = TGCMatrix.Translation(Objeto.Position);
+            Mesh = TGCBox.fromSize(tamanio, textura).ToMesh(nombrePar).createMeshInstance(nombrePar);
+            Mesh.Position = posicion;
+            Mesh.Transform = TGCMatrix.Translation(Mesh.Position);
         }
 
-        private TGCBox objeto;
+        private TgcMesh objeto;
 
         public override void Render()
         {
             base.Render();
             if (CuerpoRigido != null)
             {
-                Objeto.Transform = new TGCMatrix(CuerpoRigido.InterpolationWorldTransform);
+                Mesh.Transform = new TGCMatrix(CuerpoRigido.InterpolationWorldTransform);
             }
-            Objeto.Render();
+            Mesh.Render();
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            Objeto.Dispose();
+            Mesh.Dispose();
         }
 
-        public TGCBox Objeto { get => objeto; set => objeto = value; }
+        //public TgcMesh Mesh { get => objeto; set => objeto = value; }
     }
 }
