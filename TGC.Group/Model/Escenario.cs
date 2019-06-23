@@ -108,7 +108,7 @@ namespace LosTiburones.Model
         //-------------------
 
         //-------Shaders----------
-        private Effect efectoSuperficieAgua, efectoMetalico, efectoNiebla;
+        private Effect efectoSuperficieAgua, efectoMetalico, efectoNiebla, efectosTiburon;
         private float time;
         private List<RecolectableConTextura> metales = new List<RecolectableConTextura>();
         //---------------------
@@ -243,6 +243,7 @@ namespace LosTiburones.Model
             superficieAgua.Effect = efectoSuperficieAgua;
             superficieAgua.Technique = "OleajeNormal";
 
+            efectosTiburon = TGCShaders.Instance.LoadEffect(GModel.ShadersDir + "MovimientoTiburon.fx");
 
             efectoNiebla = TGCShaders.Instance.LoadEffect(GModel.ShadersDir + "TgcFogShader.fx");
 
@@ -781,6 +782,18 @@ namespace LosTiburones.Model
             //----------Shaders----------
             time += GModel.ElapsedTime;
             efectoSuperficieAgua.SetValue("time", time);
+            efectoSuperficieAgua.SetValue("ColorSuperficie", Color.SeaGreen.ToArgb());
+
+            efectosTiburon.SetValue("time", time);
+
+            foreach (var tib in tiburones) {
+                tib.Mesh.Effect = efectosTiburon;
+                tib.Mesh.Technique = "RenderScene";
+
+            }
+            
+            
+
 
             //-----------
             // Cargamos las variables de shader, color del fog.
@@ -886,7 +899,7 @@ namespace LosTiburones.Model
             //------------------------------------
             //agua.Render();
 
-            superficieAgua.Render();
+            //superficieAgua.Render();
 
             piso.Render();
             
@@ -999,6 +1012,9 @@ namespace LosTiburones.Model
                     meshBarco.Render();
                 }
             });
+
+            superficieAgua.Render();
+
             //-------------------------
 
             textoOxigeno.render();

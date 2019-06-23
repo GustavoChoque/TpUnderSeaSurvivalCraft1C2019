@@ -211,6 +211,7 @@ namespace LosTiburones.Model
         public TGCVector3 Scale { get => mesh.Scale; set => mesh.Scale = value; }
         public float Velocidad { get => velocidad; set => velocidad = value; }
         public RigidBody CuerpoRigido { get => cuerpoRigido; set => cuerpoRigido = value; }
+        public TgcMesh Mesh { get => mesh;}
         public void RotateX(float angle)
         {
             mesh.RotateX(angle);
