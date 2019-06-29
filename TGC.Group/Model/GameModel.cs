@@ -68,6 +68,9 @@ namespace TGC.Group.Model
 
         //-----para el menu------------
         public bool partidaActiva = false;
+        private float contador;
+        private bool previewActiva = true;
+
         public MenuPrincipal menu = new MenuPrincipal();
         public TgcFpsCameraMenu camaraMenu;
         private TgcMp3Player musicaMenu = new TgcMp3Player();
@@ -132,6 +135,50 @@ namespace TGC.Group.Model
         public override void Update()
         {
             PreUpdate();
+
+            //-------intro Juego-----------------
+            if (previewActiva)
+            {
+                contador += ElapsedTime;
+            }
+
+            if (contador < 7)
+            {
+                Camara.SetCamera(new TGCVector3(1000, 1000 + contador * 100, 1000), new TGCVector3(500, 500, 500));
+
+            }
+            else if (contador < 10)
+            {
+                Camara.SetCamera(new TGCVector3(-700, -500, -500 + contador * 100), new TGCVector3(-200, -100, 500));
+
+            }
+            else if (contador < 15)
+            {
+                Camara.SetCamera(new TGCVector3(2000, 50 + contador * 100, -500), new TGCVector3(100, 1000, 500));
+
+            }
+            else if (contador < 20)
+            {
+
+                Camara.SetCamera(new TGCVector3(-700, -100, 600), new TGCVector3(-1000, -700, 200));
+
+            }
+            else if (contador < 21)
+            {
+
+                Camara.SetCamera(new TGCVector3(3966, 25, -37), new TGCVector3(3965, 25, -38));
+
+
+            }
+            else
+            {
+                previewActiva = false;
+            }
+
+            //------------------------
+
+
+
             if (partidaActiva) {
 
                 if (comenceAJugar)
@@ -201,8 +248,8 @@ namespace TGC.Group.Model
 
                 //cilindroColision.Render();
             }
-            else
-            {
+            else if(!partidaActiva && !previewActiva){
+                
                 spriteDrawer.BeginDrawSprite();
                 spriteDrawer.DrawSprite(spriteTitulo);
                 spriteDrawer.EndDrawSprite();
