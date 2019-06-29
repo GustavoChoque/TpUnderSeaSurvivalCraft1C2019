@@ -945,6 +945,19 @@ namespace LosTiburones.Model
             //----------Frustum Culling-------------
             TgcCollisionUtils.FrustumResult r;
 
+            objetosEstaticosEnArray.ForEach(mesh => {
+                if (mesh.Enabled)
+                {
+                    r = TgcCollisionUtils.classifyFrustumAABB(GModel.Frustum, mesh.BoundingBox);
+                    if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
+                    {
+                        mesh.Render();
+                    }
+                }
+            });
+
+
+
             objetosRecolectables.ForEach(obj => {
                 if (obj.Mesh.Enabled)
                 {
