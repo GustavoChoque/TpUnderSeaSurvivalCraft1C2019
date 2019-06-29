@@ -802,6 +802,9 @@ namespace LosTiburones.Model
             efectoNiebla.SetValue("StartFogDistance", 2000);
             efectoNiebla.SetValue("EndFogDistance", 7000);
             efectoNiebla.SetValue("Density", 0.0025f);
+            var heighmap = TgcTexture.createTexture(GModel.MediaDir + "Texturas\\perli2.jpg");
+            efectoNiebla.SetValue("texHeighmap", heighmap.D3dTexture);
+            efectoNiebla.SetValue("time", time);
 
             foreach (var mesh in skybox.Faces)
             {
@@ -839,7 +842,7 @@ namespace LosTiburones.Model
 
 
             terreno.Effect = efectoNiebla;
-            terreno.Technique = "RenderScene";
+            terreno.Technique = "RenderScene2";
 
             piso.Effect = efectoNiebla;
             piso.Technique = "RenderScene";
