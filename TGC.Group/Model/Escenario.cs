@@ -154,7 +154,7 @@ namespace LosTiburones.Model
 
         /////////////////////////////
         private int sizeMapa = 80000;
-        private int fondoMapa = -2400;
+        private int fondoMapa = -2300;
         private int alturaTecho = 100;
         private TgcText2D mensajeErrorArponRed;
         private Boolean renderizoErrorArponRed = false;
@@ -228,9 +228,25 @@ namespace LosTiburones.Model
 
             //-----------Fisica---------
             //para el heighmap
+            //lo uso para un regid mas a medida
+            BvhTriangleMeshShape childTriangleMesh;
+            RigidBody rigidBody;
 
             var heighmapRigid = BulletRigidBodyFactory.Instance.CreateSurfaceFromHeighMap(terreno.getData());
             dynamicsWorld.AddRigidBody(heighmapRigid);
+
+
+            childTriangleMesh = construirTriangleMeshShape(workbench);
+            rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, workbench.Position, workbench.Scale);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            barco.Meshes.ForEach(mesh => {
+                    
+                    childTriangleMesh = construirTriangleMeshShape(mesh);
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, mesh.Position, mesh.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
+
+            });
 
             //----------------------
 
@@ -255,12 +271,17 @@ namespace LosTiburones.Model
                 o.Move(new TGCVector3(0, -DESPLAZAMIENTO_EN_Y, 0));
                 //o.Transform = TGCMatrix.Translation(new TGCVector3(0, -5000, 0));
             });
+            
 
             objetosDelTerreno.Meshes.ForEach(mesh => {
-                var body = BulletRigidBodyFactory.Instance.CreateBall(50, 0, mesh.Position);
-                
-                dynamicsWorld.AddRigidBody(body);
+                if (!mesh.Name.Contains("Pasto")) { 
+                /////var body = BulletRigidBodyFactory.Instance.CreateBall(50, 0, mesh.Position);
+                childTriangleMesh = construirTriangleMeshShape(mesh);
+                rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, mesh.Position, mesh.Scale);
+                dynamicsWorld.AddRigidBody(rigidBody);
 
+                   /////dynamicsWorld.AddRigidBody(body);
+                }
             });
 
 
