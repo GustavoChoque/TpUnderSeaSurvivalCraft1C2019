@@ -116,6 +116,11 @@ sampler2D heighmap=sampler_state
 };
 
 float time = 0;
+float3 spotLightDir;
+float spotLightAngleCos;
+
+
+
 //Pixel Shader
 float4 ps_main2(VS_OUTPUT_VERTEX input) : COLOR0
 {
@@ -124,14 +129,44 @@ float4 ps_main2(VS_OUTPUT_VERTEX input) : COLOR0
 
     float4 fvBaseColor = tex2D(diffuseMap, input.Texture);
 
+	//----------Sombra basica-------------
+	float alturaMax=700;
+	float4 texel=tex2D(diffuseMap, input.Texture);
+	float3 vecLight=CameraPos.xyz-input.PosReal.xyz;
+	float3 Ln=normalize(vecLight);
+
+	float ln_dot_Spot=dot(-spotLightDir,Ln);
+	
+	//Calcular atenuacion por distancia
+	float distAtten = length(CameraPos.xyz-input.PosReal.xyz) ;
+
+	if(ln_dot_Spot<spotLightAngleCos){
+	fvBaseColor = tex2D(diffuseMap, input.Texture);
+	}else{
+		if(distAtten<alturaMax){
+		fvBaseColor= float4(texel*0.5);
+		}else{
+		fvBaseColor = tex2D(diffuseMap, input.Texture);
+		}
+	}
+
+//---------------------------------------
+
+
+
+
+
+
+
 			if(input.PosReal.y < 0){
 							if (input.PosView.z < zn){
+							//----------ondas en el piso-----------
 										//float2(0, 0.007*sin(time*3));
 										float2 desf = float2(0, 0.007*sin(time*3));
 										float4 texelheigh= tex2D(heighmap, (input.Texture+desf)*4);
 										if(texelheigh.r>0.15){
 										return fvBaseColor*1.04;//float4(0.5,0.5,0.5,1);//texelheigh;
-	
+							//------------------
 										}else{
 	
 										return fvBaseColor;
@@ -146,14 +181,14 @@ float4 ps_main2(VS_OUTPUT_VERTEX input) : COLOR0
 							}
 							else
 							{	
-					
+									//----------ondas en el piso-----------
 									float2 desf = float2(0 , 0.007*sin(time*3));
 										float4 texelheigh= tex2D(heighmap, (input.Texture+desf)*4);
 										if(texelheigh.r>0.15){
 										fvBaseColor=fvBaseColor*1.04;//float4(0.5,0.5,0.5,1);//texelheigh;
-	
+										
 										}
-	
+									//---------------
 										
 
 						

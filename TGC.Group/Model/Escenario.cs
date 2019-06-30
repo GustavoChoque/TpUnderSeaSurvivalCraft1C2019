@@ -827,6 +827,12 @@ namespace LosTiburones.Model
             efectoNiebla.SetValue("texHeighmap", heighmap.D3dTexture);
             efectoNiebla.SetValue("time", time);
 
+            efectoNiebla.SetValue("spotLightDir", TGCVector3.Vector3ToFloat3Array(new TGCVector3(0, -1f, 0)));
+
+            efectoNiebla.SetValue("spotLightAngleCos", FastMath.ToRad(55));
+
+
+
             foreach (var mesh in skybox.Faces)
             {
                 mesh.Effect = efectoNiebla;
