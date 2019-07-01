@@ -115,7 +115,30 @@ VS_OUTPUT_VERTEX vs_mainOro(VS_INPUT_VERTEX input)
 	output.PosReal=float3(pos_real.x, pos_real.y, pos_real.z);
     return output;
 }
+//Vertex Shader
+VS_OUTPUT_VERTEX vs_mainRuby(VS_INPUT_VERTEX input)
+{
+    VS_OUTPUT_VERTEX output;
 
+	float factor=2;
+
+	float4 altura=tex2Dlod(heighmapMetal,float4(input.Texture,0,0));
+	//input.Position.y+=altura.r*factor;
+	//input.Position.xyz+=altura*factor;
+	//input.Position.xyz+=normalize(Input.Normal)*altura.r*10;
+	//input.Position.xyz+=noise(Input.Position.xyz)*altura.r*factor;;
+	//input.Position.xyz+=noise(input.Position.xyz)*factor;
+	input.Position.xyz*=altura*factor;
+
+
+	//Proyectar posicion
+    output.Position = mul(input.Position, matWorldViewProj);
+    output.Texture = input.Texture;
+    output.PosView = mul(input.Position, matWorldView);
+	float4 pos_real= mul(input.Position,matWorld);
+	output.PosReal=float3(pos_real.x, pos_real.y, pos_real.z);
+    return output;
+}
 
 //Input del Pixel Shader
 struct PS_INPUT_PIXEL
@@ -294,6 +317,15 @@ technique RenderSceneOro
     pass Pass_0
     {
         VertexShader = compile vs_3_0 vs_mainOro();
+        PixelShader = compile ps_3_0 ps_main();
+    }
+}
+
+technique RenderSceneRuby
+{
+    pass Pass_0
+    {
+        VertexShader = compile vs_3_0 vs_mainRuby();
         PixelShader = compile ps_3_0 ps_main();
     }
 }
