@@ -20,6 +20,21 @@ sampler2D diffuseMap = sampler_state
     MIPFILTER = LINEAR;
 };
 
+//Heighmap Metal
+texture texHeighmapMetal;
+
+sampler2D heighmapMetal=sampler_state
+{
+	Texture	= (texHeighmapMetal);
+	ADDRESSU = WRAP;
+    ADDRESSV = WRAP;
+    MINFILTER = LINEAR;
+    MAGFILTER = LINEAR;
+    MIPFILTER = LINEAR;
+
+};
+
+
 // variable de fogs
 float4 ColorFog;
 float4 CameraPos;
@@ -81,14 +96,16 @@ VS_OUTPUT_VERTEX vs_mainOro(VS_INPUT_VERTEX input)
 {
     VS_OUTPUT_VERTEX output;
 
-	float factor=20;
+	float factor=10;
 
-	//float4 altura=tex2Dlod(heighmap,float4(input.Texcoord,0,0));
-	//Input.Position.y+=altura.r*factor;
-	//Input.Position.xyz+=altura*factor;
-	//Input.Position.xyz+=normalize(Input.Normal)*altura.r*10;
-	//Input.Position.xyz+=noise(Input.Position.xyz)*altura.r*factor;;
-	input.Position.xyz+=noise(input.Position.xyz)*factor;
+	float4 altura=tex2Dlod(heighmapMetal,float4(input.Texture,0,0));
+	//input.Position.y+=altura.r*factor;
+	input.Position.xyz+=altura*factor;
+	//input.Position.xyz+=normalize(Input.Normal)*altura.r*10;
+	//input.Position.xyz+=noise(Input.Position.xyz)*altura.r*factor;;
+	//input.Position.xyz+=noise(input.Position.xyz)*factor;
+	//input.Position.xyz*=altura*factor;
+
 
 	//Proyectar posicion
     output.Position = mul(input.Position, matWorldViewProj);

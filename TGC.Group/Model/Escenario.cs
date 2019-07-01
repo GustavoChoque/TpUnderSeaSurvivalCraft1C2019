@@ -957,12 +957,14 @@ namespace LosTiburones.Model
                 mesh.Mesh.Technique = "RenderScene";
 
             }*/
+            var heighmapOro = TgcTexture.createTexture(GModel.MediaDir + "Texturas\\HeighmapOro.jpg");
             
             foreach (var mesh in objetosRecolectables)
             {
                 if (mesh.Nombre == "Oro")
                 {
                     mesh.Mesh.Effect = efectoNiebla;
+                    mesh.Mesh.Effect.SetValue("texHeighmapMetal", heighmapOro.D3dTexture);
                     mesh.Mesh.Technique = "RenderSceneOro";
                 }
                 else {
