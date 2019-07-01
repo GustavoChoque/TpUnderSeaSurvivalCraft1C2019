@@ -29,6 +29,7 @@ using TGC.Core.Input;
 using LosTiburones.Model.CraftingInventario;
 using LosTiburones.Model.Animales;
 using LosTiburones.Model.Callbacks;
+using TGC.Core.Interpolation;
 
 namespace LosTiburones.Model
 {
@@ -114,7 +115,8 @@ namespace LosTiburones.Model
         private Texture g_pRenderTarget;
         private VertexBuffer g_pVBV3D;
 
-
+        private TgcTexture alarmTexture;
+        private InterpoladorVaiven intVaivenAlarm;
 
         private List<RecolectableConTextura> metales = new List<RecolectableConTextura>();
         //---------------------
@@ -358,6 +360,17 @@ namespace LosTiburones.Model
             mensajeErrorArponRed.Size = new Size(500, 500);
             mensajeErrorArponRed.Color = Color.Red;
 
+
+
+            //Cargar textura que se va a dibujar arriba de la escena del Render Target
+            alarmTexture = TgcTexture.createTexture(D3DDevice.Instance.Device, GModel.MediaDir + "Texturas\\efecto_alarma.png");
+
+            //Interpolador para efecto de variar la intensidad de la textura de alarma
+            intVaivenAlarm = new InterpoladorVaiven();
+            intVaivenAlarm.Min = 0;
+            intVaivenAlarm.Max = 1;
+            intVaivenAlarm.Speed = 5;
+            intVaivenAlarm.reset();
 
 
             //Cargar Shader personalizado
@@ -1196,14 +1209,23 @@ namespace LosTiburones.Model
                 // dibujo el quad pp dicho :
                 //device.BeginScene();
 
-                effect.Technique = "PostProcess";
-                               
+                if (GModel.Personaje.Oxygen<GModel.Personaje.MaxOxygen/2)
+                {
+                    effect.Technique = "PostProcess2";
+
+                }
+                else
+                {
+                    effect.Technique = "PostProcess";
+
+                }
+
                 effect.SetValue("time", time);
                 device.VertexFormat = CustomVertex.PositionTextured.Format;
                 device.SetStreamSource(0, g_pVBV3D, 0);
                 effect.SetValue("g_RenderTarget", g_pRenderTarget);
-                
-
+                effect.SetValue("textura_alarma", alarmTexture.D3dTexture);
+                effect.SetValue("alarmaScaleFactor", intVaivenAlarm.update(GModel.ElapsedTime));
                 device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
                 effect.Begin(FX.None);
                 effect.BeginPass(0);
