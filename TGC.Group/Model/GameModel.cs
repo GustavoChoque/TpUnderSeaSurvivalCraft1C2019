@@ -248,8 +248,9 @@ namespace TGC.Group.Model
 
                 //cilindroColision.Render();
             }
-            else if(!partidaActiva && !previewActiva){
-                
+            //else if(!partidaActiva && !previewActiva){
+            else if (!partidaActiva) //muestro el titulo durante la intro
+            {
                 spriteDrawer.BeginDrawSprite();
                 spriteDrawer.DrawSprite(spriteTitulo);
                 spriteDrawer.EndDrawSprite();

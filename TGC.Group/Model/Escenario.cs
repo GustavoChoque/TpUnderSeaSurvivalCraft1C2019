@@ -1011,24 +1011,26 @@ namespace LosTiburones.Model
             }
             //--------------
 
-
-            if (GModel.Personaje.Vivo)
+            if (GModel.partidaActiva)
             {
-                if (bajoElAgua(GModel.Personaje))
+                if (GModel.Personaje.Vivo)
                 {
-                    GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", ScreenWidth - (ScreenWidth * 2)/10, ScreenHeight - (ScreenHeight * 95)/100, Color.Red);
-                }
+                    if (bajoElAgua(GModel.Personaje))
+                    {
+                        GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100, Color.Red);
+                    }
 
-                if ((this.fueraDelMapa(GModel.Personaje)))
+                    if ((this.fueraDelMapa(GModel.Personaje)))
+                    {
+                        GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 10, Color.Red);
+                    }
+                }
+                else
                 {
-                    GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 10, Color.Red);
-                }
-            }
-            else
-            {
-                GModel.DrawText.drawText("Te moriste", ScreenWidth / 2 - 25, ScreenHeight / 2 + 20, Color.Red);
+                    GModel.DrawText.drawText("Te moriste", ScreenWidth / 2 - 25, ScreenHeight / 2 + 20, Color.Red);
 
-                camaraInterna.LockCam = false;
+                    camaraInterna.LockCam = false;
+                }
             }
 
             if (objetoAMostrar != null)
