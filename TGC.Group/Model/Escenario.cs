@@ -959,6 +959,7 @@ namespace LosTiburones.Model
             }*/
             var heighmapOro = TgcTexture.createTexture(GModel.MediaDir + "Texturas\\HeighmapOro.jpg");
             var heighmapRuby = TgcTexture.createTexture(GModel.MediaDir + "Texturas\\HeighmapRuby.jpg");
+            var heighmapPlatino = TgcTexture.createTexture(GModel.MediaDir + "Texturas\\HeighmapPlatino.jpg");
 
 
             foreach (var mesh in objetosRecolectables)
@@ -973,6 +974,13 @@ namespace LosTiburones.Model
                     mesh.Mesh.Effect = efectoNiebla;
                     mesh.Mesh.Effect.SetValue("texHeighmapMetal", heighmapRuby.D3dTexture);
                     mesh.Mesh.Technique = "RenderSceneRuby";
+
+                }
+                else if (mesh.Nombre == "Platino")
+                {
+                    mesh.Mesh.Effect = efectoNiebla;
+                    mesh.Mesh.Effect.SetValue("texHeighmapMetal", heighmapPlatino.D3dTexture);
+                    mesh.Mesh.Technique = "RenderScenePlatino";
 
                 }
                 else {
@@ -2070,7 +2078,7 @@ namespace LosTiburones.Model
             }
 
 
-
+            /*
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -2097,6 +2105,61 @@ namespace LosTiburones.Model
                     objetosRecolectables.Add(instance);
                     metales.Add(instance);
                 }
+            }*/
+
+
+            TgcTexture[] texturaMetalicaPlatino = { texturaPlatino };
+
+            meshEsfera.changeDiffuseMaps(texturaMetalicaPlatino);
+
+            //-------Platino----------
+            x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+            z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+            posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno), z1);
+
+            while (posicionO.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+            {
+                x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno), z1);
+            }
+
+            instanceMesh = new RecolectableConMesh(meshEsfera, new TGCVector3(67, 0, 0), posicionO, "Platino");
+            instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
+            instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
+            objetosRecolectables.Add(instanceMesh);
+            //Contruyo el BulletShape de base para clonar al resto de los objetos
+            childTriangleMesh = construirTriangleMeshShape(instanceMesh.Mesh);
+            rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
+            dynamicsWorld.AddRigidBody(rigidBody);
+
+            for (int i = 0; i < 16; i++)
+            {
+                for (int j = 0; j < 22; j++)
+                {
+                    var side = GModel.GetRandom.Next(0, 20);
+                    x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                    z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                    posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno) + side, z1);
+
+                    while (posicionO.Y >= 0) //NO OBJECTS OVER SEA LEVEL
+                    {
+                        x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                        z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                        posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno) + side, z1);
+                    }
+
+                    posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno), z1);
+                    instanceMesh = new RecolectableConMesh(meshEsfera, new TGCVector3(67, 0, 0), posicionO, "Platino");
+                    instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
+                    instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
+                    objetosRecolectables.Add(instanceMesh);
+                    //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
+                    rigidBody = construirRigidBodyDeChildTriangleMeshShape(childTriangleMesh, instanceMesh.Mesh.Position, instanceMesh.Mesh.Scale);
+                    dynamicsWorld.AddRigidBody(rigidBody);
+
+                }
+
             }
 
         }
