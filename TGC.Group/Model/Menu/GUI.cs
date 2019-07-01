@@ -382,14 +382,16 @@ namespace TGC.Group.Model.Menu
             InsertItem(msg, x0 + 50, y0 + 80);
 
             InsertItem("W - Adelante", x0 + 50, y0 + 150);
-            InsertItem("A - Izquierda", x0 + 50, y0 + 180);
-            InsertItem("S - Atrás", x0 + 50, y0 + 210);
-            InsertItem("D - Derecha", x0 + 50, y0 + 240);
-            InsertItem("E - Recolectar", x0 + 50, y0 + 270);
-            InsertItem("P - Música On/Off", x0 + 50, y0 + 300);
-            InsertItem("G - Modo Dios", x0 + 50, y0 + 330);
-            InsertItem("Clic Izq - Ataque", x0 + 50, y0 + 360);            
-            InsertItem("Esc - Recuperar Mouse", x0 + 50, y0 + 390);
+            InsertItem("A - Izquierda", x0 + 50, y0 + 175);
+            InsertItem("S - Atrás", x0 + 50, y0 + 200);
+            InsertItem("D - Derecha", x0 + 50, y0 + 225);
+            InsertItem("E - Recolectar", x0 + 50, y0 + 250);
+            InsertItem("C - Craftear", x0 + 50, y0 + 275);
+            InsertItem("I - Inventario", x0 + 50, y0 + 300);
+            InsertItem("P - Música On/Off", x0 + 50, y0 + 325);
+            InsertItem("G - Modo Dios", x0 + 50, y0 + 350);
+            InsertItem("Clic Izq - Ataque", x0 + 50, y0 + 375);            
+            InsertItem("Esc - Recuperar Mouse", x0 + 50, y0 + 400);
             InsertCircleButton(1, "CANCEL", "cancel.png", x0 + dx - r - 70, y0 + dy - r - 90, mediaDir, r);
         }
 
