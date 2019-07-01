@@ -2133,9 +2133,9 @@ namespace LosTiburones.Model
             rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
             dynamicsWorld.AddRigidBody(rigidBody);
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 8; i++)
             {
-                for (int j = 0; j < 22; j++)
+                for (int j = 0; j < 8; j++)
                 {
                     var side = GModel.GetRandom.Next(0, 20);
                     x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
