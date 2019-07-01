@@ -57,6 +57,49 @@ VS_OUTPUT_VERTEX vs_main(VS_INPUT_VERTEX input)
     return output;
 }
 
+
+float hash( float n )
+{
+    return frac(sin(n)*43758.5453);
+}
+
+float noise( float3 x )
+{
+    float3 p = floor(x);
+    float3 f = frac(x);
+    f       = f*f*(3.0-2.0*f);
+    float n = p.x + p.y*57.0 + 113.0*p.z;
+    return lerp(lerp(lerp( hash(n+0.0), hash(n+1.0),f.x),
+                   lerp( hash(n+57.0), hash(n+58.0),f.x),f.y),
+               lerp(lerp( hash(n+113.0), hash(n+114.0),f.x),
+                   lerp( hash(n+170.0), hash(n+171.0),f.x),f.y),f.z);
+}
+
+
+//Vertex Shader
+VS_OUTPUT_VERTEX vs_mainOro(VS_INPUT_VERTEX input)
+{
+    VS_OUTPUT_VERTEX output;
+
+	float factor=20;
+
+	//float4 altura=tex2Dlod(heighmap,float4(input.Texcoord,0,0));
+	//Input.Position.y+=altura.r*factor;
+	//Input.Position.xyz+=altura*factor;
+	//Input.Position.xyz+=normalize(Input.Normal)*altura.r*10;
+	//Input.Position.xyz+=noise(Input.Position.xyz)*altura.r*factor;;
+	input.Position.xyz+=noise(input.Position.xyz)*factor;
+
+	//Proyectar posicion
+    output.Position = mul(input.Position, matWorldViewProj);
+    output.Texture = input.Texture;
+    output.PosView = mul(input.Position, matWorldView);
+	float4 pos_real= mul(input.Position,matWorld);
+	output.PosReal=float3(pos_real.x, pos_real.y, pos_real.z);
+    return output;
+}
+
+
 //Input del Pixel Shader
 struct PS_INPUT_PIXEL
 {
@@ -226,5 +269,14 @@ technique RenderScene2
     {
         VertexShader = compile vs_3_0 vs_main();
         PixelShader = compile ps_3_0 ps_main2();
+    }
+}
+
+technique RenderSceneOro
+{
+    pass Pass_0
+    {
+        VertexShader = compile vs_3_0 vs_mainOro();
+        PixelShader = compile ps_3_0 ps_main();
     }
 }

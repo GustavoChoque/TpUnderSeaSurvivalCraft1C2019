@@ -13,6 +13,7 @@ namespace LosTiburones.Model
         public RecolectableConMesh(TgcMesh mesh, TGCVector3 tamanio, TGCVector3 posicion, string nombrePar):
             base(tamanio, posicion, nombrePar)
         {
+            this.Nombre = nombrePar;
             Mesh = mesh.createMeshInstance(nombrePar);
             Mesh.Position = posicion;
             Mesh.Scale = tamanio;
