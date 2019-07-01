@@ -16,11 +16,11 @@ Proyecto plantilla para los trabajos prácticos de la asignatura electiva [Técn
 ## Integrantes ##
 Choque, Gustavo  |  Varela, Santiago
 ------------ | -------------
-<img src="https://github.com/tgc-utn/tgc-group/blob/master/TGC.Group/Media/imagenes/GustavoChoque.jpg" height="400"> | <img src="https://github.com/tgc-utn/tgc-utn.github.io/blob/master/images/trofeotp.png" height="500">
+<img src="https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/GustavoChoque.jpg" height="400"> | <img src="https://github.com/tgc-utn/tgc-utn.github.io/blob/master/images/trofeotp.png" height="500">
 
 ## ScreenShot ##
-![screenshot1](https://github.com/tgc-utn/tgc-group/blob/master/TGC.Group/Media/imagenes/screenshot1.jpg)
-![screenshot2](https://github.com/tgc-utn/tgc-group/blob/master/TGC.Group/Media/imagenes/screenshot2.jpg)
+![screenshot1](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/screenshot1.jpg)
+![screenshot2](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/screenshot2.jpg)
 ![screenshot3](https://github.com/tgc-utn/tgc-group/blob/master/TGC.Group/Media/cajaMadera4.jpg)
 ![screenshot4](https://github.com/tgc-utn/tgc-group/blob/master/TGC.Group/Media/cajaMadera4.jpg)
 ![screenshot5](https://github.com/tgc-utn/tgc-group/blob/master/TGC.Group/Media/cajaMadera4.jpg)
