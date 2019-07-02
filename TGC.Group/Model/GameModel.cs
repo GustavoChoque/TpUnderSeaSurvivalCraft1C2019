@@ -103,7 +103,7 @@ namespace TGC.Group.Model
             ic.Init(this, personaje);
             ii.Init(this, personaje);
 
-            cilindroColision = new TgcBoundingCylinder(camaraInterna.LookAt, 0.5f, 200f);
+            cilindroColision = new TgcBoundingCylinder(camaraInterna.LookAt, 1f, 300f);
             updownRot = Geometry.DegreeToRadian(90f) + (FastMath.PI / 10.0f);
             cilindroColision.rotateZ(updownRot);
             cilindroColision.setRenderColor(Color.LimeGreen);

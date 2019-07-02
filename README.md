@@ -1,4 +1,4 @@
-# tgc-group
+﻿# tgc-group
 [![Build status](https://ci.appveyor.com/api/projects/status/uvyboubq91uhwf3v?svg=true)](https://ci.appveyor.com/project/rejurime/tgc-group)
 [![BCH compliance](https://bettercodehub.com/edge/badge/tgc-utn/tgc-group?branch=master)](https://bettercodehub.com/)
 [![GitHub license](https://img.shields.io/github/license/tgc-utn/tgc-group.svg)](https://github.com/tgc-utn/tgc-group/blob/master/LICENSE)
@@ -16,7 +16,7 @@ Proyecto plantilla para los trabajos prácticos de la asignatura electiva [Técn
 ## Integrantes ##
 Choque, Gustavo  |  Varela, Santiago
 ------------ | -------------
-<img src="https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/GustavoChoque.jpg" height="400"> | <img src="https://github.com/tgc-utn/tgc-utn.github.io/blob/master/images/trofeotp.png" height="500">
+<img src="https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/GustavoChoque.jpg" height="400"> | <img src="https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/SantiagoVarela.jpg" height="400">
 
 ## ScreenShot ##
 ![screenshot1](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/screenshot1.jpg)
