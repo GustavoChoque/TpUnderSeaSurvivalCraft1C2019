@@ -1015,7 +1015,7 @@ namespace LosTiburones.Model
             //--------------
             if (GModel.Personaje.ModoDios)
             {
-                GModel.DrawText.drawText("Modo Dios Activado", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 20, Color.Red);
+                GModel.DrawText.drawText("Modo Dios Activado", ScreenWidth - (ScreenWidth * 3) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 20, Color.Red);
             }
             //--------------
 
@@ -1025,12 +1025,12 @@ namespace LosTiburones.Model
                 {
                     if (bajoElAgua(GModel.Personaje))
                     {
-                        GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100, Color.Red);
+                        GModel.DrawText.drawText("Sufriendo daño por falta de oxigeno", ScreenWidth - (ScreenWidth * 3) / 10, ScreenHeight - (ScreenHeight * 95) / 100, Color.Red);
                     }
 
                     if ((this.fueraDelMapa(GModel.Personaje)))
                     {
-                        GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", ScreenWidth - (ScreenWidth * 2) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 10, Color.Red);
+                        GModel.DrawText.drawText("Sufriendo daño por estar fuera del mapa", ScreenWidth - (ScreenWidth * 3) / 10, ScreenHeight - (ScreenHeight * 95) / 100 + 10, Color.Red);
                     }
                 }
                 else
