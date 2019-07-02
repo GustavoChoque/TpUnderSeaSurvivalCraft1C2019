@@ -1041,7 +1041,7 @@ namespace LosTiburones.Model
                 }
             }
 
-            if (objetoAMostrar != null)
+            if (objetoAMostrar != null && GModel.Personaje.Vivo)
             {
                 GModel.DrawText.drawText("Recolectar: " + objetoAMostrar.Nombre, Convert.ToInt32(Math.Round((double)ScreenWidth / 2.2)), Convert.ToInt32(Math.Round((double)ScreenHeight / 2.2)), Color.Red);
             }
@@ -1639,18 +1639,18 @@ namespace LosTiburones.Model
             RigidBody rigidBody;
             RecolectableConMesh instanceMesh;
             TGCVector3 posicion;
-            var rows = 10;
-            var cols = 10;
+            var rows = 12;
+            var cols = 12;
 
             //-------CoralBrain---------
-            var x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-            var z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+            var x = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+            var z = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
             posicion = new TGCVector3(x, CalcularAltura(x,z,terreno),z );
 
             while (posicion.Y >= 0) //NO OBJECTS OVER SEA LEVEL
             {
-                x = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-                z = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                x = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+                z = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
                 posicion = new TGCVector3(x, CalcularAltura(x, z, terreno), z);
             }
 
@@ -1679,7 +1679,7 @@ namespace LosTiburones.Model
                     }
 
                     instanceMesh = new RecolectableConMesh(coralBrain, new TGCVector3(67, 0, 0), posicion, "BrainCoral");
-                    instanceMesh.Mesh.Scale = new TGCVector3(2, 2, 2);
+                    instanceMesh.Mesh.Scale = new TGCVector3(10, 10, 10);
                     instanceMesh.Mesh.Transform = TGCMatrix.Scaling(instanceMesh.Mesh.Scale) * TGCMatrix.Translation(instanceMesh.Mesh.Position);
                     objetosRecolectables.Add(instanceMesh);
                     //Creo una instancia de RigidBody con el BulletShape de base, la clono, escalo y posiciono
