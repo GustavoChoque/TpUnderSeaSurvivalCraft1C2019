@@ -26,4 +26,4 @@ Choque, Gustavo  |  Varela, Santiago
 ![screenshot5](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/screenshot5.jpg)
 
 ## Game Play ##
-[![Watch the video](https://img.youtube.com/vi/qESIu8ozanU/0.jpg)](https://www.youtube.com/playlist?list=PLRM4L32DjvnazuMl8wZlbpEYL5Qh63ulG)
+[![Watch the video](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/thumbnail.jpg)](https://youtu.be/tZ6wZKII9CY)
