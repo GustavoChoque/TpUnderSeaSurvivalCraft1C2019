@@ -248,15 +248,27 @@ namespace TGC.Group.Model
 
                 //cilindroColision.Render();
             }
-            //else if(!partidaActiva && !previewActiva){
-            else if (!partidaActiva) //muestro el titulo durante la intro
+            else
             {
                 spriteDrawer.BeginDrawSprite();
                 spriteDrawer.DrawSprite(spriteTitulo);
                 spriteDrawer.EndDrawSprite();
 
-                menu.Render();
+                if (!previewActiva)
+                {
+                    menu.Render();
+                }
             }
+            /*
+            else if(!partidaActiva && !previewActiva){
+            //else if (!partidaActiva) //muestro el titulo durante la intro
+            {
+                spriteDrawer.BeginDrawSprite();
+                spriteDrawer.DrawSprite(spriteTitulo);
+                spriteDrawer.EndDrawSprite();
+
+                
+            }*/
             //Finaliza el render y presenta en pantalla, al igual que el preRender se debe para casos puntuales es mejor utilizar a mano las operaciones de EndScene y PresentScene
             PostRender();
         }
