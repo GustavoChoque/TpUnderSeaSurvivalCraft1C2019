@@ -1944,14 +1944,14 @@ namespace LosTiburones.Model
             meshEsfera.changeDiffuseMaps(texturaMetalica);
 
             //-------Oro----------
-            var x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-           var z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+            var x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+           var z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
             posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno), z1);
 
             while (posicionO.Y >= 0) //NO OBJECTS OVER SEA LEVEL
             {
-                x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-                z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+                z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
                 posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno), z1);
             }
 
@@ -1964,19 +1964,19 @@ namespace LosTiburones.Model
             rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
             dynamicsWorld.AddRigidBody(rigidBody);
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < 22; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     var side = GModel.GetRandom.Next(0, 20);
-                    x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-                    z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                    x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+                    z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
                     posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno)+side, z1);
 
                     while (posicionO.Y >= 0) //NO OBJECTS OVER SEA LEVEL
                     {
-                        x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-                        z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                        x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+                        z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
                         posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno)+side, z1);
                     }
 
@@ -2028,14 +2028,14 @@ namespace LosTiburones.Model
             meshEsfera.changeDiffuseMaps(texturaMetalicaRubi);
 
             //-------Ruby----------
-            x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-            z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+            x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+            z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
             posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno), z1);
 
             while (posicionO.Y >= 0) //NO OBJECTS OVER SEA LEVEL
             {
-                x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-                z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+                z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
                 posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno), z1);
             }
 
@@ -2048,19 +2048,19 @@ namespace LosTiburones.Model
             rigidBody = construirRigidBodyDeTriangleMeshShape(childTriangleMesh);
             dynamicsWorld.AddRigidBody(rigidBody);
 
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < 22; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     var side = GModel.GetRandom.Next(0, 20);
-                    x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-                    z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                    x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+                    z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
                     posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno) + side, z1);
 
                     while (posicionO.Y >= 0) //NO OBJECTS OVER SEA LEVEL
                     {
-                        x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-                        z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                        x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+                        z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
                         posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno) + side, z1);
                     }
 
@@ -2113,14 +2113,14 @@ namespace LosTiburones.Model
             meshEsfera.changeDiffuseMaps(texturaMetalicaPlatino);
 
             //-------Platino----------
-            x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-            z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+            x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+            z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
             posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno), z1);
 
             while (posicionO.Y >= 0) //NO OBJECTS OVER SEA LEVEL
             {
-                x1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
-                z1 = GModel.GetRandom.Next(-sizeMapa / 2, sizeMapa / 2);
+                x1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
+                z1 = GModel.GetRandom.Next(-sizeMapa / 3, sizeMapa / 3);
                 posicionO = new TGCVector3(x1, CalcularAltura(x1, z1, terreno), z1);
             }
 
