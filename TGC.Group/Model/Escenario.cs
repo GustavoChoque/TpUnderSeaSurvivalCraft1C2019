@@ -162,7 +162,7 @@ namespace LosTiburones.Model
 
         /////////////////////////////
         private int sizeMapa = 80000;
-        private int fondoMapa = -2250;
+        private int fondoMapa = -2400;
         private int alturaTecho = 100;
         private TgcText2D mensajeErrorArponRed;
         private Boolean renderizoErrorArponRed = false;
