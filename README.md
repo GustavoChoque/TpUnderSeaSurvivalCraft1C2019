@@ -16,14 +16,14 @@ Proyecto plantilla para los trabajos prácticos de la asignatura electiva [Técn
 ## Integrantes ##
 Choque, Gustavo  |  Varela, Santiago
 ------------ | -------------
-<img src="https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/GustavoChoque.jpg" height="400"> | <img src="https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/SantiagoVarela.jpg" height="400">
+<img src="https://github.com/GustavoChoque/TpUnderSeaSurvivalCraft1C2019/blob/master/TGC.Group/Media/imagenes/GustavoChoque.jpg" height="400"> | <img src="https://github.com/GustavoChoque/TpUnderSeaSurvivalCraft1C2019/blob/master/TGC.Group/Media/imagenes/SantiagoVarela.jpg" height="400">
 
 ## ScreenShot ##
-![screenshot1](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/screenshot1.jpg)
-![screenshot2](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/screenshot2.jpg)
-![screenshot3](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/screenshot3.jpg)
-![screenshot4](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/screenshot4.jpg)
-![screenshot5](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/screenshot5.jpg)
+![screenshot1](https://github.com/GustavoChoque/TpUnderSeaSurvivalCraft1C2019/blob/master/TGC.Group/Media/imagenes/screenshot1.jpg)
+![screenshot2](https://github.com/GustavoChoque/TpUnderSeaSurvivalCraft1C2019/blob/master/TGC.Group/Media/imagenes/screenshot2.jpg)
+![screenshot3](https://github.com/GustavoChoque/TpUnderSeaSurvivalCraft1C2019/blob/master/TGC.Group/Media/imagenes/screenshot3.jpg)
+![screenshot4](https://github.com/GustavoChoque/TpUnderSeaSurvivalCraft1C2019/blob/master/TGC.Group/Media/imagenes/screenshot4.jpg)
+![screenshot5](https://github.com/GustavoChoque/TpUnderSeaSurvivalCraft1C2019/blob/master/TGC.Group/Media/imagenes/screenshot5.jpg)
 
 ## Game Play ##
-[![Watch the video](https://github.com/santiagovarela86/2019_1C_3051_LosTiburones/blob/master/TGC.Group/Media/imagenes/thumbnail.jpg)](https://youtu.be/tZ6wZKII9CY)
+[![Watch the video](https://github.com/GustavoChoque/TpUnderSeaSurvivalCraft1C2019/blob/master/TGC.Group/Media/imagenes/thumbnail.jpg)](https://youtu.be/TKvmpohvvC4)
